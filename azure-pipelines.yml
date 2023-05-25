@@ -5,12 +5,6 @@
 
 trigger:
 - dev
-- task: SSH@0
-  inputs:
-    sshEndpoint: 'ssh_to_hyve_dev_vps'
-    runOptions: 'commands'
-    commands: 'sudo docker compose -f ~/dbandmigrator/docker-compose.yml up -d'
-    readyTimeout: '20000'
 
 pool:
   vmImage: ubuntu-latest
