@@ -1,0 +1,38 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- dev
+
+resources:
+- repo: self
+
+variables:
+  system.debug: true
+  
+stages:
+- stage: Deploy
+  displayName: Deploy db and run apigateway
+  jobs:
+  - job: 
+    displayName: Deploy db and run apigateway
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'ssh_to_hyve_dev_vps'
+        targetFolder: 'apigateway'
+        contents: |
+                  **
+        readyTimeout: '20000'
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'ssh_to_hyve_dev_vps'
+        failOnStdErr: false
+        runOptions: 'commands'
+        commands: |
+           sudo docker compose -f ~/apigateway/APIGatewayMVC/docker-compose.yml up -d
+        readyTimeout: '20000'
+    
