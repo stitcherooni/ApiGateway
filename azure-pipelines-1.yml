@@ -17,3 +17,17 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'ssh_to_hyve_dev_vps'
+    sourceFolder: '*'
+    contents: '**'
+    targetFolder: 'apigateway'
+    readyTimeout: '20000'
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'ssh_to_hyve_dev_vps'
+    runOptions: 'commands'
+    commands: 'sudo docker compose -f ~/apigateway/docker-compose.yml up -d'
+    failOnStdErr: false
+    readyTimeout: '20000'
