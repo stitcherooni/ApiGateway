@@ -1,8 +1,14 @@
 ﻿using BLL.Extensions;
 using BLL.Services;
 using DAL.UnitOfWork;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Models;
+using System;
 
 namespace APIGatewayMVC
 {
