@@ -23,28 +23,35 @@ namespace APIGatewayMVC
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            string connectionString = _config.GetConnectionString("MariaDbServer");
-            if (connectionString == null)
+            try
             {
-                Console.WriteLine("ERROR: No connection string found in the config file");
+                services.AddControllers();
+
+                string connectionString = _config.GetConnectionString("MariaDbServer");
+                if (connectionString == null)
+                {
+                    Console.WriteLine("ERROR: No connection string found in the config file");
+                }
+
+                services.AddDbContext<PtaeventContext>(options =>
+                {
+                    options.UseMySql(connectionString, ServerVersion.Parse("10.5.19-mariadb"));
+                });
+
+                services.AddScoped<IUnitOfWork, UnitOfWork>();
+                services.AddScoped<IOnboardingService, OnboardingService>();
+                services.AddScoped<DbContext, PtaeventContext>();
+                services.AddAutoMapper();
+
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
+                });
             }
-
-            services.AddDbContext<PtaeventContext>(options =>
+            catch (Exception ex)
             {
-                options.UseMySql(connectionString, ServerVersion.Parse("10.5.19-mariadb"));
-            });
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IOnboardingService, OnboardingService>();
-            services.AddScoped<DbContext, PtaeventContext>();
-            services.AddAutoMapper();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
-            });
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
