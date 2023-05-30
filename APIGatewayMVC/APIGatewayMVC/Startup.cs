@@ -35,7 +35,7 @@ namespace APIGatewayMVC
 
                 services.AddDbContext<PtaeventContext>(options =>
                 {
-                    options.UseMySql(connectionString, ServerVersion.Parse("10.5.19-mariadb"));
+                    options.UseMySql(connectionString, ServerVersion.Parse("10.5.19-mariadb"), builder=>builder.EnableRetryOnFailure());
                 });
 
                 services.AddScoped<IUnitOfWork, UnitOfWork>();
