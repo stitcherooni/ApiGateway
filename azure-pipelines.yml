@@ -13,10 +13,10 @@ variables:
   
 stages:
 - stage: Deploy
-  displayName: Deploy db and run apigateway
+  displayName: Deploy api and run apigateway
   jobs:
   - job: 
-    displayName: Deploy db and run apigateway
+    displayName: Deploy api and run apigateway
     pool:
       vmImage: ubuntu-latest
     steps:
