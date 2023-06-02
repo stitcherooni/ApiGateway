@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - db_network
+      - mariadbfluentmigrationservice_db_network
 networks:
-  db_network:
-    name: db_network
-    external: true
+  mariadbfluentmigrationservice_db_network:
+      external:
+        name : mariadbfluentmigrationservice_db_network
