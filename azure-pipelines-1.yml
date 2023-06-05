@@ -9,7 +9,7 @@ variables:
   dockerRegistryServiceConnection: '5826a18b-ffba-49d5-84a1-8124f8883f52'
   imageRepository: 'mariadbfluentmigrationservice'
   containerRegistry: 'ptaeventscontainerregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile'
   tag: '$(Build.BuildId)'
 
 stages:
