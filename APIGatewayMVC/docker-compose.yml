@@ -11,4 +11,4 @@ services:
 networks:
   db_network :
       external:
-        name : db_network 
+        name : db_network
