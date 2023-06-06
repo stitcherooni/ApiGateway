@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{A2E9F214-652A-447D-A7E2-073388DB3033}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnboardingServiceTests", "UnitTests\OnboardingServiceTests.csproj", "{987FE04A-913E-4518-981B-E70D583E6EE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{987FE04A-913E-4518-981B-E70D583E6EE3}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F68298D3-DEFB-4771-8C38-5D8D8CA08A28}"
 EndProject

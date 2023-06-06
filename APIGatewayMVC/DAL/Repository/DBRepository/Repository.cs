@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-using System;
-using System.Text;
 
-namespace DAL.Repository
+namespace DAL.Repository.DBRepository
 {
     public class Repository<T> : BaseRepository, IRepository<T> where T : class
     {
@@ -26,6 +23,11 @@ namespace DAL.Repository
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate);
+        }
+
+        public async Task<T> FindAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)

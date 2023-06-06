@@ -1,5 +1,7 @@
-﻿using BLL.DTO;
-using BLL.Services;
+﻿using BLL.DTO.Organization;
+using BLL.DTO.UrlAsync;
+using BLL.Services.EmailService;
+using BLL.Services.Onboarding;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -9,11 +11,13 @@ namespace APIGatewayMVC.Controllers
     [ApiController]
     public class OnbordingController : ControllerBase
     {
-        private readonly IOnboardingService _dataService;
+        private readonly IOnboardingService _onboardingService;
+        private readonly IEmailService _emailService;
 
-        public OnbordingController(IOnboardingService dataService)
+        public OnbordingController(IOnboardingService dataService, IEmailService emailService)
         {
-            _dataService = dataService;
+            _onboardingService = dataService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 URLsResponseDTO urlsResponse = new();
-                int result = await _dataService.GetEntityCountAsync(urlRequest.Url);
+                int result = await _onboardingService.GetEntityCountAsync(urlRequest.Url);
                 if (result != 0)
                 {
                     urlsResponse.IsValid = false;
@@ -38,7 +42,7 @@ namespace APIGatewayMVC.Controllers
                 }
                 else
                     urlsResponse.IsValid = true;
-                urlsResponse.Urls = await _dataService.GenerateUrlsAsync(urlRequest);
+                urlsResponse.Urls = await _onboardingService.GenerateUrlsAsync(urlRequest);
                 return Ok(urlsResponse);
             }
             catch (Exception ex)
@@ -53,7 +57,7 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
-                await _dataService.OnboardOrganization(onboardingFormDataDTO);
+                await _onboardingService.OnboardOrganization(onboardingFormDataDTO);
             }
 
             catch (Exception ex)
@@ -64,5 +68,22 @@ namespace APIGatewayMVC.Controllers
             return Ok("Entity was added");
         }
 
+        [HttpPost]
+        [Route("api/sendemail")]
+        public async Task<IActionResult> SendEmail(string emailAdress)
+        {
+            try
+            {
+                await _emailService.SendEmail(emailAdress);
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok("Email was sent");
+        }
+
     }
+
 }

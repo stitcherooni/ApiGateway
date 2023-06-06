@@ -5,6 +5,9 @@
 resources:
 - repo: self
 
+trigger:
+  none
+
 variables:
   dockerRegistryServiceConnection: '5826a18b-ffba-49d5-84a1-8124f8883f52'
   imageRepository: 'apigateway'
