@@ -1,6 +1,7 @@
-﻿using BLL.DTO;
+﻿using BLL.DTO.Organization;
+using BLL.DTO.UrlAsync;
 
-namespace BLL.Services
+namespace BLL.Services.Onboarding
 {
     public interface IOnboardingService
     {

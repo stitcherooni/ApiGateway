@@ -1,6 +1,9 @@
 ﻿using BLL.Extensions;
-using BLL.Services;
-using DAL.UnitOfWork;
+using BLL.Services.EmailService;
+using BLL.Services.Onboarding;
+using DAL;
+using DAL.Repository.DBRepository;
+using DAL.Repository.EmailSender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +26,7 @@ namespace APIGatewayMVC
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
+            IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             try
             {
                 services.AddControllers();
@@ -42,10 +46,15 @@ namespace APIGatewayMVC
                         );
                 });
 
-                services.AddScoped<IUnitOfWork, UnitOfWork>();
-                services.AddScoped<IOnboardingService, OnboardingService>();
-                services.AddScoped<DbContext, PtaeventContext>();
-                services.AddAutoMapper();
+            services.AddAutoMapper();
+            services.AddScoped<IOnboardingService, OnboardingService>();
+            services.AddScoped<DbContext, PtaeventContext>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailSender, MailGunEmailSender>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
+            services.AddAutoMapper();
 
                 services.AddSwaggerGen(c =>
                 {

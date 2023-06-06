@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.DTO;
+using BLL.DTO.Organization;
 using Models;
 
 namespace BLL.Mapping
