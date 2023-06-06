@@ -16,6 +16,13 @@ namespace APIGatewayMVC.Controllers
             _dataService = dataService;
         }
 
+        [HttpGet]
+        [Route("test")]
+        public IActionResult Index()
+        {
+            return Ok("success");
+        }
+
         [HttpPost]
         [Route("api/url")]
         public async Task<IActionResult> UrlAsync([FromBody] CheckUrlRequest urlRequest)
