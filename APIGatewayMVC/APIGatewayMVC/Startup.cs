@@ -69,7 +69,7 @@ namespace APIGatewayMVC
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (true)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
