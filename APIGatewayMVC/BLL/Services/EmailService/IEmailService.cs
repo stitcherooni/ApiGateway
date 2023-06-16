@@ -4,6 +4,6 @@ namespace BLL.Services.EmailService
 {
     public interface IEmailService
     {
-        public Task<IRestResponse> SendEmail(string emailAdress);
+        public Task<IRestResponse> SendEmail(string emailAddress, CancellationToken cancellationToken);
     }
 }

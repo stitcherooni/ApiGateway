@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace DAL.Repository.DBRepository
 {
@@ -14,10 +15,11 @@ namespace DAL.Repository.DBRepository
             _dbSet = _dbContext.Set<T>();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
         {
-            await _dbSet.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            await _dbSet.AddAsync(entity, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return entity;
         }
 
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
@@ -30,9 +32,15 @@ namespace DAL.Repository.DBRepository
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
+        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await _dbSet.CountAsync(predicate);
+            return await _dbSet.CountAsync(predicate, cancellationToken);
+        }
+
+        public async Task DeleteAsync(T entity, CancellationToken cancellationToken)
+        {
+            _dbSet.Remove(entity);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

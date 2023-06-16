@@ -27,7 +27,7 @@ namespace UntTestsTests
         {
             // Arrange
             _customerRepositoryMock.Setup(repo => repo.CountAsync(
-               It.IsAny<Expression<Func<TblCustomer, bool>>>()))
+               It.IsAny<Expression<Func<TblCustomer, bool>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(1);
 
             var expectedResponse = new RestResponse
@@ -38,12 +38,12 @@ namespace UntTestsTests
             _emailSenderMock.Setup(x => x.SendEmail(It.IsAny<EmailDTO>())).ReturnsAsync(expectedResponse);
 
             // Act
-            var actualResponse = await _emailService.SendEmail(It.IsAny<string>());
+            var actualResponse = await _emailService.SendEmail(It.IsAny<string>(), It.IsAny<CancellationToken>());
 
             // Assert
             Assert.Equal(expectedResponse.StatusCode, actualResponse.StatusCode);
             Assert.Equal(expectedResponse.Content, actualResponse.Content);
-            _customerRepositoryMock.Verify(repo => repo.CountAsync(It.IsAny<Expression<Func<TblCustomer, bool>>>()), Times.Once);
+            _customerRepositoryMock.Verify(repo => repo.CountAsync(It.IsAny<Expression<Func<TblCustomer, bool>>>(), It.IsAny<CancellationToken>()), Times.Once);
             _emailSenderMock.Verify(repo => repo.SendEmail(It.IsAny<EmailDTO>()), Times.Once);
         }
 
@@ -54,15 +54,15 @@ namespace UntTestsTests
             string emailAddress = "nonexistent@example.com";
             string errorMessage = $"Email can't be sent, User with email {emailAddress} doesn't exist";
             _customerRepositoryMock.Setup(repo => repo.CountAsync(
-                It.IsAny<Expression<Func<TblCustomer, bool>>>()))
+                It.IsAny<Expression<Func<TblCustomer, bool>>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(0);
 
             // Act & Assert
             var actualResponse = await Assert.ThrowsAsync<Exception>(
-                () => _emailService.SendEmail(emailAddress));
+                () => _emailService.SendEmail(emailAddress, CancellationToken.None));
 
             Assert.Equal(errorMessage, actualResponse.Message);
-            _customerRepositoryMock.Verify(repo => repo.CountAsync(It.IsAny<Expression<Func<TblCustomer, bool>>>()), Times.Once);
+            _customerRepositoryMock.Verify(repo => repo.CountAsync(It.IsAny<Expression<Func<TblCustomer, bool>>>(), It.IsAny<CancellationToken>()), Times.Once);
             _emailSenderMock.Verify(repo => repo.SendEmail(It.IsAny<EmailDTO>()), Times.Never);
         }
     }

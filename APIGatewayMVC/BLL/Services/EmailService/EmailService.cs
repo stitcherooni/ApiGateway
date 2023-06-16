@@ -17,23 +17,23 @@ namespace BLL.Services.EmailService
             _customerRepository = customerRepository;
         }
 
-        public async Task<IRestResponse> SendEmail(string emailAdress)
+        public async Task<IRestResponse> SendEmail(string emailAddress, CancellationToken cancellationToken)
         {
             try
             {
-                if (await _customerRepository.CountAsync(x => x.CustomerEmail == emailAdress) != 0)
+                if (await _customerRepository.CountAsync(x => x.CustomerEmail == emailAddress, cancellationToken) != 0)
                 {
                     //ToDo: Add EmailLogic here
                     EmailDTO emailDTO = new EmailDTO()
                     {
                         Topic = "write Topic here",
                         Body = "write Body here",
-                        Address = emailAdress
+                        Address = emailAddress
                     };
                    var result =await _emailSender.SendEmail(emailDTO);
                     return result;
                 }
-                else throw new Exception($"User with email {emailAdress} doesn't exist");
+                else throw new Exception($"User with email {emailAddress} doesn't exist");
             }
             catch (Exception ex)
             {

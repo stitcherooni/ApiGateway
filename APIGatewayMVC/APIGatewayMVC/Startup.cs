@@ -39,11 +39,7 @@ namespace APIGatewayMVC
 
                 services.AddDbContext<PtaeventContext>(options =>
                 {
-                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-                        builder => builder.EnableRetryOnFailure(maxRetryCount: 5,
-                    maxRetryDelay: System.TimeSpan.FromSeconds(30),
-                    errorNumbersToAdd: null)
-                        );
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
 
             services.AddAutoMapper();
