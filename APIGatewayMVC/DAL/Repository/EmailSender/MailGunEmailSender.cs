@@ -1,5 +1,4 @@
-﻿using DAL.Repository.EmailSender;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -11,7 +10,7 @@ namespace DAL.Repository.EmailSender
 
         public MailGunEmailSender(IOptionsMonitor<EmailSettings> emailSettingsMonitor)
         {
-            this.emailSettingsMonitor = emailSettingsMonitor;
+            this.emailSettingsMonitor = emailSettingsMonitor ?? throw new ArgumentNullException(nameof(emailSettingsMonitor));
         }
 
         public async Task<IRestResponse> SendEmail(EmailDTO email)

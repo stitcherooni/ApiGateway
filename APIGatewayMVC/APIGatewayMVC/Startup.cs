@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Models;
 using System;
 
@@ -27,22 +28,19 @@ namespace APIGatewayMVC
         public virtual void ConfigureServices(IServiceCollection services)
         {
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-            try
-            {
-                services.AddControllers();
+            services.AddControllers();
 
-                string connectionString = _config.GetConnectionString("MariaDbServer");
-                if (connectionString == null)
-                {
-                    Console.WriteLine("ERROR: No connection string found in the config file");
-                }
+            string connectionString = _config.GetConnectionString("MariaDbServer");
+            if (connectionString == null)
+            {
+                Console.WriteLine("ERROR: No connection string found in the config file");
+            }
 
                 services.AddDbContext<PtaeventContext>(options =>
                 {
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 });
 
-            services.AddAutoMapper();
             services.AddScoped<IOnboardingService, OnboardingService>();
             services.AddScoped<DbContext, PtaeventContext>();
             services.AddScoped<IEmailService, EmailService>();
@@ -52,20 +50,22 @@ namespace APIGatewayMVC
 
             services.AddAutoMapper();
 
-                services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
-                });
-            }
-            catch (Exception ex)
+
+            services.AddSwaggerGen(c =>
             {
-                Console.WriteLine(ex.Message);
-            }
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
+            });
+
+            services.AddLogging(builder =>
+            {
+                builder.AddAzureWebAppDiagnostics();
+                builder.AddApplicationInsights(_config["ApplicationInsights:InstrumentationKey"]);
+            });
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (true)
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

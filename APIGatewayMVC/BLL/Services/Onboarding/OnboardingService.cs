@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+﻿ using AutoMapper;
 using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
 using BLL.Exceptions;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using System.Text.RegularExpressions;
 using System.Transactions;
@@ -24,11 +25,11 @@ namespace BLL.Services.Onboarding
                                  IRepository<TblCustomer> customerRepository, 
                                  IRepository<TblCustomerRole> customerRoleRepository)
         {
-            _mapper = mapper;
-            _emailService = emailService;
-            _schoolRepository = schoolRepository;
-            _customerRepository = customerRepository;
-            _customerRoleRepository = customerRoleRepository;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _schoolRepository = schoolRepository ?? throw new ArgumentNullException(nameof(schoolRepository));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
         }
 
         public async Task<OnboardingEntities> OnboardOrganization(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
@@ -103,16 +104,13 @@ namespace BLL.Services.Onboarding
                 if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                     urlVariants.Add(nameAcronym);
 
-
                 string newName = urlRequest.PtaName.Replace(" ", string.Empty);
                 if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
                     urlVariants.Add(newName);
 
-
                 string townAcronym = nameAcronym + urlRequest.Town;
                 if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
                     urlVariants.Add(townAcronym);
-
 
                 string newTown = newName + urlRequest.Town;
                 if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newTown, cancellationToken) == 0 && newTown.Length >= 3)
@@ -124,7 +122,6 @@ namespace BLL.Services.Onboarding
         }
 
         #region Private methods
-
         private string GEtAcronym(string ptaName)
         {
             var result = Regex.Replace(ptaName, @"\b\w+\b", (x) => x.Value[0].ToString()).Replace(" ", string.Empty);
@@ -138,4 +135,4 @@ namespace BLL.Services.Onboarding
         }
         #endregion
     }
-}
+} 
