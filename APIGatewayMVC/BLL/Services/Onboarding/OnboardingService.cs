@@ -19,17 +19,17 @@ namespace BLL.Services.Onboarding
         private readonly IRepository<TblCustomer> _customerRepository;
         private readonly IRepository<TblCustomerRole> _customerRoleRepository;
 
-        public OnboardingService(IMapper mapper, 
-                                 IEmailService emailService, 
-                                 IRepository<TblSchool> schoolRepository, 
-                                 IRepository<TblCustomer> customerRepository, 
+        public OnboardingService(IMapper mapper,
+                                 IEmailService emailService,
+                                 IRepository<TblSchool> schoolRepository,
+                                 IRepository<TblCustomer> customerRepository,
                                  IRepository<TblCustomerRole> customerRoleRepository)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
-            _schoolRepository = schoolRepository ?? throw new ArgumentNullException(nameof(schoolRepository));
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
-            _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
+            _mapper = mapper;
+            _emailService = emailService;
+            _schoolRepository = schoolRepository;
+            _customerRepository = customerRepository;
+            _customerRoleRepository = customerRoleRepository;
         }
 
         public async Task<OnboardingEntities> OnboardOrganization(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
@@ -45,7 +45,6 @@ namespace BLL.Services.Onboarding
                     schoolDetailsMap.SchoolPrimaryColour = schoolDetailsMap.SchoolLinkColour = onboardingFormDataDTO.SchoolBrandingDetails.PtaBrandingColor;
                     await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
 
-                    CheckRole(onboardingFormDataDTO.AccountDetails.Role);
                     var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
                     accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
                     await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
@@ -70,16 +69,15 @@ namespace BLL.Services.Onboarding
                     {
                         School = schoolDetailsMap,
                         Customer = accountDetailsMap,
-                        CustomerRole2= customerRole2,
+                        CustomerRole2 = customerRole2,
                         CustomerRole7 = customerRole7,
                     };
                 }
             }
+
             catch (Exception ex)
             {
-                if (ex.GetType() != typeof(RoleException))
-                    throw new Exception("Entity can't be added to the database");
-                else throw;
+                throw new Exception("Entity can't be added to the database", ex);
             }
             if (customerEmail != null)
             {
@@ -87,9 +85,9 @@ namespace BLL.Services.Onboarding
             }
             else throw new Exception("Customer doesn't exist");
             return onboardingEntities;
-    }
+        }
 
-    public async Task<int> GetEntityCountAsync(string key, CancellationToken cancellationToken)
+        public async Task<int> GetEntityCountAsync(string key, CancellationToken cancellationToken)
         {
             return await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == key, cancellationToken);
         }
@@ -128,11 +126,6 @@ namespace BLL.Services.Onboarding
             return result;
         }
 
-        private void CheckRole(string roleName)
-        {
-            if (!Enum.TryParse<Roles>(roleName, true, out _))
-            throw new RoleException($"Role {roleName} doesn't exist");
-        }
         #endregion
     }
 } 

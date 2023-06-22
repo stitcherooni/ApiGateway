@@ -20,9 +20,9 @@ namespace APIGatewayMVC.Controllers
 
         public OnbordingController(IOnboardingService dataService, IEmailService emailService, ILogger<OnbordingController> logger)
         {
-            _onboardingService = dataService ?? throw new ArgumentNullException(nameof(dataService));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _onboardingService = dataService;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         [HttpPost]

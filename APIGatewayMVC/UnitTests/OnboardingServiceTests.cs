@@ -108,36 +108,6 @@ namespace OnboardingServiceTests
         }
 
         [Fact]
-        public async Task OnboardOrganization_Should_Throw_RoleException()
-        {
-            // Arrange
-            var errorMessage = "Role InvalidRole doesn't exist";
-            var onboardingFormDataDTO = SetupOnboardingFormDataDTO("InvalidRole");
-
-            // Setup mapper
-            var schoolMappingResult = new TblSchool();
-            _mapperMock.Setup(mapper => mapper.Map<TblSchool>(It.IsAny<SchoolDetailsDTO>())).Returns(schoolMappingResult);
-
-            var customerMappingResult = new TblCustomer();
-            _mapperMock.Setup(mapper => mapper.Map<TblCustomer>(It.IsAny<AccountDetailsDTO>())).Returns(customerMappingResult);
-
-            _schoolRepositoryMock.Setup(repo => repo.AddAsync(schoolMappingResult, It.IsAny<CancellationToken>())).Returns(Task.FromResult(schoolMappingResult));
-            _customerRepositoryMock.Setup(repo => repo.AddAsync(customerMappingResult, It.IsAny<CancellationToken>())).Returns(Task.FromResult(customerMappingResult));
-            _customerRoleRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<TblCustomerRole>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(It.IsAny<TblCustomerRole>()));
-
-            // Act
-            var exception = await Assert.ThrowsAsync<RoleException>(async () => await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None));
-
-            // Assert
-            Assert.NotNull(exception);
-            Assert.IsType<RoleException>(exception);
-            Assert.Equal(exception.Message, errorMessage);
-            _schoolRepositoryMock.Verify(repo => repo.AddAsync(schoolMappingResult, It.IsAny<CancellationToken>()), Times.Once);
-            _customerRepositoryMock.Verify(repo => repo.AddAsync(customerMappingResult, It.IsAny<CancellationToken>()), Times.Never);
-            _customerRoleRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<TblCustomerRole>(), It.IsAny<CancellationToken>()), Times.Never);
-        }
-
-        [Fact]
         public async Task OnboardOrganization_CustomerIsNull_ThrowsException()
         {
             // Arrange

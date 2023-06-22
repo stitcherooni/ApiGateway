@@ -1,7 +1,10 @@
-﻿namespace BLL.DTO.Organization
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BLL.DTO.Organization
 {
     public class SchoolDetailsDTO
     {
+        [Required(ErrorMessage = "The School Ptaname is required")]
         public string SchoolPtaname { get; set; }
         public string SchoolName { get; set; }
         public string SchoolAddress1 { get; set; }
