@@ -47,7 +47,7 @@ namespace IntegrationTests
         {
             // Arrange
             var email = await Helper.GenerateEmail();
-            var errorMessage = $"Email can't be sent, User with email {email} doesn't exist";
+            var errorMessage = $"User with email {email} doesn't exist";
 
             // Act
             var exception = await Record.ExceptionAsync(async () => await _emailService.SendEmail(email, CancellationToken.None));

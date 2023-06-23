@@ -1,7 +1,6 @@
 using AutoMapper;
 using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
-using BLL.Exceptions;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;
@@ -92,52 +91,6 @@ namespace OnboardingServiceTests
         }
 
         [Fact]
-        public async Task OnboardOrganization_Should_Throw_Exception_When_Cant_AddEntity()
-        {
-            // Arrange
-            var errorMessage = "Entity can't be added to the database";
-
-            // Act
-            var exception = await Record.ExceptionAsync(async () =>
-                await _onboardingService.OnboardOrganization(null, CancellationToken.None));
-
-            // Assert
-            Assert.NotNull(exception);
-            Assert.IsType<Exception>(exception);
-            Assert.Equal(exception.Message, errorMessage);
-        }
-
-        [Fact]
-        public async Task OnboardOrganization_CustomerIsNull_ThrowsException()
-        {
-            // Arrange
-            var errorMessage = "Customer doesn't exist";
-
-            var onboardingFormDataDTO = SetupOnboardingFormDataDTO("Chair");
-
-            // Setup mapper
-            var schoolMappingResult = new TblSchool();
-            _mapperMock.Setup(mapper => mapper.Map<TblSchool>(It.IsAny<SchoolDetailsDTO>())).Returns(schoolMappingResult);
-
-            var customerMappingResult = new TblCustomer();
-            _mapperMock.Setup(mapper => mapper.Map<TblCustomer>(It.IsAny<AccountDetailsDTO>())).Returns(customerMappingResult);
-
-            _schoolRepositoryMock.Setup(repo => repo.AddAsync(schoolMappingResult, It.IsAny<CancellationToken>())).Returns(Task.FromResult(schoolMappingResult));
-            _customerRepositoryMock.Setup(repo => repo.AddAsync(customerMappingResult, It.IsAny<CancellationToken>())).Returns(Task.FromResult(customerMappingResult));
-            _customerRepositoryMock.Setup(repo => repo.FindAsync(It.IsAny<int>()));
-            _customerRoleRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<TblCustomerRole>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(It.IsAny<TblCustomerRole>()));
-
-            // Act
-            var exception = await Record.ExceptionAsync(async () =>
-                await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None));
-
-            // Assert
-            Assert.NotNull(exception);
-            Assert.IsType<Exception>(exception);
-            Assert.Equal(exception.Message, errorMessage);
-        }
-
-        [Fact]
         public async Task GenerateUrls_UniqueAcronym_Returns_List_of_NewUrlsAsync()
         {
             // Arrange
@@ -164,21 +117,6 @@ namespace OnboardingServiceTests
             Assert.Contains("ExamplePTAName", result);
             Assert.Contains("EPNTown", result);
             Assert.Contains("ExamplePTANameTown", result);
-        }
-
-        [Fact]
-        public async Task GenerateUrls_Should_Throw_Exception()
-        {
-            // Arrange
-            var errorMessage = "Can't generate Url";
-
-            // Act
-            var exception = await Record.ExceptionAsync(async () => await _onboardingService.GenerateUrlsAsync(new CheckUrlRequest(), CancellationToken.None));
-
-            // Assert
-            Assert.NotNull(exception);
-            Assert.IsType<Exception>(exception);
-            Assert.Equal(exception.Message, errorMessage);
         }
 
         [Fact]
@@ -239,6 +177,36 @@ namespace OnboardingServiceTests
             Assert.DoesNotContain("ExamplePTAName", result);
             Assert.DoesNotContain("EPNTown", result);
             Assert.Contains("ExamplePTANameTown", result);
+        }
+
+        [Fact]
+        public async Task CheckUrl_Should_ReturnFalse_When_UrlExistsInRepository()
+        {
+            // Arrange
+            string url = "https://example.com";
+
+            _schoolRepositoryMock.Setup(repo => repo.CountAsync(It.IsAny<Expression<Func<TblSchool, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(1);
+
+            // Act
+            bool result = await _onboardingService.IsUrlFree(url, CancellationToken.None);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task CheckUrl_Should_ReturnTrue_When_UrlDoesNotExistInRepository()
+        {
+            // Arrange
+            string url = "https://example.com";
+
+            _schoolRepositoryMock.Setup(repo => repo.CountAsync(It.IsAny<Expression<Func<TblSchool, bool>>>(), It.IsAny<CancellationToken>())).ReturnsAsync(0);
+
+            // Act
+            bool result = await _onboardingService.IsUrlFree(url, CancellationToken.None);
+
+            // Assert
+            Assert.True(result);
         }
 
         private OnboardingFormDataDTO SetupOnboardingFormDataDTO(string role)

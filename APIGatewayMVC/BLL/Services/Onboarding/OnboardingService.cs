@@ -1,11 +1,10 @@
-﻿ using AutoMapper;
+﻿using AutoMapper;
 using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
-using BLL.Exceptions;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
-using Microsoft.EntityFrameworkCore;
 using Models;
+using System;
 using System.Text.RegularExpressions;
 using System.Transactions;
 
@@ -36,54 +35,44 @@ namespace BLL.Services.Onboarding
         {
             string customerEmail;
             OnboardingEntities onboardingEntities;
-            try
+
+            using (var transactionScope = GetTransactionScope(IsolationLevel.ReadCommitted))
             {
-                using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                var schoolDetailsMap = _mapper.Map<TblSchool>(onboardingFormDataDTO.SchoolDetails);
+                schoolDetailsMap.SchoolPtadirectory = onboardingFormDataDTO.SchoolBrandingDetails.Url;
+                schoolDetailsMap.SchoolPrimaryColour = schoolDetailsMap.SchoolLinkColour = onboardingFormDataDTO.SchoolBrandingDetails.PtaBrandingColor;
+                await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
+
+                var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
+                accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
+                await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
+
+                var customerRole2 = new TblCustomerRole
                 {
-                    var schoolDetailsMap = _mapper.Map<TblSchool>(onboardingFormDataDTO.SchoolDetails);
-                    schoolDetailsMap.SchoolPtadirectory = onboardingFormDataDTO.SchoolBrandingDetails.Url;
-                    schoolDetailsMap.SchoolPrimaryColour = schoolDetailsMap.SchoolLinkColour = onboardingFormDataDTO.SchoolBrandingDetails.PtaBrandingColor;
-                    await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
+                    CustomerId = accountDetailsMap.CustomerId,
+                    RoleId = 2
+                };
+                var customerRole7 = new TblCustomerRole
+                {
+                    CustomerId = accountDetailsMap.CustomerId,
+                    RoleId = 7
+                };
+                await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);
+                await _customerRoleRepository.AddAsync(customerRole7, cancellationToken);
 
-                    var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
-                    accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
-                    await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
+                customerEmail = accountDetailsMap.CustomerEmail;
 
-                    var customerRole2 = new TblCustomerRole
-                    {
-                        CustomerId = accountDetailsMap.CustomerId,
-                        RoleId = 2
-                    };
-                    var customerRole7 = new TblCustomerRole
-                    {
-                        CustomerId = accountDetailsMap.CustomerId,
-                        RoleId = 7
-                    };
-                    await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);
-                    await _customerRoleRepository.AddAsync(customerRole7, cancellationToken);
-
-                    customerEmail = accountDetailsMap.CustomerEmail;
-
-                    transactionScope.Complete();
-                    onboardingEntities = new OnboardingEntities()
-                    {
-                        School = schoolDetailsMap,
-                        Customer = accountDetailsMap,
-                        CustomerRole2 = customerRole2,
-                        CustomerRole7 = customerRole7,
-                    };
-                }
+                transactionScope.Complete();
+                onboardingEntities = new OnboardingEntities()
+                {
+                    School = schoolDetailsMap,
+                    Customer = accountDetailsMap,
+                    CustomerRole2 = customerRole2,
+                    CustomerRole7 = customerRole7,
+                };
             }
-
-            catch (Exception ex)
-            {
-                throw new Exception("Entity can't be added to the database", ex);
-            }
-            if (customerEmail != null)
-            {
                 await _emailService.SendEmail(customerEmail, cancellationToken);
-            }
-            else throw new Exception("Customer doesn't exist");
+            
             return onboardingEntities;
         }
 
@@ -94,29 +83,30 @@ namespace BLL.Services.Onboarding
 
         public async Task<string[]> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
-            try
-            {
-                List<string> urlVariants = new List<string>();
+            List<string> urlVariants = new List<string>();
 
-                string nameAcronym = GEtAcronym(urlRequest.PtaName);
-                if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
-                    urlVariants.Add(nameAcronym);
+            string nameAcronym = GEtAcronym(urlRequest.PtaName);
+            if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
+                urlVariants.Add(nameAcronym);
 
-                string newName = urlRequest.PtaName.Replace(" ", string.Empty);
-                if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
-                    urlVariants.Add(newName);
+            string newName = urlRequest.PtaName.Replace(" ", string.Empty);
+            if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
+                urlVariants.Add(newName);
 
-                string townAcronym = nameAcronym + urlRequest.Town;
-                if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
-                    urlVariants.Add(townAcronym);
+            string townAcronym = nameAcronym + urlRequest.Town;
+            if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
+                urlVariants.Add(townAcronym);
 
-                string newTown = newName + urlRequest.Town;
-                if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newTown, cancellationToken) == 0 && newTown.Length >= 3)
-                    urlVariants.Add(newTown);
+            string newTown = newName + urlRequest.Town;
+            if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newTown, cancellationToken) == 0 && newTown.Length >= 3)
+                urlVariants.Add(newTown);
 
-                return urlVariants.ToArray();
-            }
-            catch { throw new Exception("Can't generate Url"); }
+            return urlVariants.ToArray();
+        }
+
+        public async Task<bool> IsUrlFree(string url, CancellationToken cancellationToken)
+        {
+            return await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == url, cancellationToken) == 0;
         }
 
         #region Private methods
@@ -126,6 +116,11 @@ namespace BLL.Services.Onboarding
             return result;
         }
 
+        private TransactionScope GetTransactionScope(IsolationLevel isolationLevel) 
+        {
+            return new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = isolationLevel }, TransactionScopeAsyncFlowOption.Enabled);
+        }
+
         #endregion
     }
-} 
+}

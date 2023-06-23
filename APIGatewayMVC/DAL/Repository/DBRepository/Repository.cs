@@ -27,11 +27,6 @@ namespace DAL.Repository.DBRepository
             return _dbSet.Where(predicate);
         }
 
-        public async Task<T> FindAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
         public async Task<int> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
             return await _dbSet.CountAsync(predicate, cancellationToken);

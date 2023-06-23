@@ -59,8 +59,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
-                await _onboardingService.OnboardOrganization(onboardingFormDataDTO, cancellationToken);
+                onboardingFormDataDTO.SchoolBrandingDetails.Url= onboardingFormDataDTO.SchoolBrandingDetails.Url.ToLower();
+                if (await _onboardingService.IsUrlFree(onboardingFormDataDTO.SchoolBrandingDetails.Url, cancellationToken))
+                { 
+                    await _onboardingService.OnboardOrganization(onboardingFormDataDTO, cancellationToken);
                 _logger.LogInformation("Organization onboarded successfully");
+                }
+                else
+                    throw new Exception($"Organisation with url {onboardingFormDataDTO.SchoolBrandingDetails.Url} already exist");
             }
 
             catch (Exception ex)

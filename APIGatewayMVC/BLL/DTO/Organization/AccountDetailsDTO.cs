@@ -32,11 +32,5 @@ namespace BLL.DTO.Organization
 
         [Required(ErrorMessage = "Password is required")]
         public string CustomerPassword { get; set; }
-
-        public bool CustomerApproved { get { return true; } }
-        public bool CustomerConfirmed { get { return true; } }
-        public bool CustomerMarketingEmails { get { return true; } }
-        public bool CustomerPlatformArchiveReminderEmails { get { return true; } }
-        public bool CustomerVerified { get { return true; } }
     }
 }

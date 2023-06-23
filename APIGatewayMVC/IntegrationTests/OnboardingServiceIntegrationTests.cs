@@ -1,5 +1,4 @@
 ﻿using BLL.DTO.Organization;
-using BLL.Exceptions;
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;
 using Models;
