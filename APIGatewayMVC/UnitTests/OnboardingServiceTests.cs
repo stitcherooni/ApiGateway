@@ -1,6 +1,7 @@
 using AutoMapper;
 using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
+using BLL.Exceptions;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;

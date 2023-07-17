@@ -12,13 +12,17 @@ using System.Threading.Tasks;
 namespace APIGatewayMVC.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class OnbordingController : ControllerBase
     {
         private readonly IOnboardingService _onboardingService;
         private readonly IEmailService _emailService;
         private readonly ILogger<OnbordingController> _logger;
 
-        public OnbordingController(IOnboardingService dataService, IEmailService emailService, ILogger<OnbordingController> logger)
+        public OnbordingController(IOnboardingService dataService,
+                                   IEmailService emailService,
+                                   ILogger <OnbordingController>logger
+                                   )
         {
             _onboardingService = dataService;
             _emailService = emailService;
@@ -26,7 +30,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPost]
-        [Route("api/url")]
+        [Route("url")]
         public async Task<IActionResult> UrlAsync([FromBody] CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             try
@@ -42,7 +46,6 @@ namespace APIGatewayMVC.Controllers
                 }
                 else
                     urlsResponse.IsValid = true;
-
                 urlsResponse.Urls = await _onboardingService.GenerateUrlsAsync(urlRequest, cancellationToken);
                 return Ok(urlsResponse);
             }
@@ -54,7 +57,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPost]
-        [Route("api/organization")]
+        [Route("organization")]
         public async Task<IActionResult> Organization([FromBody] OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
         {
             try
@@ -79,7 +82,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPost]
-        [Route("api/sendemail")]
+        [Route("sendemail")]
         public async Task<IActionResult> SendEmail(string emailAddress, CancellationToken cancellationToken)
         {
             try

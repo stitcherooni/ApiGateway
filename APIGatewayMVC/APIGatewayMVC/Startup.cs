@@ -1,6 +1,9 @@
 ﻿using BLL.Extensions;
+using BLL.Services.BlobService;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
+using BLL.Services.Statistic;
+using BLL.Services.SearchingService;
 using DAL;
 using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
@@ -13,6 +16,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Models;
 using System;
+using BLL.DTO;
+using APIGatewayMVC.Controllers;
+using BLL.Services.SortingService;
+using BLL.Services.UpdateService;
 
 namespace APIGatewayMVC
 {
@@ -42,11 +49,21 @@ namespace APIGatewayMVC
                 });
 
             services.AddScoped<IOnboardingService, OnboardingService>();
+            services.AddScoped<ISearchingService, SearchingService>();
+            services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<DbContext, PtaeventContext>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailSender, MailGunEmailSender>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.AddScoped<IDashboardStatisticService, DashboardStatisticService>();
+            services.AddScoped<ISortingService, SortingService>();
+            services.AddScoped<IUpdateService, UpdateService>();
+
+            var serviceProvider = services.BuildServiceProvider();
+            var logger = serviceProvider.GetService<ILogger<OnbordingController>>();
+            services.AddSingleton(typeof(ILogger<OnbordingController>), logger);
+            services.Configure<BlobSettings>(configuration.GetSection("BlobSettings"));
 
             services.AddAutoMapper();
 

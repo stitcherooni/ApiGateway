@@ -2,12 +2,12 @@
 {
     public enum Roles
     {
-        Chair,
-        ViceChair,
-        Treasurer,
-        Secretary,
-        Headteacher,
-        SchoolAdmin,
-        Other
+        chair,
+        viceChair,
+        treasurer,
+        secretary,
+        headteacher,
+        schoolAdmin,
+        other
     }
 }

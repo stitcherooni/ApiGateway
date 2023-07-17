@@ -13,8 +13,8 @@ namespace BLL.Services.EmailService
 
         public EmailService(IEmailSender emailSender, IRepository<TblCustomer> customerRepository)
         {
-            _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _emailSender = emailSender;
+            _customerRepository = customerRepository;
         }
 
         public async Task<IRestResponse> SendEmail(string emailAddress, CancellationToken cancellationToken)

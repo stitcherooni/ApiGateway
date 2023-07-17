@@ -10,7 +10,7 @@ namespace DAL.Repository.EmailSender
 
         public MailGunEmailSender(IOptionsMonitor<EmailSettings> emailSettingsMonitor)
         {
-            this.emailSettingsMonitor = emailSettingsMonitor ?? throw new ArgumentNullException(nameof(emailSettingsMonitor));
+            this.emailSettingsMonitor = emailSettingsMonitor;
         }
 
         public async Task<IRestResponse> SendEmail(EmailDTO email)
