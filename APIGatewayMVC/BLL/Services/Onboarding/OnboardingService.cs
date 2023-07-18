@@ -72,8 +72,8 @@ namespace BLL.Services.Onboarding
                     CustomerRole7 = customerRole7,
                 };
             }
-                await _emailService.SendEmail(customerEmail, cancellationToken);
-            
+            await _emailService.SendEmail(customerEmail, cancellationToken);
+
             return onboardingEntities;
         }
 
@@ -86,22 +86,23 @@ namespace BLL.Services.Onboarding
         {
             List<string> urlVariants = new List<string>();
 
-            string nameAcronym = GEtAcronym(urlRequest.PtaName);
+            string nameAcronym = LenghtCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
 
-            string newName = urlRequest.PtaName.Replace(" ", string.Empty);
+            string newName = LenghtCheck(urlRequest.PtaName.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
-                urlVariants.Add(newName);
+            {
+                if (!urlVariants.Contains(newName))
+                    urlVariants.Add(newName);
+            }
 
-            string townAcronym = nameAcronym + urlRequest.Town;
+            string townAcronym = LenghtCheck(newName + urlRequest.Town.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
-                urlVariants.Add(townAcronym);
-
-            string newTown = newName + urlRequest.Town;
-            if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newTown, cancellationToken) == 0 && newTown.Length >= 3)
-                urlVariants.Add(newTown);
-
+            {
+                if (!urlVariants.Contains(townAcronym))
+                    urlVariants.Add(townAcronym);
+            }
             return urlVariants.ToArray();
         }
 
@@ -117,9 +118,16 @@ namespace BLL.Services.Onboarding
             return result;
         }
 
-        private TransactionScope GetTransactionScope(IsolationLevel isolationLevel) 
+        private TransactionScope GetTransactionScope(IsolationLevel isolationLevel)
         {
             return new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = isolationLevel }, TransactionScopeAsyncFlowOption.Enabled);
+        }
+
+        private string LenghtCheck(string text)
+        {
+            if (text.Length >= 50)
+                return text.Substring(0, 50);
+            else return text;
         }
 
         #endregion

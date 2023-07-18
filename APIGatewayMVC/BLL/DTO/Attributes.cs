@@ -66,7 +66,7 @@ namespace BLL.DTO
             if (string.IsNullOrEmpty(url))
                 return true;
 
-            return Regex.IsMatch(url, "^[a-z0-9-]+$", RegexOptions.IgnoreCase);
+            return Regex.IsMatch(url, "^[a-z0-9- ]+$", RegexOptions.IgnoreCase);
         }
     }
 }
