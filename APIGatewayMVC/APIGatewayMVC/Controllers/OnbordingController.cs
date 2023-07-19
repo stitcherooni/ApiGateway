@@ -78,7 +78,7 @@ namespace APIGatewayMVC.Controllers
                 return BadRequest(GenerateErrorMessage(ex, "Can't add organosation"));
             }
 
-            return Ok();
+            return Ok(new { Message = "Organization onboarded successfully" });
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace APIGatewayMVC.Controllers
                 _logger.LogError(ex, $"Failed to send email to: {emailAddress}");
                 return BadRequest(GenerateErrorMessage(ex, $"Can't send email to {emailAddress}"));
             }
-            return Ok();
+            return Ok(new { Message = $"Email sent successfully to: {emailAddress}" });
         }
     }
 }
