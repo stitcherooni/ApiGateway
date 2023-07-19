@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
-using BLL.Exceptions;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
-using System;
 using System.Text.RegularExpressions;
 using System.Transactions;
 
@@ -84,7 +82,7 @@ namespace BLL.Services.Onboarding
 
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
-            List<string> urlVariants = new List<string>();
+            var urlVariants = new List<string>();
 
             string nameAcronym = LenghtCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)

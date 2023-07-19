@@ -10,7 +10,7 @@ namespace BLL.Services.BlobService
 {
     public static class FileGenerator
     {
-        public static byte[] CreateCSVFile(List<List<string>> data)
+        public static byte[] CreateCSVFile(IList<IList<string>> data)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -30,7 +30,7 @@ namespace BLL.Services.BlobService
             }
         }
 
-        public static byte[] CreateExcelFile(List<List<string>> data)
+        public static byte[] CreateExcelFile(IList<IList<string>> data)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -49,7 +49,7 @@ namespace BLL.Services.BlobService
 
                     for (int row = 0; row < rowCount; row++)
                     {
-                        List<string> rowData = data[row];
+                        IList<string> rowData = data[row];
                         for (int col = 0; col < columnCount; col++)
                         {
                             if (col < rowData.Count)
@@ -64,7 +64,7 @@ namespace BLL.Services.BlobService
             }
         }
 
-        public static byte[] CreatePDFFile(List<List<string>> data)
+        public static byte[] CreatePDFFile(IList<IList<string>> data)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {

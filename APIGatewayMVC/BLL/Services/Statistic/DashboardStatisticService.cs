@@ -127,7 +127,7 @@ namespace BLL.Services.Statistic
 
         public IEnumerable<PaymentMethods> GetPaymentMethods()
         {
-            List<PaymentMethods> methods = new List<PaymentMethods>();
+            var methods = new List<PaymentMethods>();
             var idsList = _paybentMethodRepository.FindBy(x => x.PaymentMethodId != null);
             var result = new List<PaymentMethods>();
             foreach (var item in idsList)

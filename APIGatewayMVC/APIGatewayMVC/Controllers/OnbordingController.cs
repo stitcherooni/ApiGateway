@@ -13,7 +13,7 @@ namespace APIGatewayMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OnbordingController : ControllerBase
+    public class OnbordingController : BaseController
     {
         private readonly IOnboardingService _onboardingService;
         private readonly IEmailService _emailService;
@@ -52,7 +52,7 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error processing URL: {urlRequest.Url}");
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Url"));
             }
         }
 
@@ -62,11 +62,11 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
-                onboardingFormDataDTO.SchoolBrandingDetails.Url= onboardingFormDataDTO.SchoolBrandingDetails.Url.ToLower();
+                onboardingFormDataDTO.SchoolBrandingDetails.Url = onboardingFormDataDTO.SchoolBrandingDetails.Url.ToLower();
                 if (await _onboardingService.IsUrlFree(onboardingFormDataDTO.SchoolBrandingDetails.Url, cancellationToken))
-                { 
+                {
                     await _onboardingService.OnboardOrganization(onboardingFormDataDTO, cancellationToken);
-                _logger.LogInformation("Organization onboarded successfully");
+                    _logger.LogInformation("Organization onboarded successfully");
                 }
                 else
                     throw new Exception($"Organisation with url {onboardingFormDataDTO.SchoolBrandingDetails.Url} already exist");
@@ -75,10 +75,10 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to onboard organization");
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't add organosation"));
             }
 
-            return Ok(new ResponseMessage() { Message = "Entity was added"});
+            return Ok();
         }
 
         [HttpPost]
@@ -94,9 +94,9 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to send email to: {emailAddress}");
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, $"Can't send email to {emailAddress}"));
             }
-            return Ok(new ResponseMessage() { Message = "Email was sent"});
+            return Ok();
         }
     }
 }

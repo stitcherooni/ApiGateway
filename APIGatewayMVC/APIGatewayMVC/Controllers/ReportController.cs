@@ -40,7 +40,7 @@ namespace APIGatewayMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ReportController : ControllerBase
+    public class ReportController : BaseController
     {
         private readonly IDashboardStatisticService _dashbardStatisticService;
         private readonly IBlobService _blobService;
@@ -145,12 +145,12 @@ namespace APIGatewayMVC.Controllers
                             return Ok(response);
                         }
 
-                    default: return BadRequest(new ResponseMessage() { Message = $"Type {getReportByTabRequest.Type} doesn't exist" });
+                    default: throw new Exception ($"Type {getReportByTabRequest.Type} doesn't exist");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, $"Can't generate report for {getReportByTabRequest.Type}"));
             }
         }
 
@@ -166,7 +166,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Dashboard data"));
             }
         }
 
@@ -181,7 +181,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Task.FromResult<IActionResult>(BadRequest(new ResponseMessage() { Message = ex.Message }));
+                return Task.FromResult<IActionResult>(BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods")));
             }
         }
 
@@ -198,7 +198,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Banked report in pdf"));
             }
         }
 
@@ -213,7 +213,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Banked report in excel"));
             }
         }
 
@@ -228,7 +228,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Booking report in pdf"));
             }
         }
 
@@ -243,7 +243,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Booking report in exel"));
             }
         }
 
@@ -258,7 +258,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Child only booking report in pdf"));
             }
         }
 
@@ -273,7 +273,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customer report in excel"));
             }
         }
 
@@ -288,13 +288,13 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customer report in pdf"));
             }
         }
 
         [HttpGet]
         [Route("ordersexcel")]
-        public async Task<IActionResult> GetBookingsReportExcel([FromQuery] GetOrdersReportExcelRequest getOrdersReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetOrdersReportExcel([FromQuery] GetOrdersReportExcelRequest getOrdersReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
@@ -303,7 +303,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report in exel"));
             }
         }
 
@@ -318,22 +318,22 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report in pdf"));
             }
         }
 
         [HttpGet]
         [Route("orderdeliverynotespdf")]
-        public async Task<IActionResult> ExportOrderDeliveryNotReporeReportPdf([FromQuery] ExportOrderDeliveryNotePdfRequest exportOrderDeliveryNotePdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> ExportOrderDeliveryNoteReportPdf([FromQuery] ExportOrderDeliveryNotePdfRequest exportOrderDeliveryNotePdfRequest, CancellationToken cancellationToken)
         {
             try
             {
                 byte[] blobData = _blobService.GenerateExportOrderDeliveryPdfResponse(exportOrderDeliveryNotePdfRequest, cancellationToken);
-                return File(blobData, "application/pdf", "OrderDelivery.pdf");
+                return File(blobData, "application/pdf", "OrderDeliveryNote.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Export order delivery note report in pdf"));
             }
         }
 
@@ -348,7 +348,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Product questions report in excel"));
             }
         }
 
@@ -363,7 +363,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Product questions report in pdf"));
             }
         }
 
@@ -378,7 +378,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in excel"));
             }
         }
 
@@ -393,7 +393,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in pdf"));
             }
         }
 
@@ -408,7 +408,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in csv"));
             }
         }
 
@@ -423,7 +423,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report in excel"));
             }
         }
 
@@ -438,7 +438,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report in pdf"));
             }
         }
 
@@ -453,7 +453,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by event report in excel"));
             }
         }
 
@@ -468,7 +468,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by event report in pdf"));
             }
         }
 
@@ -483,7 +483,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Volunteers report in pdf"));
             }
         }
 
@@ -502,7 +502,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Email trackers report"));
             }
         }
 
@@ -517,7 +517,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customers report"));
             }
         }
 
@@ -532,7 +532,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report"));
             }
         }
 
@@ -547,7 +547,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report"));
             }
         }
 
@@ -562,7 +562,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Child only booking report"));
             }
         }
 
@@ -577,7 +577,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Ticket report"));
             }
         }
 
@@ -592,7 +592,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Sales report"));
             }
         }
 
@@ -611,7 +611,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Volunteers filters"));
             }
         }
 
@@ -626,13 +626,13 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Volunteers"));
             }
         }
 
         [HttpGet]
-        [Route("treasurereventfilters")]
-        public async Task<IActionResult> GetTreasurerEventFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        [Route("treasurerebyventfilters")]
+        public async Task<IActionResult> GetTreasurerByEventFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
         {
             try
             {
@@ -641,7 +641,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Treasurer by event filters"));
             }
         }
 
@@ -656,7 +656,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Treasurer by event"));
             }
         }
 
@@ -671,7 +671,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Ticket filters"));
             }
         }
 
@@ -686,7 +686,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Tickets"));
             }
         }
 
@@ -701,12 +701,12 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Sales filters"));
             }
         }
 
         [HttpGet]
-        [Route("froductquestinsfilters")]
+        [Route("productquestinsfilters")]
         public async Task<IActionResult> GetProductQuestinsFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
         {
             try
@@ -717,7 +717,7 @@ namespace APIGatewayMVC.Controllers
 
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Product questins filters"));
             }
         }
 
@@ -732,7 +732,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Product questions"));
             }
         }
 
@@ -746,8 +746,8 @@ namespace APIGatewayMVC.Controllers
                 return Ok(result);
             }
             catch (Exception ex)
-            {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+            {   
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Child bookings filters"));
             }
         }
 
@@ -762,7 +762,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Child bookings"));
             }
         }
 
@@ -778,7 +778,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Bookings filters"));
             }
         }
 
@@ -793,7 +793,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort Bookings"));
             }
         }
 
@@ -810,7 +810,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't remove user"));
             }
         }
 
@@ -825,7 +825,7 @@ namespace APIGatewayMVC.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ResponseMessage() { Message = ex.Message });
+                return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
             }
         }
     }

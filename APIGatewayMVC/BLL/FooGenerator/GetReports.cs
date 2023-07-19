@@ -20,9 +20,9 @@ namespace BLL.FooGenerator
 {
     public static class GetReports
     {
-        public static async Task<List<MiWizardDTO>> MiWizardReport(CancellationToken cancellationToken)
+        public static async Task<IList<MiWizardDTO>> MiWizardReport(CancellationToken cancellationToken)
         {
-            List<MiWizardDTO> result = new List<MiWizardDTO>();
+            var result = new List<MiWizardDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetMiWizard(i));
@@ -30,18 +30,18 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<CustomerDTO>> CustomerReport(CancellationToken cancellationToken)
+        public static async Task<IList<CustomerDTO>> CustomerReport(CancellationToken cancellationToken)
         {
-            List<CustomerDTO> result = new List<CustomerDTO>();
+            var result = new List<CustomerDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetCustomer(i));
             }
             return result;
         }
-        public static async Task<List<OrderDTO>> OrderReport(CancellationToken cancellationToken)
+        public static async Task<IList<OrderDTO>> OrderReport(CancellationToken cancellationToken)
         {
-            List<OrderDTO> result = new List<OrderDTO>();
+            var result = new List<OrderDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetOrder(i));
@@ -49,9 +49,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<SaleDTO>> SaleReport(CancellationToken cancellationToken)
+        public static async Task<IList<SaleDTO>> SaleReport(CancellationToken cancellationToken)
         {
-            List<SaleDTO> result = new List<SaleDTO>();
+            var result = new List<SaleDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetSalesResponse(cancellationToken));
@@ -59,9 +59,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<TicketDTO>> TicketReport(CancellationToken cancellationToken)
+        public static async Task<IList<TicketDTO>> TicketReport(CancellationToken cancellationToken)
         {
-            List<TicketDTO> result = new List<TicketDTO>();
+            var result = new List<TicketDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetTicket(i));
@@ -69,9 +69,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<VolunteerDTO>> VolunteerReport(CancellationToken cancellationToken)
+        public static async Task<IList<VolunteerDTO>> VolunteerReport(CancellationToken cancellationToken)
         {
-            List<VolunteerDTO> result = new List<VolunteerDTO>();
+            var result = new List<VolunteerDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetVolunteer(i));
@@ -79,9 +79,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<BookingDTO>> BookingReport(CancellationToken cancellationToken)
+        public static async Task<IList<BookingDTO>> BookingReport(CancellationToken cancellationToken)
         {
-            List<BookingDTO> result = new List<BookingDTO>();
+            var result = new List<BookingDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetBooking(i));
@@ -89,9 +89,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<ProductQuestionHorizontalDTO>> ProductQuestionHorisontalReport(CancellationToken cancellationToken)
+        public static async Task<IList<ProductQuestionHorizontalDTO>> ProductQuestionHorisontalReport(CancellationToken cancellationToken)
         {
-            List<ProductQuestionHorizontalDTO> result = new List<ProductQuestionHorizontalDTO>();
+            var result = new List<ProductQuestionHorizontalDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetProductQuestionHorizontal(i));
@@ -99,9 +99,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<ProductQuestionVerticalDTO>> ProductQuestionVerticalReport(CancellationToken cancellationToken)
+        public static async Task<IList<ProductQuestionVerticalDTO>> ProductQuestionVerticalReport(CancellationToken cancellationToken)
         {
-            List<ProductQuestionVerticalDTO> result = new List<ProductQuestionVerticalDTO>();
+            var result = new List<ProductQuestionVerticalDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetProductQuestionVertical(i));
@@ -109,27 +109,27 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<InvoiceDTO>> InvoiceReport(CancellationToken cancellationToken)
+        public static async Task<IList<InvoiceDTO>> InvoiceReport(CancellationToken cancellationToken)
         {
-            List<InvoiceDTO> result = new List<InvoiceDTO>();
+            var result = new List<InvoiceDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetInvoice(i));
             }
             return result;
         }
-        public static async Task<List<TreasurerByEventDTO>> TreasurerByEventReport(CancellationToken cancellationToken)
+        public static async Task<IList<TreasurerByEventDTO>> TreasurerByEventReport(CancellationToken cancellationToken)
         {
-            List<TreasurerByEventDTO> result = new List<TreasurerByEventDTO>();
+            var result = new List<TreasurerByEventDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetTreasurerByEvent(i));
             }
             return result;
         }
-        public static async Task<List<TreasurerByDateDTO>> TreasurerByDateReport(CancellationToken cancellationToken)
+        public static async Task<IList<TreasurerByDateDTO>> TreasurerByDateReport(CancellationToken cancellationToken)
         {
-            List<TreasurerByDateDTO> result = new List<TreasurerByDateDTO>();
+            var result = new List<TreasurerByDateDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetTreasurerByDate(i));
@@ -137,9 +137,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<BankedTransactionDTO>> BankedTransactionReport(CancellationToken cancellationToken)
+        public static async Task<IList<BankedTransactionDTO>> BankedTransactionReport(CancellationToken cancellationToken)
         {
-            List<BankedTransactionDTO> result = new List<BankedTransactionDTO>();
+            var result = new List<BankedTransactionDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetBankedTransaction(i));
@@ -147,9 +147,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<ChildOnlyBookingDTO>> ChildOnlyBookingReport(CancellationToken cancellationToken)
+        public static async Task<IList<ChildOnlyBookingDTO>> ChildOnlyBookingReport(CancellationToken cancellationToken)
         {
-            List<ChildOnlyBookingDTO> result = new List<ChildOnlyBookingDTO>();
+            var result = new List<ChildOnlyBookingDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetChildOnlyBooking(i));
@@ -157,9 +157,9 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<List<EmailTrackerDTO>> EmailTrackerReport(CancellationToken cancellationToken)
+        public static async Task<IList<EmailTrackerDTO>> EmailTrackerReport(CancellationToken cancellationToken)
         {
-            List<EmailTrackerDTO> result = new List<EmailTrackerDTO>();
+            var result = new List<EmailTrackerDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetEmailTracker(i));
@@ -255,10 +255,10 @@ namespace BLL.FooGenerator
 
         #region Private methods
 
-        private static List<string> GetMonthYearListUntilToday()
+        private static IList<string> GetMonthYearListUntilToday()
         {
             Random random = new Random();
-            List<string> months = new List<string>(){
+            var months = new List<string>(){
             "January", "February", "March", "April",
             "May", "June", "July", "August",
             "September", "October", "November", "December"
@@ -271,7 +271,7 @@ namespace BLL.FooGenerator
             int randomYearIndex = random.Next(startYear, currentYear + 1);
             int randomMonthIndex = random.Next(0, 12);
 
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
             for (int year = randomYearIndex; year <= currentYear; year++)
             {
@@ -804,7 +804,7 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        private static IEnumerable<MonthlyOrder> GetListMonthlyOrder(List<string> monthList, CancellationToken cancellationToken)
+        private static IEnumerable<MonthlyOrder> GetListMonthlyOrder(IList<string> monthList, CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             List<MonthlyOrder> result = new();
@@ -821,7 +821,7 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        private static MonthlyCustomersRegistration[] GetListMonthlyCustomersRegistrations(List<string> monthList, CancellationToken cancellationToken)
+        private static MonthlyCustomersRegistration[] GetListMonthlyCustomersRegistrations(IList<string> monthList, CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             MonthlyCustomersRegistration[] result = new MonthlyCustomersRegistration[monthList.Count];
