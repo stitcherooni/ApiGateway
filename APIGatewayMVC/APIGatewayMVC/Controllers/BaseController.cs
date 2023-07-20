@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System;
 using BLL.DTO;
 using System.Collections.Generic;
+using BLL.DTO.UrlAsync;
+using System.Text.RegularExpressions;
 
 namespace APIGatewayMVC.Controllers
 {
