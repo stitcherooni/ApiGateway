@@ -6,6 +6,7 @@ using BLL.Services.Onboarding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                urlRequest = UrlFilters(urlRequest);
                 _logger.LogInformation($"Processing URL: {urlRequest.Url}");
                 URLsResponseDTO urlsResponse = new();
                 int result = await _onboardingService.GetEntityCountAsync(urlRequest.Url, cancellationToken);
@@ -78,7 +80,7 @@ namespace APIGatewayMVC.Controllers
                 return BadRequest(GenerateErrorMessage(ex, "Can't add organosation"));
             }
 
-            return Ok();
+            return Ok(new { Message = "Organization onboarded successfully" });
         }
 
         [HttpPost]
@@ -96,7 +98,23 @@ namespace APIGatewayMVC.Controllers
                 _logger.LogError(ex, $"Failed to send email to: {emailAddress}");
                 return BadRequest(GenerateErrorMessage(ex, $"Can't send email to {emailAddress}"));
             }
-            return Ok();
+            return Ok(new { Message = $"Email sent successfully to: {emailAddress}" });
+        }
+
+
+        private static CheckUrlRequest UrlFilters(CheckUrlRequest urlRequest)
+        {
+            return new CheckUrlRequest
+            {
+                Url = UrlFilter(urlRequest.Url),
+                PtaName = UrlFilter(urlRequest.PtaName),
+                Town = UrlFilter(urlRequest.Town)
+            };
+        }
+        private static string UrlFilter(string text)
+        {
+            string allowedSymbolsPattern = @"[^a-z0-9- ]";
+            return Regex.Replace(text, allowedSymbolsPattern, "");
         }
     }
 }

@@ -83,7 +83,7 @@ namespace BLL.Services.Onboarding
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             var urlVariants = new List<string>();
-
+ 
             string nameAcronym = LenghtCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
@@ -127,7 +127,7 @@ namespace BLL.Services.Onboarding
                 return text.Substring(0, 50);
             else return text;
         }
-
         #endregion
     }
+
 }

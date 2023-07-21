@@ -806,7 +806,7 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 await _updateService.RemoveUser(removeUserRequest, cancellationToken);
-                return Ok($"User with id {removeUserRequest.UserId} will be deleted {removeUserRequest.ErasureDate}");
+                return Ok(new { Message = $"User with id {removeUserRequest.UserId} will be deleted {removeUserRequest.ErasureDate}" });
             }
             catch (Exception ex)
             {
@@ -821,7 +821,7 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 await _updateService.ApproveUser(toggleApproveUserRequest, cancellationToken);
-                return Ok($"User with Id {toggleApproveUserRequest.UserId} successfully approved");
+                return Ok(new { Message = $"User with Id {toggleApproveUserRequest.UserId} successfully approved" });
             }
             catch (Exception ex)
             {

@@ -56,17 +56,4 @@ namespace BLL.DTO
             return ValidationResult.Success;
         }
     }
-
-    public class UrlValidationAttribute : ValidationAttribute
-    {
-        public override bool IsValid(object value)
-        {
-            string url = value as string;
-
-            if (string.IsNullOrEmpty(url))
-                return true;
-
-            return Regex.IsMatch(url, "^[a-z0-9- ]+$", RegexOptions.IgnoreCase);
-        }
-    }
 }
