@@ -59,7 +59,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPost]
-        [Route("organization")]
+        [Route("organisation")]
         public async Task<IActionResult> Organization([FromBody] OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
         {
             try
@@ -77,7 +77,7 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to onboard organization");
-                return BadRequest(GenerateErrorMessage(ex, "Can't add organosation"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't add organisation"));
             }
 
             return Ok(new { Message = "Organization onboarded successfully" });
@@ -113,7 +113,7 @@ namespace APIGatewayMVC.Controllers
         }
         private static string UrlFilter(string text)
         {
-            string allowedSymbolsPattern = @"[^a-z0-9- ]";
+            string allowedSymbolsPattern = @"[^a-zA-Z0-9- ]";
             return Regex.Replace(text, allowedSymbolsPattern, "");
         }
     }

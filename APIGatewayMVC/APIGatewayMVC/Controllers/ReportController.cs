@@ -1,5 +1,4 @@
-﻿using BLL.DTO;
-using BLL.DTO.Blobs.Banked;
+﻿using BLL.DTO.Blobs.Banked;
 using BLL.DTO.Blobs.Bookings;
 using BLL.DTO.Blobs.ChildOnlyBookings;
 using BLL.DTO.Blobs.CustomerReport;
@@ -156,7 +155,7 @@ namespace APIGatewayMVC.Controllers
 
 
         [HttpGet]
-        [Route("dashboardData")]
+        [Route("dashboarddata")]
         public async Task<IActionResult> GetDashboardData(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try
@@ -631,7 +630,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
-        [Route("treasurerebyventfilters")]
+        [Route("treasurerbyeventfilters")]
         public async Task<IActionResult> GetTreasurerByEventFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
         {
             try
@@ -661,7 +660,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
-        [Route("ticketfilters")]
+        [Route("ticketsfilters")]
         public async Task<IActionResult> GetTicketFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
         {
             try
