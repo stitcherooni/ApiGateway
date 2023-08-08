@@ -28,10 +28,10 @@ namespace IntegrationTests
             var onboardingFormDataDTO = await Helper.CreateOnboardingFormDataDTOAsync();
 
             // Act
-            var onbordingEntities = await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None);
+            var onboardingEntities = await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None);
 
             // Assert
-            await EqualValues(onbordingEntities);
+            await EqualValues(onboardingEntities);
         }
 
         [Fact]

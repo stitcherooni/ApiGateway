@@ -14,15 +14,15 @@ namespace APIGatewayMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OnbordingController : BaseController
+    public class OnboardingController : BaseController
     {
         private readonly IOnboardingService _onboardingService;
         private readonly IEmailService _emailService;
-        private readonly ILogger<OnbordingController> _logger;
+        private readonly ILogger<OnboardingController> _logger;
 
-        public OnbordingController(IOnboardingService dataService,
+        public OnboardingController(IOnboardingService dataService,
                                    IEmailService emailService,
-                                   ILogger <OnbordingController>logger
+                                   ILogger <OnboardingController>logger
                                    )
         {
             _onboardingService = dataService;

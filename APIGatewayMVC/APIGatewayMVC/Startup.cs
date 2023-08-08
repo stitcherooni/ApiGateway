@@ -61,8 +61,8 @@ namespace APIGatewayMVC
             services.AddScoped<IUpdateService, UpdateService>();
 
             var serviceProvider = services.BuildServiceProvider();
-            var logger = serviceProvider.GetService<ILogger<OnbordingController>>();
-            services.AddSingleton(typeof(ILogger<OnbordingController>), logger);
+            var logger = serviceProvider.GetService<ILogger<OnboardingController>>();
+            services.AddSingleton(typeof(ILogger<OnboardingController>), logger);
             services.Configure<BlobSettings>(configuration.GetSection("BlobSettings"));
 
             services.AddAutoMapper();
