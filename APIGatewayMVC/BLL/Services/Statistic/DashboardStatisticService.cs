@@ -7,6 +7,7 @@ using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.Sale;
@@ -178,7 +179,28 @@ namespace BLL.Services.Statistic
             var response = await ReportingDataGenerator.GetMonthlyCustomersRegistration(cancellationToken, page, pageSize);
             return response;
         }
+        public async Task<OrganisationDataResponse> OrganisationData(OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken)
+        {
+            var response = await ReportingDataGenerator.GetOrganisationDataResponse(cancellationToken);
+            return response;
+        }
 
+        public IEnumerable<PaymentMethods> GetPaymentMethods()
+        {
+            var methods = new List<PaymentMethods>();
+            var idsList = _paymentMethodRepository.FindBy(x => x.PaymentMethodId != null);
+            var result = new List<PaymentMethods>();
+            foreach (var item in idsList)
+            {
+                result.Add(new PaymentMethods
+                {
+                    Id = item.PaymentMethodId,
+                    Name = item.PaymentMethodName
+                });
+            }
+            return result;
+
+        }
         public async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);

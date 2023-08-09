@@ -8,6 +8,7 @@ using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Sales;
@@ -330,6 +331,20 @@ namespace BLL.FooGenerator
             return response;
         }
 
+        public static async Task<OrganisationDataResponse> GetOrganisationDataResponse(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            var response = new OrganisationDataResponse
+            {
+                Logo = rnd.Next(1, 100) + "-Logo",
+                Email = rnd.Next(1, 100) + "@email.com",
+                Facebook = rnd.Next(1, 100) + ".facebook.com",
+                Location = GetReports.GetLocation(cancellationToken),
+                RegistrationNo = rnd.Next(1000000, 10000000)
+            };
+            return response;
+        }
+
         public static async Task<CommonLiveSales> GetCommonLiveSales(CancellationToken cancellationToken, int page, int pageSize)
         {
 
@@ -365,7 +380,7 @@ namespace BLL.FooGenerator
 
         public static async Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize)
         {
-            var monthList = await GetReports.GetMonthYearListUntilToday();
+            var monthList = GetReports.GetMonthYearListUntilToday();
             var resultMonthlyCustomersRegistrations = GetReports.GetListMonthlyCustomersRegistrations(monthList, cancellationToken);
             var resultMonthlyOrders = GetReports.GetListMonthlyOrder(monthList, cancellationToken);
 
@@ -392,7 +407,7 @@ namespace BLL.FooGenerator
 
         public static async Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize)
         {
-            var monthList = await GetReports.GetMonthYearListUntilToday();
+            var monthList = GetReports.GetMonthYearListUntilToday();
             var resultMonthlyOrders = GetReports.GetListMonthlyOrder(monthList, cancellationToken);
             var resultMonthlyCustomersRegistrations = GetReports.GetListMonthlyCustomersRegistrations(monthList, cancellationToken);
 

@@ -7,6 +7,7 @@ using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.Sale;
@@ -41,6 +42,8 @@ namespace BLL.Services.Statistic
         public Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize);
         public Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize);
         public Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<OrganisationDataResponse> OrganisationData(OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken);
         public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public IEnumerable<PaymentMethods> GetPaymentMethods();
     }
 }

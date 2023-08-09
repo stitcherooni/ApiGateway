@@ -17,6 +17,7 @@ using BLL.DTO.Sorting.EventFilters;
 using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Statistic.Reports;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Searching.Customer;
 using BLL.DTO.Statistic.Searching.EmailTracker;
 using BLL.DTO.Statistic.Searching.OnlyBookings;
@@ -231,19 +232,20 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
-        [Route("lastorders")]
-        public async Task<IActionResult> GetLastOrders(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        [Route("organisationdata")]
+        public async Task<IActionResult> GetOrganisationData([FromQuery] OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _dashboardStatisticService.GetLastOrders(cancellationToken, page, pageSize);
+                var result = await _dashboardStatisticService.OrganisationData(organisationDataRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Last Orders data"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Organisation data"));
             }
         }
+
         #endregion
 
         #region Blobs

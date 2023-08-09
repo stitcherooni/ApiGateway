@@ -8,6 +8,7 @@ using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Sales;
@@ -177,7 +178,20 @@ namespace BLL.FooGenerator
             return (GetProduct(), tempSalesDats.Data);
         }
 
-        public static async Task<IList<string>> GetMonthYearListUntilToday()
+        public static Location GetLocation(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            return new Location
+            {
+                OrganisationName = rnd.Next(1, 100) + "-OrganisationName",
+                Street = rnd.Next(1, 100) + " street",
+                Town = rnd.Next(1, 100) + "-Town",
+                County = rnd.Next(1, 100) + "-County",
+                PostCode = rnd.Next(1000000, 10000000).ToString()
+            };
+        }
+
+        public static IList<string> GetMonthYearListUntilToday()
         {
             Random random = new Random();
             var months = new List<string>(){
