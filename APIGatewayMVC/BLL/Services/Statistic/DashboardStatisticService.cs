@@ -1,34 +1,33 @@
-﻿using BLL.DTO.Statistic;
-using BLL.DTO.Statistic.Reports.Banked;
+﻿using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
-using BLL.DTO.Statistic.Reports.Dashboard;
 using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
-using BLL.DTO.Statistic.Reports.Sales;
+using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
 using BLL.DTO.Statistic.Reports.Volunteer;
+using BLL.DTO.Statistic.Searching.Sale;
+using BLL.DTO.Statistic.Searching.Sales;
 using BLL.FooGenerator;
 using DAL.Repository.DBRepository;
-using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace BLL.Services.Statistic
 {
     public class DashboardStatisticService : IDashboardStatisticService
     {
-        private readonly IRepository<TblPaymentMethod> _paybentMethodRepository;
+        private readonly IRepository<TblPaymentMethod> _paymentMethodRepository;
 
         public DashboardStatisticService(IRepository<TblPaymentMethod> paybentMethodRepository)
         {
-            _paybentMethodRepository = paybentMethodRepository;
+            _paymentMethodRepository = paybentMethodRepository;
         }
 
         public async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize)
@@ -49,7 +48,7 @@ namespace BLL.Services.Statistic
             return response;
         }
 
-        public async Task<GetSalesReportsResponse> GetSaleReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<SalesDataProps> GetSaleReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await ReportingDataGenerator.GetSaleReport(cancellationToken, page, pageSize);
             return response;
@@ -119,27 +118,42 @@ namespace BLL.Services.Statistic
             return response;
         }
 
-        public async Task<DashboardData> GetDashboardData(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize)
         {
-            var response = await ReportingDataGenerator.GetDashboardData(cancellationToken, page, pageSize);
-            return response;
+
+            if (getSalesReportForProductRequest.Type == nameof(ProductsSoldByDayItem))
+            {
+                return await ReportingDataGenerator.GetProductsSoldByDayItem(cancellationToken, page, pageSize);
+            }
+            else if (getSalesReportForProductRequest.Type == nameof(ProductSoldSchool))
+            {
+                return await ReportingDataGenerator.GetProductSoldSchool(cancellationToken, page, pageSize);
+            }
+            else if (getSalesReportForProductRequest.Type == nameof(ProductOrderCount))
+            {
+                return await ReportingDataGenerator.GetProductOrderCount(cancellationToken, page, pageSize);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid type", nameof(getSalesReportForProductRequest.Type));
+            }
         }
 
-        public IEnumerable<PaymentMethods> GetPaymentMethods()
-        {
-            var methods = new List<PaymentMethods>();
-            var idsList = _paybentMethodRepository.FindBy(x => x.PaymentMethodId != null);
-            var result = new List<PaymentMethods>();
-            foreach (var item in idsList)
+            public IEnumerable<PaymentMethods> GetPaymentMethods()
             {
-                result.Add(new PaymentMethods
+                var methods = new List<PaymentMethods>();
+                var idsList = _paymentMethodRepository.FindBy(x => x.PaymentMethodId != null);
+                var result = new List<PaymentMethods>();
+                foreach (var item in idsList)
                 {
-                    Id = item.PaymentMethodId,
-                    Name = item.PaymentMethodName
-                });
-            }
-            return result;
+                    result.Add(new PaymentMethods
+                    {
+                        Id = item.PaymentMethodId,
+                        Name = item.PaymentMethodName
+                    });
+                }
+                return result;
 
+            }
         }
     }
-}

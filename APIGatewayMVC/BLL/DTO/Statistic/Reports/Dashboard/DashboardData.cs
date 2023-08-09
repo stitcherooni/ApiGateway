@@ -1,24 +1,26 @@
 ﻿namespace BLL.DTO.Statistic.Reports.Dashboard
 {
-    public class DashboardData
-    {
-        public DashboardStatistic Stat { get; set; }
-        public CurrentLiveSales CurrentLiveSales { get; set; }
-        public MonthlyOrders MonthlyOrders { get; set; }
-        public MonthlyCustomersRegistrations MonthlyCustomersRegistrations { get; set; }
-        public IEnumerable<Order> LastOrders { get; set; }
 
+    public class LastOrdersList : PagesInfoDTO
+    {
+        public IEnumerable<Order> Data { get; set; }
+    }
+
+    public class CommonLiveSales
+    {
+        public IEnumerable<KeyValuePair<string, SalesData>> Data { get; set; }
     }
 
     public class CurrentLiveSales : PagesInfoDTO
     {
-        public IEnumerable<KeyValuePair<string, SalesData>> Data { get; set; }
+        public string ProductName { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
     }
 
     public class MonthlyOrders : PagesInfoDTO
     {
         public IEnumerable<MonthlyOrder> Data { get; set; }
-        public int TotqalOrders { get; set; }
+        public int TotalOrders { get; set; }
         public int TotalSales { get; set; }
         public string Currency { get; set; }
     }
@@ -28,18 +30,21 @@
         public IEnumerable<MonthlyCustomersRegistration> Data { get; set; }
         public int TotalRegistrations { get; set; }
     }
-    public class SalesData
+    public class SalesData : PagesInfoDTO
     {
-        public CurrentSales[] Data { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
         public int TotalQuantitySold { get; set; }
         public int TotalQuantityLeft { get; set; }
         public decimal TotalSales { get; set; }
         public string Currency { get; set; }
     }
 
-    public class MonthlyReport
+    public class CurrentSalesData
     {
-        public MonthlyOrders MonthlyOrders { get; set; }
-        public MonthlyCustomersRegistrations MonthlyCustomersRegistrations { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
+        public int TotalQuantitySold { get; set; }
+        public int TotalQuantityLeft { get; set; }
+        public decimal TotalSales { get; set; }
+        public string Currency { get; set; }
     }
 }

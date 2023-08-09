@@ -1,6 +1,4 @@
-﻿using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
-
-namespace BLL.DTO.Sorting.BookingFilters
+﻿namespace BLL.DTO.Sorting.BookingFilters
 {
     public class GetChildBookingsFilters
     {

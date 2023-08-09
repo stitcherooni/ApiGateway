@@ -1,5 +1,4 @@
-﻿using BLL.DTO;
-using BLL.DTO.Organization;
+﻿using BLL.DTO.Organization;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;

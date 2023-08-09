@@ -2,7 +2,7 @@
 using BLL.DTO.Statistic.Reports.Customers;
 using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Order;
-using BLL.DTO.Statistic.Reports.Sale;
+using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Searching.Customer;
@@ -23,6 +23,6 @@ namespace BLL.Services.SearchingService
         public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(SearchEmailTrackerReportRequest emailTrackerReportRequest, CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(SearchChildOnlyBookingsRequest searchChildOnlyBookingsRequest, CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetTicketsReportsResponse> GetTicketReport(SearchTicketsRequest searchTicketsRequest, CancellationToken cancellationToken, int page, int pageSize);
-        public Task<SaleDTO> GetSalesReport(SalesReportRequest salesReportRequest, CancellationToken cancellationToken);
+        public Task<GetSalesReportsResponse> GetSalesReport(SalesReportRequest salesReportRequest, CancellationToken cancellationToken, int page, int pageSize);
     }
 }

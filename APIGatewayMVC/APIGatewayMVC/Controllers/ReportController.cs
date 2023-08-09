@@ -21,6 +21,7 @@ using BLL.DTO.Statistic.Searching.Customer;
 using BLL.DTO.Statistic.Searching.EmailTracker;
 using BLL.DTO.Statistic.Searching.OnlyBookings;
 using BLL.DTO.Statistic.Searching.Order;
+using BLL.DTO.Statistic.Searching.Sale;
 using BLL.DTO.Statistic.Searching.Sales;
 using BLL.DTO.Statistic.Searching.Ticket;
 using BLL.DTO.Statistic.Searching.TreasurerByDate;
@@ -41,7 +42,7 @@ namespace APIGatewayMVC.Controllers
     [Route("api/[controller]")]
     public class ReportController : BaseController
     {
-        private readonly IDashboardStatisticService _dashbardStatisticService;
+        private readonly IDashboardStatisticService _dashboardStatisticService;
         private readonly IBlobService _blobService;
         private readonly ISearchingService _searchingService;
         private readonly ISortingService _sortingService;
@@ -53,7 +54,7 @@ namespace APIGatewayMVC.Controllers
                                 ISortingService sortingService,
                                 IUpdateService updateService)
         {
-            _dashbardStatisticService = dashboardStatisticService;
+            _dashboardStatisticService = dashboardStatisticService;
             _blobService = blobService;
             _searchingService = searchingService;
             _sortingService = sortingService;
@@ -70,77 +71,77 @@ namespace APIGatewayMVC.Controllers
                 {
                     case nameof(ReportTypes.mi_wizard):
                         {
-                            var response = await _dashbardStatisticService.GetMi_WizardReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetMi_WizardReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.customers):
                         {
-                            var response = await _dashbardStatisticService.GetCustomerReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetCustomerReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.orders):
                         {
-                            var response = await _dashbardStatisticService.GetOrderReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetOrderReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.sales):
                         {
-                            var response = await _dashbardStatisticService.GetSaleReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetSaleReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.tickets):
                         {
-                            var response = await _dashbardStatisticService.GetTicketReport(cancellationToken, page, pageSize);
-                            return Ok(response);
+                            var response = await _dashboardStatisticService.GetTicketReport(cancellationToken, page, pageSize);
+                            return Ok(response);    
                         }
                     case nameof(ReportTypes.volunteers):
                         {
-                            var response = await _dashbardStatisticService.GetVolunteerReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetVolunteerReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.bookings):
                         {
-                            var response = await _dashbardStatisticService.GetBookingReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetBookingReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.product_questionhorizontal):
                         {
-                            var response = await _dashbardStatisticService.GetProductQuestionHorizontalReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetProductQuestionHorizontalReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.product_questionvertical):
                         {
-                            var response = await _dashbardStatisticService.GetProductQuestionVerticalReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetProductQuestionVerticalReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.invoices):
                         {
-                            var response = await _dashbardStatisticService.GetInvoiceReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetInvoiceReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.treasurer_by_date):
                         {
-                            var response = await _dashbardStatisticService.GetTreasurerByDateReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetTreasurerByDateReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.treasurer_by_event):
                         {
-                            var response = await _dashbardStatisticService.GetTreasurerByEventReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetTreasurerByEventReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.banked):
                         {
-                            var response = await _dashbardStatisticService.GetBankedTransactionReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetBankedTransactionReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.child_only_bookings):
                         {
-                            var response = await _dashbardStatisticService.GetChildOnlyBookingReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetChildOnlyBookingReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
                     case nameof(ReportTypes.email_tracker):
                         {
-                            var response = await _dashbardStatisticService.GetEmailTrackerReport(cancellationToken, page, pageSize);
+                            var response = await _dashboardStatisticService.GetEmailTrackerReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
 
@@ -153,19 +154,18 @@ namespace APIGatewayMVC.Controllers
             }
         }
 
-
         [HttpGet]
-        [Route("dashboarddata")]
-        public async Task<IActionResult> GetDashboardData(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        [Route("currentsales")]
+        public async Task<IActionResult> GetCurrentSalesReport([FromQuery] GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try
             {
-                var result = await _dashbardStatisticService.GetDashboardData(cancellationToken, page, pageSize);
+                var result = await _dashboardStatisticService.GetCurrentSalesReport(getSalesReportForProductRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Dashboard data"));
+                return BadRequest(GenerateErrorMessage(ex, $"Can't generate report for current sales type"));
             }
         }
 
@@ -175,7 +175,7 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
-                var result =  _dashbardStatisticService.GetPaymentMethods();
+                var result =  _dashboardStatisticService.GetPaymentMethods();
                 return Task.FromResult<IActionResult>(Ok(result));
             }
             catch (Exception ex)
@@ -582,11 +582,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("sales")]
-        public async Task<IActionResult> GtSales([FromQuery] SalesReportRequest salesReportRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GtSales([FromQuery] SalesReportRequest salesReportRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try
             {
-                var response = await _searchingService.GetSalesReport(salesReportRequest, cancellationToken);
+                var response = await _searchingService.GetSalesReport(salesReportRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -721,7 +721,7 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
-        [Route("sortrroductquestions")]
+        [Route("sortproductquestions")]
         public async Task<IActionResult> SortProductQuestions([FromQuery] SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try

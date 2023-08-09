@@ -10,6 +10,7 @@ using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.Sale;
+using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
@@ -39,22 +40,13 @@ namespace BLL.FooGenerator
             }
             return result;
         }
+
         public static async Task<IList<OrderDTO>> OrderReport(CancellationToken cancellationToken)
         {
             var result = new List<OrderDTO>();
             for (int i = 1; i <= 50; i++)
             {
                 result.Add(GetOrder(i));
-            }
-            return result;
-        }
-
-        public static async Task<IList<SaleDTO>> SaleReport(CancellationToken cancellationToken)
-        {
-            var result = new List<SaleDTO>();
-            for (int i = 1; i <= 50; i++)
-            {
-                result.Add(GetSalesResponse(cancellationToken));
             }
             return result;
         }
@@ -118,6 +110,7 @@ namespace BLL.FooGenerator
             }
             return result;
         }
+
         public static async Task<IList<TreasurerByEventDTO>> TreasurerByEventReport(CancellationToken cancellationToken)
         {
             var result = new List<TreasurerByEventDTO>();
@@ -127,6 +120,7 @@ namespace BLL.FooGenerator
             }
             return result;
         }
+
         public static async Task<IList<TreasurerByDateDTO>> TreasurerByDateReport(CancellationToken cancellationToken)
         {
             var result = new List<TreasurerByDateDTO>();
@@ -167,95 +161,23 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<IEnumerable<Order>> GetOrderList(CancellationToken cancellationToken)
-        {
-            List<Order> result = new();
-
-            result.Add(GetOrder(cancellationToken));
-
-            return result;
-        }
-
-        public static SaleDTO GetSalesResponse(CancellationToken cancellationToken)
-        {
-            return new SaleDTO()
-            {
-                TotalSales = 10,
-                AvgSalesValue = 15,
-                TotalSalesValue = 12,
-                PlatformBookingFees = 18,
-                Data = GetDataDTO(cancellationToken)
-            };
-        }
-
-        public static DashboardStatistic GetDashboardStatistic(CancellationToken cancellationToken)
-        {
-            Random rnd = new Random();
-            return new DashboardStatistic()
-            {
-                Sales = rnd.Next(0, 100),
-                Orders = rnd.Next(0, 100),
-                AvgOrderValue = rnd.Next(0, 100),
-                Customers = rnd.Next(0, 100),
-                Events = rnd.Next(0, 100),
-                Products = rnd.Next(0, 100),
-                Sponsors = rnd.Next(0, 100),
-                BusinessDirectory = rnd.Next(0, 100),
-            };
-        }
-
-        public static IDictionary<string, SalesData> GetCurrentLiveSalesDictionary(CancellationToken cancellationToken)
+        public static async Task<IDictionary<string, SalesData>> GetCommonLiveSalesDictionary(CancellationToken cancellationToken, int page, int pageSize)
         {
             return new Dictionary<string, SalesData>()
             {
-                {"School Uniform COPY",  GetSalesData(cancellationToken)},
-                { "Second Hand Uniform",  GetSalesData(cancellationToken)},
-                { "Advertising",  GetSalesData(cancellationToken)}
+                {"School Uniform COPY",  GetSalesData(cancellationToken, page, pageSize)},
+                { "Second Hand Uniform",  GetSalesData(cancellationToken, page, pageSize)},
+                { "Advertising",  GetSalesData(cancellationToken, page, pageSize)}
             };
         }
 
-        public static async Task<MonthlyReport> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<(string, IEnumerable<CurrentSales>)> GetCurrentLiveSalesDictionary(CancellationToken cancellationToken, int page, int pageSize)
         {
-            var monthList = GetMonthYearListUntilToday();
-            int skipCount = (page - 1) * pageSize;
-
-            var resultMonthlyOrders = GetListMonthlyOrder(monthList, cancellationToken);
-
-            var totalCount = resultMonthlyOrders.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResultMonthlyOrders = resultMonthlyOrders.Skip(skipCount).Take(pageSize);
-
-            var resultMonthlyCustomersRegistrations = GetListMonthlyCustomersRegistrations(monthList, cancellationToken);
-
-            var paginatedResultMonthlyCustomersRegistrations = resultMonthlyCustomersRegistrations.Skip(skipCount).Take(pageSize);
-
-            var responseMonthlyOrders = new MonthlyOrders
-            {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResultMonthlyOrders
-            };
-
-            var responseMonthlyCustomersRegistrations = new MonthlyCustomersRegistrations
-            {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResultMonthlyCustomersRegistrations
-            };
-
-            return new MonthlyReport { MonthlyOrders = responseMonthlyOrders, MonthlyCustomersRegistrations = responseMonthlyCustomersRegistrations };
+            var tempSalesDats = GetCurrentSalesData(cancellationToken, page, pageSize);
+            return (GetProduct(), tempSalesDats.Data);
         }
 
-
-
-        #region Private methods
-
-        private static IList<string> GetMonthYearListUntilToday()
+        public static async Task<IList<string>> GetMonthYearListUntilToday()
         {
             Random random = new Random();
             var months = new List<string>(){
@@ -288,26 +210,158 @@ namespace BLL.FooGenerator
             return values;
         }
 
+        public static IEnumerable<MonthlyOrder> GetListMonthlyOrder(IList<string> monthList, CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<MonthlyOrder> result = new();
+            for (int i = 0; i < monthList.Count; i++)
+            {
+                result.Add(new MonthlyOrder
+                {
+                    OrderId = i,
+                    Month = monthList[i],
+                    Orders = rnd.Next(0, 50),
+                    Sales = rnd.Next(0, 50),
+                    Currency = "GBP"
+                });
+            }
+            return result;
+        }
+
+        public static MonthlyCustomersRegistration[] GetListMonthlyCustomersRegistrations(IList<string> monthList, CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            MonthlyCustomersRegistration[] result = new MonthlyCustomersRegistration[monthList.Count];
+            for (int i = 0; i < monthList.Count; i++)
+            {
+                result[i] = new MonthlyCustomersRegistration
+                {
+                    Month = monthList[i],
+                    Registrations = rnd.Next(0, 50),
+                };
+            }
+            return result;
+        }
+
+        public static async Task<IEnumerable<Order>> GetOrderList(CancellationToken cancellationToken)
+        {
+            List<Order> result = new();
+            Random rnd = new Random();
+            int count = rnd.Next(0, 50);
+            for (int i = 1; i <= count; i++)
+            {
+                result.Add(GetOrder(cancellationToken));
+            }
+            return result;
+        }
+
+        public static IEnumerable<Questions> GetQuestions(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            int count = rnd.Next(1, 10);
+
+            List<Questions> result = new List<Questions>();
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(CreateQuestions(i));
+            }
+            return result;
+        }
+
+        public static SalesDataProps GetSalesDataProps(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var result = new SalesDataProps()
+            {
+                TotalSales = GetTotalSale(cancellationToken, page, pageSize),
+                TotalSoldByDay = GetTotalSoldByDay(cancellationToken, page, pageSize),
+                ProductsSoldByDay = new Dictionary<string, ProductsSoldByDayItem>
+                {
+                    { "soldProduct", GetProductsSoldByDayItem(cancellationToken, page, pageSize)}
+                },
+                ProductsSoldBySchool = new Dictionary<string, ProductSoldSchool>
+                {
+                    {"SoldBySchool", GetProductSoldSchool(cancellationToken, page, pageSize)
+                    }
+                },
+                ProductOrderCount = new Dictionary<string, ProductOrderCount>
+                {
+                    {"OrderCount", GetProductOrderCount(cancellationToken, page, pageSize) }
+                }
+            };
+
+            return result;
+        }
+
+        public static async Task<GetSalesReportsResponse> GetSalesResponse(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            return new GetSalesReportsResponse()
+            {
+                TotalSales = 10,
+                AvgSalesValue = 15,
+                TotalSalesValue = 12,
+                PlatformBookingFees = 18,
+                Data = GetSalesDataProps(cancellationToken, page, pageSize)
+            };
+        }
+
+
+        #region Private methods
+
+        private static string GetProduct()
+        {
+            string[] product = { "School Uniform COPY", "Second Hand Uniform", "Advertising" };
+            Random random = new Random();
+            int randomIndex = random.Next(product.Length);
+            return product[randomIndex];
+        }
+
         private static CurrentSales[] CurrentSalesArray(CancellationToken cancellationToken)
         {
-            CurrentSales[] result = new CurrentSales[10];
-            for (int i = 0; i < 10; i++)
+            Random rnd = new Random();
+            int count = rnd.Next(1, 50);
+            CurrentSales[] result = new CurrentSales[count];
+            for (int i = 0; i < count; i++)
             {
                 result[i] = GeCurrentSales();
             }
             return result;
         }
 
-
-
-
-        private static SalesData GetSalesData(CancellationToken cancellationToken)
+        private static SalesData GetSalesData(CancellationToken cancellationToken, int page, int pageSize)
         {
+            int skipCount = (page - 1) * pageSize;
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
             var day = rnd.Next(1, 28);
             var salesData = CurrentSalesArray(cancellationToken);
+
+            var totalCount = salesData.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = salesData.Skip(skipCount).Take(pageSize);
+
             return new SalesData()
+            {
+                Data = paginatedResult,
+                TotalQuantitySold = salesData.Sum(x => x.QuantitySold),
+                TotalQuantityLeft = salesData.Sum(x => x.QuantityLeft),
+                TotalSales = salesData.Sum(x => x.Sales),
+                Currency = "GBP",
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        private static CurrentSalesData GetCurrentSalesData(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            int skipCount = (page - 1) * pageSize;
+            Random rnd = new Random();
+            var month = rnd.Next(1, 12);
+            var day = rnd.Next(1, 28);
+            var salesData = CurrentSalesArray(cancellationToken);
+
+            return new CurrentSalesData()
             {
                 Data = salesData,
                 TotalQuantitySold = salesData.Sum(x => x.QuantitySold),
@@ -325,6 +379,9 @@ namespace BLL.FooGenerator
             var randomday = rnd.Next(1, 15);
             return new CurrentSales()
             {
+                EventId = rnd.Next(1, 115),
+                ProductId = rnd.Next(1, 200
+                ),
                 Name = rnd.Next(0, 50).ToString() + "name",
                 Type = rnd.Next(0, 50).ToString() + "type",
                 StartDate = new DateTime(2022, month, day),
@@ -514,7 +571,8 @@ namespace BLL.FooGenerator
 
             return new ProductQuestionHorizontalDTO()
             {
-                OrderId = id,
+                Num = id,
+                OrderId = rnd.Next(0, 50),
                 BookingName = rnd.Next(0, 50).ToString() + "name",
                 ClassName = rnd.Next(0, 50).ToString() + "name",
                 Email = rnd.Next(0, 60).ToString() + "@email.com",
@@ -732,110 +790,6 @@ namespace BLL.FooGenerator
             };
         }
 
-        private static DataDTO GetDataDTO(CancellationToken cancellationToken)
-        {
-            Random rnd = new Random();
-            var month = rnd.Next(1, 12);
-            var day = rnd.Next(1, 28);
-
-            var result = new DataDTO()
-            {
-                TotalSales = new TotalSales()
-                {
-                    ProductPercentage = new Dictionary<string, int>() { { "product1", 20 } },
-                    TotalSalesDTO = new TotalSalesDTO()
-                    {
-                        Product = "product1",
-                        Quantity = 20,
-                        TargetQuantity = 25,
-                        Difference = 5,
-                        Attaintment = 15,
-                        TotalSales = 30,
-                        Currency = "GBP"
-                    },
-                },
-                TotalSoldByDay = new TotalSoldByDayDTO()
-                {
-                    Date = new DateTime(2022, month, day),
-                    Quantity = 30,
-                    QuantityToDate = 40,
-                    TotalSales = 20,
-                    SalesToDate = 17,
-                    Currency = "GBP"
-                },
-                ProductsSoldByDay = new Dictionary<string, ProductSoldByDayDTO>
-                {
-                    { "soldProduct", new ProductSoldByDayDTO()
-                                            {
-                                                Date = new DateTime(2022, month, day),
-                                                Percentage=rnd.Next(1,30),
-                                                Quantity=rnd.Next(1,30),
-                                                QuantityToDate=rnd.Next(1,30)-5,
-                                                TotalSales=rnd.Next(1,30),
-                                                ToDate=rnd.Next(1,30),
-                                                Currency = "GBP"
-                                            }
-                    }
-                },
-                ProductsSoldBySchool = new Dictionary<string, ProductsSoldBySchoolDTO>
-                {
-                    {"SoldBySchool", new ProductsSoldBySchoolDTO()
-                                            {
-                                                SchoolName="someName",
-                                                Percentage = rnd.Next(1,30),
-                                                Quantity=rnd.Next(1,30),
-                                                TotalSales=rnd.Next(1,30),
-                                                Currency = "GBP"
-                                            }
-                    }
-                },
-                ProductOrderCount = new Dictionary<string, ProductOrderCountDTO>
-                {
-                    {"OrderCount", new ProductOrderCountDTO()
-                                            {
-                                                Percentage = rnd.Next(1, 30),
-                                                NoOfOrder = rnd.Next(1, 30),
-                                                ProductCount = rnd.Next(1, 30)
-                                            }
-                    }
-                }
-            };
-
-            return result;
-        }
-
-        private static IEnumerable<MonthlyOrder> GetListMonthlyOrder(IList<string> monthList, CancellationToken cancellationToken)
-        {
-            Random rnd = new Random();
-            List<MonthlyOrder> result = new();
-            for (int i = 0; i < monthList.Count; i++)
-            {
-                result.Add(new MonthlyOrder
-                {
-                    Month = monthList[i],
-                    Orders = rnd.Next(0, 50),
-                    Sales = rnd.Next(0, 50),
-                    Currency = "GBP"
-                });
-            }
-            return result;
-        }
-
-        private static MonthlyCustomersRegistration[] GetListMonthlyCustomersRegistrations(IList<string> monthList, CancellationToken cancellationToken)
-        {
-            Random rnd = new Random();
-            MonthlyCustomersRegistration[] result = new MonthlyCustomersRegistration[monthList.Count];
-            for (int i = 0; i < monthList.Count; i++)
-            {
-                result[i] = new MonthlyCustomersRegistration
-                {
-                    Month = monthList[i],
-                    Registations = rnd.Next(0, 50),
-                };
-            }
-            return result;
-        }
-
         private static Order GetOrder(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
@@ -849,6 +803,263 @@ namespace BLL.FooGenerator
                 CustomerId = rnd.Next(0, 100),
                 Value = rnd.Next(0, 100),
                 Currency = "GBP"
+            };
+        }
+
+        private static Questions CreateQuestions(int id)
+        {
+            Random rnd = new Random();
+            return new Questions()
+            {
+                QuestionId = id,
+                Question = rnd.Next().ToString()
+            };
+        }
+
+        private static TotalSales GetTotalSale(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            Random rnd = new Random();
+            var result = GetTotalSaleDTOList(cancellationToken);
+
+            int skipCount = (page - 1) * pageSize;
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+
+            return new TotalSales()
+            {
+                ProductPercentage = new Dictionary<string, int>() { { "product" + rnd.Next(0, 100).ToString(), rnd.Next(0, 100) } },
+                Sales = paginatedResult,
+                TotalQuantity = rnd.Next(0, 100),
+                TotalSold = rnd.Next(0, 100),
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        private static TotalSoldByDayDTO GetTotalSoldByDay(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            Random rnd = new Random();
+            var result = GetTotalSoldByDayItemList(cancellationToken);
+
+            int skipCount = (page - 1) * pageSize;
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+
+            return new TotalSoldByDayDTO()
+            {
+                Data = paginatedResult,
+                TotalQuantity = result.Sum(x => x.Quantity),
+                TotalQuantityToDate = result.Sum(x => x.QuantityToDate),
+                TotalSales = result.Sum(x => x.TotalSales),
+                TotalSalesToDate = result.Sum(x => x.ToDate),
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        public static ProductsSoldByDayItem GetProductsSoldByDayItem(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            Random rnd = new Random();
+            var result = GetSoldByDayProductList(cancellationToken);
+
+            int skipCount = (page - 1) * pageSize;
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+            return new ProductsSoldByDayItem()
+            {
+                Data = paginatedResult,
+                TotalPercentage = result.Sum(x => x.Percentage),
+                TotalQuantity = result.Sum(x => x.Quantity),
+                TotalQuantityToDate = result.Sum(x => x.QuantityToDate),
+                TotalSales = result.Sum(x => x.TotalSales),
+                TotalToDate = result.Sum(x => x.ToDate),
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        public static ProductSoldSchool GetProductSoldSchool(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            Random rnd = new Random();
+            var result = GetProductSoldSchoolItemList(cancellationToken);
+
+            int skipCount = (page - 1) * pageSize;
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+            return new ProductSoldSchool()
+            {
+                Data = paginatedResult,
+                TotalPercentage = result.Sum(x => x.Percentage),
+                TotalQuantity = result.Sum(x => x.Quantity),
+                TotalSales = result.Sum(x => x.TotalSales),
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        public static ProductOrderCount GetProductOrderCount(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            Random rnd = new Random();
+            var result = GetProductOrderCountItemList(cancellationToken);
+
+            int skipCount = (page - 1) * pageSize;
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+            return new ProductOrderCount()
+            {
+                Data = paginatedResult,
+                TotalPercentage = result.Sum(x => x.Percentage),
+                TotalOrder = result.Sum(x => x.NoOfOrder),
+                TotalProductCount = result.Sum(x => x.ProductCount),
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+            };
+        }
+
+        private static IEnumerable<TotalSalesItem> GetTotalSaleDTOList(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<TotalSalesItem> result = new();
+            int count = rnd.Next(0, 50);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetTotalSaleDTO(i));
+            }
+            return result;
+        }
+
+        private static IEnumerable<TotalSoldByDayItem> GetTotalSoldByDayItemList(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<TotalSoldByDayItem> result = new();
+            int count = rnd.Next(0, 50);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetTotalSoldByDayItem(i));
+            }
+            return result;
+        }
+
+        private static IEnumerable<SoldByDayProduct> GetSoldByDayProductList(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<SoldByDayProduct> result = new();
+            int count = rnd.Next(0, 50);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetSoldByDayProduct(i));
+            }
+            return result;
+        }
+
+        private static IEnumerable<ProductSoldSchoolItem> GetProductSoldSchoolItemList(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<ProductSoldSchoolItem> result = new();
+            int count = rnd.Next(0, 50);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetProductSoldSchoolItem(i));
+            }
+            return result;
+        }
+
+        private static IEnumerable<ProductOrderCountItem> GetProductOrderCountItemList(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            List<ProductOrderCountItem> result = new();
+            int count = rnd.Next(0, 50);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetProductOrderCountItem());
+            }
+            return result;
+        }
+
+        private static TotalSalesItem GetTotalSaleDTO(int id)
+        {
+            Random rnd = new Random();
+            return new TotalSalesItem
+            {
+                Num = id,
+                Product = rnd.Next(0, 100).ToString() + "-productName",
+                Quantity = rnd.Next(0, 100),
+                TargetQuantity = rnd.Next(0, 100),
+                Difference = rnd.Next(0, 100),
+                Attainment = rnd.Next(0, 100),
+                TotalSales = rnd.Next(0, 100)
+            };
+        }
+
+        private static TotalSoldByDayItem GetTotalSoldByDayItem(int id)
+        {
+            Random rnd = new Random();
+            var month = rnd.Next(1, 12);
+            var day = rnd.Next(1, 28);
+            return new TotalSoldByDayItem
+            {
+                Num = id,
+                Date = new DateTime(2022, month, day),
+                Percentage = rnd.Next(0, 100),
+                Quantity = rnd.Next(0, 100),
+                QuantityToDate = rnd.Next(0, 100),
+                TotalSales = rnd.Next(0, 100),
+                ToDate = rnd.Next(0, 100)
+            };
+        }
+
+        private static SoldByDayProduct GetSoldByDayProduct(int id)
+        {
+            Random rnd = new Random();
+            var month = rnd.Next(1, 12);
+            var day = rnd.Next(1, 28);
+            return new SoldByDayProduct
+            {
+                Num = id,
+                Date = new DateTime(2022, month, day),
+                Percentage = rnd.Next(0, 100),
+                Quantity = rnd.Next(0, 100),
+                QuantityToDate = rnd.Next(0, 100),
+                TotalSales = rnd.Next(0, 100),
+                ToDate = rnd.Next(0, 100)
+            };
+        }
+
+        private static ProductSoldSchoolItem GetProductSoldSchoolItem(int id)
+        {
+            Random rnd = new Random();
+            return new ProductSoldSchoolItem
+            {
+                Num = id,
+                SchoolName = rnd.Next(0, 100).ToString() + "-name",
+                Percentage = rnd.Next(0, 100),
+                Quantity = rnd.Next(0, 100),
+                TotalSales = rnd.Next(0, 100)
+            };
+        }
+        private static ProductOrderCountItem GetProductOrderCountItem()
+        {
+            Random rnd = new Random();
+            return new ProductOrderCountItem
+            {
+                Percentage = rnd.Next(0, 100),
+                NoOfOrder = rnd.Next(0, 100),
+                ProductCount = rnd.Next(0, 100)
             };
         }
         #endregion

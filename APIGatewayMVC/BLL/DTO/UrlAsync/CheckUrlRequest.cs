@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BLL.DTO.UrlAsync
+﻿namespace BLL.DTO.UrlAsync
 {
     public class CheckUrlRequest
     {

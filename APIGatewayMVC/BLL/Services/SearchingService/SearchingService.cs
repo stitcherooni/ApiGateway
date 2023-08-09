@@ -2,7 +2,7 @@
 using BLL.DTO.Statistic.Reports.Customers;
 using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Order;
-using BLL.DTO.Statistic.Reports.Sale;
+using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Searching.Customer;
@@ -54,9 +54,9 @@ namespace BLL.Services.SearchingService
             return response;
         }
 
-        public async Task<SaleDTO> GetSalesReport(SalesReportRequest salesReportRequest, CancellationToken cancellationToken)
+        public async Task<GetSalesReportsResponse> GetSalesReport(SalesReportRequest salesReportRequest, CancellationToken cancellationToken, int page, int pageSize)
         {
-            var response = await ReportingDataGenerator.GetSalesReport(cancellationToken);
+            var response = await ReportingDataGenerator.GetSalesReport(cancellationToken, page, pageSize);
             return response;
         }
     }
