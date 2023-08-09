@@ -1,4 +1,5 @@
-﻿using BLL.DTO.Organization;
+﻿using BLL.DTO;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
@@ -59,15 +60,15 @@ namespace APIGatewayMVC.Controllers
 
         [HttpPost]
         [Route("organisation")]
-        public async Task<IActionResult> Organization([FromBody] OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Organisation([FromBody] OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
         {
             try
             {
                 onboardingFormDataDTO.SchoolBrandingDetails.Url = onboardingFormDataDTO.SchoolBrandingDetails.Url.ToLower();
                 if (await _onboardingService.IsUrlFree(onboardingFormDataDTO.SchoolBrandingDetails.Url, cancellationToken))
                 {
-                    await _onboardingService.OnboardOrganization(onboardingFormDataDTO, cancellationToken);
-                    _logger.LogInformation("Organization onboarded successfully");
+                    await _onboardingService.OnboardOrganisation(onboardingFormDataDTO, cancellationToken);
+                    _logger.LogInformation("Organisation onboarded successfully");
                 }
                 else
                     throw new Exception($"Organisation with url {onboardingFormDataDTO.SchoolBrandingDetails.Url} already exist");
@@ -75,11 +76,11 @@ namespace APIGatewayMVC.Controllers
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to onboard organization");
+                _logger.LogError(ex, "Failed to onboard organisation");
                 return BadRequest(GenerateErrorMessage(ex, "Can't add organisation"));
             }
 
-            return Ok(new { Message = "Organization onboarded successfully" });
+            return Ok(new { Message = "Organisation onboarded successfully" });
         }
 
         [HttpPost]

@@ -210,6 +210,18 @@ namespace BLL.FooGenerator
             return values;
         }
 
+        public static async Task<IEnumerable<Order>> GetOrderList(CancellationToken cancellationToken)
+        {
+            List<Order> result = new();
+            Random rnd = new Random();
+            int count = rnd.Next(0, 50);
+            for (int i = 1; i <= count; i++)
+            {
+                result.Add(GetOrder(cancellationToken));
+            }
+            return result;
+        }
+
         public static IEnumerable<MonthlyOrder> GetListMonthlyOrder(IList<string> monthList, CancellationToken cancellationToken)
         {
             Random rnd = new Random();
@@ -239,18 +251,6 @@ namespace BLL.FooGenerator
                     Month = monthList[i],
                     Registrations = rnd.Next(0, 50),
                 };
-            }
-            return result;
-        }
-
-        public static async Task<IEnumerable<Order>> GetOrderList(CancellationToken cancellationToken)
-        {
-            List<Order> result = new();
-            Random rnd = new Random();
-            int count = rnd.Next(0, 50);
-            for (int i = 1; i <= count; i++)
-            {
-                result.Add(GetOrder(cancellationToken));
             }
             return result;
         }
@@ -1062,6 +1062,7 @@ namespace BLL.FooGenerator
                 ProductCount = rnd.Next(0, 100)
             };
         }
+
         #endregion
     }
 }

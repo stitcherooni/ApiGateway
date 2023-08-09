@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.DTO.Organization;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Mapping;
 using BLL.Services.EmailService;

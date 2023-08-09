@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BLL.DTO.Organization
+namespace BLL.DTO.Organisation
 {
     public class AccountDetailsDTO
     {

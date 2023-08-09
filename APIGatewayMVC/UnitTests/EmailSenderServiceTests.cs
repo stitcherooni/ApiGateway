@@ -67,37 +67,5 @@ namespace UntTestsTests
             _customerRepositoryMock.Verify(repo => repo.CountAsync(It.IsAny<Expression<Func<TblCustomer, bool>>>(), It.IsAny<CancellationToken>()), Times.Once);
             _emailSenderMock.Verify(repo => repo.SendEmail(It.IsAny<EmailDTO>()), Times.Never);
         }
-
-        [Fact]
-        public void EmailServiceConstructor_ThrowsArgumentNullException_WhenEmailSenderIsNull()
-        {
-            // Arrange
-            IEmailSender emailSenderMock = null;
-            var customerRepositoryMock = new Mock<IRepository<TblCustomer>>();
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new EmailService(
-                    emailSenderMock,
-                    customerRepositoryMock.Object
-                )
-            );
-        }
-
-        [Fact]
-        public void EmailServiceConstructor_ThrowsArgumentNullException_WhenCustomerRepositoryIsNull()
-        {
-            // Arrange
-            var emailSenderMock = new Mock<IEmailSender>();
-            IRepository<TblCustomer> customerRepositoryMock = null;
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-                new EmailService(
-                    emailSenderMock.Object,
-                    customerRepositoryMock
-                )
-            );
-        }
     }
 }

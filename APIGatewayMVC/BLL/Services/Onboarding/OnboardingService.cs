@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.DTO.Organization;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
@@ -30,7 +30,7 @@ namespace BLL.Services.Onboarding
             _customerRoleRepository = customerRoleRepository;
         }
 
-        public async Task<OnboardingEntities> OnboardOrganization(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
+        public async Task<OnboardingEntities> OnboardOrganisation(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
         {
             string customerEmail;
             OnboardingEntities onboardingEntities;
@@ -84,18 +84,18 @@ namespace BLL.Services.Onboarding
         {
             var urlVariants = new List<string>();
  
-            string nameAcronym = LenghtCheck(GEtAcronym(urlRequest.PtaName).ToLower());
+            string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
 
-            string newName = LenghtCheck(urlRequest.PtaName.Replace(" ", string.Empty).ToLower());
+            string newName = LengthCheck(urlRequest.PtaName.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
             {
                 if (!urlVariants.Contains(newName))
                     urlVariants.Add(newName);
             }
 
-            string townAcronym = LenghtCheck(newName + urlRequest.Town.Replace(" ", string.Empty).ToLower());
+            string townAcronym = LengthCheck(newName + urlRequest.Town.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
             {
                 if (!urlVariants.Contains(townAcronym))
@@ -121,7 +121,7 @@ namespace BLL.Services.Onboarding
             return new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = isolationLevel }, TransactionScopeAsyncFlowOption.Enabled);
         }
 
-        private string LenghtCheck(string text)
+        private static string LengthCheck(string text)
         {
             if (text.Length >= 50)
                 return text.Substring(0, 50);

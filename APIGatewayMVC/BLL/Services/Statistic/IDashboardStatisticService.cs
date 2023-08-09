@@ -2,6 +2,7 @@
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
+using BLL.DTO.Statistic.Reports.Dashboard;
 using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
@@ -34,7 +35,12 @@ namespace BLL.Services.Statistic
         public Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken);
+        public Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page, int pageSize);
+        public Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize);
         public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
-        public IEnumerable<PaymentMethods> GetPaymentMethods();
     }
 }

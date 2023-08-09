@@ -52,5 +52,10 @@ namespace DAL.Repository.DBRepository
             await _dbContext.SaveChangesAsync(cancellationToken);
             return entity;
         }
+
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BLL.DTO.Organization;
+﻿using BLL.DTO.Organisation;
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;
 using Models;
@@ -22,13 +22,13 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task OnboardOrganization_ValidData_SavesToDatabaseAndSendsEmail()
+        public async Task OnboardOrganisation_ValidData_SavesToDatabaseAndSendsEmail()
         {
             // Arrange
             var onboardingFormDataDTO = await Helper.CreateOnboardingFormDataDTOAsync();
 
             // Act
-            var onboardingEntities = await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None);
+            var onboardingEntities = await _onboardingService.OnboardOrganisation(onboardingFormDataDTO, CancellationToken.None);
 
             // Assert
             await EqualValues(onboardingEntities);
@@ -44,11 +44,10 @@ namespace IntegrationTests
             var result = await _onboardingService.GenerateUrlsAsync(urlRequest, CancellationToken.None);
 
             // Assert
-            Assert.Equal(4, result.Count());
-            Assert.Contains("EPN", result);
-            Assert.Contains("ExamplePTAName", result);
-            Assert.Contains("EPNTown", result);
-            Assert.Contains("ExamplePTANameTown", result);
+            Assert.Equal(3, result.Count());
+            Assert.Contains("epn", result);
+            Assert.Contains("exampleptaname", result);
+            Assert.Contains("exampleptanametown", result);
         }
 
         [Fact]

@@ -1,4 +1,4 @@
-﻿namespace BLL.DTO.Organization
+﻿namespace BLL.DTO.Organisation
 {
     public enum Roles
     {

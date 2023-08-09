@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace BLL.DTO.Organization
+namespace BLL.DTO.Organisation
 {
     public class OnboardingFormDataDTO
     {

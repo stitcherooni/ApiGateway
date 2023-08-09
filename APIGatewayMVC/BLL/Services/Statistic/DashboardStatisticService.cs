@@ -2,6 +2,7 @@
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
+using BLL.DTO.Statistic.Reports.Dashboard;
 using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
@@ -25,9 +26,9 @@ namespace BLL.Services.Statistic
     {
         private readonly IRepository<TblPaymentMethod> _paymentMethodRepository;
 
-        public DashboardStatisticService(IRepository<TblPaymentMethod> paybentMethodRepository)
+        public DashboardStatisticService(IRepository<TblPaymentMethod> paymentMethodRepository)
         {
-            _paymentMethodRepository = paybentMethodRepository;
+            _paymentMethodRepository = paymentMethodRepository;
         }
 
         public async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize)
@@ -118,6 +119,21 @@ namespace BLL.Services.Statistic
             return response;
         }
 
+        public async Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken)
+        {
+            var methods = new List<PaymentMethods>();
+            var idsList = await _paymentMethodRepository.GetAllAsync(cancellationToken);
+            var result = new List<PaymentMethods>();
+            foreach (var item in idsList)
+            {
+                result.Add(new PaymentMethods
+                {
+                    Id = item.PaymentMethodId,
+                    Name = item.PaymentMethodName
+                });
+            }
+            return result;
+        }
         public async Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize)
         {
 
@@ -139,21 +155,34 @@ namespace BLL.Services.Statistic
             }
         }
 
-            public IEnumerable<PaymentMethods> GetPaymentMethods()
-            {
-                var methods = new List<PaymentMethods>();
-                var idsList = _paymentMethodRepository.FindBy(x => x.PaymentMethodId != null);
-                var result = new List<PaymentMethods>();
-                foreach (var item in idsList)
-                {
-                    result.Add(new PaymentMethods
-                    {
-                        Id = item.PaymentMethodId,
-                        Name = item.PaymentMethodName
-                    });
-                }
-                return result;
+        public async Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetCommonLiveSales(cancellationToken, page, pageSize);
+            return response;
+        }
 
-            }
+        public async Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetCurrentLiveSales(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public async Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetMonthlyOrders(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public async Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetMonthlyCustomersRegistration(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);
+            return response;
         }
     }
+}

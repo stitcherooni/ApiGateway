@@ -1,4 +1,4 @@
-﻿using BLL.DTO.Organization;
+﻿using BLL.DTO.Organisation;
 using BLL.DTO.Statistic.Reports;
 using System.ComponentModel.DataAnnotations;
 

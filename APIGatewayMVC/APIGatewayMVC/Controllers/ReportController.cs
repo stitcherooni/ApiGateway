@@ -145,7 +145,7 @@ namespace APIGatewayMVC.Controllers
                             return Ok(response);
                         }
 
-                    default: throw new Exception ($"Type {getReportByTabRequest.Type} doesn't exist");
+                    default: throw new Exception($"Type {getReportByTabRequest.Type} doesn't exist");
                 }
             }
             catch (Exception ex)
@@ -154,35 +154,97 @@ namespace APIGatewayMVC.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("currentsales")]
-        public async Task<IActionResult> GetCurrentSalesReport([FromQuery] GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+         [HttpGet]
+        [Route("paymentmethods")]
+        public async Task<IActionResult> GetPaymentMethods(CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _dashboardStatisticService.GetCurrentSalesReport(getSalesReportForProductRequest, cancellationToken, page, pageSize);
+                var result =await  _dashboardStatisticService.GetPaymentMethods(cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, $"Can't generate report for current sales type"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods"));
+            }
+        }
+        
+        #region Dashboard
+        [HttpGet]
+        [Route("commonlivesalesdata")]
+        public async Task<IActionResult> GetCommonLiveSalesData(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.CommonLiveSalesData(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Common Live Sales data"));
             }
         }
 
         [HttpGet]
-        [Route("paymentmethods")]
-        public Task<IActionResult> GetPaymentMethods()
+        [Route("currentlivesalesdata")]
+        public async Task<IActionResult> GetCurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page = 1, int pageSize = 10)
         {
             try
             {
-                var result =  _dashboardStatisticService.GetPaymentMethods();
-                return Task.FromResult<IActionResult>(Ok(result));
+                var result = await _dashboardStatisticService.CurrentLiveSalesData(cancellationToken, productId, page, pageSize);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Task.FromResult<IActionResult>(BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods")));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Current Live Sales data"));
             }
         }
+
+        [HttpGet]
+        [Route("monthlyordersdata")]
+        public async Task<IActionResult> GetMonthlyOrdersData (CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetMonthlyOrders(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Monthly Orders data"));
+            }
+        }
+
+        [HttpGet]
+        [Route("monthlycustomerregistration")]
+        public async Task<IActionResult> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetMonthlyCustomersRegistration(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Monthly Customers Registration data"));
+            }
+        }
+
+        [HttpGet]
+        [Route("lastorders")]
+        public async Task<IActionResult> GetLastOrders(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetLastOrders(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Last Orders data"));
+            }
+        }
+        #endregion
 
         #region Blobs
 
@@ -601,11 +663,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("volunteersfilters")]
-        public async Task<IActionResult> GetVolunteersFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetVolunteersFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.VolunteersFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.VolunteersFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -631,11 +693,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("treasurerbyeventfilters")]
-        public async Task<IActionResult> GetTreasurerByEventFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTreasurerByEventFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.TreasurerByEventFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.TreasurerByEventFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -661,11 +723,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("ticketsfilters")]
-        public async Task<IActionResult> GetTicketFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTicketFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.TicketsFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.TicketsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -691,11 +753,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("salesfilters")]
-        public async Task<IActionResult> GetSalesFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetSalesFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.SalesFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.SalesFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -705,18 +767,18 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
-        [Route("productquestinsfilters")]
-        public async Task<IActionResult> GetProductQuestinsFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        [Route("productquestionsfilters")]
+        public async Task<IActionResult> GetProductQuestionsFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.ProductQuestinsFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.ProductQuestionsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
 
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Product questins filters"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Product questions filters"));
             }
         }
 
@@ -737,15 +799,15 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("childbookingsfilters")]
-        public async Task<IActionResult> GetChildBookingsFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetChildBookingsFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.ChildBookingsFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.ChildBookingsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
-            {   
+            {
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Child bookings filters"));
             }
         }
@@ -768,11 +830,11 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("bookingsfilters")]
-        public async Task<IActionResult> GetBookingsFilters([FromQuery] GetFIltersRequest getFIltersRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookingsFilters([FromQuery] GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _sortingService.BookingsFilters(getFIltersRequest, cancellationToken);
+                var result = await _sortingService.BookingsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -797,6 +859,8 @@ namespace APIGatewayMVC.Controllers
         }
 
         #endregion
+
+        #region Update
 
         [HttpPut]
         [Route("removeuser")]
@@ -827,6 +891,7 @@ namespace APIGatewayMVC.Controllers
                 return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
             }
         }
+        #endregion
     }
 }
 

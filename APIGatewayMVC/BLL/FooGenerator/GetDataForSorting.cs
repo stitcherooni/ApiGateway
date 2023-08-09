@@ -24,6 +24,7 @@ namespace BLL.FooGenerator
             }
             return lstOfYears;
         }
+
         public static string GetRandomFormat()
         {
             string[] groupByOptions = { "horizontal", "vertical" };
@@ -31,7 +32,6 @@ namespace BLL.FooGenerator
             int randomIndex = random.Next(groupByOptions.Length);
             return groupByOptions[randomIndex];
         }
-
 
         public static GroupBy GetGroupByForChildBookings()
         {
@@ -88,7 +88,6 @@ namespace BLL.FooGenerator
             return new GroupBy { Id = Id[randomIndex], Name = Name[randomIndex] };
 
         }
-
 
         private static Year GetYear(int id)
         {

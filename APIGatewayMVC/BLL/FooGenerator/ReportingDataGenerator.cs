@@ -332,6 +332,7 @@ namespace BLL.FooGenerator
 
         public static async Task<CommonLiveSales> GetCommonLiveSales(CancellationToken cancellationToken, int page, int pageSize)
         {
+
             var result = await GetReports.GetCommonLiveSalesDictionary(cancellationToken, page, pageSize);
 
             var response = new CommonLiveSales
@@ -483,6 +484,7 @@ namespace BLL.FooGenerator
                 CurrentPage=result.TotalPages,
                 PageSize=result.PageSize} } }
             };
+
             return response;
         }
 

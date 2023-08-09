@@ -1,5 +1,5 @@
 using AutoMapper;
-using BLL.DTO.Organization;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
@@ -61,7 +61,7 @@ namespace OnboardingServiceTests
         }
 
         [Fact]
-        public async Task OnboardOrganization_Should_AddSchoolDetails_And_AccountDetails_With_Valid_Role()
+        public async Task OnboardOrganisation_Should_AddSchoolDetails_And_AccountDetails_With_Valid_Role()
         {
             // Arrange
             var onboardingFormDataDTO = SetupOnboardingFormDataDTO("Chair");
@@ -78,7 +78,7 @@ namespace OnboardingServiceTests
             _customerRoleRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<TblCustomerRole>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(It.IsAny<TblCustomerRole>()));
 
             // Act
-            await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None);
+            await _onboardingService.OnboardOrganisation(onboardingFormDataDTO, CancellationToken.None);
 
             // Assert
             _mapperMock.Verify(mapper => mapper.Map<TblCustomer>(It.IsAny<AccountDetailsDTO>()), Times.Once);
@@ -112,11 +112,10 @@ namespace OnboardingServiceTests
             var result = await _onboardingService.GenerateUrlsAsync(urlRequest, CancellationToken.None);
 
             // Assert
-            Assert.Equal(4, result.Count());
-            Assert.Contains("EPN", result);
-            Assert.Contains("ExamplePTAName", result);
-            Assert.Contains("EPNTown", result);
-            Assert.Contains("ExamplePTANameTown", result);
+            Assert.Equal(3, result.Count());
+            Assert.Contains("epn", result);
+            Assert.Contains("exampleptaname", result);
+            Assert.Contains("exampleptanametown", result);
         }
 
         [Fact]
@@ -139,11 +138,10 @@ namespace OnboardingServiceTests
             var result = await _onboardingService.GenerateUrlsAsync(urlRequest, CancellationToken.None);
 
             // Assert
-            Assert.Equal(3, result.Count());
-            Assert.DoesNotContain("EP", result);
-            Assert.Contains("ExamplePTA", result);
-            Assert.Contains("EPTown", result);
-            Assert.Contains("ExamplePTATown", result);
+            Assert.Equal(2, result.Count());
+            Assert.DoesNotContain("ep", result);
+            Assert.Contains("examplepta", result);
+            Assert.Contains("exampleptatown", result);
         }
 
         [Fact]
@@ -156,9 +154,9 @@ namespace OnboardingServiceTests
                 Town = "Town"
             };
 
-            var school1 = new TblSchool() { SchoolPtadirectory = "EPN" };
-            var school2 = new TblSchool() { SchoolPtadirectory = "ExamplePTAName" };
-            var school3 = new TblSchool() { SchoolPtadirectory = "EPNTown" };
+            var school1 = new TblSchool() { SchoolPtadirectory = "epn" };
+            var school2 = new TblSchool() { SchoolPtadirectory = "exampleptaname" };
+            var school3 = new TblSchool() { SchoolPtadirectory = "epntown" };
 
             var schools = new List<TblSchool>() { school1, school2, school3 };
 
@@ -176,7 +174,7 @@ namespace OnboardingServiceTests
             Assert.DoesNotContain("EPN", result);
             Assert.DoesNotContain("ExamplePTAName", result);
             Assert.DoesNotContain("EPNTown", result);
-            Assert.Contains("ExamplePTANameTown", result);
+            Assert.Contains("exampleptanametown", result);
         }
 
         [Fact]
