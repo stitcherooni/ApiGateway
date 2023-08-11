@@ -74,8 +74,10 @@ namespace BLL.FooGenerator
 
         public static async Task<IList<BookingDTO>> BookingReport(CancellationToken cancellationToken)
         {
+            var rnd=new Random();
+            var count = rnd.Next(50);
             var result = new List<BookingDTO>();
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= count; i++)
             {
                 result.Add(GetBooking(i));
             }

@@ -147,6 +147,17 @@ namespace BLL.FooGenerator
             return response;
         }
 
+        public static async Task<GetBookingsProductsReportsResponse> GetBookingProductsReport(CancellationToken cancellationToken)
+        {
+            var result = await GetReports.BookingReport(cancellationToken);
+
+            var response = new GetBookingsProductsReportsResponse
+            {
+                Data = result
+            };
+            return response;
+        }
+
         public static async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var result = await GetReports.ProductQuestionHorisontalReport(cancellationToken);

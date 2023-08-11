@@ -4,4 +4,9 @@
     {
         public IEnumerable<BookingDTO> Data { get; set; }
     }
+
+    public class GetBookingsProductsReportsResponse
+    {
+        public IEnumerable<BookingDTO> Data { get; set; }
+    }  
 }

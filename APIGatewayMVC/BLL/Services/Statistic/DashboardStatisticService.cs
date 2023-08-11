@@ -1,4 +1,5 @@
-﻿using BLL.DTO.Statistic.Reports.Banked;
+﻿using BLL.DTO.Sorting.Booking;
+using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
@@ -198,6 +199,12 @@ namespace BLL.Services.Statistic
         public async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public async Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
+        {
+            var response = await ReportingDataGenerator.GetBookingProductsReport(cancellationToken);
             return response;
         }
     }

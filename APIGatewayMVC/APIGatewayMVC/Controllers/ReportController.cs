@@ -17,6 +17,7 @@ using BLL.DTO.Sorting.EventFilters;
 using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Statistic.Reports;
+using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Searching.Customer;
 using BLL.DTO.Statistic.Searching.EmailTracker;
@@ -163,6 +164,23 @@ namespace APIGatewayMVC.Controllers
             {
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods"));
             }
+        }
+
+        [HttpGet]
+        [Route("bookingproducts")]
+        public async Task<IActionResult> GetBookingProducts([FromQuery]GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetBookingProducts(getBookingProductsRequest, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Booking Products"));
+            }
+        }
+
         }
 
         [HttpGet]
@@ -872,7 +890,7 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("sortbookings")]
-        public async Task<IActionResult> SortSortBooking([FromQuery] SortBookingRequest sortBookingRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> SortBooking([FromQuery] SortBookingRequest sortBookingRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try
             {
