@@ -1,4 +1,5 @@
 ﻿using BLL.DTO.Statistic.Reports.Order;
+using System;
 
 namespace BLL.DTO.Statistic.Reports.Banked
 {

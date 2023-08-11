@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting.Booking
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting.Booking
 {
     public class GetBookingsSortingFilters
     {

@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.MiWizard
+﻿using System;
+
+namespace BLL.DTO.Statistic.Reports.MiWizard
 {
     public class MiWizardDTO
     {

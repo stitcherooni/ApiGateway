@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Blobs
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Blobs
 {
     public class CommonRequest
     {

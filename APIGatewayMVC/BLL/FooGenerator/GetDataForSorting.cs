@@ -1,4 +1,6 @@
 ﻿using BLL.DTO.Sorting;
+using System;
+using System.Collections.Generic;
 
 namespace BLL.FooGenerator
 {

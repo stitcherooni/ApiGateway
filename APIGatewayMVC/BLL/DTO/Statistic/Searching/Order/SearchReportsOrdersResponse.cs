@@ -1,4 +1,5 @@
 ﻿using BLL.DTO.Statistic.Reports.Order;
+using System.Collections.Generic;
 
 namespace BLL.DTO.Statistic.Searching.Order
 {

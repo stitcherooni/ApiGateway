@@ -11,6 +11,8 @@ using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
 using BLL.DTO.Statistic.Reports.Volunteer;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.SortingService
 {

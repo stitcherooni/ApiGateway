@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting
 {
     public class Events
     {

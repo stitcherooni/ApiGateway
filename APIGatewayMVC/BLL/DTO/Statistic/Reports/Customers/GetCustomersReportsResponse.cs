@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Customers
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Customers
 {
     public class GetCustomersReportsResponse : PagesInfoDTO
     {

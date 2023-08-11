@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Volunteer
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Volunteer
 {
     public class GetVolunteerReportsResponse : PagesInfoDTO
     {

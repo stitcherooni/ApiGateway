@@ -1,4 +1,7 @@
-﻿namespace BLL.DTO.Statistic.Reports.Booking
+﻿using System;
+using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Booking
 {
     public class BookingDTO
     {

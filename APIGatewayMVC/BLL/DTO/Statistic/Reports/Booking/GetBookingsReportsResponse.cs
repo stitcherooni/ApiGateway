@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Booking
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Booking
 {
     public class GetBookingsReportsResponse : PagesInfoDTO
     {

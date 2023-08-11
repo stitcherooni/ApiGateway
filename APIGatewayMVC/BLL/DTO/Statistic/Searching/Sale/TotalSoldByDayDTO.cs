@@ -1,4 +1,7 @@
-﻿namespace BLL.DTO.Statistic.Searching.Sales
+﻿using System;
+using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Searching.Sales
 {
     public class TotalSoldByDayDTO : PagesInfoDTO
     {

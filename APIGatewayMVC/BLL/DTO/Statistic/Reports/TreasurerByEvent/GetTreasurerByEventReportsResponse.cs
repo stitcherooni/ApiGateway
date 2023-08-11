@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.TreasurerByEvent
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.TreasurerByEvent
 {
     public class GetTreasurerByEventReportsResponse : PagesInfoDTO
     {

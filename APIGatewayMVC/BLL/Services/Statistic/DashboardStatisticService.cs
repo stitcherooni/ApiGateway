@@ -21,6 +21,10 @@ using BLL.DTO.Statistic.Searching.Sales;
 using BLL.FooGenerator;
 using DAL.Repository.DBRepository;
 using Models;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.Statistic
 {

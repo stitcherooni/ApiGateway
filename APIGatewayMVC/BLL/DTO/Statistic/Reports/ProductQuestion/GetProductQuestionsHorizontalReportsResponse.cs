@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.ProductQuestion
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.ProductQuestion
 {
     public class GetProductQuestionsHorizontalReportsResponse : PagesInfoDTO
     {

@@ -5,6 +5,8 @@ using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BLL.Services.BlobService
 {

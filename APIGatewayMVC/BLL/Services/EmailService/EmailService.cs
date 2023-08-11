@@ -3,6 +3,9 @@ using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
 using Models;
 using RestSharp;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.EmailService
 {

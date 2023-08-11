@@ -14,6 +14,9 @@ using BLL.DTO.Blobs.TreasurerByEvent;
 using BLL.DTO.Blobs.VolunteersReport;
 using BLL.FooGenerator;
 using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Threading;
 
 namespace BLL.Services.BlobService
 {

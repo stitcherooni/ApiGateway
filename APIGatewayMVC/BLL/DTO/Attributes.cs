@@ -1,5 +1,6 @@
 ﻿using BLL.DTO.Organisation;
 using BLL.DTO.Statistic.Reports;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO

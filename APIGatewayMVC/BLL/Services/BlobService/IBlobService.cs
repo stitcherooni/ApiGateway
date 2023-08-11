@@ -10,6 +10,7 @@ using BLL.DTO.Blobs.TicketsReport;
 using BLL.DTO.Blobs.TreasurerByDate;
 using BLL.DTO.Blobs.TreasurerByEvent;
 using BLL.DTO.Blobs.VolunteersReport;
+using System.Threading;
 
 namespace BLL.Services.BlobService
 {

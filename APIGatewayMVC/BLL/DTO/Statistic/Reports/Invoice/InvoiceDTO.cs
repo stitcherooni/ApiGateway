@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Invoice
+﻿using System;
+
+namespace BLL.DTO.Statistic.Reports.Invoice
 {
     public class InvoiceDTO
     {

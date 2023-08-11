@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting.VolunteersFilters
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting.VolunteersFilters
 {
     public class GetVolunteersFilters
     {

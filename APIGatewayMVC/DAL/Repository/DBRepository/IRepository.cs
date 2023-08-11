@@ -1,5 +1,10 @@
 ﻿using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DAL.Repository.DBRepository
 {
@@ -12,6 +17,6 @@ namespace DAL.Repository.DBRepository
         public Task DeleteAsync(T entity, CancellationToken cancellationToken);
         public Task<int> CountAllAsync(CancellationToken cancellationToken);
         public Task<T> UpdateAsync(T entity, CancellationToken cancellationToken);
-        public Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
+        public Task<IList<T>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

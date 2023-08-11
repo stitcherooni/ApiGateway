@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.EmailTracker
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.EmailTracker
 {
     public class GetEmailTrackerReportsResponse : PagesInfoDTO
     {

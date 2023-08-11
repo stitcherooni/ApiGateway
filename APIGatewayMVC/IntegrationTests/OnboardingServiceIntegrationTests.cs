@@ -2,6 +2,9 @@
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;
 using Models;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace IntegrationTests

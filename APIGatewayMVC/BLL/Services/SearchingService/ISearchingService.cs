@@ -12,6 +12,8 @@ using BLL.DTO.Statistic.Searching.Order;
 using BLL.DTO.Statistic.Searching.Sales;
 using BLL.DTO.Statistic.Searching.Ticket;
 using BLL.DTO.Statistic.Searching.TreasurerByDate;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.SearchingService
 {

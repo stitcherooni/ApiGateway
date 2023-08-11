@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Customers
+﻿using System;
+
+namespace BLL.DTO.Statistic.Reports.Customers
 {
     public class CustomerDTO
     {

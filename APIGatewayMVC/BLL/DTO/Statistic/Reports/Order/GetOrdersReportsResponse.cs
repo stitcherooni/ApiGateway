@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Order
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Order
 {
     public class GetOrdersReportsResponse : PagesInfoDTO
     {

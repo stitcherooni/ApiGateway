@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Blobs
+﻿using System;
+
+namespace BLL.DTO.Blobs
 {
     public class CommonResponse
     {

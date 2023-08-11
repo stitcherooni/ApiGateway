@@ -1,4 +1,6 @@
-﻿namespace BLL.FooGenerator
+﻿using System.Collections.Generic;
+
+namespace BLL.FooGenerator
 {
     public static class GetDataForBlob
     {

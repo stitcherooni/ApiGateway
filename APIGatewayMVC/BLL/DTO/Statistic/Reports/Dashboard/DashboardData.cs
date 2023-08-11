@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Dashboard
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Dashboard
 {
 
     public class LastOrdersList : PagesInfoDTO

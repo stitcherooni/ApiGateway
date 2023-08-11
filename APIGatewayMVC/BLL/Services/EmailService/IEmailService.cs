@@ -1,4 +1,6 @@
 ﻿using RestSharp;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.EmailService
 {

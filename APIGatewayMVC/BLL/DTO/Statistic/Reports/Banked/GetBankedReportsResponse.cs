@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Banked
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Banked
 {
     public class GetBankedReportsResponse : PagesInfoDTO
     {

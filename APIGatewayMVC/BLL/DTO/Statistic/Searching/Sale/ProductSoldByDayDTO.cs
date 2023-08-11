@@ -1,4 +1,6 @@
 ﻿using BLL.DTO.Statistic.Reports.Sale;
+using System;
+using System.Collections.Generic;
 
 namespace BLL.DTO.Statistic.Searching.Sales
 {

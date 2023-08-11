@@ -1,5 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DAL.Repository.DBRepository
 {
@@ -53,7 +58,7 @@ namespace DAL.Repository.DBRepository
             return entity;
         }
 
-        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IList<T>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
         }
