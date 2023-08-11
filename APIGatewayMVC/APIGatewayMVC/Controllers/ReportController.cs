@@ -181,8 +181,6 @@ namespace APIGatewayMVC.Controllers
             }
         }
 
-        }
-
         [HttpGet]
         [Route("currentsales")]
         public async Task<IActionResult> GetCurrentSalesReport([FromQuery] GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize)
