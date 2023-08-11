@@ -86,13 +86,6 @@ namespace BLL.FooGenerator
             return response;
         }
 
-        public static async Task<SalesDataProps> GetSaleReport(CancellationToken cancellationToken, int page, int pageSize)
-        {
-            var result = GetReports.GetSalesDataProps(cancellationToken, page, pageSize);
-
-            return result;
-        }
-
         public static async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var result = await GetReports.TicketReport(cancellationToken);

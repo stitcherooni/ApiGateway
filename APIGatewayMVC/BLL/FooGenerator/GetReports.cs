@@ -1015,7 +1015,7 @@ namespace BLL.FooGenerator
                 Quantity = rnd.Next(0, 100),
                 TargetQuantity = rnd.Next(0, 100),
                 Difference = rnd.Next(0, 100),
-                Attainment = rnd.Next(0, 100),
+                Attaintment = rnd.Next(0, 100),
                 TotalSales = rnd.Next(0, 100)
             };
         }

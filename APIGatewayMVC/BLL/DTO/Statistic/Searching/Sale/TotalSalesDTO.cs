@@ -7,7 +7,7 @@
         public int Quantity { get; set; }
         public int TargetQuantity { get; set; }
         public int Difference { get; set; }
-        public int Attainment { get; set; }
+        public int Attaintment { get; set; }
         public int TotalSales { get; set; }
     }
 }

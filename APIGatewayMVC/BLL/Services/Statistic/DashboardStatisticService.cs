@@ -50,12 +50,6 @@ namespace BLL.Services.Statistic
             return response;
         }
 
-        public async Task<SalesDataProps> GetSaleReport(CancellationToken cancellationToken, int page, int pageSize)
-        {
-            var response = await ReportingDataGenerator.GetSaleReport(cancellationToken, page, pageSize);
-            return response;
-        }
-
         public async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await ReportingDataGenerator.GetTicketReport(cancellationToken, page, pageSize);

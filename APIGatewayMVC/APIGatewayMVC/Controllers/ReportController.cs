@@ -85,11 +85,6 @@ namespace APIGatewayMVC.Controllers
                             var response = await _dashboardStatisticService.GetOrderReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
-                    case nameof(ReportTypes.sales):
-                        {
-                            var response = await _dashboardStatisticService.GetSaleReport(cancellationToken, page, pageSize);
-                            return Ok(response);
-                        }
                     case nameof(ReportTypes.tickets):
                         {
                             var response = await _dashboardStatisticService.GetTicketReport(cancellationToken, page, pageSize);
@@ -169,7 +164,37 @@ namespace APIGatewayMVC.Controllers
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods"));
             }
         }
-        
+
+        [HttpGet]
+        [Route("currentsales")]
+        public async Task<IActionResult> GetCurrentSalesReport([FromQuery] GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetCurrentSalesReport(getSalesReportForProductRequest, cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Current sales"));
+            }
+        }
+
+        [HttpGet]
+        [Route("lastorders")]
+        public async Task<IActionResult> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetLastOrders(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Last orders"));
+            }
+        }
+
         #region Dashboard
         [HttpGet]
         [Route("commonlivesalesdata")]
