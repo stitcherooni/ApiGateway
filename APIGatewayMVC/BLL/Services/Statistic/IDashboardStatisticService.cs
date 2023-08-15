@@ -10,6 +10,7 @@ using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
@@ -47,5 +48,6 @@ namespace BLL.Services.Statistic
         public Task<OrganisationDataResponse> OrganisationData(OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken);
         public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken);
+        public Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken);
     }
 }

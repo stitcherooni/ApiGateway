@@ -1,4 +1,5 @@
-﻿using BLL.DTO.Statistic;
+﻿using BLL.DTO;
+using BLL.DTO.Statistic;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
@@ -10,6 +11,7 @@ using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
@@ -17,11 +19,14 @@ using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
 using BLL.DTO.Statistic.Reports.Volunteer;
 using BLL.DTO.Statistic.Searching.Sales;
+using DocumentFormat.OpenXml.Office2019.Drawing.Model3D;
+using iText.Signatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Answers = BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId.Answers;
 
 namespace BLL.FooGenerator
 {
@@ -79,7 +84,7 @@ namespace BLL.FooGenerator
 
         public static async Task<IList<BookingDTO>> BookingReport(CancellationToken cancellationToken)
         {
-            var rnd=new Random();
+            var rnd = new Random();
             var count = rnd.Next(50);
             var result = new List<BookingDTO>();
             for (int i = 1; i <= count; i++)
@@ -289,6 +294,19 @@ namespace BLL.FooGenerator
             return result;
         }
 
+        public static IEnumerable<Answers> GetAnswers(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            int count = rnd.Next(1, 10);
+
+            List<Answers> result = new List<Answers>();
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(CreateAnswer(i));
+            }
+            return result;
+        }
+
         public static SalesDataProps GetSalesDataProps(CancellationToken cancellationToken, int page, int pageSize)
         {
             var result = new SalesDataProps()
@@ -334,6 +352,34 @@ namespace BLL.FooGenerator
             Random random = new Random();
             int randomIndex = random.Next(product.Length);
             return product[randomIndex];
+        }
+        public static object GenerateRandomAnswer()
+        {
+            var rnd = new Random();
+            int randomType = rnd.Next(5); // 0 to 4
+
+            switch (randomType)
+            {
+                case 0: // number
+                    return rnd.Next(1, 100);
+
+                case 1: // string
+                    return Guid.NewGuid().ToString();
+
+                case 2: // Date (DateTime)
+                    return DateTime.Now.AddDays(rnd.Next(-30, 31)); // Random date within 60 days range
+
+                case 3: // Blob (byte[])
+                    byte[] buffer = new byte[10];
+                    rnd.NextBytes(buffer);
+                    return buffer;
+
+                case 4: // boolean
+                    return rnd.Next(2) == 0;
+
+                default:
+                    throw new InvalidOperationException("Invalid random type generated.");
+            }
         }
 
         private static CurrentSales[] CurrentSalesArray(CancellationToken cancellationToken)
@@ -583,7 +629,7 @@ namespace BLL.FooGenerator
                 allergiesAmount.Add(rnd.Next(0, 100).ToString());
             }
 
-            List<Answers> answers = new();
+            List<DTO.Statistic.Reports.ProductQuestion.Answers> answers = new();
             count = rnd.Next(1, 10);
             for (int i = 0; i < count; i++)
             {
@@ -622,7 +668,7 @@ namespace BLL.FooGenerator
                 allergiesAmount.Add(rnd.Next(0, 100).ToString());
             }
 
-            List<Answers> answers = new();
+            List<DTO.Statistic.Reports.ProductQuestion.Answers> answers = new();
             count = rnd.Next(1, 10);
             for (int i = 0; i < count; i++)
             {
@@ -801,10 +847,10 @@ namespace BLL.FooGenerator
             };
         }
 
-        private static Answers CreateAnswers(int id)
+        private static DTO.Statistic.Reports.ProductQuestion.Answers CreateAnswers(int id)
         {
             Random rnd = new Random();
-            return new Answers()
+            return new DTO.Statistic.Reports.ProductQuestion.Answers()
             {
                 QuestionId = id,
                 Answer = rnd.Next().ToString()
@@ -834,6 +880,19 @@ namespace BLL.FooGenerator
             {
                 QuestionId = id,
                 Question = rnd.Next().ToString()
+            };
+        }
+
+        private static Answers CreateAnswer(int id)
+        {
+            Random rnd = new Random();
+            return new Answers()
+            {
+                QuestionId = rnd.Next(1, 100),
+                Id = id,
+                AnswerData = GetAnswerDataList(),
+                Type = ((AnswerType)rnd.Next(Enum.GetNames(typeof(AnswerType)).Length)).ToString(),
+                Answer = GenerateRandomAnswer()
             };
         }
 
@@ -1084,6 +1143,59 @@ namespace BLL.FooGenerator
             };
         }
 
+        public static object GenerateRandomAnswerTypeValue(AnswerType type)
+        {
+            var rnd = new Random();
+            switch (type)
+            {
+                case AnswerType.text:
+                case AnswerType.textarea:
+                    return Guid.NewGuid().ToString();
+
+                case AnswerType.number:
+                    return rnd.Next();
+
+                case AnswerType.yesno:
+                    return rnd.Next(2) == 0;
+
+                case AnswerType.terms:
+                    return rnd.Next(2) == 0;
+
+                case AnswerType.date:
+                    return DateTime.Now.AddDays(rnd.Next(-30, 31));
+
+                case AnswerType.file:
+                    byte[] buffer = new byte[10];
+                    rnd.NextBytes(buffer);
+                    return buffer;
+
+                case AnswerType.singleSelect:
+                case AnswerType.multiSelect:
+                    string[] options = { "Option 1", "Option 2", "Option 3" };
+                    return options[rnd.Next(options.Length)];
+
+                default:
+                    throw new InvalidOperationException("Invalid AnswerType.");
+            }
+        }
+        private static AnswerData GetAnswerData()
+        {
+            var rnd = new Random();
+            return new AnswerData { Label = rnd.Next(1, 100).ToString(), Value = rnd.Next(1, 100).ToString() };
+        }
+
+        private static IEnumerable<AnswerData> GetAnswerDataList()
+        {
+            var rnd = new Random();
+            int count = rnd.Next(1, 10);
+            List<AnswerData> result = new();
+
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetAnswerData());
+            }
+            return result;
+        }
         #endregion
     }
 }

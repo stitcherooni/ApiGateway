@@ -10,6 +10,7 @@ using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
@@ -515,6 +516,19 @@ namespace BLL.FooGenerator
         public static async Task<GetSalesReportsResponse> GetSalesReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await GetReports.GetSalesResponse(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public static async Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+            var result = GetReports.GetQuestions(cancellationToken);
+
+            var response = new GetProductQuestionsAndAnswersResponse
+            {
+                Questions = GetReports.GetQuestions(cancellationToken),
+                Answers=GetReports.GetAnswers(cancellationToken)
+            };
+
             return response;
         }
     }
