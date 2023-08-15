@@ -1,5 +1,6 @@
 ﻿using BLL.DTO.Organisation;
 using BLL.DTO.Statistic.Reports;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -54,6 +55,46 @@ namespace BLL.DTO
             }
 
             return ValidationResult.Success;
+        }
+    }
+
+    public class AnswerTypesAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value != null && value.GetType() == typeof(string))
+            {
+                if (Enum.TryParse<AnswerType>((string)value, true, out _))
+                {
+                    return ValidationResult.Success;
+                }
+            }
+
+            return new ValidationResult("Type should be a valid AnswerTypes.");
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ValidAnswerTypeAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+                return true; // Allow null values
+
+            Type validTypes = typeof(int).GetType() // Assuming number means integer
+                .GetType()
+                .GetType()
+                .GetType()
+                .GetType();
+
+            Type valueType = value.GetType();
+
+            if (validTypes.IsAssignableFrom(valueType))
+                return true;
+
+            ErrorMessage = "The 'answer' property must have a valid type: number, string, Date, Blob, or boolean.";
+            return false;
         }
     }
 }

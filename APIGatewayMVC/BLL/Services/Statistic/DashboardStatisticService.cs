@@ -11,6 +11,7 @@ using BLL.DTO.Statistic.Reports.Order;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
@@ -209,6 +210,12 @@ namespace BLL.Services.Statistic
         public async Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
         {
             var response = await ReportingDataGenerator.GetBookingProductsReport(cancellationToken);
+            return response;
+        }
+
+        public async Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+            var response = await ReportingDataGenerator.GetProductQuestionsAndAnswers(getProductQuestionsAndAnswersRequest, cancellationToken);
             return response;
         }
     }

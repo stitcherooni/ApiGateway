@@ -19,6 +19,7 @@ using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Statistic.Reports;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.Organisation;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Searching.Customer;
 using BLL.DTO.Statistic.Searching.EmailTracker;
 using BLL.DTO.Statistic.Searching.OnlyBookings;
@@ -173,6 +174,21 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 var result = await _dashboardStatisticService.GetBookingProducts(getBookingProductsRequest, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GenerateErrorMessage(ex, "Can't get Booking Products"));
+            }
+        }
+
+        [HttpGet]
+        [Route("productquestionsandanswers")]
+        public async Task<IActionResult> GetProductQuestionsAndAnswers([FromQuery] GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _dashboardStatisticService.GetProductQuestionsAndAnswers(getProductQuestionsAndAnswersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
