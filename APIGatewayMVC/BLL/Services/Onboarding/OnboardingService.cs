@@ -12,7 +12,7 @@ using System.Transactions;
 
 namespace BLL.Services.Onboarding
 {
-    public class OnboardingService : IOnboardingService
+    public class OnboardingService : BaseService, IOnboardingService
     {
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
@@ -38,7 +38,7 @@ namespace BLL.Services.Onboarding
             string customerEmail;
             OnboardingEntities onboardingEntities;
 
-            using (var transactionScope = GetTransactionScope(IsolationLevel.ReadCommitted))
+            using (var transactionScope = GetTransactionScope())
             {
                 var schoolDetailsMap = _mapper.Map<TblSchool>(onboardingFormDataDTO.SchoolDetails);
                 schoolDetailsMap.SchoolPtadirectory = onboardingFormDataDTO.SchoolBrandingDetails.Url;
@@ -119,12 +119,7 @@ namespace BLL.Services.Onboarding
             return result;
         }
 
-        private TransactionScope GetTransactionScope(IsolationLevel isolationLevel)
-        {
-            return new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = isolationLevel }, TransactionScopeAsyncFlowOption.Enabled);
-        }
-
-        private static string LengthCheck(string text)
+        private string LengthCheck(string text)
         {
             if (text.Length >= 50)
                 return text.Substring(0, 50);

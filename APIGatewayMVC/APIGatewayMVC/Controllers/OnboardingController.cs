@@ -1,5 +1,4 @@
-﻿using BLL.DTO;
-using BLL.DTO.Organisation;
+﻿using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
@@ -100,7 +99,6 @@ namespace APIGatewayMVC.Controllers
             }
             return Ok(new { Message = $"Email sent successfully to: {emailAddress}" });
         }
-
 
         private static CheckUrlRequest UrlFilters(CheckUrlRequest urlRequest)
         {

@@ -1,5 +1,6 @@
 ﻿using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
+using BLL.DTO.Statistic.Reports.BookingQuestionsAndAnswers;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
 using BLL.DTO.Statistic.Reports.Dashboard;
@@ -39,6 +40,12 @@ namespace BLL.Services.Statistic
         public Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBookingsReportsResponse> GetTestBooking(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBookingsReportsResponse> GetRandomBookingReport(GetRandomBookingReport getRandomBookingReport, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBookingQuestionsAndAnswersResponse> GetBookingQuestionsAndAnswersResponse(GetBookingQuestionsAndAnswersRequest getBookingQuestionsAndAnswersRequest, CancellationToken cancellationToken);
         public Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken);
         public Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken, int page, int pageSize);
         public Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page, int pageSize);

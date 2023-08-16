@@ -519,6 +519,28 @@ namespace BLL.FooGenerator
             return response;
         }
 
+        public static async Task<GetBookingsReportsResponse> GetRandomBookingReport(int size, CancellationToken cancellationToken, int page, int pageSize)
+        {
+            int skipCount = (page - 1) * pageSize;
+
+            var result = await GetReports.BookingReport(cancellationToken, size);
+
+            var totalCount = result.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+
+            var response = new GetBookingsReportsResponse
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Data = paginatedResult
+            };
+            return response;
+        }
+
         public static async Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken)
         {
             var result = GetReports.GetQuestions(cancellationToken);

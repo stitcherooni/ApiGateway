@@ -1,15 +1,5 @@
-﻿using BLL.DTO.Blobs.Banked;
-using BLL.DTO.Blobs.Bookings;
-using BLL.DTO.Blobs.ChildOnlyBookings;
-using BLL.DTO.Blobs.CustomerReport;
+﻿using BLL.DTO.Blobs;
 using BLL.DTO.Blobs.OrderDelivery;
-using BLL.DTO.Blobs.Orders;
-using BLL.DTO.Blobs.ProductQuestions;
-using BLL.DTO.Blobs.Tickets;
-using BLL.DTO.Blobs.TicketsReport;
-using BLL.DTO.Blobs.TreasurerByDate;
-using BLL.DTO.Blobs.TreasurerByEvent;
-using BLL.DTO.Blobs.VolunteersReport;
 using BLL.DTO.Sorting;
 using BLL.DTO.Sorting.Booking;
 using BLL.DTO.Sorting.BookingFilters;
@@ -18,6 +8,7 @@ using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Statistic.Reports;
 using BLL.DTO.Statistic.Reports.Booking;
+using BLL.DTO.Statistic.Reports.BookingQuestionsAndAnswers;
 using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Searching.Customer;
@@ -29,12 +20,14 @@ using BLL.DTO.Statistic.Searching.Sales;
 using BLL.DTO.Statistic.Searching.Ticket;
 using BLL.DTO.Statistic.Searching.TreasurerByDate;
 using BLL.DTO.Update;
+using BLL.DTO.Update.EditBooking;
 using BLL.Services.BlobService;
 using BLL.Services.SearchingService;
 using BLL.Services.SortingService;
 using BLL.Services.Statistic;
 using BLL.Services.UpdateService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,12 +43,14 @@ namespace APIGatewayMVC.Controllers
         private readonly ISearchingService _searchingService;
         private readonly ISortingService _sortingService;
         private readonly IUpdateService _updateService;
+        private readonly ILogger<OnboardingController> _logger;
 
         public ReportController(IDashboardStatisticService dashboardStatisticService,
                                 IBlobService blobService,
                                 ISearchingService searchingService,
                                 ISortingService sortingService,
-                                IUpdateService updateService)
+                                IUpdateService updateService,
+                                ILogger<OnboardingController> logger)
         {
             _dashboardStatisticService = dashboardStatisticService;
             _blobService = blobService;
@@ -70,6 +65,7 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation($"Request received for report type: {getReportByTabRequest.Type}");
                 switch (getReportByTabRequest.Type.ToLower())
                 {
                     case nameof(ReportTypes.mi_wizard):
@@ -90,7 +86,7 @@ namespace APIGatewayMVC.Controllers
                     case nameof(ReportTypes.tickets):
                         {
                             var response = await _dashboardStatisticService.GetTicketReport(cancellationToken, page, pageSize);
-                            return Ok(response);    
+                            return Ok(response);
                         }
                     case nameof(ReportTypes.volunteers):
                         {
@@ -143,42 +139,51 @@ namespace APIGatewayMVC.Controllers
                             return Ok(response);
                         }
 
-                    default: throw new Exception($"Type {getReportByTabRequest.Type} doesn't exist");
+                    default:
+                        {
+                            _logger.LogWarning($"Unknown report type requested: {getReportByTabRequest.Type}");
+                            throw new Exception($"Type {getReportByTabRequest.Type} doesn't exist");
+                        }
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error generating report for {getReportByTabRequest.Type}");
                 return BadRequest(GenerateErrorMessage(ex, $"Can't generate report for {getReportByTabRequest.Type}"));
             }
         }
 
-         [HttpGet]
+        [HttpGet]
         [Route("paymentmethods")]
         public async Task<IActionResult> GetPaymentMethods(CancellationToken cancellationToken)
         {
             try
             {
-                var result =await  _dashboardStatisticService.GetPaymentMethods(cancellationToken);
+                _logger.LogInformation("Request received for fetching payment methods.");
+                var result = await _dashboardStatisticService.GetPaymentMethods(cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Payment methods"));
+                _logger.LogError(ex, "Error while fetching payment methods.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get payment methods"));
             }
         }
 
         [HttpGet]
         [Route("bookingproducts")]
-        public async Task<IActionResult> GetBookingProducts([FromQuery]GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookingProducts([FromQuery] GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for fetching booking products.");
                 var result = await _dashboardStatisticService.GetBookingProducts(getBookingProductsRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Booking Products"));
+                _logger.LogError(ex, "Error while fetching booking products.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get booking Products"));
             }
         }
 
@@ -188,12 +193,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for fetching product questions and answers.");
                 var result = await _dashboardStatisticService.GetProductQuestionsAndAnswers(getProductQuestionsAndAnswersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Booking Products"));
+                _logger.LogError(ex, "Error while fetching product questions and answers.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get product questions and answers"));
             }
         }
 
@@ -203,12 +210,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for fetching current sales report.");
                 var result = await _dashboardStatisticService.GetCurrentSalesReport(getSalesReportForProductRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Current sales"));
+                _logger.LogError(ex, "Error while fetching current sales report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get current sales"));
             }
         }
 
@@ -218,11 +227,13 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for fetching last orders report.");
                 var result = await _dashboardStatisticService.GetLastOrders(cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching last orders report.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Last orders"));
             }
         }
@@ -234,11 +245,13 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for fetching common live sales data.");
                 var result = await _dashboardStatisticService.CommonLiveSalesData(cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching common live sales data.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Common Live Sales data"));
             }
         }
@@ -249,26 +262,30 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for fetching current live sales data.");
                 var result = await _dashboardStatisticService.CurrentLiveSalesData(cancellationToken, productId, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching current live sales data.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Current Live Sales data"));
             }
         }
 
         [HttpGet]
         [Route("monthlyordersdata")]
-        public async Task<IActionResult> GetMonthlyOrdersData (CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetMonthlyOrdersData(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             try
             {
+                _logger.LogInformation("Request received for monthly orders data.");
                 var result = await _dashboardStatisticService.GetMonthlyOrders(cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching monthly orders data.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't get Monthly Orders data"));
             }
         }
@@ -279,12 +296,31 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for monthly customers registration.");
                 var result = await _dashboardStatisticService.GetMonthlyCustomersRegistration(cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Monthly Customers Registration data"));
+                _logger.LogError(ex, "Error while fetching monthly customers registration data.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get monthly customers registration data"));
+            }
+        }
+
+        [HttpGet]
+        [Route("bookingquestionsandanswers")]
+        public async Task<IActionResult> GetBookingQuestionsAndAnswers([FromQuery] GetBookingQuestionsAndAnswersRequest getBookingQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for random bookings.");
+                var result = await _dashboardStatisticService.GetBookingQuestionsAndAnswersResponse(getBookingQuestionsAndAnswersRequest, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching random bookings.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get random bookings"));
             }
         }
 
@@ -294,12 +330,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for organisation data\".");
                 var result = await _dashboardStatisticService.OrganisationData(organisationDataRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Organisation data"));
+                _logger.LogError(ex, "Error while fetching organisation data\".");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get organisation data"));
             }
         }
 
@@ -307,303 +345,360 @@ namespace APIGatewayMVC.Controllers
 
         #region Blobs
 
-        [HttpGet]
+        [HttpPost]
         [Route("bankedspdf")]
-        public async Task<IActionResult> GetBankedReportPdf([FromQuery] GetBankedReportPdfRequest getBankedReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBankedReportPdf(GetFileRequest getBankedReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for banked report in pdf.");
                 byte[] blobData = _blobService.GenerateBankedReportPdfResponse(getBankedReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "BankedReport.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Banked report in pdf"));
+                _logger.LogError(ex, "Error while fetching banked report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate banked report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("bankedsexcel")]
-        public async Task<IActionResult> GetBankedReportExcel([FromQuery] GetBankedReportExcelRequest getBankedReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBankedReportExcel(GetFileRequest getBankedReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for banked report in excel.");
                 byte[] blobData = _blobService.GenerateBankedReportExcelResponse(getBankedReportExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "BankedReport.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Banked report in excel"));
+                _logger.LogError(ex, "Error while fetching banked report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate banked report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("bookingspdf")]
-        public async Task<IActionResult> GetBookingsReportPdf([FromQuery] GetBookingsReportPdfRequest getBookingsReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookingsReportPdf(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for booking report in pdf.");
                 byte[] blobData = _blobService.GenerateBookingsReportPdfResponse(getBookingsReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "BookingsReport.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Booking report in pdf"));
+                _logger.LogError(ex, "Error while fetching booking report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate booking report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("bookingsexcel")]
-        public async Task<IActionResult> GetBookingsReportExcel([FromQuery] GetBookingsReportExcelRequest getBookingsReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookingsReportExcel(GetFileRequest getBookingsReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for booking report in excel.");
                 byte[] blobData = _blobService.GenerateBookingsReportExcelResponse(getBookingsReportExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "BookingsReport.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Booking report in exel"));
+                _logger.LogError(ex, "Error while fetching booking report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate booking report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("childonlybookingspdf")]
-        public async Task<IActionResult> GetChildOnlyBookingsReportPdf([FromQuery] GetChildOnlyBookingsReportPdfRequest getChildOnlyBookingsReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetChildOnlyBookingsReportPdf(GetFileRequest getChildOnlyBookingsReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for child only booking report in pdf.");
                 byte[] blobData = _blobService.GenerateChildOnlyBookingsPdfResponse(getChildOnlyBookingsReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "ChildOnlyBookings.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Child only booking report in pdf"));
+                _logger.LogError(ex, "Error while fetching child only booking report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate child only booking report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("customersexcel")]
-        public async Task<IActionResult> GetCustomerReportExcel([FromQuery] GetCustomerReportExcelRequest getCustomerReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCustomerReportExcel(GetFileRequest getCustomerReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for customer report in excel.");
                 byte[] blobData = _blobService.GenerateCustomerReportExcelResponse(getCustomerReportExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "CustomerReport.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customer report in excel"));
+                _logger.LogError(ex, "Error while fetching customer report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate customer report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("customerspdf")]
-        public async Task<IActionResult> GetCustomerReportPdf([FromQuery] GetCustomerReportPdfRequest getCustomerReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetCustomerReportPdf(GetFileRequest getCustomerReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for customer report in pdf.");
                 byte[] blobData = _blobService.GenerateCustomerReportPdfResponse(getCustomerReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "CustomerReport.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customer report in pdf"));
+                _logger.LogError(ex, "Error while fetching customer report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate customer report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("ordersexcel")]
-        public async Task<IActionResult> GetOrdersReportExcel([FromQuery] GetOrdersReportExcelRequest getOrdersReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetOrdersReportExcel(GetFileRequest getOrdersReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for  orders report in excel.");
                 byte[] blobData = _blobService.GenerateOrdersReportExcelResponse(getOrdersReportExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "Orders.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report in exel"));
+                _logger.LogError(ex, "Error while fetching  orders report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate orders report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("orderspdf")]
-        public async Task<IActionResult> GetOrdersReportPdf([FromQuery] GetOrdersReportPdfRequest getOrdersReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetOrdersReportPdf(GetFileRequest getOrdersReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for orders report in pdf.");
                 byte[] blobData = _blobService.GenerateOrdersReportPdfResponse(getOrdersReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "Orders.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report in pdf"));
+                _logger.LogError(ex, "Error while fetching orders report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate orders report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("orderdeliverynotespdf")]
-        public async Task<IActionResult> ExportOrderDeliveryNoteReportPdf([FromQuery] ExportOrderDeliveryNotePdfRequest exportOrderDeliveryNotePdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> ExportOrderDeliveryNoteReportPdf(GetFileRequest exportOrderDeliveryNotePdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for export order delivery note report in pdf.");
                 byte[] blobData = _blobService.GenerateExportOrderDeliveryPdfResponse(exportOrderDeliveryNotePdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "OrderDeliveryNote.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Export order delivery note report in pdf"));
+                _logger.LogError(ex, "Error while fetching export order delivery note report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate export order delivery note report in pdf"));
             }
         }
 
-        [HttpGet]
-        [Route("productquestionsexcel")]
-        public async Task<IActionResult> GetProductQuestionsReportExcel([FromQuery] GetProductQuestionsExcelRequest getProductQuestionsExcelRequest, CancellationToken cancellationToken)
+        [HttpPost]
+        [Route("orderdeliverydocument")]
+        public async Task<IActionResult> ExportOrderDeliveryDocument(ExportOrderDeliveryNoteRequest exportOrderDeliveryNoteRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for export order delivery note report in pdf.");
+                byte[] blobData = _blobService.GenerateExportOrderDeliveryDocumentResponse(exportOrderDeliveryNoteRequest, cancellationToken);
+                return File(blobData, "application/pdf", "OrderDeliveryNoteDocument.pdf");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching export order delivery note report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate export order delivery note report in pdf"));
+            }
+        }
+
+        [HttpPost]
+        [Route("productquestionsexcel")]
+        public async Task<IActionResult> GetProductQuestionsReportExcel(GetFileRequest getProductQuestionsExcelRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for product questions report in excel.");
                 byte[] blobData = _blobService.GenerateProductQuestionsExcelResponse(getProductQuestionsExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "ProductQuestions.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Product questions report in excel"));
+                _logger.LogError(ex, "Error while fetching product questions report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate product questions report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("productquestionspdf")]
-        public async Task<IActionResult> GetProductQuestionsReportPdf([FromQuery] GetProductQuestionsPdfRequest getProductQuestionsPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProductQuestionsReportPdf(GetFileRequest getProductQuestionsPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for product questions report in pdf.");
                 byte[] blobData = _blobService.GenerateProductQuestionsPdfResponse(getProductQuestionsPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "ProductQuestions.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Product questions report in pdf"));
+                _logger.LogError(ex, "Error while fetching product questions report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate product questions report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("ticketsexcel")]
-        public async Task<IActionResult> GetTicketsReportExcel([FromQuery] GetTicketsExcelRequest getTicketsExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTicketsReportExcel(GetFileRequest getTicketsExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for tickets report in excel.");
                 byte[] blobData = _blobService.GenerateTicketsExcelResponse(getTicketsExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "Tickets.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in excel"));
+                _logger.LogError(ex, "Error while fetching tickets report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate tickets report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("ticketspdf")]
-        public async Task<IActionResult> GetTicketsReportPdf([FromQuery] GetTicketsPdfRequest getTicketsPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTicketsReportPdf(GetFileRequest getTicketsPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for tickets report in pdf.");
                 byte[] blobData = _blobService.GenerateTicketsPdfResponse(getTicketsPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "Tickets.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in pdf"));
+                _logger.LogError(ex, "Error while fetching tickets report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate tickets report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("ticketscsv")]
-        public async Task<IActionResult> GetTicketsReportCsv([FromQuery] GetTicketsReportCsvRequest getTicketsReportCsvRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTicketsReportCsv(GetFileRequest getTicketsReportCsvRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for tickets report in csv.");
                 byte[] blobData = _blobService.GenerateTicketsReportCsvResponse(getTicketsReportCsvRequest, cancellationToken);
                 return File(blobData, "application/csv", "TicketsReport.csv");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Tickets report in csv"));
+                _logger.LogError(ex, "Error while fetching tickets report in csv.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate tickets report in csv"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("treasurerbydateexcel")]
-        public async Task<IActionResult> GetTreasurerByDateReportExcel([FromQuery] GetTreasurerByDateReportExcelRequest getTreasurerByDateReportExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTreasurerByDateReportExcel(GetFileRequest getTreasurerByDateReportExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by date report in excel.");
                 byte[] blobData = _blobService.GenerateTreasurerByDateReportExcelResponse(getTreasurerByDateReportExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "TreasurerByDate.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report in excel"));
+                _logger.LogError(ex, "Error while fetching treasurer by date report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate treasurer by date report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("treasurerbydatepdf")]
-        public async Task<IActionResult> GetTreasurerByDateReportPdf([FromQuery] GetTreasurerByDateReportPdfRequest getTreasurerByDateReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTreasurerByDateReportPdf(GetFileRequest getTreasurerByDateReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by date report in pdf.");
                 byte[] blobData = _blobService.GenerateTreasurerByDateReportPdfResponse(getTreasurerByDateReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "TreasurerByDate.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report in pdf"));
+                _logger.LogError(ex, "Error while fetching treasurer by date report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate treasurer by date report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("treasurerbyeventexcel")]
-        public async Task<IActionResult> GetTreasurerByEventReportExcel([FromQuery] GetTreasurerByEventExcelRequest getTreasurerByEventExcelRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTreasurerByEventReportExcel(GetFileRequest getTreasurerByEventExcelRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by event report in excel.");
                 byte[] blobData = _blobService.GenerateTreasurerByEventExcelResponse(getTreasurerByEventExcelRequest, cancellationToken);
                 return File(blobData, "application/xlsx", "TreasurerByEvent.xlsx");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by event report in excel"));
+                _logger.LogError(ex, "Error while fetching treasurer by event report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate treasurer by event report in excel"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("treasurerbyeventpdf")]
-        public async Task<IActionResult> GetTreasurerByEventReportPdf([FromQuery] GetTreasurerByEventReportPdfRequest getTreasurerByEventReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTreasurerByEventReportPdf(GetFileRequest getTreasurerByEventReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by event report in pdf.");
                 byte[] blobData = _blobService.GenerateTreasurerByEventReportPdfResponse(getTreasurerByEventReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "TreasurerByEvent.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by event report in pdf"));
+                _logger.LogError(ex, "Error while fetching treasurer by event report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate treasurer by event report in pdf"));
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("volunteerspdf")]
-        public async Task<IActionResult> GetVolunteersReportPdf([FromQuery] GetVolunteersReportPdfRequest getVolunteersReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetVolunteersReportPdf(GetFileRequest getVolunteersReportPdfRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for volunteers report in pdf.");
                 byte[] blobData = _blobService.GenerateVolunteersReportPdfResponse(getVolunteersReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "VolunteersReport.pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Volunteers report in pdf"));
+                _logger.LogError(ex, "Error while fetching Volunteers report in pdf.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate volunteers report in pdf"));
             }
         }
 
@@ -617,12 +712,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for email trackers report.");
                 var response = await _searchingService.GetEmailTrackerReport(emailTrackerReportRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Email trackers report"));
+                _logger.LogError(ex, "Error while fetching email trackers report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate email trackers report"));
             }
         }
 
@@ -632,12 +729,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for customers report.");
                 var response = await _searchingService.GetCustomerReport(customersRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Customers report"));
+                _logger.LogError(ex, "Error while fetching customers report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate customers report"));
             }
         }
 
@@ -647,12 +746,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for orders report.");
                 var response = await _searchingService.GetOrderReport(ordersRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Orders report"));
+                _logger.LogError(ex, "Error while fetching orders report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate orders report"));
             }
         }
 
@@ -662,12 +763,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by date report.");
                 var response = await _searchingService.GetTreasurerByDateReport(treasurerByDateRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Treasurer by date report"));
+                _logger.LogError(ex, "Error while fetching treasurer by date report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate treasurer by date report"));
             }
         }
 
@@ -677,12 +780,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for child only booking report.");
                 var response = await _searchingService.GetChildOnlyBookingReport(searchChildOnlyBookingsRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Child only booking report"));
+                _logger.LogError(ex, "Error while fetching child only booking report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate child only booking report"));
             }
         }
 
@@ -692,12 +797,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for ticket report.");
                 var response = await _searchingService.GetTicketReport(searchTicketsRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Ticket report"));
+                _logger.LogError(ex, "Error while fetching ticket report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate ticket report"));
             }
         }
 
@@ -707,12 +814,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sales report.");
                 var response = await _searchingService.GetSalesReport(salesReportRequest, cancellationToken, page, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't generate Sales report"));
+                _logger.LogError(ex, "Error while fetching sales report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate sales report"));
             }
         }
 
@@ -726,12 +835,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for volunteers filters.");
                 var result = await _sortingService.VolunteersFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Volunteers filters"));
+                _logger.LogError(ex, "Error while fetching volunteers filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get volunteers filters"));
             }
         }
 
@@ -741,12 +852,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort volunteers.");
                 var result = await _sortingService.SortVolunteerResponse(sortRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Volunteers"));
+                _logger.LogError(ex, "Error while fetching sort volunteers.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort volunteers"));
             }
         }
 
@@ -756,12 +869,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for treasurer by event filters.");
                 var result = await _sortingService.TreasurerByEventFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Treasurer by event filters"));
+                _logger.LogError(ex, "Error while fetching treasurer by event filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get treasurer by event filters"));
             }
         }
 
@@ -771,12 +886,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort treasurer by event.");
                 var result = await _sortingService.SortTreasurerByEventResponse(sortTreasurerByEventRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Treasurer by event"));
+                _logger.LogError(ex, "Error while fetching sort treasurer by event.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort treasurer by event"));
             }
         }
 
@@ -786,12 +903,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for ticket filters.");
                 var result = await _sortingService.TicketsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Ticket filters"));
+                _logger.LogError(ex, "Error while fetching ticket filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get ticket filters"));
             }
         }
 
@@ -801,12 +920,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort tickets.");
                 var result = await _sortingService.SortTicketsResponse(sortTicketsRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Tickets"));
+                _logger.LogError(ex, "Error while fetching sort tickets.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort tickets"));
             }
         }
 
@@ -816,12 +937,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sales filters.");
                 var result = await _sortingService.SalesFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Sales filters"));
+                _logger.LogError(ex, "Error while fetching sales filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get sales filters"));
             }
         }
 
@@ -831,13 +954,15 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for product questions filters.");
                 var result = await _sortingService.ProductQuestionsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
 
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Product questions filters"));
+                _logger.LogError(ex, "Error while fetching product questions filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get product questions filters"));
             }
         }
 
@@ -847,12 +972,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort product questions.");
                 var result = await _sortingService.SortProductQuestionsResponse(sortProductQuestionsRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Product questions"));
+                _logger.LogError(ex, "Error while fetching sort product questions.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort product questions"));
             }
         }
 
@@ -862,12 +989,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for child bookings filters.");
                 var result = await _sortingService.ChildBookingsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Child bookings filters"));
+                _logger.LogError(ex, "Error while fetching child bookings filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get child bookings filters"));
             }
         }
 
@@ -877,12 +1006,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort child bookings.");
                 var result = await _sortingService.SortChildBookingsResponse(sortChildBookingRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Child bookings"));
+                _logger.LogError(ex, "Error while fetching sort child bookings.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort child bookings"));
             }
         }
 
@@ -893,12 +1024,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for bookings filters.");
                 var result = await _sortingService.BookingsFilters(getFiltersRequest, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Bookings filters"));
+                _logger.LogError(ex, "Error while fetching bookings filters.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get bookings filters"));
             }
         }
 
@@ -908,12 +1041,14 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for sort bookings.");
                 var result = await _sortingService.SortBookingsResponse(sortBookingRequest, cancellationToken, page, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(GenerateErrorMessage(ex, "Can't sort Bookings"));
+                _logger.LogError(ex, "Error while fetching sort bookings.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't sort bookings"));
             }
         }
 
@@ -921,17 +1056,19 @@ namespace APIGatewayMVC.Controllers
 
         #region Update
 
-        [HttpPut]
+        [HttpDelete]
         [Route("removeuser")]
         public async Task<IActionResult> RemoveUser(RemoveUserRequest removeUserRequest, CancellationToken cancellationToken)
         {
             try
             {
+                _logger.LogInformation("Request received for remove user.");
                 await _updateService.RemoveUser(removeUserRequest, cancellationToken);
                 return Ok(new { Message = $"User with id {removeUserRequest.UserId} will be deleted {removeUserRequest.ErasureDate}" });
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching remove user.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't remove user"));
             }
         }
@@ -942,12 +1079,65 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
+                _logger.LogInformation("Request received for approve user.");
                 await _updateService.ApproveUser(toggleApproveUserRequest, cancellationToken);
                 return Ok(new { Message = $"User with Id {toggleApproveUserRequest.UserId} successfully approved" });
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error while fetching approve user.");
                 return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
+            }
+        }
+
+        [HttpPut]
+        [Route("markasnotdispatchedorder")]
+        public async Task<IActionResult> MarkAsNotDispatchedOrder(MarkAsNotDispatchedOrderRequest markAsNotDispatchedOrderRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for mark as not dispatched order.");
+                await _updateService.MarkNotDispatchedOrder(markAsNotDispatchedOrderRequest, cancellationToken);
+                return Ok(new { Message = $"Order with Id {markAsNotDispatchedOrderRequest.OrderId} marked as not dispatched" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching mark as not dispatched order.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't mark the order"));
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteorder")]
+        public async Task<IActionResult> DeleteOrder(DeleteOrderRequest deleteOrderRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for delete order.");
+                await _updateService.DeleteOrder(deleteOrderRequest, cancellationToken);
+                return Ok(new { Message = $"Order with Id {deleteOrderRequest.OrderId} deleted" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching delete order.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't delete the order"));
+            }
+        }
+
+        [HttpPost]
+        [Route("editbooking")]
+        public async Task<IActionResult> EditBooking(EditBookingRequest editBookingRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for edit booking.");
+                await _updateService.EditBooking(editBookingRequest, cancellationToken);
+                return Ok(new { Message = "Booking was updated" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while edit booking.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't edit booking"));
             }
         }
         #endregion

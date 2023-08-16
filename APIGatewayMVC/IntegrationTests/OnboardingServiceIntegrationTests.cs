@@ -34,7 +34,7 @@ namespace IntegrationTests
             var onboardingEntities = await _onboardingService.OnboardOrganisation(onboardingFormDataDTO, CancellationToken.None);
 
             // Assert
-            await EqualValues(onboardingEntities);
+            await EqualValues(onboardingEntities, CancellationToken.None);
         }
 
         [Fact]
@@ -83,11 +83,11 @@ namespace IntegrationTests
 
         #region Private methods
 
-        private async Task EqualValues(OnboardingEntities onboardingFormDataDTO)
+        private async Task EqualValues(OnboardingEntities onboardingFormDataDTO, CancellationToken cancellationToken)
         {
-            var actualSchoolRepository = _schoolRepository.FindBy(x => x == onboardingFormDataDTO.School).ToList().FirstOrDefault();
-            var actualCustomerRepository = _customerRepository.FindBy(x => x == onboardingFormDataDTO.Customer).ToList().FirstOrDefault();
-            var actualCustomerRole = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2).ToList().FirstOrDefault();
+            var actualSchoolRepository = _schoolRepository.FindBy(x => x == onboardingFormDataDTO.School, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRepository = _customerRepository.FindBy(x => x == onboardingFormDataDTO.Customer, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRole = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2, cancellationToken).ToList().FirstOrDefault();
 
             Assert.NotNull(actualSchoolRepository);
             Assert.NotNull(actualCustomerRepository);

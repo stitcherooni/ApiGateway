@@ -2,6 +2,7 @@
 using BLL.DTO.Statistic;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
+using BLL.DTO.Statistic.Reports.BookingQuestionsAndAnswers;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
 using BLL.DTO.Statistic.Reports.Customers;
 using BLL.DTO.Statistic.Reports.Dashboard;
@@ -344,6 +345,38 @@ namespace BLL.FooGenerator
             };
         }
 
+        public static async Task<GetBookingQuestionsAndAnswersResponse> GetBookingQuestionsAndAnswersReport(GetBookingQuestionsAndAnswersRequest getBookingQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+
+            Random rnd = new Random();
+            var count = rnd.Next(1, 10);
+            List<Questions> questionsList = new();
+            Dictionary<int, IEnumerable<Answer>> answersList = new();
+
+
+            for (int i = 0; i < count; i++)
+            {
+                var question = GetQuestion(i, cancellationToken);
+                questionsList.Add(question);
+                answersList.Add(question.QuestionId, GetListOfAnswers(cancellationToken));
+            };
+
+            return new GetBookingQuestionsAndAnswersResponse()
+            {
+                Questions = questionsList,
+                Answers = answersList
+            };
+        }
+
+        public static async Task<IList<BookingDTO>> BookingReport(CancellationToken cancellationToken, int size = 50)
+        {
+            var result = new List<BookingDTO>();
+            for (int i = 1; i <= size; i++)
+            {
+                result.Add(GetBooking(i));
+            }
+            return result;
+        }
 
         #region Private methods
 
@@ -1181,6 +1214,37 @@ namespace BLL.FooGenerator
             };
         }
 
+        private static Questions GetQuestion(int id, CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            var month = rnd.Next(1, 12);
+            var day = rnd.Next(1, 28);
+            return new Questions()
+            {
+                QuestionId = id,
+                Question = rnd.Next(0, 100).ToString() + " question text"
+            };
+        }
+
+        private static Answer GetAnswer(CancellationToken cancellationToken)
+        {
+            Random rnd = new Random();
+            return new Answer()
+            {
+                AnswerId = rnd.Next(0, 100),
+                AnswerText = rnd.Next(0, 100).ToString() + " answer text" + rnd.Next(0, 100).ToString()
+            };
+        }
+
+        private static IEnumerable<Answer> GetListOfAnswers(CancellationToken cancellationToken)
+        {
+            var answerList = new List<Answer>();
+            for (int i = 0; i < 3; i++)
+            {
+                answerList.Add(GetAnswer(cancellationToken));
+            }
+            return answerList;
+        }
         public static object GenerateRandomAnswerTypeValue(AnswerType type)
         {
             var rnd = new Random();

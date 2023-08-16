@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BLL.DTO.Email;
+using DAL;
 using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
 using Models;
@@ -36,5 +37,10 @@ namespace BLL.Services.EmailService
             }
             else throw new Exception($"User with email {emailAddress} doesn't exist");
         }
+
+        public async Task<IRestResponse> ResendConfirmationEmailForOrder(ResendConfirmationEmailForOrderRequest resendConfirmationEmailForOrderRequest, CancellationToken cancellationToken)
+        {
+            return new RestResponse();
+         }
     }
 }

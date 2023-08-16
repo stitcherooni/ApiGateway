@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Blobs
 {
-    public class CommonRequest
+    public class GetFileRequest
     {
         public IEnumerable<int> Ids { get; set; }
         public IEnumerable<string> Columns { get; set; }
