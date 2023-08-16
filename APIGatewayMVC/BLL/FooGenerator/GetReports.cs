@@ -32,6 +32,7 @@ namespace BLL.FooGenerator
 {
     public static class GetReports
     {
+        readonly static Random rnd = new Random();
         public static async Task<IList<MiWizardDTO>> MiWizardReport(CancellationToken cancellationToken)
         {
             var result = new List<MiWizardDTO>();
@@ -534,15 +535,51 @@ namespace BLL.FooGenerator
 
         private static History CreateHistory()
         {
-            Random rnd = new Random();
             return new History()
             {
-                ProductId = rnd.Next(0, 10),
-                ProductName = rnd.Next(0, 10).ToString() + "name",
-                Quantity = rnd.Next(1, 10),
-                Price = new TotalDTO { Amount = rnd.Next(1, 40), Currency = "GBP" },
-                LineAmount = new TotalDTO { Amount = rnd.Next(1, 40), Currency = "GBP" },
-                Status = rnd.Next(0, 10).ToString() + "Status"
+                Data = GetOrderHistoryItemList(),
+                RefundedQuantity = rnd.Next(1, 100),
+                RefundedPrice = rnd.Next(1, 100),
+                RefundedLineAmount = rnd.Next(1, 100)
+            };
+        }
+
+        private static IEnumerable<OrderHistoryItem> GetOrderHistoryItemList()
+        {
+            int count = rnd.Next(1, 20);
+            List<OrderHistoryItem> result = new();
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(GetOrderHistoryItem(i));
+            }
+            return result;
+        }
+
+        private static OrderHistoryItem GetOrderHistoryItem(int id)
+        {
+            return new OrderHistoryItem
+            {
+                ProductId = id,
+                ProductName = rnd.Next(1, 100) + "name",
+                Quantity = rnd.Next(1, 80),
+                Price = GetPrice(),
+                LineAmount = GetPrice(),
+                Status = GetStatus(),
+            };
+        }
+
+        private static string GetStatus()
+        {
+            string[] status = { "OrderCompleted", "OrderReserved", "OrderRefunded", "OrderDeleted", "OrderTest", "OrderFailed", "OrderDespatched" };
+            return status[rnd.Next(status.Length)];
+        }
+
+        private static Price GetPrice()
+        {
+            return new Price
+            {
+                Amount = rnd.Next(1, 50),
+                Currency = "GBP"
             };
         }
 
@@ -788,7 +825,8 @@ namespace BLL.FooGenerator
                 Value = rnd.Next(0, 50),
                 BankedFee = rnd.Next(0, 60),
                 PlatformFee = rnd.Next(0, 60),
-                Order = GetOrder(id)
+                Order = GetOrder(id),
+                TransactionId= rnd.Next(0, 60)
             };
         }
 

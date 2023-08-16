@@ -35,11 +35,25 @@ namespace BLL.DTO.Statistic.Reports.Order
 
     public class History
     {
+        public IEnumerable<OrderHistoryItem> Data { get; set; }
+        public int RefundedQuantity { get; set; }
+        public int RefundedPrice { get; set; }
+        public int RefundedLineAmount { get; set; }
+    }
+
+    public class OrderHistoryItem
+    {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
-        public TotalDTO Price { get; set; }
-        public TotalDTO LineAmount { get; set; }
+        public Price Price { get; set; }
+        public Price LineAmount { get; set; }
         public string Status { get; set; }
+    }
+
+    public class Price
+    {
+        public int Amount { get; set; }
+        public string Currency { get; set; }
     }
 }

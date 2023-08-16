@@ -13,5 +13,6 @@ namespace BLL.DTO.Statistic.Reports.Banked
         public int BankedFee { get; set; }
         public int PlatformFee { get; set; }
         public OrderDTO Order { get; set; }
+        public int TransactionId { get; set; }
     }
 }
