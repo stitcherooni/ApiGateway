@@ -43,20 +43,21 @@ namespace APIGatewayMVC.Controllers
         private readonly ISearchingService _searchingService;
         private readonly ISortingService _sortingService;
         private readonly IUpdateService _updateService;
-        private readonly ILogger<OnboardingController> _logger;
+        private readonly ILogger<ReportController> _logger;
 
         public ReportController(IDashboardStatisticService dashboardStatisticService,
                                 IBlobService blobService,
                                 ISearchingService searchingService,
                                 ISortingService sortingService,
                                 IUpdateService updateService,
-                                ILogger<OnboardingController> logger)
+                                ILogger<ReportController> logger)
         {
             _dashboardStatisticService = dashboardStatisticService;
             _blobService = blobService;
             _searchingService = searchingService;
             _sortingService = sortingService;
             _updateService = updateService;
+            _logger = logger;
         }
 
         [HttpGet]
