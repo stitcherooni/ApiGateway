@@ -658,29 +658,57 @@ namespace BLL.FooGenerator
             };
         }
 
+        private static BookingProduct GetBookingProduct()
+        {
+            return new BookingProduct
+            {
+                Name = rnd.Next(1, 100).ToString() + "-Name",
+                Id = rnd.Next(1, 100),
+                Bookable = rnd.Next(2) == 1,
+                ProductHideClass = rnd.Next(2) == 1,
+                QuantityInStock = rnd.Next(1, 100)
+            };
+        }
+
+        private static string GetPaymentMethod()
+        {
+            string[] options = { "Paypal", "Paypal Card", "Cash", "Cheque", "Other", "PayPal (Off platform)", "Stripe", "GoCardless Direct Debit", "Bank Transfer (Off platform)", "Cash on collection" };
+            return options[rnd.Next(options.Length)];
+        }
+
         private static BookingDTO GetBooking(int id)
         {
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
             var day = rnd.Next(1, 28);
             var count = rnd.Next(1, 10);
-            List<string> allergiesAmount = new();
+            List<int> bookingsId = new();
 
             for (int i = 0; i < count; i++)
             {
-                allergiesAmount.Add(rnd.Next(0, 100).ToString());
+                bookingsId.Add(rnd.Next(0, 100));
             }
 
             return new BookingDTO()
             {
                 Num = id,
-                Id = rnd.Next(0, 50),
-                Product = rnd.Next(0, 80).ToString() + "product",
-                CustomerName = rnd.Next(0, 80).ToString() + "CustomerName",
-                BookingName = rnd.Next(0, 80).ToString() + "BookingName",
+                FirstName = rnd.Next(1, 100).ToString() + "-FirstName",
+                LastName = rnd.Next(1, 100).ToString() + "-LastName",
+                Class = rnd.Next(1, 100).ToString() + "-Class",
+                BookingInfo = rnd.Next(1, 100).ToString() + "-BookingInfo",
+                Sku = rnd.Next(1, 100),
+                Price = rnd.Next(1, 100),
+                Quantity = rnd.Next(1, 100),
+                OrderId = rnd.Next(1, 100),
+                Id = rnd.Next(1, 100),
+                Product = GetBookingProduct(),
+                CustomerName = rnd.Next(1, 100).ToString() + "-CustomerName",
+                BookingName = rnd.Next(1, 100).ToString() + "-BookingName",
                 Date = new DateTime(2022, month, day),
-                Contact = rnd.Next(0, 80).ToString() + "contact",
-                Allergies = allergiesAmount
+                PaymentMethod = GetPaymentMethod(),
+                Order = GetOrder(rnd.Next(1, 100)),
+                BookingsId = bookingsId
+
             };
         }
 
@@ -856,7 +884,7 @@ namespace BLL.FooGenerator
                 BankedFee = rnd.Next(0, 60),
                 PlatformFee = rnd.Next(0, 60),
                 Order = GetOrder(id),
-                TransactionId= rnd.Next(0, 60)
+                TransactionId = rnd.Next(0, 60)
             };
         }
 

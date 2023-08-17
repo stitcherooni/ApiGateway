@@ -131,7 +131,6 @@ namespace BLL.Services.Statistic
 
         public async Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken)
         {
-            var methods = new List<PaymentMethods>();
             var idsList = await _paymentMethodRepository.GetAllAsync(cancellationToken);
             var result = new List<PaymentMethods>();
             foreach (var item in idsList)

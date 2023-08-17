@@ -148,7 +148,8 @@ namespace BLL.FooGenerator
                 TotalPages = totalPages,
                 CurrentPage = page,
                 PageSize = pageSize,
-                Data = paginatedResult
+                Data = paginatedResult,
+                TotalProductQuantity = result.Select(x => x.Quantity).ToList().Sum()
             };
             return response;
         }
