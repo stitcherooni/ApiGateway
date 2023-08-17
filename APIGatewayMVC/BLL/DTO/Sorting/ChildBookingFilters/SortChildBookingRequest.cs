@@ -7,7 +7,7 @@ namespace BLL.DTO.Sorting.BookingFilters
     {
         public IEnumerable<int> EventIds { get; set; }
 
-        [RegularExpression("^(className|productName|productOrder|bookingName)$", ErrorMessage = "Filter must be 'className', 'productName', 'productOrder' or 'bookingName'.")]
+        [RegularExpression("^(className|productName|productOrder|bookingName||)$", ErrorMessage = "Filter must be 'className', 'productName', 'productOrder' or 'bookingName'.")]
         public string GroupBy { get; set; }
     }
 }
