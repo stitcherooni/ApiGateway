@@ -290,10 +290,11 @@ namespace BLL.FooGenerator
                 CurrentPage = page,
                 PageSize = pageSize,
                 Data = paginatedResult,
+                Currency = "GBP",
                 TotalOrdersCount = paginatedResult.Count(),
-                TotalSalesAmount = new TotalDTO { Amount = paginatedResult.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
-                TotalBankedFee = new TotalDTO { Amount = paginatedResult.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
-                TotalPlatformFees = new TotalDTO { Amount = paginatedResult.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
+                TotalSalesAmount = new TotalDTO { Amount = result.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
+                TotalBankedFee = new TotalDTO { Amount = result.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
+                TotalPlatformFees = new TotalDTO { Amount = result.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
             };
             return response;
         }

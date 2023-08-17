@@ -172,6 +172,23 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpGet]
+        [Route("testbankedreport")]
+        public async Task<IActionResult> GetTestBankedReport(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for fetching test banked report.");
+                var result = await _dashboardStatisticService.GetTestBankedReport(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching test banked report. ");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get test banked report"));
+            }
+        }
+
+        [HttpGet]
         [Route("bookingproducts")]
         public async Task<IActionResult> GetBookingProducts([FromQuery] GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
         {
@@ -184,7 +201,7 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching booking products.");
-                return BadRequest(GenerateErrorMessage(ex, "Can't get booking Products"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get booking products"));
             }
         }
 

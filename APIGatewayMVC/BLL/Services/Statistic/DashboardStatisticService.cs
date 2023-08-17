@@ -123,6 +123,12 @@ namespace BLL.Services.Statistic
             return response;
         }
 
+        public async Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken, page, pageSize);
+            return response;
+        }
+
         public async Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken)
         {
             var methods = new List<PaymentMethods>();

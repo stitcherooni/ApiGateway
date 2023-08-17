@@ -9,5 +9,6 @@ namespace BLL.DTO.Statistic.Reports.Banked
         public TotalDTO TotalSalesAmount { get; set; }
         public TotalDTO TotalBankedFee { get; set; }
         public TotalDTO TotalPlatformFees { get; set; }
+        public string Currency { get; set; }
     }
 }

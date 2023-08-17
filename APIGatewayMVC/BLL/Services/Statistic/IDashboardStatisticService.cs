@@ -56,5 +56,6 @@ namespace BLL.Services.Statistic
         public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken);
         public Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken);
+        public Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken, int page, int pageSize);
     }
 }

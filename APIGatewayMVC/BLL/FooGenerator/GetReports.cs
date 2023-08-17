@@ -1,5 +1,4 @@
-﻿using BLL.DTO;
-using BLL.DTO.Statistic;
+﻿using BLL.DTO.Statistic;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.BookingQuestionsAndAnswers;
@@ -20,8 +19,6 @@ using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
 using BLL.DTO.Statistic.Reports.Volunteer;
 using BLL.DTO.Statistic.Searching.Sales;
-using DocumentFormat.OpenXml.Office2019.Drawing.Model3D;
-using iText.Signatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
