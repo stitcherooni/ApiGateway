@@ -27,6 +27,7 @@ namespace BLL.FooGenerator
 {
     public static class ReportingDataGenerator
     {
+        readonly static Random rnd = new Random();
         public static async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var result = await GetReports.MiWizardReport(cancellationToken);
@@ -316,6 +317,7 @@ namespace BLL.FooGenerator
                 CurrentPage = page,
                 PageSize = pageSize,
                 Data = paginatedResult,
+                SoldQuantity=rnd.Next(0, 100)
             };
             return response;
         }

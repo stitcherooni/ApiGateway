@@ -907,8 +907,7 @@ namespace BLL.FooGenerator
                 LastName = rnd.Next(0, 50).ToString() + "LastName",
                 BookedBy = rnd.Next(0, 60).ToString() + "BookedBy",
                 Allergies = allergiesAmount,
-                Phone = rnd.Next(100000, 9999999),
-                SoldQuantity = rnd.Next(0, 60),
+                Phone = rnd.Next(100000, 9999999)
             };
         }
 
