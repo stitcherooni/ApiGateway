@@ -35,13 +35,15 @@ namespace BLL.FooGenerator
             return groupByOptions[randomIndex];
         }
 
-        public static GroupBy GetGroupByForChildBookings()
+        public static IEnumerable<GroupBy> GetGroupByForChildBookings()
         {
+            List<GroupBy> result = new();
             string[] Id = { "className", "noGroup" };
             string[] Name = { "Class Name", "No Group" };
-            Random random = new Random();
-            int randomIndex = random.Next(Id.Length);
-            return new GroupBy { Id = Id[randomIndex], Name = Name[randomIndex] };
+            result.Add(new GroupBy {Id = Id[0], Name = Name[0]});
+            result.Add(new GroupBy { Id = Id[1], Name = Name[1] });
+
+            return result;
         }
 
         public static IEnumerable<Events> GetEventList()
