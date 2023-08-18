@@ -14,6 +14,7 @@ using BLL.DTO.Statistic.Reports.PaymentMethods;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
 using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
+using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
@@ -54,6 +55,12 @@ namespace BLL.Services.Statistic
         public async Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var response = await ReportingDataGenerator.GetOrderReport(cancellationToken, page, pageSize);
+            return response;
+        }
+
+        public async Task<GetSalesReport> GetSaleReport(CancellationToken cancellationToken)
+        {
+            var response = await ReportingDataGenerator.GetSaleReport(cancellationToken);
             return response;
         }
 

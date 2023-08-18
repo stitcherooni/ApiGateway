@@ -114,6 +114,19 @@ namespace BLL.FooGenerator
             return response;
         }
 
+        public static async Task<GetSalesReport> GetSaleReport(CancellationToken cancellationToken)
+        {
+            var response = new GetSalesReport
+            {
+                TotalSales = rnd.Next(1, 100),
+                AvgSalesValue = rnd.Next(1, 100),
+                TotalSalesValue = rnd.Next(1, 100),
+                PlatformBookingFees = rnd.Next(1, 100),
+                Currency = "GBP"
+            };
+            return response;
+        }
+
         public static async Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken, int page, int pageSize)
         {
             var result = await GetReports.VolunteerReport(cancellationToken);
@@ -317,7 +330,7 @@ namespace BLL.FooGenerator
                 CurrentPage = page,
                 PageSize = pageSize,
                 Data = paginatedResult,
-                SoldQuantity=rnd.Next(0, 100)
+                SoldQuantity = rnd.Next(0, 100)
             };
             return response;
         }
@@ -552,7 +565,7 @@ namespace BLL.FooGenerator
             var response = new GetProductQuestionsAndAnswersResponse
             {
                 Questions = GetReports.GetQuestions(cancellationToken),
-                Answers=GetReports.GetAnswers(cancellationToken)
+                Answers = GetReports.GetAnswers(cancellationToken)
             };
 
             return response;

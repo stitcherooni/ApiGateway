@@ -84,6 +84,11 @@ namespace APIGatewayMVC.Controllers
                             var response = await _dashboardStatisticService.GetOrderReport(cancellationToken, page, pageSize);
                             return Ok(response);
                         }
+                    case nameof(ReportTypes.sales):
+                        {
+                            var response = await _dashboardStatisticService.GetSaleReport(cancellationToken);
+                            return Ok(response);
+                        }
                     case nameof(ReportTypes.tickets):
                         {
                             var response = await _dashboardStatisticService.GetTicketReport(cancellationToken, page, pageSize);

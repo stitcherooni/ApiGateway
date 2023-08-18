@@ -5,6 +5,7 @@
         mi_wizard,
         customers,
         orders,
+        sales,
         tickets,
         volunteers,
         bookings,
