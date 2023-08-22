@@ -2,6 +2,7 @@
 using BLL.DTO.Statistic.Reports;
 using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using System;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO
@@ -82,16 +83,18 @@ namespace BLL.DTO
             if (value == null)
                 return true; // Allow null values
 
-            Type validTypes = typeof(int).GetType() // Assuming number means integer
-                .GetType()
-                .GetType()
-                .GetType()
-                .GetType();
+            Type validTypes = typeof(int); // Assuming number means integer
 
             Type valueType = value.GetType();
 
-            if (validTypes.IsAssignableFrom(valueType))
+            if (validTypes.IsAssignableFrom(valueType) ||
+                valueType == typeof(string) ||
+                valueType == typeof(DateTime) ||
+                valueType == typeof(byte[]) ||
+                valueType == typeof(bool))
+            {
                 return true;
+            }
 
             ErrorMessage = "The 'answer' property must have a valid type: number, string, Date, Blob, or boolean.";
             return false;

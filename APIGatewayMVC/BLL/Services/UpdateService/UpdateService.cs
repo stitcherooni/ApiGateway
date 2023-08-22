@@ -1,45 +1,26 @@
 ﻿using BLL.DTO.Update;
 using BLL.DTO.Update.EditBooking;
 using DAL.Repository.DBRepository;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace BLL.Services.UpdateService
 {
     public class UpdateService : BaseService, IUpdateService
     {
         private readonly IRepository<TblCustomer> _customerRepository;
-        private readonly IRepository<TblOrderItem> _orderItemRepository;
         private readonly IRepository<TblOrder> _orderRepository;
-        private readonly IRepository<TblBooking> _bookingRepository;
-        private readonly IRepository<TblProduct> _productRepository;
-        private readonly IRepository<TblProductQuestionAnswer> _productQuestionAnswerRepository;
-        private readonly IRepository<TblProductQuestion> _productQuestionRepository;
-        private readonly IRepository<TblEvent> _eventRepository;
-        private readonly IRepository<TblEventProduct> _eventProductRepository;
 
-        public UpdateService(IRepository<TblCustomer> customerRepository, IRepository<TblOrderItem> orderItemRepository, IRepository<TblBooking> bookingRepository,
-            IRepository<TblProduct> productRepository, IRepository<TblOrder> orderRepository, IRepository<TblProductQuestionAnswer> productQuestionAnswerRepository,
-            IRepository<TblProductQuestion> productQuestionRepository, IRepository<TblEvent> eventRepository, IRepository<TblEventProduct> eventProductRepository,
-            IRepository<TblSchool> schoolRepository, IRepository<TblClass> classRepository)
+        public UpdateService(IRepository<TblCustomer> customerRepository,
+            IRepository<TblOrder> orderRepository
+           )
         {
             _customerRepository = customerRepository;
-            _orderItemRepository = orderItemRepository;
             _orderRepository = orderRepository;
-            _bookingRepository = bookingRepository;
-            _productRepository = productRepository;
-            _productQuestionAnswerRepository = productQuestionAnswerRepository;
-            _productQuestionRepository = productQuestionRepository;
-            _eventRepository = eventRepository;
-            _eventProductRepository = eventProductRepository;
         }
 
         public async Task RemoveUser(RemoveUserRequest removeUserRequest, CancellationToken cancellationToken)
@@ -121,7 +102,57 @@ namespace BLL.Services.UpdateService
 
         public async Task EditBooking(EditBookingRequest editBookingRequest, CancellationToken cancellationToken)
         {
-            //TODO: Waiting for logic
+            if (IsValidAnswerType((JsonElement)editBookingRequest.Answers.Answer))
+            {
+                //TODO: Waiting for logic
+            }
+            else
+            {
+                throw new ValidationException("Invalid answer type");
+            }
+        }
+
+        private bool IsValidAnswerType(JsonElement jsonElement)
+        {
+            return jsonElement.ValueKind switch
+            {
+                JsonValueKind.Array => IsValidArray(jsonElement.EnumerateArray()),
+                JsonValueKind.String => true,
+                JsonValueKind.Number => true,
+                JsonValueKind.Object => IsValidObject(jsonElement.EnumerateObject()),
+                JsonValueKind.True => true,
+                JsonValueKind.False => true,
+                _ => false,
+            };
+        }
+
+        private bool IsValidArray(JsonElement.ArrayEnumerator arrayEnumerator)
+        {
+            while (arrayEnumerator.MoveNext())
+            {
+                if (!IsValidValue(arrayEnumerator.Current))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool IsValidObject(JsonElement.ObjectEnumerator objectEnumerator)
+        {
+            while (objectEnumerator.MoveNext())
+            {
+                if (!IsValidValue(objectEnumerator.Current.Value))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool IsValidValue(JsonElement valueElement)
+        {
+            return IsValidAnswerType(valueElement);
         }
 
     }
