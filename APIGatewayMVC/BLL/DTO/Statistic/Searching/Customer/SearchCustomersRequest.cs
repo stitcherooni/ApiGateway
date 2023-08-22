@@ -11,7 +11,6 @@ namespace BLL.DTO.Statistic.Searching.Customer
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "The email address is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         public string PostCode { get; set; }

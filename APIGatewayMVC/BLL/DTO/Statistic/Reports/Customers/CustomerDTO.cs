@@ -11,6 +11,7 @@ namespace BLL.DTO.Statistic.Reports.Customers
         public string Child { get; set; }
         public DateTime Date { get; set; }
         public int Orders { get; set; }
-        public TotalDTO Value { get; set; }
+        public int Value { get; set; }
+        public bool Approved { get; set; }
     }
 }

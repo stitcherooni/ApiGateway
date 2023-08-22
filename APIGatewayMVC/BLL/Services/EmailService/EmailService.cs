@@ -1,4 +1,5 @@
 ﻿using BLL.DTO.Email;
+using BLL.FooGenerator;
 using DAL;
 using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
@@ -41,6 +42,16 @@ namespace BLL.Services.EmailService
         public async Task<IRestResponse> ResendConfirmationEmailForOrder(ResendConfirmationEmailForOrderRequest resendConfirmationEmailForOrderRequest, CancellationToken cancellationToken)
         {
             return new RestResponse();
-         }
+        }
+
+        public async Task<SendEmailResponse> SendCustomerEmail(SendCustomerEmailRequest sendCustomerEmailRequest, CancellationToken cancellationToken)
+        {
+            return await ReportingDataGenerator.GetSendEmailResponse(cancellationToken);
+        }
+
+        public async Task<SendEmailResponse> SendNewsletterEmail(SendNewsletterEmailRequest sendNewsletterEmailRequest, CancellationToken cancellationToken)
+        {
+            return await ReportingDataGenerator.GetSendEmailResponse(cancellationToken);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BLL.DTO.Blobs;
 using BLL.DTO.Blobs.OrderDelivery;
+using BLL.DTO.Email;
 using BLL.DTO.Sorting;
 using BLL.DTO.Sorting.Booking;
 using BLL.DTO.Sorting.BookingFilters;
@@ -22,6 +23,7 @@ using BLL.DTO.Statistic.Searching.TreasurerByDate;
 using BLL.DTO.Update;
 using BLL.DTO.Update.EditBooking;
 using BLL.Services.BlobService;
+using BLL.Services.EmailService;
 using BLL.Services.SearchingService;
 using BLL.Services.SortingService;
 using BLL.Services.Statistic;
@@ -43,6 +45,7 @@ namespace APIGatewayMVC.Controllers
         private readonly ISearchingService _searchingService;
         private readonly ISortingService _sortingService;
         private readonly IUpdateService _updateService;
+        private readonly IEmailService _emailService;
         private readonly ILogger<ReportController> _logger;
 
         public ReportController(IDashboardStatisticService dashboardStatisticService,
@@ -50,6 +53,7 @@ namespace APIGatewayMVC.Controllers
                                 ISearchingService searchingService,
                                 ISortingService sortingService,
                                 IUpdateService updateService,
+                                IEmailService emailService,
                                 ILogger<ReportController> logger)
         {
             _dashboardStatisticService = dashboardStatisticService;
@@ -57,6 +61,7 @@ namespace APIGatewayMVC.Controllers
             _searchingService = searchingService;
             _sortingService = sortingService;
             _updateService = updateService;
+            _emailService = emailService;         
             _logger = logger;
         }
 
@@ -1097,20 +1102,38 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPut]
-        [Route("approveuser")]
-        public async Task<IActionResult> ApproveUser(ToggleApproveUserRequest toggleApproveUserRequest, CancellationToken cancellationToken)
+        [Route("toggleapprovaluser")]
+        public async Task<IActionResult> ToggleApprovalUser(ToggleApproveUserRequest toggleApproveUserRequest, CancellationToken cancellationToken)
         {
-            try
+            if (toggleApproveUserRequest.IsApprove == true)
             {
-                _logger.LogInformation("Request received for approve user.");
-                await _updateService.ApproveUser(toggleApproveUserRequest, cancellationToken);
-                return Ok(new { Message = $"User with Id {toggleApproveUserRequest.UserId} successfully approved" });
+                try
+                {
+                    _logger.LogInformation("Request received for approve user.");
+                    await _updateService.ApproveUser(toggleApproveUserRequest, cancellationToken);
+                    return Ok(new { Message = $"User with Id {toggleApproveUserRequest.UserId} successfully approved" });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while fetching approve user.");
+                    return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
+                }
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "Error while fetching approve user.");
-                return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
+                try
+                {
+                    _logger.LogInformation("Request received for unapprove user.");
+                    await _updateService.UnApproveUser(toggleApproveUserRequest, cancellationToken);
+                    return Ok(new { Message = $"User with Id {toggleApproveUserRequest.UserId} successfully unapproved" });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while fetching approve user.");
+                    return BadRequest(GenerateErrorMessage(ex, "Can't approve user"));
+                }
             }
+
         }
 
         [HttpPut]
@@ -1163,6 +1186,60 @@ namespace APIGatewayMVC.Controllers
                 return BadRequest(GenerateErrorMessage(ex, "Can't edit booking"));
             }
         }
+        #endregion
+
+        #region Emails
+        [HttpPost]
+        [Route("resendconfirmationemailfororder")]
+        public async Task<IActionResult> ResendConfirmationEmailForOrder(ResendConfirmationEmailForOrderRequest resendConfirmationEmailForOrderRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Resend confirmation email for order.");
+                await _emailService.ResendConfirmationEmailForOrder(resendConfirmationEmailForOrderRequest, cancellationToken);
+                return Ok(new { Message = "Confirmation email for order was resented." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while resend confirmation email for order.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't resend confirmation email for order."));
+            }
+        }
+
+        [HttpPost]
+        [Route("sendnewsletteremail")]
+        public async Task<IActionResult> SendNewsletterEmail(SendNewsletterEmailRequest sendNewsletterEmailRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Send news letter email for order.");
+                var result = await _emailService.SendNewsletterEmail(sendNewsletterEmailRequest, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while send news letter email for order.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't send news letter email for order."));
+            }
+        }
+
+        [HttpPost]
+        [Route("sendcustomeremail")]
+        public async Task<IActionResult> SendCustomerEmail(SendCustomerEmailRequest sendCustomerEmailRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Send customer email for order.");
+                var result = await _emailService.SendCustomerEmail(sendCustomerEmailRequest, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while send customer email for order.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't send customer email for order."));
+            }
+        }
+
         #endregion
     }
 }

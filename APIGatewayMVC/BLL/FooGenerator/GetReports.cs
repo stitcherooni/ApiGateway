@@ -525,7 +525,8 @@ namespace BLL.FooGenerator
                 Child = rnd.Next(0, 50).ToString() + "child",
                 Date = new DateTime(2022, month, day),
                 Orders = rnd.Next(1, 28),
-                Value = new TotalDTO { Amount = rnd.Next(1, 40), Currency = "GBP" }
+                Value = rnd.Next(0, 50),
+                Approved=rnd.Next(0, 2)==1,
             };
         }
 

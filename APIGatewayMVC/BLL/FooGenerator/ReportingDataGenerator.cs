@@ -1,4 +1,5 @@
-﻿using BLL.DTO.Statistic;
+﻿using BLL.DTO.Email;
+using BLL.DTO.Statistic;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
@@ -64,8 +65,11 @@ namespace BLL.FooGenerator
                 CurrentPage = page,
                 PageSize = pageSize,
                 Data = paginatedResult,
-                TotalOrdersNumber = 100,
-                TotalOrderValue = new TotalDTO() { Amount = 140, Currency = "GBP" }
+                CustomersCount = result.Count(),
+                Currency = "GBP",
+                TotalOrdersNumber = result.Select(x => x.Orders).ToList().Sum(),
+                TotalOrderValue = result.Select(x => x.Value).ToList().Sum(),
+                NotificationCounts = new NotificationCounts { PushNotificationsCount = rnd.Next(1, 100), EmailCount = rnd.Next(1, 100) }
             };
             return response;
         }
@@ -569,6 +573,15 @@ namespace BLL.FooGenerator
             };
 
             return response;
+        }
+
+        public static async Task<SendEmailResponse> GetSendEmailResponse(CancellationToken cancellationToken)
+        {
+            return new SendEmailResponse
+            {
+                EmailCount = rnd.Next(0, 100),
+                PushNotificationCount = rnd.Next(0, 100)
+            };
         }
     }
 }

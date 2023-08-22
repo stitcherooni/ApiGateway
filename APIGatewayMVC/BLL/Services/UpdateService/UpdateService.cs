@@ -72,6 +72,21 @@ namespace BLL.Services.UpdateService
             }
         }
 
+        public async Task UnApproveUser(ToggleApproveUserRequest toggleApproveUserRequest, CancellationToken cancellationToken)
+        {
+            using (var transactionScope = GetTransactionScope())
+            {
+                var entity = await _customerRepository.FindAsync(toggleApproveUserRequest.UserId, cancellationToken);
+                if (entity != null)
+                {
+                    entity.CustomerApproved = false;
+                    await _customerRepository.UpdateAsync(entity, cancellationToken);
+                }
+                else throw new Exception($"Customer with Id {toggleApproveUserRequest.UserId} doesn't exist");
+                transactionScope.Complete();
+            }
+        }
+
         public async Task MarkNotDispatchedOrder(MarkAsNotDispatchedOrderRequest markAsNotDispatchedOrderRequest, CancellationToken cancellationToken)
         {
             using (var transactionScope = GetTransactionScope())
