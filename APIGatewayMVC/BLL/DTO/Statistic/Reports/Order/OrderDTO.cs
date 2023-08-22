@@ -30,7 +30,7 @@ namespace BLL.DTO.Statistic.Reports.Order
         public string Type { get; set; }
         public int PlatformFee { get; set; }
         public int Refunded { get; set; }
-        public IEnumerable<History> History { get; set; }
+        public History History { get; set; }
     }
 
     public class History

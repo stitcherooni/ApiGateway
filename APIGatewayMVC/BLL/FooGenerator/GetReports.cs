@@ -535,13 +535,6 @@ namespace BLL.FooGenerator
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
             var day = rnd.Next(1, 28);
-            var count = rnd.Next(1, 10);
-            History[] history = new History[count];
-
-            for (int i = 0; i < history.Length; i++)
-            {
-                history[i] = CreateHistory();
-            }
 
             return new OrderDTO()
             {
@@ -560,7 +553,7 @@ namespace BLL.FooGenerator
                 Type = rnd.Next(0, 50).ToString() + "type",
                 PlatformFee = rnd.Next(0, 50),
                 Refunded = rnd.Next(0, 50),
-                History = history
+                History = CreateHistory()
             };
         }
 
