@@ -76,7 +76,7 @@ namespace BLL.Services.UpdateService
 
                 if (entity != null)
                 {
-                    entity.OrderDespatched = false;
+                    entity.OrderDispatched = false;
                     await _orderRepository.UpdateAsync(entity, cancellationToken);
                 }
                 else throw new Exception($"Order with Id {markAsNotDispatchedOrderRequest.OrderId} doesn't exist");

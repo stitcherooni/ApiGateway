@@ -594,7 +594,7 @@ namespace BLL.FooGenerator
 
         private static string GetStatus()
         {
-            string[] status = { "OrderCompleted", "OrderReserved", "OrderRefunded", "OrderDeleted", "OrderTest", "OrderFailed", "OrderDespatched" };
+            string[] status = { "OrderCompleted", "OrderReserved", "OrderRefunded", "OrderDeleted", "OrderTest", "OrderFailed", "OrderDispatched" };
             return status[rnd.Next(status.Length)];
         }
 

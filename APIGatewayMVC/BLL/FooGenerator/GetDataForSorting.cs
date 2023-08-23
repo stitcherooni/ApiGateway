@@ -83,13 +83,18 @@ namespace BLL.FooGenerator
             return new Events { Year = GetLstOfYears() };
         }
 
-        public static GroupBy GetRandomGroup()
+        public static IEnumerable<GroupBy> GetRandomGroup()
         {
             string[] Id = { "className", "productName", "productOrder", "bookingName" };
             string[] Name = { "Class Name", "Product Name", "Product Order", "BookingName" };
-            Random random = new Random();
-            int randomIndex = random.Next(Id.Length);
-            return new GroupBy { Id = Id[randomIndex], Name = Name[randomIndex] };
+
+            List <GroupBy> result= new();
+            for (int i = 0; i < Id.Length; i++)
+            {
+                result.Add(new GroupBy { Id = Id[i], Name = Name[i] });
+            }
+
+            return result;
 
         }
 
