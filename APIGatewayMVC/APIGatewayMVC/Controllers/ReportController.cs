@@ -262,7 +262,24 @@ namespace APIGatewayMVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while fetching last orders report.");
-                return BadRequest(GenerateErrorMessage(ex, "Can't get Last orders"));
+                return BadRequest(GenerateErrorMessage(ex, "Can't get last orders"));
+            }
+        }
+
+        [HttpGet]
+        [Route("testorders")]
+        public async Task<IActionResult> GetTestOrders(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for fetching test orders report.");
+                var result = await _dashboardStatisticService.GetTestOrders(cancellationToken, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching test orders report.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't get test orders"));
             }
         }
 

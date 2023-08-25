@@ -54,6 +54,7 @@ namespace BLL.Services.Statistic
         public Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize);
         public Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize);
         public Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken, int page, int pageSize);
         public Task<OrganisationDataResponse> OrganisationData(OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken);
         public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
         public Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken);

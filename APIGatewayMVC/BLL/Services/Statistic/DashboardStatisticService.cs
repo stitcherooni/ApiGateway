@@ -244,6 +244,12 @@ namespace BLL.Services.Statistic
             return response;
         }
 
+        public async Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken, int page, int pageSize)
+        {
+            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);
+            return response;
+        }
+
         public async Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken)
         {
             var response = await ReportingDataGenerator.GetBookingProductsReport(cancellationToken);
