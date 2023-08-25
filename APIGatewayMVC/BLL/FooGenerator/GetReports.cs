@@ -797,7 +797,7 @@ namespace BLL.FooGenerator
             return new InvoiceDTO()
             {
                 Num = id,
-                Id = rnd.Next(0, 50),
+                InvoiceNo = rnd.Next(0, 50),
                 IssureDate = new DateTime(2022, month, day),
                 DueDate = new DateTime(2022, month, day + randomday),
                 Status = rnd.Next(0, 50).ToString() + "Status",
@@ -805,7 +805,7 @@ namespace BLL.FooGenerator
                 Vat = rnd.Next(0, 60),
                 Total = rnd.Next(0, 60),
                 Currency = "GBP",
-                Invoice = "googl.com"
+                Invoice = "google.com"
             };
         }
 
