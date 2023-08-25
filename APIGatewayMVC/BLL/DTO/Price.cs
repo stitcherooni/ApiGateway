@@ -1,6 +1,6 @@
-﻿namespace BLL.DTO.Statistic
+﻿namespace BLL.DTO
 {
-    public class TotalDTO
+    public class Price
     {
         public int Amount { get; set; }
         public string Currency { get; set; }

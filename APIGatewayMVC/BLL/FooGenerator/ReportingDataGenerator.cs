@@ -1,5 +1,5 @@
-﻿using BLL.DTO.Email;
-using BLL.DTO.Statistic;
+﻿using BLL.DTO;
+using BLL.DTO.Email;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
@@ -90,9 +90,11 @@ namespace BLL.FooGenerator
                 CurrentPage = page,
                 PageSize = pageSize,
                 Data = paginatedResult,
-                TotalProcessingFees = new TotalDTO() { Amount = 120, Currency = "GBP" },
-                TotalSalesAmount = new TotalDTO() { Amount = 140, Currency = "GBP" },
-                TotalPlatformFees = new TotalDTO() { Amount = 150, Currency = "GBP" }
+                TotalOrdersCount = result.Select(x => x.Orders).Sum(),
+                AvgOrderValue = result.Select(x => x.Orders).Sum() / result.Count(),
+                TotalOrderValue = result.Select(x => x.Value.Amount).Sum(),
+                Refunded = rnd.Next(0, result.Count),
+                Currency = "GBP"
             };
             return response;
         }
@@ -311,9 +313,9 @@ namespace BLL.FooGenerator
                 Data = paginatedResult,
                 Currency = "GBP",
                 TotalOrdersCount = paginatedResult.Count(),
-                TotalSalesAmount = new TotalDTO { Amount = result.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
-                TotalBankedFee = new TotalDTO { Amount = result.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
-                TotalPlatformFees = new TotalDTO { Amount = result.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
+                TotalSalesAmount = new Price { Amount = result.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
+                TotalBankedFee = new Price { Amount = result.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
+                TotalPlatformFees = new Price { Amount = result.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
             };
             return response;
         }

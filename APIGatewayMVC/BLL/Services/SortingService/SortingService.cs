@@ -2,7 +2,7 @@
 using BLL.DTO.Sorting.Booking;
 using BLL.DTO.Sorting.BookingFilters;
 using BLL.DTO.Sorting.EventFilters;
-using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
+using BLL.DTO.Sorting.ProductQuestionsSortingFilters;
 using BLL.DTO.Sorting.SalesFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Sorting.VolunteersFilters;
@@ -74,9 +74,9 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<GetProductQuestinsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetProductQuestionsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
         {
-            var response = new GetProductQuestinsSortingFilters()
+            var response = new GetProductQuestionsSortingFilters()
             {
                 Events = GetDataForSorting.GetEventList(),
                 Products = GetDataForSorting.GetProductsForProductQuestions(),

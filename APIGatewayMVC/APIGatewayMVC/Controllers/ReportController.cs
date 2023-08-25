@@ -5,7 +5,7 @@ using BLL.DTO.Sorting;
 using BLL.DTO.Sorting.Booking;
 using BLL.DTO.Sorting.BookingFilters;
 using BLL.DTO.Sorting.EventFilters;
-using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
+using BLL.DTO.Sorting.ProductQuestionsSortingFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Statistic.Reports;
 using BLL.DTO.Statistic.Reports.Booking;

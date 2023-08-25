@@ -2,7 +2,7 @@
 using BLL.DTO.Sorting.Booking;
 using BLL.DTO.Sorting.BookingFilters;
 using BLL.DTO.Sorting.EventFilters;
-using BLL.DTO.Sorting.ProductQuestinsSortingFilters;
+using BLL.DTO.Sorting.ProductQuestionsSortingFilters;
 using BLL.DTO.Sorting.SalesFilters;
 using BLL.DTO.Sorting.TicketFilters;
 using BLL.DTO.Sorting.VolunteersFilters;
@@ -29,7 +29,7 @@ namespace BLL.Services.SortingService
 
         public Task<GetSalesFilters> SalesFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
 
-        public Task<GetProductQuestinsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
+        public Task<GetProductQuestionsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
         public Task<object> SortProductQuestionsResponse(SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken, int page, int pageSize);
 
         public Task<GetChildBookingsFilters> ChildBookingsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);

@@ -6,9 +6,9 @@ namespace BLL.DTO.Statistic.Searching.Order
     public class SearchReportsOrdersResponse : PagesInfoDTO
     {
         public IEnumerable<OrderDTO> Data { get; set; }
-        public TotalDTO TotalSalesAmount { get; set; }
-        public TotalDTO TotalProcessingFees { get; set; }
-        public TotalDTO TotalPlatformFees { get; set; }
+        public Price TotalSalesAmount { get; set; }
+        public Price TotalProcessingFees { get; set; }
+        public Price TotalPlatformFees { get; set; }
 
     }
 }

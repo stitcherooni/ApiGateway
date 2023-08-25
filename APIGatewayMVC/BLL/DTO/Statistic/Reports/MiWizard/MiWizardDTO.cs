@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.DTO.Statistic.Reports.Order;
+using System;
 
 namespace BLL.DTO.Statistic.Reports.MiWizard
 {
@@ -11,6 +12,6 @@ namespace BLL.DTO.Statistic.Reports.MiWizard
         public int Pupils { get; set; }
         public DateTime Date { get; set; }
         public int Orders { get; set; }
-        public TotalDTO Value { get; set; }
+        public Price Value { get; set; }
     }
 }

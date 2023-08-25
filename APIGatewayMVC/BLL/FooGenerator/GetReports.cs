@@ -1,4 +1,4 @@
-﻿using BLL.DTO.Statistic;
+﻿using BLL.DTO;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.BookingQuestionsAndAnswers;
@@ -506,7 +506,7 @@ namespace BLL.FooGenerator
                 Pupils = rnd.Next(1, 50),
                 Date = new DateTime(2022, month, day),
                 Orders = rnd.Next(1, 50),
-                Value = new TotalDTO { Amount = rnd.Next(1, 40), Currency = "GBP" }
+                Value = new Price { Amount = rnd.Next(1, 40), Currency = "GBP" }
             };
         }
 
@@ -545,7 +545,7 @@ namespace BLL.FooGenerator
                 Status = rnd.Next(0, 10).ToString() + "status",
                 Date = new DateTime(2022, month, day),
                 Orders = rnd.Next(0, 70),
-                Value = new TotalDTO { Amount = rnd.Next(1, 40), Currency = "GBP" },
+                Value = new Price { Amount = rnd.Next(1, 40), Currency = "GBP" },
                 SchoolName = rnd.Next(0, 50).ToString() + "SchoolName",
                 Email = rnd.Next(0, 70).ToString() + "@Email.com",
                 TransactionId = rnd.Next(0, 70).ToString(),
@@ -553,6 +553,7 @@ namespace BLL.FooGenerator
                 Type = rnd.Next(0, 50).ToString() + "type",
                 PlatformFee = rnd.Next(0, 50),
                 Refunded = rnd.Next(0, 50),
+                PaymentMethod=GetPaymentMethod(),
                 History = CreateHistory()
             };
         }
@@ -666,7 +667,7 @@ namespace BLL.FooGenerator
 
         private static string GetPaymentMethod()
         {
-            string[] options = { "Paypal", "Paypal Card", "Cash", "Cheque", "Other", "PayPal (Off platform)", "Stripe", "GoCardless Direct Debit", "Bank Transfer (Off platform)", "Cash on collection" };
+            string[] options = { "Paypal", "Paypal Card", "Cash", "Cheque", "Other", "PayPal (Off platform)", "Stripe", "GoCardless Direct Debit", "Bank Transfer (Off platform)", "Cash on collection", null };
             return options[rnd.Next(options.Length)];
         }
 
@@ -700,6 +701,8 @@ namespace BLL.FooGenerator
                 BookingName = rnd.Next(1, 100).ToString() + "-BookingName",
                 Date = new DateTime(2022, month, day),
                 PaymentMethod = GetPaymentMethod(),
+                Phone= rnd.Next(1, 100).ToString() + "-Phone",
+                Email= rnd.Next(1, 100).ToString() + "@email.com",
                 Order = GetOrder(rnd.Next(1, 100)),
                 BookingsId = bookingsId
 

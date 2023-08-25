@@ -13,7 +13,7 @@ namespace BLL.DTO.Statistic.Reports.Order
         public string Status { get; set; }
         public DateTime Date { get; set; }
         public int Orders { get; set; }
-        public TotalDTO Value { get; set; }
+        public Price Value { get; set; }
         public string SchoolName { get; set; }
 
         [Required(ErrorMessage = "The email address is required")]
@@ -49,11 +49,5 @@ namespace BLL.DTO.Statistic.Reports.Order
         public Price Price { get; set; }
         public Price LineAmount { get; set; }
         public string Status { get; set; }
-    }
-
-    public class Price
-    {
-        public int Amount { get; set; }
-        public string Currency { get; set; }
     }
 }

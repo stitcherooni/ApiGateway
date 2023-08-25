@@ -1,6 +1,7 @@
 ﻿using BLL.DTO.Statistic.Reports.Order;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO.Statistic.Reports.Booking
 {
@@ -21,6 +22,10 @@ namespace BLL.DTO.Statistic.Reports.Booking
         public string BookingName { get; set; }
         public DateTime Date { get; set; }
         public string PaymentMethod { get; set; }
+        public string Phone { get; set; }
+
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; }
         public OrderDTO Order { get; set; }
         public IEnumerable<int> BookingsId { get; set; }
     }

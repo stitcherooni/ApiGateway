@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BLL.DTO.Sorting.ProductQuestinsSortingFilters
+namespace BLL.DTO.Sorting.ProductQuestionsSortingFilters
 {
     public class SortProductQuestionsRequest
     {
