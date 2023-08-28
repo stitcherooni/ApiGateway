@@ -369,7 +369,7 @@ namespace BLL.FooGenerator
             Random rnd = new Random();
             var response = new OrganisationDataResponse
             {
-                Logo = rnd.Next(1, 100) + "-Logo",
+                Logo = "https://i.ytimg.com/vi/t5QShg70KJM/hqdefault.jpg",
                 Email = rnd.Next(1, 100) + "@email.com",
                 Facebook = rnd.Next(1, 100) + ".facebook.com",
                 Location = GetReports.GetLocation(cancellationToken),
