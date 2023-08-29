@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Statistic.Reports.Banked
 {
-    public class GetBankedReportsResponse : PagesInfoDTO
+    public class GetBankedReportsResponse
     {
         public IEnumerable<BankedTransactionDTO> Data { get; set; }
         public int TotalOrdersCount { get; set; }

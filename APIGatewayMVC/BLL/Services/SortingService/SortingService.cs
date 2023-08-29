@@ -29,9 +29,9 @@ namespace BLL.Services.SortingService
             };
             return response;
         }
-        public async Task<GetVolunteerReportsResponse> SortVolunteerResponse(SortRequest sortRequest, CancellationToken cancellationToken, int page = 1, int pageSize = 10)
+        public async Task<GetVolunteerReportsResponse> SortVolunteerResponse(SortRequest sortRequest, CancellationToken cancellationToken)
         {
-            return await ReportingDataGenerator.GetVolunteerReport(cancellationToken, page, pageSize);
+            return await ReportingDataGenerator.GetVolunteerReport(cancellationToken);
         }
 
         public async Task<GetTreasurerEventFilters> TreasurerByEventFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
@@ -44,9 +44,9 @@ namespace BLL.Services.SortingService
             };
             return response;
         }
-        public async Task<GetTreasurerByEventReportsResponse> SortTreasurerByEventResponse(SortTreasurerByEventRequest sortTreasurerByEventRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetTreasurerByEventReportsResponse> SortTreasurerByEventResponse(SortTreasurerByEventRequest sortTreasurerByEventRequest, CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetTreasurerByEventReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetTreasurerByEventReport(cancellationToken);
             return response;
         }
 
@@ -59,9 +59,9 @@ namespace BLL.Services.SortingService
             };
             return response;
         }
-        public async Task<GetTicketsReportsResponse> SortTicketsResponse(SortTicketsRequest sortTicketsRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetTicketsReportsResponse> SortTicketsResponse(SortTicketsRequest sortTicketsRequest, CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetTicketReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetTicketReport(cancellationToken);
             return response;
         }
 
@@ -86,12 +86,12 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<object> SortProductQuestionsResponse(SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<object> SortProductQuestionsResponse(SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken)
         {
             if (sortProductQuestionsRequest.GroupBy == "horizontal")
-                return await ReportingDataGenerator.GetProductQuestionHorizontalReport(cancellationToken, page, pageSize);
+                return await ReportingDataGenerator.GetProductQuestionHorizontalReport(cancellationToken);
             if (sortProductQuestionsRequest.GroupBy == "vertical")
-                return await ReportingDataGenerator.GetProductQuestionVerticalReport(cancellationToken, page, pageSize);
+                return await ReportingDataGenerator.GetProductQuestionVerticalReport(cancellationToken);
             else throw new Exception("Forman must be either 'horizontal' or 'vertical'.");
         }
 
@@ -104,9 +104,9 @@ namespace BLL.Services.SortingService
             };
             return response;
         }
-        public async Task<GetChildOnlyBookingReportsResponse> SortChildBookingsResponse(SortChildBookingRequest sortChildBookingRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetChildOnlyBookingReportsResponse> SortChildBookingsResponse(SortChildBookingRequest sortChildBookingRequest, CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken);
             return response;
         }
  
@@ -122,9 +122,9 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<GetBookingsReportsResponse> SortBookingsResponse(SortBookingRequest sortBookingRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBookingsReportsResponse> SortBookingsResponse(SortBookingRequest sortBookingRequest, CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken);
             return response;
         }
     }

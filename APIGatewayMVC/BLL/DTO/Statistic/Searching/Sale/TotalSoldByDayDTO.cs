@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BLL.DTO.Statistic.Searching.Sales
 {
-    public class TotalSoldByDayDTO : PagesInfoDTO
+    public class TotalSoldByDayDTO
     {
         public IEnumerable<TotalSoldByDayItem> Data { get; set; }
         public int TotalQuantity { get; set; }

@@ -173,19 +173,19 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<IDictionary<string, SalesData>> GetCommonLiveSalesDictionary(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<IDictionary<string, SalesData>> GetCommonLiveSalesDictionary(CancellationToken cancellationToken)
         {
             return new Dictionary<string, SalesData>()
             {
-                {"School Uniform COPY",  GetSalesData(cancellationToken, page, pageSize)},
-                { "Second Hand Uniform",  GetSalesData(cancellationToken, page, pageSize)},
-                { "Advertising",  GetSalesData(cancellationToken, page, pageSize)}
+                {"School Uniform COPY",  GetSalesData(cancellationToken)},
+                { "Second Hand Uniform",  GetSalesData(cancellationToken)},
+                { "Advertising",  GetSalesData(cancellationToken)}
             };
         }
 
-        public static async Task<(string, IEnumerable<CurrentSales>)> GetCurrentLiveSalesDictionary(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<(string, IEnumerable<CurrentSales>)> GetCurrentLiveSalesDictionary(CancellationToken cancellationToken)
         {
-            var tempSalesDats = GetCurrentSalesData(cancellationToken, page, pageSize);
+            var tempSalesDats = GetCurrentSalesData(cancellationToken);
             return (GetProduct(), tempSalesDats.Data);
         }
 
@@ -306,31 +306,31 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static SalesDataProps GetSalesDataProps(CancellationToken cancellationToken, int page, int pageSize)
+        public static SalesDataProps GetSalesDataProps(CancellationToken cancellationToken)
         {
             var result = new SalesDataProps()
             {
-                TotalSales = GetTotalSale(cancellationToken, page, pageSize),
-                TotalSoldByDay = GetTotalSoldByDay(cancellationToken, page, pageSize),
+                TotalSales = GetTotalSale(cancellationToken),
+                TotalSoldByDay = GetTotalSoldByDay(cancellationToken),
                 ProductsSoldByDay = new Dictionary<string, ProductsSoldByDayItem>
                 {
-                    { "soldProduct", GetProductsSoldByDayItem(cancellationToken, page, pageSize)}
+                    { "soldProduct", GetProductsSoldByDayItem(cancellationToken)}
                 },
                 ProductsSoldBySchool = new Dictionary<string, ProductSoldSchool>
                 {
-                    {"SoldBySchool", GetProductSoldSchool(cancellationToken, page, pageSize)
+                    {"SoldBySchool", GetProductSoldSchool(cancellationToken)
                     }
                 },
                 ProductOrderCount = new Dictionary<string, ProductOrderCount>
                 {
-                    {"OrderCount", GetProductOrderCount(cancellationToken, page, pageSize) }
+                    {"OrderCount", GetProductOrderCount(cancellationToken) }
                 }
             };
 
             return result;
         }
 
-        public static async Task<GetSalesReportsResponse> GetSalesResponse(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetSalesReportsResponse> GetSalesResponse(CancellationToken cancellationToken)
         {
             return new GetSalesReportsResponse()
             {
@@ -338,7 +338,7 @@ namespace BLL.FooGenerator
                 AvgSalesValue = 15,
                 TotalSalesValue = 12,
                 PlatformBookingFees = 18,
-                Data = GetSalesDataProps(cancellationToken, page, pageSize)
+                Data = GetSalesDataProps(cancellationToken)
             };
         }
 
@@ -425,35 +425,25 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        private static SalesData GetSalesData(CancellationToken cancellationToken, int page, int pageSize)
+        private static SalesData GetSalesData(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
             var day = rnd.Next(1, 28);
             var salesData = CurrentSalesArray(cancellationToken);
 
-            var totalCount = salesData.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = salesData.Skip(skipCount).Take(pageSize);
-
             return new SalesData()
             {
-                Data = paginatedResult,
+                Data = salesData,
                 TotalQuantitySold = salesData.Sum(x => x.QuantitySold),
                 TotalQuantityLeft = salesData.Sum(x => x.QuantityLeft),
                 TotalSales = salesData.Sum(x => x.Sales),
-                Currency = "GBP",
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
+                Currency = "GBP"
             };
         }
 
-        private static CurrentSalesData GetCurrentSalesData(CancellationToken cancellationToken, int page, int pageSize)
+        private static CurrentSalesData GetCurrentSalesData(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
             var day = rnd.Next(1, 28);
@@ -867,7 +857,8 @@ namespace BLL.FooGenerator
                 Price = rnd.Next(0, 50),
                 GiftAid = rnd.Next(0, 50),
                 Refunded = rnd.Next(0, 50),
-                Cost = rnd.Next(0, 50)
+                Cost = rnd.Next(0, 50),
+                Type= rnd.Next(0, 50).ToString() + "Type"
             };
         }
 
@@ -1023,118 +1014,76 @@ namespace BLL.FooGenerator
             };
         }
 
-        private static TotalSales GetTotalSale(CancellationToken cancellationToken, int page, int pageSize)
+        private static TotalSales GetTotalSale(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             var result = GetTotalSaleDTOList(cancellationToken);
 
-            int skipCount = (page - 1) * pageSize;
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
-
-            return new TotalSales()
+             return new TotalSales()
             {
                 ProductPercentage = new Dictionary<string, int>() { { "product" + rnd.Next(0, 100).ToString(), rnd.Next(0, 100) } },
-                Sales = paginatedResult,
+                Sales = result,
                 TotalQuantity = rnd.Next(0, 100),
                 TotalSold = rnd.Next(0, 100),
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
             };
         }
 
-        private static TotalSoldByDayDTO GetTotalSoldByDay(CancellationToken cancellationToken, int page, int pageSize)
+        private static TotalSoldByDayDTO GetTotalSoldByDay(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             var result = GetTotalSoldByDayItemList(cancellationToken);
 
-            int skipCount = (page - 1) * pageSize;
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
-
             return new TotalSoldByDayDTO()
             {
-                Data = paginatedResult,
+                Data = result,
                 TotalQuantity = result.Sum(x => x.Quantity),
                 TotalQuantityToDate = result.Sum(x => x.QuantityToDate),
                 TotalSales = result.Sum(x => x.TotalSales),
                 TotalSalesToDate = result.Sum(x => x.ToDate),
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
             };
         }
 
-        public static ProductsSoldByDayItem GetProductsSoldByDayItem(CancellationToken cancellationToken, int page, int pageSize)
+        public static ProductsSoldByDayItem GetProductsSoldByDayItem(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             var result = GetSoldByDayProductList(cancellationToken);
 
-            int skipCount = (page - 1) * pageSize;
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
             return new ProductsSoldByDayItem()
             {
-                Data = paginatedResult,
+                Data = result,
                 TotalPercentage = result.Sum(x => x.Percentage),
                 TotalQuantity = result.Sum(x => x.Quantity),
                 TotalQuantityToDate = result.Sum(x => x.QuantityToDate),
                 TotalSales = result.Sum(x => x.TotalSales),
                 TotalToDate = result.Sum(x => x.ToDate),
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
             };
         }
 
-        public static ProductSoldSchool GetProductSoldSchool(CancellationToken cancellationToken, int page, int pageSize)
+        public static ProductSoldSchool GetProductSoldSchool(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             var result = GetProductSoldSchoolItemList(cancellationToken);
 
-            int skipCount = (page - 1) * pageSize;
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
             return new ProductSoldSchool()
             {
-                Data = paginatedResult,
+                Data = result,
                 TotalPercentage = result.Sum(x => x.Percentage),
                 TotalQuantity = result.Sum(x => x.Quantity),
                 TotalSales = result.Sum(x => x.TotalSales),
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
             };
         }
 
-        public static ProductOrderCount GetProductOrderCount(CancellationToken cancellationToken, int page, int pageSize)
+        public static ProductOrderCount GetProductOrderCount(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
             var result = GetProductOrderCountItemList(cancellationToken);
 
-            int skipCount = (page - 1) * pageSize;
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
             return new ProductOrderCount()
             {
-                Data = paginatedResult,
+                Data = result,
                 TotalPercentage = result.Sum(x => x.Percentage),
                 TotalOrder = result.Sum(x => x.NoOfOrder),
                 TotalProductCount = result.Sum(x => x.ProductCount),
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
             };
         }
 

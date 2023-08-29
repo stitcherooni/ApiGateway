@@ -3,7 +3,7 @@
 namespace BLL.DTO.Statistic.Reports.Dashboard
 {
 
-    public class LastOrdersList : PagesInfoDTO
+    public class LastOrdersList
     {
         public IEnumerable<Order> Data { get; set; }
     }
@@ -13,7 +13,7 @@ namespace BLL.DTO.Statistic.Reports.Dashboard
         public IEnumerable<KeyValuePair<string, SalesData>> Data { get; set; }
     }
 
-    public class CurrentLiveSales : PagesInfoDTO
+    public class CurrentLiveSales
     {
         public string ProductName { get; set; }
         public IEnumerable<CurrentSales> Data { get; set; }
@@ -23,7 +23,7 @@ namespace BLL.DTO.Statistic.Reports.Dashboard
         public string Currency { get; set; }
     }
 
-    public class MonthlyOrders : PagesInfoDTO
+    public class MonthlyOrders
     {
         public IEnumerable<MonthlyOrder> Data { get; set; }
         public int TotalOrders { get; set; }
@@ -31,12 +31,12 @@ namespace BLL.DTO.Statistic.Reports.Dashboard
         public string Currency { get; set; }
     }
 
-    public class MonthlyCustomersRegistrations : PagesInfoDTO
+    public class MonthlyCustomersRegistrations
     {
         public IEnumerable<MonthlyCustomersRegistration> Data { get; set; }
         public int TotalRegistrations { get; set; }
     }
-    public class SalesData : PagesInfoDTO
+    public class SalesData
     {
         public IEnumerable<CurrentSales> Data { get; set; }
         public int TotalQuantitySold { get; set; }

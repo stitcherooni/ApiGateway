@@ -19,23 +19,23 @@ namespace BLL.Services.SortingService
     public interface ISortingService
     {
         public Task<GetVolunteersFilters> VolunteersFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<GetVolunteerReportsResponse> SortVolunteerResponse(SortRequest sortRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetVolunteerReportsResponse> SortVolunteerResponse(SortRequest sortRequest, CancellationToken cancellationToken);
 
         public Task<GetTreasurerEventFilters> TreasurerByEventFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<GetTreasurerByEventReportsResponse> SortTreasurerByEventResponse(SortTreasurerByEventRequest sortTreasurerByEventRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetTreasurerByEventReportsResponse> SortTreasurerByEventResponse(SortTreasurerByEventRequest sortTreasurerByEventRequest, CancellationToken cancellationToken);
 
         public Task<TicketFilters> TicketsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<GetTicketsReportsResponse> SortTicketsResponse(SortTicketsRequest sortTicketsRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetTicketsReportsResponse> SortTicketsResponse(SortTicketsRequest sortTicketsRequest, CancellationToken cancellationToken);
 
         public Task<GetSalesFilters> SalesFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
 
         public Task<GetProductQuestionsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<object> SortProductQuestionsResponse(SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<object> SortProductQuestionsResponse(SortProductQuestionsRequest sortProductQuestionsRequest, CancellationToken cancellationToken);
 
         public Task<GetChildBookingsFilters> ChildBookingsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<GetChildOnlyBookingReportsResponse> SortChildBookingsResponse(SortChildBookingRequest sortChildBookingRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetChildOnlyBookingReportsResponse> SortChildBookingsResponse(SortChildBookingRequest sortChildBookingRequest, CancellationToken cancellationToken);
 
         public Task<GetBookingsSortingFilters> BookingsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken);
-        public Task<GetBookingsReportsResponse> SortBookingsResponse(SortBookingRequest sortBookingRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBookingsReportsResponse> SortBookingsResponse(SortBookingRequest sortBookingRequest, CancellationToken cancellationToken);
      }
 }

@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Statistic.Reports.Treasurer
 {
-    public class GetTreasurerByDateReportsResponse : PagesInfoDTO
+    public class GetTreasurerByDateReportsResponse
     {
         public IEnumerable<TreasurerByDateDTO> Data { get; set; }
         public int TotalSales { get; set; }

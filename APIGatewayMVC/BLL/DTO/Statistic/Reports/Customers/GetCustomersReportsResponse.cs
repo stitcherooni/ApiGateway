@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Statistic.Reports.Customers
 {
-    public class GetCustomersReportsResponse : PagesInfoDTO
+    public class GetCustomersReportsResponse
     {
         public IEnumerable<CustomerDTO> Data { get; set; }
         public int CustomersCount { get; set; }

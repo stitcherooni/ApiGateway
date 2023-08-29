@@ -11,7 +11,7 @@ namespace BLL.DTO.Statistic.Reports.Sale
         public IDictionary<string, ProductSoldSchool> ProductsSoldBySchool { get; set; }
         public IDictionary<string, ProductOrderCount> ProductOrderCount { get; set; }
     }
-    public class TotalSales:PagesInfoDTO
+    public class TotalSales
     {
         public IDictionary<string, int> ProductPercentage { get; set; }
         public IEnumerable<TotalSalesItem> Sales { get; set; }
@@ -20,8 +20,8 @@ namespace BLL.DTO.Statistic.Reports.Sale
         public int TotalCount { get; set; }
     }
 
-    public class SoldItem : PagesInfoDTO
-    {
+    public class SoldItem
+    { 
         public object Data { get; set; }
     }
 }

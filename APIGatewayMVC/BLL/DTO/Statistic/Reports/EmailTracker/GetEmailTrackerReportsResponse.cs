@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Statistic.Reports.EmailTracker
 {
-    public class GetEmailTrackerReportsResponse : PagesInfoDTO
+    public class GetEmailTrackerReportsResponse
     {
         public IEnumerable<EmailTrackerDTO> Data { get; set; }
         public int TotalEmailsSent { get; set; }

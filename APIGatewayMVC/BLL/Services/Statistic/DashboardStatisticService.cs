@@ -40,21 +40,21 @@ namespace BLL.Services.Statistic
             _paymentMethodRepository = paymentMethodRepository;
         }
 
-        public async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetMi_WizardReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetMi_WizardReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetCustomerReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetCustomerReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetOrderReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetOrderReport(cancellationToken);
             return response;
         }
 
@@ -64,75 +64,75 @@ namespace BLL.Services.Statistic
             return response;
         }
 
-        public async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetTicketReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetTicketReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetVolunteerReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetVolunteerReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetProductQuestionHorizontalReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetProductQuestionHorizontalReport(cancellationToken);
             return response;
         }
  
-        public async Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetProductQuestionVerticalReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetProductQuestionVerticalReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetInvoiceReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetInvoiceReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetTreasurerByEventReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetTreasurerByEventReport(cancellationToken);
             return response;
         }
  
-        public async Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetTreasurerByDateReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetTreasurerByDateReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetEmailTrackerReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetEmailTrackerReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken);
             return response;
         }
 
@@ -151,20 +151,20 @@ namespace BLL.Services.Statistic
             return result;
         }
 
-        public async Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken)
         {
 
             if (getSalesReportForProductRequest.Type == nameof(ProductsSoldByDayItem))
             {
-                return await ReportingDataGenerator.GetProductsSoldByDayItem(cancellationToken, page, pageSize);
+                return await ReportingDataGenerator.GetProductsSoldByDayItem(cancellationToken);
             }
             else if (getSalesReportForProductRequest.Type == nameof(ProductSoldSchool))
             {
-                return await ReportingDataGenerator.GetProductSoldSchool(cancellationToken, page, pageSize);
+                return await ReportingDataGenerator.GetProductSoldSchool(cancellationToken);
             }
             else if (getSalesReportForProductRequest.Type == nameof(ProductOrderCount))
             {
-                return await ReportingDataGenerator.GetProductOrderCount(cancellationToken, page, pageSize);
+                return await ReportingDataGenerator.GetProductOrderCount(cancellationToken);
             }
             else
             {
@@ -172,33 +172,33 @@ namespace BLL.Services.Statistic
             }
         }
 
-        public async Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetOrderReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetOrderReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBankedReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetChildOnlyBookingReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBookingsReportsResponse> GetTestBooking(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBookingsReportsResponse> GetTestBooking(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken);
             return response;
         }
 
-        public async Task<GetBookingsReportsResponse> GetRandomBookingReport(GetRandomBookingReport getRandomBookingReport, CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<GetBookingsReportsResponse> GetRandomBookingReport(GetRandomBookingReport getRandomBookingReport, CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetRandomBookingReport(getRandomBookingReport.Size, cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetRandomBookingReport(getRandomBookingReport.Size, cancellationToken);
             return response;
         }
 
@@ -208,27 +208,27 @@ namespace BLL.Services.Statistic
             return response;
         }
 
-        public async Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetCommonLiveSales(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetCommonLiveSales(cancellationToken);
             return response;
         }
 
-        public async Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page, int pageSize)
+        public async Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId)
         {
-            var response = await ReportingDataGenerator.GetCurrentLiveSales(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetCurrentLiveSales(cancellationToken);
             return response;
         }
 
-        public async Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetMonthlyOrders(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetMonthlyOrders(cancellationToken);
             return response;
         }
 
-        public async Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetMonthlyCustomersRegistration(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetMonthlyCustomersRegistration(cancellationToken);
             return response;
         }
  
@@ -238,15 +238,15 @@ namespace BLL.Services.Statistic
             return response;
         }
   
-        public async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken);
             return response;
         }
 
-        public async Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken, int page, int pageSize)
+        public async Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken)
         {
-            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken, page, pageSize);
+            var response = await ReportingDataGenerator.GetLastOrders(cancellationToken);
             return response;
         }
 

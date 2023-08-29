@@ -1,4 +1,4 @@
-﻿namespace BLL.DTO.Statistic.Reports
+﻿namespace BLL.DTO
 {
     public class PagesInfoDTO
     {

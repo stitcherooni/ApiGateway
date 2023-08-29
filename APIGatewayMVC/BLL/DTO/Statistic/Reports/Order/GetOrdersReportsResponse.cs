@@ -2,7 +2,7 @@
 
 namespace BLL.DTO.Statistic.Reports.Order
 {
-    public class GetOrdersReportsResponse : PagesInfoDTO
+    public class GetOrdersReportsResponse
     {
         public IEnumerable<OrderDTO> Data { get; set; }
         public int TotalOrdersCount { get; set; }

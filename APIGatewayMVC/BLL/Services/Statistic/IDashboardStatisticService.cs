@@ -27,38 +27,38 @@ namespace BLL.Services.Statistic
 {
     public interface IDashboardStatisticService
     {
-        public Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken);
+        public Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken);
+        public Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken);
         public Task<GetSalesReport> GetSaleReport(CancellationToken cancellationToken);
-        public Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetBookingsReportsResponse> GetTestBooking(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<GetBookingsReportsResponse> GetRandomBookingReport(GetRandomBookingReport getRandomBookingReport, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken);
+        public Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken);
+        public Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken);
+        public Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken);
+        public Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken);
+        public Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken);
+        public Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken);
+        public Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken);
+        public Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken);
+        public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken);
+        public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken);
+        public Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken);
+        public Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken);
+        public Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken);
+        public Task<GetBookingsReportsResponse> GetTestBooking(CancellationToken cancellationToken);
+        public Task<GetBookingsReportsResponse> GetRandomBookingReport(GetRandomBookingReport getRandomBookingReport, CancellationToken cancellationToken);
         public Task<GetBookingQuestionsAndAnswersResponse> GetBookingQuestionsAndAnswersResponse(GetBookingQuestionsAndAnswersRequest getBookingQuestionsAndAnswersRequest, CancellationToken cancellationToken);
         public Task<IEnumerable<PaymentMethods>> GetPaymentMethods(CancellationToken cancellationToken);
-        public Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId, int page, int pageSize);
-        public Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken, int page, int pageSize);
-        public Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<CommonLiveSales> CommonLiveSalesData(CancellationToken cancellationToken);
+        public Task<CurrentLiveSales> CurrentLiveSalesData(CancellationToken cancellationToken, int productId);
+        public Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken);
+        public Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken);
+        public Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken);
+        public Task<LastOrdersList> GetTestOrders(CancellationToken cancellationToken);
         public Task<OrganisationDataResponse> OrganisationData(OrganisationDataRequest organisationDataRequest, CancellationToken cancellationToken);
-        public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken, int page, int pageSize);
+        public Task<CurrentSalesReportResponse> GetCurrentSalesReport(GetSalesReportForProductRequest getSalesReportForProductRequest, CancellationToken cancellationToken);
         public Task<GetBookingsProductsReportsResponse> GetBookingProducts(GetBookingProductsRequest getBookingProductsRequest, CancellationToken cancellationToken);
         public Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken);
-        public Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken, int page, int pageSize);
+        public Task<GetBankedReportsResponse> GetTestBankedReport(CancellationToken cancellationToken);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BLL.DTO.Statistic.Searching.Order
 {
-    public class SearchReportsOrdersResponse : PagesInfoDTO
+    public class SearchReportsOrdersResponse
     {
         public IEnumerable<OrderDTO> Data { get; set; }
         public Price TotalSalesAmount { get; set; }
