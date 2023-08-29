@@ -403,10 +403,14 @@ namespace BLL.FooGenerator
             {
                 ProductName = result.Item1,
                 Data = paginatedResult,
+                TotalQuantityLeft=result.Item2.Select(x=>x.QuantityLeft).Sum(),
+                TotalSales = result.Item2.Select(x => x.Sales).Sum(),
+                TotalQuantitySold = result.Item2.Select(x => x.QuantitySold).Sum(),
+                Currency= "GBP",
                 TotalCount = totalCount,
                 TotalPages = totalPages,
                 CurrentPage = page,
-                PageSize = pageSize,
+                PageSize = pageSize
             };
             return response;
         }

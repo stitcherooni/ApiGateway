@@ -17,6 +17,10 @@ namespace BLL.DTO.Statistic.Reports.Dashboard
     {
         public string ProductName { get; set; }
         public IEnumerable<CurrentSales> Data { get; set; }
+        public int TotalQuantitySold { get; set; }
+        public int TotalQuantityLeft { get; set; }
+        public int TotalSales { get; set; }
+        public string Currency { get; set; }
     }
 
     public class MonthlyOrders : PagesInfoDTO

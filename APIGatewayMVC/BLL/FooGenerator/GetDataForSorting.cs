@@ -86,7 +86,7 @@ namespace BLL.FooGenerator
         public static IEnumerable<GroupBy> GetRandomGroup()
         {
             string[] Id = { "className", "productName", "productOrder", "bookingName" };
-            string[] Name = { "Class Name", "Product Name", "Product Order", "BookingName" };
+            string[] Name = { "Class Name", "Product Name", "Product Order", "Booking Name" };
 
             List <GroupBy> result= new();
             for (int i = 0; i < Id.Length; i++)
