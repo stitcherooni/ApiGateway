@@ -526,7 +526,7 @@ namespace BLL.FooGenerator
                 Date = new DateTime(2022, month, day),
                 Orders = rnd.Next(1, 28),
                 Value = rnd.Next(0, 50),
-                Approved=rnd.Next(0, 2)==1,
+                Approved = rnd.Next(0, 2) == 1,
             };
         }
 
@@ -553,7 +553,7 @@ namespace BLL.FooGenerator
                 Type = rnd.Next(0, 50).ToString() + "type",
                 PlatformFee = rnd.Next(0, 50),
                 Refunded = rnd.Next(0, 50),
-                PaymentMethod=GetPaymentMethod(),
+                PaymentMethod = GetPaymentMethod(),
                 History = CreateHistory()
             };
         }
@@ -671,6 +671,12 @@ namespace BLL.FooGenerator
             return options[rnd.Next(options.Length)];
         }
 
+        private static string GetEmailStatus()
+        {
+            string[] options = { "Dropped", "Bounced", "Warning", "Delivered", "Opened", "Clicked" };
+            return options[rnd.Next(options.Length)];
+        }
+
         private static BookingDTO GetBooking(int id)
         {
             Random rnd = new Random();
@@ -701,8 +707,8 @@ namespace BLL.FooGenerator
                 BookingName = rnd.Next(1, 100).ToString() + "-BookingName",
                 Date = new DateTime(2022, month, day),
                 PaymentMethod = GetPaymentMethod(),
-                Phone= rnd.Next(1, 100).ToString() + "-Phone",
-                Email= rnd.Next(1, 100).ToString() + "@email.com",
+                Phone = rnd.Next(1, 100).ToString() + "-Phone",
+                Email = rnd.Next(1, 100).ToString() + "@email.com",
                 Order = GetOrder(rnd.Next(1, 100)),
                 BookingsId = bookingsId
 
@@ -916,6 +922,32 @@ namespace BLL.FooGenerator
             var randomday = rnd.Next(1, 3);
             var delivered = rnd.Next(2) == 1;
             var opened = rnd.Next(2) == 1;
+            var status = GetEmailStatus();
+            object emailEvent = null;
+            if ((status == "Dropped") || (status == "Bounced"))
+            {
+                emailEvent = new DroppedBounced
+                {
+                    Code = rnd.Next(0, 50).ToString(),
+                    Reason = rnd.Next(0, 50).ToString() + "Reason",
+                    Description = rnd.Next(0, 50).ToString() + "Description"
+                };
+            }
+            if ((status == "Opened") || (status == "Clicked"))
+            {
+                emailEvent = new OpenedClicked
+                {
+                    Ip = rnd.Next(0, 50).ToString() + "Ip",
+                    City = rnd.Next(0, 50).ToString() + "City",
+                    Region = rnd.Next(0, 50).ToString() + "Region",
+                    Country = rnd.Next(0, 50).ToString() + "Country",
+                    UserAgent = rnd.Next(0, 50).ToString() + "UserAgent",
+                    DeviceType = rnd.Next(0, 50).ToString() + "DeviceType",
+                    ClientType = rnd.Next(0, 50).ToString() + "ClientType",
+                    ClientName = rnd.Next(0, 50).ToString() + "IpClientName",
+                    ClientOs = rnd.Next(0, 50).ToString() + "ClientOs"
+                };
+            }
 
             return new EmailTrackerDTO()
             {
@@ -936,6 +968,9 @@ namespace BLL.FooGenerator
                 Location = rnd.Next(0, 50).ToString() + "Location",
                 Ip = rnd.Next(0, 50).ToString(),
                 Type = rnd.Next(0, 50).ToString() + "Type",
+                Status = status,
+                SendByEmail = rnd.Next(0, 50).ToString() + "Person",
+                EmailEvent = emailEvent,
             };
         }
 
