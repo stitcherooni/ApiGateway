@@ -794,7 +794,7 @@ namespace BLL.FooGenerator
             {
                 Num = id,
                 InvoiceNo = rnd.Next(0, 50),
-                IssureDate = new DateTime(2022, month, day),
+                IssueDate = new DateTime(2022, month, day),
                 DueDate = new DateTime(2022, month, day + randomday),
                 Status = rnd.Next(0, 50).ToString() + "Status",
                 Net = rnd.Next(0, 60),
