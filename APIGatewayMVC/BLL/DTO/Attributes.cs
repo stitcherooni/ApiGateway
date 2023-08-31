@@ -1,16 +1,20 @@
 ﻿using BLL.DTO.Organisation;
 using BLL.DTO.Statistic.Reports;
 using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO
 {
     public class ReportTypeAttribute : ValidationAttribute
     {
+    
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var serviceProvider = validationContext.GetService(typeof(IServiceProvider)) as IServiceProvider;
+            var logger = serviceProvider.GetService(typeof(ILogger<ReportTypeAttribute>)) as ILogger<ReportTypeAttribute>;
+
             if (value != null && value.GetType() == typeof(string))
             {
                 string lowercaseValue = ((string)value).ToLower();
@@ -21,6 +25,7 @@ namespace BLL.DTO
                 }
             }
 
+            logger.LogWarning($"Type {value} doesn't exist");
             return new ValidationResult("Type should be a valid ReportTypes.");
         }
     }
@@ -29,6 +34,9 @@ namespace BLL.DTO
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var serviceProvider = validationContext.GetService(typeof(IServiceProvider)) as IServiceProvider;
+            var logger = serviceProvider.GetService(typeof(ILogger<RoleAttribute>)) as ILogger<RoleAttribute>;
+
             if (value != null && value.GetType() == typeof(string))
             {
                 string lowercaseValue = ((string)value).ToLower();
@@ -39,6 +47,7 @@ namespace BLL.DTO
                 }
             }
 
+            logger.LogWarning($"Role {value} doesn't exist");
             return new ValidationResult("Invalid Role value.");
         }
     }
@@ -47,10 +56,14 @@ namespace BLL.DTO
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var serviceProvider = validationContext.GetService(typeof(IServiceProvider)) as IServiceProvider;
+            var logger = serviceProvider.GetService(typeof(ILogger<MinimumDataTime>)) as ILogger<MinimumDataTime>;
+
             if (value != null && value is DateTime erasureDate)
             {
                 if (erasureDate < DateTime.Now)
                 {
+                    logger.LogWarning("ErasureDate must not be earlier than the current date and time.");
                     return new ValidationResult("ErasureDate must not be earlier than the current date and time.");
                 }
             }
@@ -63,6 +76,9 @@ namespace BLL.DTO
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var serviceProvider = validationContext.GetService(typeof(IServiceProvider)) as IServiceProvider;
+            var logger = serviceProvider.GetService(typeof(ILogger<AnswerTypesAttribute>)) as ILogger<AnswerTypesAttribute>;
+
             if (value != null && value.GetType() == typeof(string))
             {
                 if (Enum.TryParse<AnswerType>((string)value, true, out _))
@@ -70,7 +86,7 @@ namespace BLL.DTO
                     return ValidationResult.Success;
                 }
             }
-
+            logger.LogWarning($"AnswerTypes {value} doesn't exist");
             return new ValidationResult("Type should be a valid AnswerTypes.");
         }
     }
@@ -78,10 +94,13 @@ namespace BLL.DTO
     [AttributeUsage(AttributeTargets.Property)]
     public class ValidAnswerTypeAttribute : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var serviceProvider = validationContext.GetService(typeof(IServiceProvider)) as IServiceProvider;
+            var logger = serviceProvider.GetService(typeof(ILogger<AnswerTypesAttribute>)) as ILogger<AnswerTypesAttribute>;
+
             if (value == null)
-                return true; // Allow null values
+                return ValidationResult.Success;
 
             Type validTypes = typeof(int); // Assuming number means integer
 
@@ -93,11 +112,10 @@ namespace BLL.DTO
                 valueType == typeof(byte[]) ||
                 valueType == typeof(bool))
             {
-                return true;
+                return ValidationResult.Success;
             }
-
-            ErrorMessage = "The 'answer' property must have a valid type: number, string, Date, Blob, or boolean.";
-            return false;
+            logger.LogWarning("The 'answer' property must have a valid type: number, string, Date, Blob, or boolean.");
+            return new ValidationResult("The 'answer' property must have a valid type: number, string, Date, Blob, or boolean.");
         }
     }
 }

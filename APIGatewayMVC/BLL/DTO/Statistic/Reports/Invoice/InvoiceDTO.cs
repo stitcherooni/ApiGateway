@@ -6,7 +6,7 @@ namespace BLL.DTO.Statistic.Reports.Invoice
     {
         public int Num { get; set; }
         public int InvoiceNo { get; set; }
-        public DateTime IssureDate { get; set; }
+        public DateTime IssueDate { get; set; }
         public DateTime DueDate { get; set;}
         public string Status { get; set; }
         public int Net { get; set; }
