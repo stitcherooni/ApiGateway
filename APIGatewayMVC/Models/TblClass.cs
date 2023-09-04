@@ -29,11 +29,11 @@ public partial class TblClass
 
     public bool ClassMailingList { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
-    public int? AcademicYearId { get; set; }
+    public TblAcademicYear AcademicYear { get; set; }
 
-    public int? SchoolYearId { get; set; }
+    public TblSchoolYear SchoolYear { get; set; }
 
     public bool ClassDeleted { get; set; }
 }

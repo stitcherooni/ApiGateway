@@ -9,7 +9,7 @@ public partial class TblEmail
 
     public int? EmailTemplateId { get; set; }
 
-    public int MessageId { get; set; }
+    public TblEmail Message { get; set; }
 
     public string EmailTo { get; set;}
 
@@ -29,11 +29,11 @@ public partial class TblEmail
 
     public DateTime EmailCreatedDate { get; set; }
 
-    public int EmailCreatedBy { get; set; }
+    public TblCustomer EmailCreatedBy { get; set; }
 
     public DateTime? EmailUpdatedDate { get; set; }
 
-    public int? EmailUpdatedBy { get; set; }
+    public TblCustomer EmailUpdatedBy { get; set; }
 
     public bool EmailDeleted { get; set; }
 }

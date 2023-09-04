@@ -11,21 +11,21 @@ public partial class TblEvent
 
     public string EventUuid { get; set; }
 
-    public int EventOrganiserId { get; set; }
+    public TblCustomer EventOrganiser { get; set; }
 
-    public int? EventOrganiserId2 { get; set; }
+    public TblCustomer EventOrganiser2 { get; set; }
 
-    public int? EventOrganiserId3 { get; set; }
+    public TblCustomer EventOrganiser3 { get; set; }
 
-    public int? EventOrganiserId4 { get; set; }
+    public TblCustomer EventOrganiser4 { get; set; }
 
-    public int? EventOrganiserId5 { get; set; }
-
-    public int? EventOrganiserId6 { get; set; }
-
-    public int? EventOrganiserId7 { get; set; }
-
-    public int? EventOrganiserId8 { get; set; }
+    public TblCustomer EventOrganiser5 { get; set; }
+           
+    public TblCustomer EventOrganiser6 { get; set; }
+           
+    public TblCustomer EventOrganiser7 { get; set; }
+           
+    public TblCustomer EventOrganiser8 { get; set; }
 
     public string EventName { get; set;}
 
@@ -47,7 +47,7 @@ public partial class TblEvent
 
     public bool EventWhatsOnPanelDisplaySalesDate { get; set; }
 
-    public int EventTypeId { get; set; }
+    public TblEventType EventType { get; set; }
 
     public DateTime? EventDate { get; set; }
 
@@ -109,13 +109,13 @@ public partial class TblEvent
 
     public bool EventDeleted { get; set; }
 
-    public int EventCreatedBy { get; set; }
+    public TblCustomer EventCreatedBy { get; set; }
 
     public DateTime EventCreatedDate { get; set; }
 
-    public int? EventUpdatedBy { get; set; }
+    public TblCustomer EventUpdatedBy { get; set; }
 
     public DateTime? EventUpdatedDate { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 }

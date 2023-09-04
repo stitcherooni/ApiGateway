@@ -206,19 +206,37 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AcademicYearId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AcademicYearID");
-            entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
+
             entity.Property(e => e.AcademicYearCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.AcademicYearEndDate).HasColumnType("timestamp");
             entity.Property(e => e.AcademicYearName).HasMaxLength(20);
             entity.Property(e => e.AcademicYearStartDate).HasColumnType("timestamp");
-            entity.Property(e => e.AcademicYearUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AcademicYearUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.CountryId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
-                .HasColumnName("CountryID");
+
+            //entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AcademicYearUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CountryId)
+            //    .HasDefaultValueSql("'1'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CountryID");
+            entity.HasOne(d => d.Country)
+                .WithMany() 
+                .HasForeignKey(d => d.Country) 
+                .OnDelete(DeleteBehavior.ClientSetNull) 
+                .HasConstraintName("FK_tblAcademicYear_tblCountry");
+
+            entity.HasOne(d => d.AcademicYearCreatedBy)
+                .WithMany() 
+                .HasForeignKey(d => d.AcademicYearCreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull) 
+                .HasConstraintName("FK_tblAcademicYear_tblCustomer");
+
+            entity.HasOne(d => d.AcademicYearUpdatedBy)
+                .WithMany() 
+                .HasForeignKey(d => d.AcademicYearUpdatedBy)
+                .HasConstraintName("FK_tblAcademicYear_tblCustomer");
         });
 
         modelBuilder.Entity<TblApiAuditHistory>(entity =>
@@ -231,14 +249,13 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.ApiAuditHistoryIpaddress, "ApiAuditHistoryIPAddress");
 
-            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
-
-            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            //entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
 
             entity.Property(e => e.ApiAuditHistoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ApiAuditHistoryID");
-            entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ApiAuditHistoryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -252,14 +269,30 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ApiAuditHistoryStatusCode).HasMaxLength(20);
             entity.Property(e => e.ApiAuditHistoryUri).HasMaxLength(500);
             entity.Property(e => e.ApiAuditHistoryUserAgent).HasMaxLength(500);
-            entity.Property(e => e.ApplicationId)
-                .HasDefaultValueSql("'0'")
-                .HasColumnType("int(11)")
-                .HasColumnName("ApplicationID");
-            entity.Property(e => e.CustomerId)
-                .HasDefaultValueSql("'0'")
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.ApplicationId)
+            //    .HasDefaultValueSql("'0'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ApplicationID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasDefaultValueSql("'0'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            entity.HasOne(d => d.Application)
+                .WithMany()
+                .HasForeignKey(d => d.Application)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblApiAuditHistory_tblSchool");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblApiAuditHistory_tblCustomer");
+
+            entity.HasOne(d => d.ApiAuditHistoryCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ApiAuditHistoryCreatedBy)
+                .HasConstraintName("FK_tblApiAuditHistory_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuction>(entity =>
@@ -270,13 +303,13 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.AuctionStartDate, "AuctionStartDate");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            //entity.HasIndex(e => e.EventId, "EventID");
 
             entity.Property(e => e.AuctionId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuctionID");
             entity.Property(e => e.AuctionBuyNowPrice).HasPrecision(10, 2);
-            entity.Property(e => e.AuctionCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AuctionCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuctionCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -294,14 +327,29 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuctionStartDate).HasColumnType("datetime");
             entity.Property(e => e.AuctionStartPrice).HasPrecision(10, 2);
             entity.Property(e => e.AuctionStockQty).HasColumnType("int(11)");
-            entity.Property(e => e.AuctionUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AuctionUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuctionUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.AuctionUuid)
                 .HasMaxLength(50)
                 .HasColumnName("AuctionUUID");
-            entity.Property(e => e.EventId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventID");
+            //entity.Property(e => e.EventId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventID");
+            entity.HasOne(d => d.Event)
+                .WithMany()
+                .HasForeignKey(d => d.Event)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblAuction_tblEvent");
+
+            entity.HasOne(d => d.AuctionCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuctionCreatedBy)
+                .HasConstraintName("FK_tblFK_tblAuction_tblCustomer");
+
+            entity.HasOne(d => d.AuctionUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuctionUpdatedBy)
+                .HasConstraintName("FK_tblFK_tblAuction_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuditHistory>(entity =>
@@ -310,22 +358,19 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblAuditHistory");
 
-            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
-
-            entity.HasIndex(e => e.CustomerId, "CustomerID");
-
-            entity.HasIndex(e => new { e.AuditHistoryUserAgent, e.ApplicationId }, "idx");
-
-            entity.HasIndex(e => new { e.ApplicationId, e.AuditHistoryCreatedDate, e.AuditHistoryUserAgent }, "idx2");
+            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            //entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.HasIndex(e => new { e.AuditHistoryUserAgent, e.ApplicationId }, "idx");
+            //entity.HasIndex(e => new { e.ApplicationId, e.AuditHistoryCreatedDate, e.AuditHistoryUserAgent }, "idx2");
 
             entity.Property(e => e.AuditHistoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuditHistoryID");
-            entity.Property(e => e.ApplicationId)
-                .HasDefaultValueSql("'0'")
-                .HasColumnType("int(11)")
-                .HasColumnName("ApplicationID");
-            entity.Property(e => e.AuditHistoryCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ApplicationId)
+            //    .HasDefaultValueSql("'0'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ApplicationID");
+            //entity.Property(e => e.AuditHistoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -336,12 +381,33 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuditHistoryLoadTime).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryQueryString).HasMaxLength(500);
             entity.Property(e => e.AuditHistoryServer).HasMaxLength(50);
-            entity.Property(e => e.AuditHistoryUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AuditHistoryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.AuditHistoryUserAgent).HasMaxLength(500);
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            entity.HasOne(d => d.Application)
+                .WithMany()
+                .HasForeignKey(d => d.Application)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblAuditHistory_tblSchool");
+
+            entity.HasOne(d => d.AuditHistoryUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuditHistoryUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblAuditHistory_tblCustomer");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                .HasConstraintName("FK_tblFK_tblAuditHistory_tblCustomer");
+
+            entity.HasOne(d => d.AuditHistoryCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuditHistoryCreatedBy)
+                .HasConstraintName("FK_tblFK_tblAuditHistory_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuditHistoryType>(entity =>
@@ -353,13 +419,23 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuditHistoryTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuditHistoryTypeID");
-            entity.Property(e => e.AuditHistoryTypeCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AuditHistoryTypeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryTypeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.AuditHistoryTypeName).HasMaxLength(200);
-            entity.Property(e => e.AuditHistoryTypeUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.AuditHistoryTypeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryTypeUpdatedDate).HasColumnType("timestamp");
+            entity.HasOne(d => d.AuditHistoryTypeCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuditHistoryTypeCreatedBy)
+                .HasConstraintName("FK_tblAuditHistoryType_tblCustomer");
+
+            entity.HasOne(d => d.AuditHistoryTypeUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.AuditHistoryTypeUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblAuditHistoryType_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusiness>(entity =>
@@ -368,19 +444,19 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBankedBusiness");
 
-            entity.HasIndex(e => e.SchoolId, "SchoolID");
+            //entity.HasIndex(e => e.SchoolId, "SchoolID");
 
             entity.Property(e => e.BankedBusinessId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BankedBusinessID");
-            entity.Property(e => e.BankedBusinessComplianceCompletedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessComplianceCompletedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceCompletedDate).HasColumnType("datetime");
-            entity.Property(e => e.BankedBusinessCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessIdchecked).HasColumnName("BankedBusinessIDChecked");
-            entity.Property(e => e.BankedBusinessUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessUuid)
                 .HasMaxLength(50)
@@ -388,9 +464,30 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.Kycid)
                 .HasMaxLength(50)
                 .HasColumnName("KYCID");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+            entity.HasOne(d => d.BankedBusinessComplianceCompletedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessComplianceCompletedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBankedBusiness_tblCustomer");
+
+            entity.HasOne(d => d.BankedBusinessUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblCustomer");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblSchool");
+
+            entity.HasOne(d => d.BankedBusinessCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessCreatedBy)
+                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusinessApplication>(entity =>
@@ -402,20 +499,36 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BankedBusinessApplicationId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BankedBusinessApplicationID");
-            entity.Property(e => e.BankedBusinessApplicationCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessApplicationCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessApplicationCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessApplicationName).HasMaxLength(50);
-            entity.Property(e => e.BankedBusinessApplicationUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessApplicationUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessApplicationUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessApplicationUuid)
                 .HasMaxLength(50)
                 .HasColumnName("BankedBusinessApplicationUUID");
             entity.Property(e => e.BankedBusinessApplicationWebhookSignatureKey).HasMaxLength(500);
-            entity.Property(e => e.BankedBusinessId)
-                .HasColumnType("int(11)")
-                .HasColumnName("BankedBusinessID");
+            //entity.Property(e => e.BankedBusinessId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("BankedBusinessID");
+            entity.HasOne(d => d.BankedBusiness)
+               .WithMany()
+               .HasForeignKey(d => d.BankedBusiness)
+               .HasConstraintName("FK_tblBankedBusinessApplication_tblBankedBusiness");
+
+            entity.HasOne(d => d.BankedBusinessApplicationCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessApplicationCreatedBy)
+                
+                .HasConstraintName("FK_tblFK_tblBankedBusinessApplication_tblCustomer");
+
+            entity.HasOne(d => d.BankedBusinessApplicationUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessApplicationUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblBankedBusinessApplication_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusinessComplianceRule>(entity =>
@@ -424,24 +537,45 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBankedBusinessComplianceRule");
 
-            entity.HasIndex(e => e.BankedBusinessId, "BankedBusinessID");
+            //entity.HasIndex(e => e.BankedBusinessId, "BankedBusinessID");
 
             entity.Property(e => e.BankedBusinessComplianceRuleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BankedBusinessComplianceRuleID");
-            entity.Property(e => e.BankedBusinessComplianceRuleCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessComplianceRuleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceRuleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessComplianceRuleNotes).HasColumnType("text");
-            entity.Property(e => e.BankedBusinessComplianceRuleUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BankedBusinessComplianceRuleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceRuleUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.BankedBusinessId)
-                .HasColumnType("int(11)")
-                .HasColumnName("BankedBusinessID");
-            entity.Property(e => e.ComplianceRuleId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ComplianceRuleID");
+            //entity.Property(e => e.BankedBusinessId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("BankedBusinessID");
+            //entity.Property(e => e.ComplianceRuleId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ComplianceRuleID");
+
+            entity.HasOne(d => d.BankedBusiness)
+               .WithMany()
+               .HasForeignKey(d => d.BankedBusiness)              
+               .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblBankedBusiness");
+
+            entity.HasOne(d => d.ComplianceRule)
+                .WithMany()
+                .HasForeignKey(d => d.ComplianceRule)                
+                .HasConstraintName("FK_tblFK_tblBankedBusinessComplianceRule_tblComplianceRule");
+
+            entity.HasOne(d => d.BankedBusinessComplianceRuleCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BankedBusinessComplianceRuleCreatedBy)
+                .HasConstraintName("FK_tblFK_tblBankedBusinessComplianceRule_tblCustomer");
+
+            entity.HasOne(d => d.BankedBusinessComplianceRuleUpdatedBy)
+               .WithMany()
+               .HasForeignKey(d => d.BankedBusinessComplianceRuleUpdatedBy)
+               .OnDelete(DeleteBehavior.SetNull)
+               .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedWebHook>(entity =>
@@ -454,7 +588,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.BankedWebHookEndToEndId, "BankedWebHookRequestID");
 
-            entity.HasIndex(e => e.OrderId, "OrderID");
+            //entity.HasIndex(e => e.OrderId, "OrderID");
 
             entity.Property(e => e.BankedWebHookId)
                 .HasColumnType("int(11)")
@@ -471,9 +605,15 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BankedWebHookEvent).HasMaxLength(50);
             entity.Property(e => e.BankedWebHookStatus).HasMaxLength(50);
             entity.Property(e => e.BankedWebHookType).HasMaxLength(50);
-            entity.Property(e => e.OrderId)
-                .HasColumnType("int(11)")
-                .HasColumnName("OrderID");
+            //entity.Property(e => e.OrderId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("OrderID");
+            entity.HasOne(d => d.Order)
+                .WithMany()
+                .HasForeignKey(d => d.Order)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBankedWebHook_tblOrder");
+
         });
 
         modelBuilder.Entity<TblBid>(entity =>
@@ -482,7 +622,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBid");
 
-            entity.HasIndex(e => e.AuctionId, "AuctionID");
+            //entity.HasIndex(e => e.AuctionId, "AuctionID");
 
             entity.HasIndex(e => e.BidAmount, "BidAmount");
 
@@ -491,20 +631,44 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BidId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BidID");
-            entity.Property(e => e.AuctionId)
-                .HasColumnType("int(11)")
-                .HasColumnName("AuctionID");
+            //entity.Property(e => e.AuctionId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("AuctionID");
             entity.Property(e => e.BidAmount).HasPrecision(10, 2);
-            entity.Property(e => e.BidCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BidCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BidCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BidDateTime).HasColumnType("datetime");
-            entity.Property(e => e.BidUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BidUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BidUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+
+            entity.HasOne(d => d.Auction)
+                .WithMany()
+                .HasForeignKey(d => d.Auction)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBid_tblAuction");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                
+                .HasConstraintName("FK_tblFK_tblBid_tblCustomer");
+
+            entity.HasOne(d => d.BidCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BidCreatedBy)
+                .HasConstraintName("FK_tblFK_tblBid_tblCustomer");
+
+            entity.HasOne(d => d.BidUpdatedBy)
+               .WithMany()
+               .HasForeignKey(d => d.BidUpdatedBy)
+               .OnDelete(DeleteBehavior.SetNull)
+               .HasConstraintName("FK_tblBid_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblBooking>(entity =>
@@ -515,18 +679,18 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.BookingName, "BookingName");
 
-            entity.HasIndex(e => e.ClassId, "ClassID");
+            //entity.HasIndex(e => e.ClassId, "ClassID");
 
-            entity.HasIndex(e => e.OrderItemId, "OrderItemID");
+            //entity.HasIndex(e => e.OrderItemId, "OrderItemID");
 
-            entity.HasIndex(e => e.TicketId, "TicketID");
+            //entity.HasIndex(e => e.TicketId, "TicketID");
 
-            entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ClassId }, "idx_bookings");
+            //entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ClassId }, "idx_bookings");
 
             entity.Property(e => e.BookingId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BookingID");
-            entity.Property(e => e.BookingCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BookingCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BookingCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -537,17 +701,49 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BookingLastName).HasMaxLength(100);
             entity.Property(e => e.BookingName).HasMaxLength(200);
             entity.Property(e => e.BookingNo).HasColumnType("int(11)");
-            entity.Property(e => e.BookingUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BookingUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BookingUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.ClassId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ClassID");
-            entity.Property(e => e.OrderItemId)
-                .HasColumnType("int(11)")
-                .HasColumnName("OrderItemID");
-            entity.Property(e => e.TicketId)
-                .HasColumnType("int(11)")
-                .HasColumnName("TicketID");
+            //entity.Property(e => e.ClassId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ClassID");
+            //entity.Property(e => e.OrderItemId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("OrderItemID");
+            //entity.Property(e => e.TicketId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("TicketID");
+
+            entity.HasOne(d => d.Class)
+                .WithMany()
+                .HasForeignKey(d => d.Class)
+
+                .HasConstraintName("FK_tbllBooking_tblClass");
+
+            entity.HasOne(d => d.OrderItem)
+                .WithMany()
+                .HasForeignKey(d => d.OrderItem)
+                
+                .HasConstraintName("FK_tblFK_tbllBooking_tblOrderItem");
+
+            entity.HasOne(d => d.Ticket)
+                .WithMany()
+                .HasForeignKey(d => d.Ticket)
+                .HasConstraintName("FK_tblFK_tbllBooking_tblTicket");
+
+            entity.HasOne(d => d.BookingCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BookingCreatedBy)
+                
+                .HasConstraintName("FK_tbllBooking_tblCustomer");
+
+            entity.HasOne(d => d.BookingUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BookingUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tbllBooking_tblCustomer");
+
+
+
         });
 
         modelBuilder.Entity<TblBusinessDirectory>(entity =>
@@ -559,10 +755,10 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BusinessDirectoryID");
-            entity.Property(e => e.BusinessDirectoryCategoryId)
-                .HasColumnType("int(11)")
-                .HasColumnName("BusinessDirectoryCategoryID");
-            entity.Property(e => e.BusinessDirectoryCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BusinessDirectoryCategoryId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("BusinessDirectoryCategoryID");
+            //entity.Property(e => e.BusinessDirectoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -577,14 +773,38 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryStartDate).HasColumnType("datetime");
             entity.Property(e => e.BusinessDirectoryTelephone).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryTwitter).HasMaxLength(255);
-            entity.Property(e => e.BusinessDirectoryUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BusinessDirectoryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.BusinessDirectoryUrl)
                 .HasMaxLength(255)
                 .HasColumnName("BusinessDirectoryURL");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+
+            entity.HasOne(d => d.BusinessDirectoryCategory)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectoryCategory)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBusinessDirectory_tblBusinessDirectoryCategory");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblBusinessDirectory_tblBusinessDirectoryCategory");
+
+            entity.HasOne(d => d.BusinessDirectoryCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectoryCreatedBy)
+                .HasConstraintName("FK_tblFK_tblBusinessDirectory_tblCustomer");
+
+            entity.HasOne(d => d.BusinessDirectoryUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectoryUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBusinessDirectory_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblBusinessDirectoryCategory>(entity =>
@@ -596,17 +816,35 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryCategoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BusinessDirectoryCategoryID");
-            entity.Property(e => e.BusinessDirectoryCategoryCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BusinessDirectoryCategoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryCategoryCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BusinessDirectoryCategoryIcon).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryCategoryName).HasMaxLength(100);
-            entity.Property(e => e.BusinessDirectoryCategoryUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.BusinessDirectoryCategoryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryCategoryUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblBusinessDirectoryCategory_tblSchool");            
+
+            entity.HasOne(d => d.BusinessDirectoryCategoryCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectoryCategoryCreatedBy)
+                .HasConstraintName("FK_tblFK_tblBusinessDirectoryCategory_tblCustomer");
+
+            entity.HasOne(d => d.BusinessDirectoryCategoryUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectoryCategoryUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblBusinessDirectoryCategory_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblBusinessDirectoryClick>(entity =>
@@ -615,9 +853,9 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBusinessDirectoryClick");
 
-            entity.HasIndex(e => e.SchoolId, "SchoolID");
+            //entity.HasIndex(e => e.SchoolId, "SchoolID");
 
-            entity.HasIndex(e => e.BusinessDirectoryId, "SponsorID");
+            //entity.HasIndex(e => e.BusinessDirectoryId, "SponsorID");
 
             entity.Property(e => e.BusinessDirectoryClickId)
                 .HasColumnType("int(11)")
@@ -628,15 +866,35 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryClickFrom).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryClickPage).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryClickUserAgent).HasMaxLength(1000);
-            entity.Property(e => e.BusinessDirectoryId)
-                .HasColumnType("int(11)")
-                .HasColumnName("BusinessDirectoryID");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(10)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.BusinessDirectoryId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("BusinessDirectoryID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(10)")
+            //    .HasColumnName("SchoolID");
+
+            entity.HasOne(d => d.BusinessDirectory)
+                .WithMany()
+                .HasForeignKey(d => d.BusinessDirectory)
+                
+                .HasConstraintName("FK_tblBusinessDirectoryClick_tblBusinessDirectory");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                
+                .HasConstraintName("FK_tblFK_tblBusinessDirectoryClick_tblSchool");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblBusinessDirectoryClick_tblCustomer");
+
+
         });
 
         modelBuilder.Entity<TblClass>(entity =>
@@ -648,10 +906,10 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ClassID");
-            entity.Property(e => e.AcademicYearId)
-                .HasDefaultValueSql("'0'")
-                .HasColumnType("int(11)")
-                .HasColumnName("AcademicYearID");
+            //entity.Property(e => e.AcademicYearId)
+            //    .HasDefaultValueSql("'0'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("AcademicYearID");
             entity.Property(e => e.ClassAllowParentsEmail)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
@@ -664,12 +922,29 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassTeacherEmail).HasMaxLength(250);
             entity.Property(e => e.ClassTeacherName).HasMaxLength(250);
             entity.Property(e => e.ClassTeacherTelephone).HasMaxLength(30);
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
-            entity.Property(e => e.SchoolYearId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolYearID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolYearId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolYearID");
+
+            entity.HasOne(d => d.AcademicYear)
+                .WithMany()
+                .HasForeignKey(d => d.AcademicYear)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblClass_tblAcademicYear");
+
+            entity.HasOne(d => d.SchoolYear)
+                .WithMany()
+                .HasForeignKey(d => d.SchoolYear)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblClass_tblSchoolYear");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblFK_tblClass_tblSchool");
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -681,18 +956,41 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassRepId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ClassRepID");
-            entity.Property(e => e.ClassId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ClassID");
-            entity.Property(e => e.ClassRepCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ClassId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ClassID");
+            //entity.Property(e => e.ClassRepCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ClassRepCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.ClassRepUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ClassRepUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ClassRepUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+
+            entity.HasOne(d => d.Class)
+                .WithMany()
+                .HasForeignKey(d => d.Class)
+                
+                .HasConstraintName("FK_tblClassRep_tblClass");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                
+                .HasConstraintName("FK_tblFK_tblClassRep_tblCustomer");
+
+            entity.HasOne(d => d.ClassRepCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ClassRepCreatedBy)
+                .HasConstraintName("FK_tblFK_tblClassRep_tblCustomer");
+
+            entity.HasOne(d => d.ClassRepUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ClassRepUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblClassRep_tblCustomer");
         });
 
         modelBuilder.Entity<TblComplianceRule>(entity =>
@@ -704,15 +1002,28 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ComplianceRuleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ComplianceRuleID");
-            entity.Property(e => e.ComplianceRuleCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComplianceRuleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComplianceRuleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ComplianceRuleDescription).HasColumnType("text");
             entity.Property(e => e.ComplianceRuleName).HasMaxLength(250);
             entity.Property(e => e.ComplianceRuleType).HasMaxLength(40);
-            entity.Property(e => e.ComplianceRuleUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComplianceRuleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComplianceRuleUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.ComplianceRuleCreatedBy)
+               .WithMany()
+               .HasForeignKey(d => d.ComplianceRuleCreatedBy)
+               
+               .HasConstraintName("FK_tblComplianceRule_tblCustomer");
+
+            entity.HasOne(d => d.ComplianceRuleUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ComplianceRuleUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblComplianceRule_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblComponent>(entity =>
@@ -725,22 +1036,44 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("ComponentID");
             entity.Property(e => e.ComponentContent).HasColumnType("text");
-            entity.Property(e => e.ComponentCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.ComponentGroupId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
-                .HasColumnName("ComponentGroupID");
+            //entity.Property(e => e.ComponentGroupId)
+            //    .HasDefaultValueSql("'1'")
+            //    .HasColumnType("int(11)"),
+            //    .HasColumnName("ComponentGroupID");
             entity.Property(e => e.ComponentName).HasMaxLength(100);
             entity.Property(e => e.ComponentRef).HasMaxLength(100);
-            entity.Property(e => e.ComponentTypeId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
-                .HasColumnName("ComponentTypeID");
-            entity.Property(e => e.ComponentUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentTypeId)
+            //    .HasDefaultValueSql("'1'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ComponentTypeID");
+            //entity.Property(e => e.ComponentUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.ComponentCreatedBy)
+                  .WithMany()
+                  .HasForeignKey(d => d.ComponentCreatedBy)       
+                  .HasConstraintName("FK_tblComponent_tblCustomer");
+
+            entity.HasOne(d => d.ComponentUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ComponentUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblComponent_tblCustomer");
+
+            entity.HasOne(d => d.ComponentGroup)
+                .WithMany()
+                .HasForeignKey(d => d.ComponentGroup)
+                .HasConstraintName("FK_tblFK_tblComponent_tblComponentGroup");
+
+            entity.HasOne(d => d.ComponentType)
+                .WithMany()
+                .HasForeignKey(d => d.ComponentType)
+                .HasConstraintName("FK_tblFK_tblComponent_tblComponentType");
+
         });
 
         modelBuilder.Entity<TblComponentGroup>(entity =>
@@ -752,13 +1085,29 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ComponentGroupId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ComponentGroupID");
-            entity.Property(e => e.ComponentGroupCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentGroupCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentGroupCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ComponentGroupName).HasMaxLength(100);
-            entity.Property(e => e.ComponentGroupUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentGroupUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentGroupUpdatedDate).HasColumnType("timestamp");
+           
+            entity.HasOne(d => d.ComponentGroupCreatedBy)
+          .WithMany()
+          .HasForeignKey(d => d.ComponentGroupCreatedBy)
+          
+          .HasConstraintName("FK_tblComponentGroup_tblCustomer");
+
+            entity.HasOne(d => d.ComponentGroupUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ComponentGroupUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblComponentGroup_tblCustomer");
+
+
+
+
         });
 
         modelBuilder.Entity<TblComponentType>(entity =>
@@ -770,13 +1119,26 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ComponentTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ComponentTypeID");
-            entity.Property(e => e.ComponentTypeCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentTypeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentTypeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ComponentTypeName).HasMaxLength(100);
-            entity.Property(e => e.ComponentTypeUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ComponentTypeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentTypeUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.ComponentTypeCreatedBy)
+          .WithMany()
+          .HasForeignKey(d => d.ComponentTypeCreatedBy)
+         
+          .HasConstraintName("FK_tblComponentType_tblCustomer");
+
+            entity.HasOne(d => d.ComponentTypeUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.ComponentTypeUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblComponentType_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblContentHash>(entity =>
@@ -809,7 +1171,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("CountryID");
             entity.Property(e => e.CountryCode).HasMaxLength(4);
-            entity.Property(e => e.CountryCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CountryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CountryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -817,8 +1179,21 @@ public partial class PtaeventContext : DbContext
                 .HasMaxLength(20)
                 .HasDefaultValueSql("'dd/mm/yyyy'");
             entity.Property(e => e.CountryName).HasMaxLength(100);
-            entity.Property(e => e.CountryUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CountryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CountryUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.CountryCreatedBy)
+          .WithMany()
+          .HasForeignKey(d => d.CountryCreatedBy)
+
+          .HasConstraintName("FK_tblCountry_tblCustomer");
+
+            entity.HasOne(d => d.CountryUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CountryUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblCountry_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblCurrency>(entity =>
@@ -831,15 +1206,28 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("CurrencyID");
             entity.Property(e => e.CurrencyCode).HasMaxLength(4);
-            entity.Property(e => e.CurrencyCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CurrencyCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CurrencyCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CurrencyIconCode).HasMaxLength(4);
             entity.Property(e => e.CurrencyName).HasMaxLength(100);
             entity.Property(e => e.CurrencySign).HasMaxLength(10);
-            entity.Property(e => e.CurrencyUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CurrencyUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CurrencyUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.CurrencyCreatedBy)
+         .WithMany()
+         .HasForeignKey(d => d.CurrencyCreatedBy)
+
+         .HasConstraintName("FK_tblCurrency_tblCustomer");
+
+            entity.HasOne(d => d.CurrencyUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CurrencyUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblCurrency_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblCustomer>(entity =>
@@ -848,25 +1236,25 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblCustomer");
 
-            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
 
             entity.HasIndex(e => e.CustomerDeleted, "CustomerDeleted");
 
             entity.HasIndex(e => e.CustomerEmail, "CustomerEmail");
 
-            entity.HasIndex(e => e.CustomerSchoolId, "CustomerSchoolID");
+            //entity.HasIndex(e => e.CustomerSchoolId, "CustomerSchoolID");
 
             entity.HasIndex(e => e.CustomerUuid, "CustomerUUID");
 
-            entity.HasIndex(e => new { e.ApplicationId, e.CustomerSchoolId }, "idx_customerappschool");
+            //entity.HasIndex(e => new { e.ApplicationId, e.CustomerSchoolId }, "idx_customerappschool");
 
             entity.Property(e => e.CustomerId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerID");
-            entity.Property(e => e.ApplicationId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
-                .HasColumnName("ApplicationID");
+            //entity.Property(e => e.ApplicationId)
+            //    .HasDefaultValueSql("'1'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ApplicationID");
             entity.Property(e => e.CustomerAddress1).HasMaxLength(250);
             entity.Property(e => e.CustomerAddress2).HasMaxLength(250);
             entity.Property(e => e.CustomerApproved)
@@ -891,9 +1279,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerGiftAidDeclarationDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerGoCardlessLiveMandate).HasMaxLength(100);
             entity.Property(e => e.CustomerGoCardlessTestMandate).HasMaxLength(100);
-            entity.Property(e => e.CustomerHashId)
-                .HasMaxLength(250)
-                .HasColumnName("CustomerHashID");
+            //entity.Property(e => e.CustomerHashId)
+            //    .HasMaxLength(250)
+            //    .HasColumnName("CustomerHashID");
             entity.Property(e => e.CustomerLastLoginAttemptDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerLastLoginDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerLastLoginDateTime).HasColumnType("timestamp");
@@ -905,9 +1293,9 @@ public partial class PtaeventContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.CustomerMobile).HasMaxLength(50);
-            entity.Property(e => e.CustomerPartnerId)
-                .HasMaxLength(50)
-                .HasColumnName("CustomerPartnerID");
+            //entity.Property(e => e.CustomerPartnerId)
+            //    .HasMaxLength(50)
+            //    .HasColumnName("CustomerPartnerID");
             entity.Property(e => e.CustomerPassword).HasMaxLength(250);
             entity.Property(e => e.CustomerPasswordReset).HasMaxLength(100);
             entity.Property(e => e.CustomerPasswordResetDate).HasColumnType("datetime");
@@ -918,9 +1306,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerQflowPassword).HasMaxLength(10);
             entity.Property(e => e.CustomerSalt).HasMaxLength(250);
             entity.Property(e => e.CustomerSchoolClass).HasMaxLength(100);
-            entity.Property(e => e.CustomerSchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerSchoolID");
+            //entity.Property(e => e.CustomerSchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerSchoolID");
             entity.Property(e => e.CustomerStripeLiveId)
                 .HasMaxLength(100)
                 .HasColumnName("CustomerStripeLiveID");
@@ -945,6 +1333,44 @@ public partial class PtaeventContext : DbContext
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)")
                 .HasColumnName("PTAID");
+
+            entity.HasOne(d => d.Application)
+               .WithMany()
+               .HasForeignKey(d => d.Application)
+               
+               .HasConstraintName("FK_tblCustomer_tblSchool");
+
+            entity.HasOne(d => d.CustomerHash)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerHash)
+                
+                .HasConstraintName("FK_tblFK_tblCustomer_tblContentHash");
+
+            entity.HasOne(d => d.CustomerPartner)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerPartner)
+                .HasConstraintName("FK_tblFK_tblCustomer_tblPartner");
+
+            entity.HasOne(d => d.CustomerSchool)
+               .WithMany()
+               .HasForeignKey(d => d.CustomerSchool)
+               .OnDelete(DeleteBehavior.SetNull)
+               .HasConstraintName("FK_tblCustomer_tblSchool");
+
+            entity.HasOne(d => d.CustomerCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerCreatedBy)
+                
+                .HasConstraintName("FK_tblFK_tblCustomer_tblCustomer");
+
+            entity.HasOne(d => d.CustomerUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblCustomer_tblCustomer");
+
+
+
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -956,17 +1382,34 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerConsentId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerConsentID");
-            entity.Property(e => e.ContentHashId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ContentHashID");
+            //entity.Property(e => e.ContentHashId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ContentHashID");
             entity.Property(e => e.CustomerConsentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.CustomerConsentForeignKey).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerConsentForeignKey).HasColumnType("int(11)");
             entity.Property(e => e.CustomerConsentName).HasMaxLength(50);
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            entity.HasOne(d => d.ContentHash)
+               .WithMany()
+               .HasForeignKey(d => d.ContentHash)
+               
+               .HasConstraintName("FK_tblCustomerConsent_tblContentHash");
+
+            entity.HasOne(d => d.CustomerConsentForeignKey)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerConsentForeignKey)
+                
+                .HasConstraintName("FK_tblFK_tblCustomerConsent_tblCustomerConsent");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                .HasConstraintName("FK_tblFK_tblCustomerConsent_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblCustomerDevice>(entity =>
@@ -979,24 +1422,43 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.CustomerDeviceUuid, "CustomerDeviceUUID");
 
-            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.HasIndex(e => e.CustomerId, "CustomerID");
 
             entity.Property(e => e.CustomerDeviceId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerDeviceID");
-            entity.Property(e => e.CustomerDeviceCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerDeviceCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerDeviceCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CustomerDeviceName).HasMaxLength(250);
-            entity.Property(e => e.CustomerDeviceUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerDeviceUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerDeviceUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.CustomerDeviceUuid)
                 .HasMaxLength(50)
                 .HasColumnName("CustomerDeviceUUID");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+
+            entity.HasOne(d => d.Customer)
+               .WithMany()
+               .HasForeignKey(d => d.Customer)
+               
+               .HasConstraintName("FK_tblCustomerDevice_tblCustomer");
+
+            entity.HasOne(d => d.CustomerDeviceCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerDeviceCreatedBy)
+                
+                .HasConstraintName("FK_tblFK_tblCustomerDevice_tblCustomer");
+
+            entity.HasOne(d => d.CustomerDeviceUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerDeviceUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblCustomerDevice_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblCustomerRole>(entity =>
@@ -1005,26 +1467,48 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblCustomerRole");
 
-            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.HasIndex(e => e.CustomerId, "CustomerID");
 
-            entity.HasIndex(e => e.RoleId, "RoleID");
+            //entity.HasIndex(e => e.RoleId, "RoleID");
 
             entity.Property(e => e.CustomerRoleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerRoleID");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
-            entity.Property(e => e.CustomerRoleCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            //entity.Property(e => e.CustomerRoleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerRoleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CustomerRoleDeleted).HasColumnType("tinyint(4)");
-            entity.Property(e => e.CustomerRoleUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerRoleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerRoleUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.RoleId)
-                .HasColumnType("int(11)")
-                .HasColumnName("RoleID");
+            //entity.Property(e => e.RoleId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("RoleID");
+
+            entity.HasOne(d => d.Customer)
+               .WithMany()
+               .HasForeignKey(d => d.Customer)               
+               .HasConstraintName("FK_tblCustomerRole_tblCustomer");
+
+            entity.HasOne(d => d.CustomerRoleCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerRoleCreatedBy)                
+                .HasConstraintName("FK_tblFK_tblCustomerRole_tblCustomer");
+
+            entity.HasOne(d => d.CustomerRoleUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.CustomerRoleUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblCustomerRole_tblCustomer");
+
+            entity.HasOne(d => d.Role)
+               .WithMany()
+               .HasForeignKey(d => d.Role)
+               .HasConstraintName("FK_tblCustomerRole_tblRole");
+
         });
 
         modelBuilder.Entity<TblDependant>(entity =>
@@ -1036,23 +1520,53 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.DependantId)
                 .HasColumnType("int(11)")
                 .HasColumnName("DependantID");
-            entity.Property(e => e.ClassId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ClassID");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
-            entity.Property(e => e.DependantApprovedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ClassId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ClassID");
+            //entity.Property(e => e.CustomerId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerID");
+            //entity.Property(e => e.DependantApprovedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantApprovedDate).HasColumnType("timestamp");
-            entity.Property(e => e.DependantCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.DependantCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.DependantFirstName).HasMaxLength(100);
             entity.Property(e => e.DependantGdprconsent).HasColumnName("DependantGDPRConsent");
             entity.Property(e => e.DependantLastName).HasMaxLength(100);
-            entity.Property(e => e.DependantUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.DependantUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.Class)
+               .WithMany()
+               .HasForeignKey(d => d.Class)
+               
+               .HasConstraintName("FK_tblDependant_tblClass");
+
+            entity.HasOne(d => d.Customer)
+                .WithMany()
+                .HasForeignKey(d => d.Customer)
+                
+                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
+
+            entity.HasOne(d => d.DependantApprovedBy)
+                .WithMany()
+                .HasForeignKey(d => d.DependantApprovedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
+
+            entity.HasOne(d => d.DependantCreatedBy)
+               .WithMany()
+               .HasForeignKey(d => d.DependantCreatedBy)
+               
+               .HasConstraintName("FK_tblDependant_tblCustomer");
+
+            entity.HasOne(d => d.DependantUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.DependantUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
         });
 
         modelBuilder.Entity<TblDiscount>(entity =>
@@ -1069,7 +1583,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("DiscountID");
             entity.Property(e => e.DiscountAmount).HasPrecision(10, 2);
             entity.Property(e => e.DiscountCode).HasMaxLength(50);
-            entity.Property(e => e.DiscountCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.DiscountCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DiscountCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1086,11 +1600,28 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.DiscountTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("DiscountTypeID");
-            entity.Property(e => e.DiscountUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.DiscountUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DiscountUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+           
+            entity.HasOne(d => d.School)
+               .WithMany()
+               .HasForeignKey(d => d.School)               
+               .HasConstraintName("FK_tblDiscount_tblSchool");
+
+            entity.HasOne(d => d.DiscountCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.DiscountCreatedBy)                
+                .HasConstraintName("FK_tblFK_tblDiscount_tblCustomer");
+
+            entity.HasOne(d => d.DiscountUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.DiscountUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblDiscount_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblEmail>(entity =>
@@ -1099,24 +1630,24 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblEmail");
 
-            entity.HasIndex(e => e.EmailCreatedBy, "EmailCreatedBy");
+            //entity.HasIndex(e => e.EmailCreatedBy, "EmailCreatedBy");
 
             entity.HasIndex(e => e.EmailMailGunId, "EmailMailGunID");
 
             entity.HasIndex(e => e.EmailTo, "EmailTo");
 
-            entity.HasIndex(e => e.MessageId, "MessageID");
+            //entity.HasIndex(e => e.MessageId, "MessageID");
 
-            entity.HasIndex(e => new { e.MessageId, e.EmailTo }, "idx_email_emailto");
+            //entity.HasIndex(e => new { e.MessageId, e.EmailTo }, "idx_email_emailto");
 
-            entity.HasIndex(e => new { e.EmailCreatedBy, e.EmailMailGunId }, "spoolIndex");
+            //entity.HasIndex(e => new { e.EmailCreatedBy, e.EmailMailGunId }, "spoolIndex");
 
             entity.Property(e => e.EmailId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EmailID");
             entity.Property(e => e.EmailAttachment1).HasMaxLength(500);
             entity.Property(e => e.EmailAttachment2).HasMaxLength(500);
-            entity.Property(e => e.EmailCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EmailCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EmailCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1130,11 +1661,30 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("EmailTemplateID");
             entity.Property(e => e.EmailTo).HasMaxLength(250);
-            entity.Property(e => e.EmailUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EmailUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EmailUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.MessageId)
-                .HasColumnType("int(11)")
-                .HasColumnName("MessageID");
+            //entity.Property(e => e.MessageId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("MessageID");
+
+            entity.HasOne(d => d.Message)
+               .WithMany()
+               .HasForeignKey(d => d.Message)
+               
+               .HasConstraintName("FK_tblEmail_tblEmail");
+
+            entity.HasOne(d => d.EmailCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EmailCreatedBy)
+                
+                .HasConstraintName("FK_tblFK_tblEmail_tblCustomer");
+
+            entity.HasOne(d => d.EmailUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EmailUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEmail_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblEmailEvent>(entity =>
@@ -1190,13 +1740,13 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.EventDeleted, "EventDeleted");
 
-            entity.HasIndex(e => e.EventOrganiserId, "EventOrganiserID");
+            //entity.HasIndex(e => e.EventOrganiserId, "EventOrganiserID");
 
-            entity.HasIndex(e => e.EventTypeId, "EventTypeID");
+            //entity.HasIndex(e => e.EventTypeId, "EventTypeID");
 
-            entity.HasIndex(e => e.SchoolId, "SchoolID");
+            //entity.HasIndex(e => e.SchoolId, "SchoolID");
 
-            entity.HasIndex(e => new { e.EventSaleEndDate, e.EventSaleStartDate, e.SchoolId }, "idx_event_salesdates");
+            //entity.HasIndex(e => new { e.EventSaleEndDate, e.EventSaleStartDate, e.SchoolId }, "idx_event_salesdates");
 
             entity.Property(e => e.EventId)
                 .HasColumnType("int(11)")
@@ -1222,34 +1772,34 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventLocation).HasMaxLength(250);
             entity.Property(e => e.EventMaxAttendeesQty).HasColumnType("int(11)");
             entity.Property(e => e.EventName).HasMaxLength(250);
-            entity.Property(e => e.EventOrganiserId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID");
-            entity.Property(e => e.EventOrganiserId2)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID2");
-            entity.Property(e => e.EventOrganiserId3)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID3");
-            entity.Property(e => e.EventOrganiserId4)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID4");
-            entity.Property(e => e.EventOrganiserId5)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID5");
-            entity.Property(e => e.EventOrganiserId6)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID6");
-            entity.Property(e => e.EventOrganiserId7)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID7");
-            entity.Property(e => e.EventOrganiserId8)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventOrganiserID8");
-            entity.Property(e => e.EventPlatformFeeType)
-                .HasMaxLength(15)
-                .HasDefaultValueSql("'Voluntary'");
+            //entity.Property(e => e.EventOrganiserId)
+            //    .HasDefaultValueSql("'1'")
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID");
+            //entity.Property(e => e.EventOrganiserId2)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID2");
+            //entity.Property(e => e.EventOrganiserId3)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID3");
+            //entity.Property(e => e.EventOrganiserId4)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID4");
+            //entity.Property(e => e.EventOrganiserId5)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID5");
+            //entity.Property(e => e.EventOrganiserId6)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID6");
+            //entity.Property(e => e.EventOrganiserId7)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID7");
+            //entity.Property(e => e.EventOrganiserId8)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventOrganiserID8");
+            //entity.Property(e => e.EventPlatformFeeType)
+            //    .HasMaxLength(15)
+            //    .HasDefaultValueSql("'Voluntary'");
             entity.Property(e => e.EventPostCode).HasMaxLength(20);
             entity.Property(e => e.EventPurgeDataDate).HasColumnType("datetime");
             entity.Property(e => e.EventQflowEventId)
@@ -1268,10 +1818,10 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventSponsoredByUrl)
                 .HasMaxLength(100)
                 .HasColumnName("EventSponsoredByURL");
-            entity.Property(e => e.EventTypeId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTypeID");
-            entity.Property(e => e.EventUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventTypeId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTypeID");
+            //entity.Property(e => e.EventUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.EventUuid)
                 .HasMaxLength(100)
@@ -1279,9 +1829,82 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.LegacyEventId)
                 .HasColumnType("int(11)")
                 .HasColumnName("LegacyEventID");
-            entity.Property(e => e.SchoolId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolID");
+            //entity.Property(e => e.SchoolId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolID");
+
+            entity.HasOne(d => d.EventOrganiser)
+               .WithMany()
+               .HasForeignKey(d => d.EventOrganiser)               
+               .HasConstraintName("FK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser2)
+                .WithMany()
+                .HasForeignKey(d => d.EventOrganiser2)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser3)
+                .WithMany()
+                .HasForeignKey(d => d.EventOrganiser3)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser4)
+               .WithMany()
+               .HasForeignKey(d => d.EventOrganiser4)
+               .OnDelete(DeleteBehavior.SetNull)
+               .HasConstraintName("FK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser5)
+                .WithMany()
+                .HasForeignKey(d => d.EventOrganiser5)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser6)
+                .WithMany()
+                .HasForeignKey(d => d.EventOrganiser6)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser7)
+               .WithMany()
+               .HasForeignKey(d => d.EventOrganiser7)
+               .OnDelete(DeleteBehavior.SetNull)
+               .HasConstraintName("FK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventOrganiser8)
+                .WithMany()
+                .HasForeignKey(d => d.EventOrganiser8)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventType)
+                .WithMany()
+                .HasForeignKey(d => d.EventType)
+                .HasConstraintName("FK_tblFK_tblEvent_tblEventType");
+
+            entity.HasOne(d => d.School)
+                .WithMany()
+                .HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblFK_tblEvent_tblSchool");
+
+            entity.HasOne(d => d.EventCreatedBy)
+               .WithMany()
+               .HasForeignKey(d => d.EventCreatedBy)               
+               .HasConstraintName("FK_tblEvent_tblCustomer");
+
+            entity.HasOne(d => d.EventUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+
+            
+
+
+
         });
 
         modelBuilder.Entity<TblEventFile>(entity =>
@@ -1293,18 +1916,42 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventFileId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventFileID");
-            entity.Property(e => e.EventFileCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventFileCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventFileCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.EventFileUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventFileUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventFileUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.EventId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventID");
-            entity.Property(e => e.FileId)
-                .HasColumnType("int(11)")
-                .HasColumnName("FileID");
+            //entity.Property(e => e.EventId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventID");
+            //entity.Property(e => e.FileId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("FileID");
+
+            entity.HasOne(d => d.Event)
+               .WithMany()
+               .HasForeignKey(d => d.Event)
+               
+               .HasConstraintName("FK_tblEventFile_tblEvent");
+
+            entity.HasOne(d => d.File)
+                .WithMany()
+                .HasForeignKey(d => d.File)
+                
+                .HasConstraintName("FK_tblFK_tblEventFile_tblFile");
+
+            entity.HasOne(d => d.EventFileCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventFileCreatedBy)
+                .HasConstraintName("FK_tblFK_tblEventFile_tblCustomer");
+            
+            entity.HasOne(d => d.EventFileUpdatedBy)
+              .WithMany()
+              .HasForeignKey(d => d.EventFileUpdatedBy)
+              .OnDelete(DeleteBehavior.SetNull)
+              .HasConstraintName("FK_tblEventFile_tblCustomer");
+
         });
 
         modelBuilder.Entity<TblEventProduct>(entity =>
@@ -1313,19 +1960,30 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblEventProduct");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            //entity.HasIndex(e => e.EventId, "EventID");
 
-            entity.HasIndex(e => e.ProductId, "ProductID");
+            //entity.HasIndex(e => e.ProductId, "ProductID");
 
             entity.Property(e => e.EventProductId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventProductID");
-            entity.Property(e => e.EventId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventID");
-            entity.Property(e => e.ProductId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ProductID");
+            //entity.Property(e => e.EventId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventID");
+            //entity.Property(e => e.ProductId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("ProductID");
+
+            entity.HasOne(d => d.Event)
+                .WithMany()
+                .HasForeignKey(d => d.Event)
+                
+                .HasConstraintName("FK_tblFK_tblEventProduct_tblEvent");
+
+            entity.HasOne(d => d.Product)
+                .WithMany()
+                .HasForeignKey(d => d.Product)
+                .HasConstraintName("FK_tblFK_tblEventProduct_tblProduct");
         });
 
         modelBuilder.Entity<TblEventSponsor>(entity =>
@@ -1337,18 +1995,45 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventSponsorId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventSponsorID");
-            entity.Property(e => e.EventId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventID");
-            entity.Property(e => e.EventSponsorCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventID");
+            //entity.Property(e => e.EventSponsorCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventSponsorCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.EventSponsorUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventSponsorUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventSponsorUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.SponsorId)
-                .HasColumnType("int(11)")
-                .HasColumnName("SponsorID");
+            //entity.Property(e => e.SponsorId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SponsorID");
+
+            entity.HasOne(d => d.Event)
+                .WithMany()
+                .HasForeignKey(d => d.Event)
+                
+                .HasConstraintName("FK_tblFK_tblEventSponsor_tblEvent");
+
+            entity.HasOne(d => d.Sponsor)
+                .WithMany()
+                .HasForeignKey(d => d.Sponsor)
+
+                .HasConstraintName("FK_tblFK_tblEventSponsor_tblSponsor"); 
+            entity.HasOne(d => d.EventSponsorCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventSponsorCreatedBy)
+               
+                .HasConstraintName("FK_tblFK_tblEventSponsor_tblCustomer");
+
+            entity.HasOne(d => d.EventSponsorUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventSponsorUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventSponsor_tblCustomer");
+
+
+
+
         });
 
         modelBuilder.Entity<TblEventTask>(entity =>
@@ -1357,49 +2042,102 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblEventTask");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            //entity.HasIndex(e => e.EventId, "EventID");
 
-            entity.HasIndex(e => e.EventTaskGroupId, "EventTaskGroupID");
+            //entity.HasIndex(e => e.EventTaskGroupId, "EventTaskGroupID");
 
             entity.HasIndex(e => e.EventTaskRequiredByDate, "EventTaskRequiredByDate");
 
             entity.Property(e => e.EventTaskId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventTaskID");
-            entity.Property(e => e.EventId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventID");
-            entity.Property(e => e.EventTaskCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventID");
+            //entity.Property(e => e.EventTaskCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.EventTaskDescription).HasColumnType("text");
             entity.Property(e => e.EventTaskFinishDate).HasColumnType("timestamp");
-            entity.Property(e => e.EventTaskGroupId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTaskGroupID");
+            //entity.Property(e => e.EventTaskGroupId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTaskGroupID");
             entity.Property(e => e.EventTaskHelpersRequiredQty).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskMessage).HasColumnType("text");
             entity.Property(e => e.EventTaskName).HasMaxLength(100);
-            entity.Property(e => e.EventTaskOrganiserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTaskOrganiserID");
-            entity.Property(e => e.EventTaskOrganiserId2)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTaskOrganiserID2");
-            entity.Property(e => e.EventTaskOrganiserId3)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTaskOrganiserID3");
-            entity.Property(e => e.EventTaskOrganiserId4)
-                .HasColumnType("int(11)")
-                .HasColumnName("EventTaskOrganiserID4");
+            //entity.Property(e => e.EventTaskOrganiserId)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTaskOrganiserID");
+            //entity.Property(e => e.EventTaskOrganiserId2)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTaskOrganiserID2");
+            //entity.Property(e => e.EventTaskOrganiserId3)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTaskOrganiserID3");
+            //entity.Property(e => e.EventTaskOrganiserId4)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("EventTaskOrganiserID4");
             entity.Property(e => e.EventTaskRequiredByDate).HasColumnType("timestamp");
             entity.Property(e => e.EventTaskSortOrder).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskStartDate)
                 .HasDefaultValueSql("'0000-00-00 00:00:00'")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.EventTaskUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventTaskUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(d => d.Event)
+                .WithMany()
+                .HasForeignKey(d => d.Event)
+                
+                .HasConstraintName("FK_tblFK_tblEventTask_tblEvent");
+
+            entity.HasOne(d => d.EventTaskGroup)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskGroup)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblEventTaskGroup");
+
+            entity.HasOne(d => d.EventTaskOrganiser)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskOrganiser)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+            entity.HasOne(d => d.EventTaskOrganiser2)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskOrganiser2)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+            entity.HasOne(d => d.EventTaskOrganiser3)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskOrganiser3)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+            entity.HasOne(d => d.EventTaskOrganiser4)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskOrganiser4)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+            entity.HasOne(d => d.EventTaskCreatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskCreatedBy)
+               
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+            entity.HasOne(d => d.EventTaskUpdatedBy)
+                .WithMany()
+                .HasForeignKey(d => d.EventTaskUpdatedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+
+
+
+
+
         });
 
         modelBuilder.Entity<TblEventTaskCustomer>(entity =>

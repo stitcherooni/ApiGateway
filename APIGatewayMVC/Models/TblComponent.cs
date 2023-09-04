@@ -13,17 +13,17 @@ public partial class TblComponent
 
     public string ComponentName { get; set;}
 
-    public int ComponentTypeId { get; set; }
+    public TblComponentType ComponentType { get; set; }
 
-    public int ComponentGroupId { get; set; }
+    public TblComponentGroup ComponentGroup { get; set; }
 
     public bool ComponentDeleted { get; set; }
 
-    public int ComponentCreatedBy { get; set; }
+    public TblCustomer ComponentCreatedBy { get; set; }
 
     public DateTime ComponentCreatedDate { get; set; }
 
-    public int? ComponentUpdatedBy { get; set; }
+    public TblCustomer ComponentUpdatedBy { get; set; }
 
     public DateTime? ComponentUpdatedDate { get; set; }
 }

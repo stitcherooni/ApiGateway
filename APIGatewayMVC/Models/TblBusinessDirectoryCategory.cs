@@ -11,15 +11,15 @@ public partial class TblBusinessDirectoryCategory
 
     public string BusinessDirectoryCategoryIcon { get; set;}
 
-    public int? SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
     public bool BusinessDirectoryCategoryDeleted { get; set; }
 
-    public int BusinessDirectoryCategoryCreatedBy { get; set; }
+    public TblCustomer BusinessDirectoryCategoryCreatedBy { get; set; }
 
     public DateTime BusinessDirectoryCategoryCreatedByDate { get; set; }
 
-    public int? BusinessDirectoryCategoryUpdatedBy { get; set; }
+    public TblCustomer BusinessDirectoryCategoryUpdatedBy { get; set; }
 
     public DateTime? BusinessDirectoryCategoryUpdatedDate { get; set; }
 }

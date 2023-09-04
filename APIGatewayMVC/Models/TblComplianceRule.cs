@@ -15,11 +15,11 @@ public partial class TblComplianceRule
 
     public bool ComplianceRuleDeleted { get; set; }
 
-    public int ComplianceRuleCreatedBy { get; set; }
+    public TblCustomer ComplianceRuleCreatedBy { get; set; }
 
     public DateTime ComplianceRuleCreatedDate { get; set; }
 
-    public int? ComplianceRuleUpdatedBy { get; set; }
+    public TblCustomer ComplianceRuleUpdatedBy { get; set; }
 
     public DateTime? ComplianceRuleUpdatedDate { get; set; }
 }

@@ -7,9 +7,9 @@ public partial class TblBid
 {
     public int BidId { get; set; }
 
-    public int AuctionId { get; set; }
+    public TblAuction Auction { get; set; }
 
-    public int CustomerId { get; set; }
+    public TblCustomer Customer { get; set; }
 
     public decimal BidAmount { get; set; }
 
@@ -17,11 +17,11 @@ public partial class TblBid
 
     public bool BidDeleted { get; set; }
 
-    public int BidCreatedBy { get; set; }
+    public TblCustomer BidCreatedBy { get; set; }
 
     public DateTime BidCreatedDate { get; set; }
 
-    public int? BidUpdatedBy { get; set; }
+    public TblCustomer BidUpdatedBy { get; set; }
 
     public DateTime? BidUpdatedDate { get; set; }
 }

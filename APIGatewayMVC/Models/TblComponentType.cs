@@ -11,11 +11,11 @@ public partial class TblComponentType
 
     public bool ComponentTypeDeleted { get; set; }
 
-    public int ComponentTypeCreatedBy { get; set; }
+    public TblCustomer ComponentTypeCreatedBy { get; set; }
 
     public DateTime ComponentTypeCreatedDate { get; set; }
 
-    public int? ComponentTypeUpdatedBy { get; set; }
+    public TblCustomer ComponentTypeUpdatedBy { get; set; }
 
     public DateTime? ComponentTypeUpdatedDate { get; set; }
 }

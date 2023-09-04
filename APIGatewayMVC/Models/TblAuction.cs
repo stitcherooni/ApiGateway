@@ -9,7 +9,7 @@ public partial class TblAuction
 
     public string AuctionUuid { get; set;}
 
-    public int EventId { get; set; }
+    public TblEvent Event { get; set; }
 
     public string AuctionName { get; set;}
 
@@ -43,11 +43,11 @@ public partial class TblAuction
 
     public bool AuctionDeleted { get; set; }
 
-    public int AuctionCreatedBy { get; set; }
+    public TblCustomer AuctionCreatedBy { get; set; }
 
     public DateTime AuctionCreatedDate { get; set; }
 
-    public int? AuctionUpdatedBy { get; set; }
+    public TblCustomer AuctionUpdatedBy { get; set; }
 
     public DateTime? AuctionUpdatedDate { get; set; }
 }

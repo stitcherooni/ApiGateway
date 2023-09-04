@@ -17,11 +17,11 @@ public partial class TblCurrency
 
     public bool CurrencyDeleted { get; set; }
 
-    public int CurrencyCreatedBy { get; set; }
+    public TblCustomer CurrencyCreatedBy { get; set; }
 
     public DateTime CurrencyCreatedDate { get; set; }
 
-    public int? CurrencyUpdatedBy { get; set; }
+    public TblCustomer CurrencyUpdatedBy { get; set; }
 
     public DateTime? CurrencyUpdatedDate { get; set; }
 }

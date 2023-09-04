@@ -7,7 +7,7 @@ public partial class TblBankedWebHook
 {
     public int BankedWebHookId { get; set; }
 
-    public int? OrderId { get; set; }
+    public TblOrder Order { get; set; }
 
     public string BankedWebHookBankedId { get; set;}
 

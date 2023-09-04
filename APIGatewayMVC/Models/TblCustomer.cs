@@ -9,11 +9,11 @@ public partial class TblCustomer
 
     public bool CustomerGuest { get; set; }
 
-    public string CustomerPartnerId { get; set; }
+    public TblPartner CustomerPartner { get; set; }
 
     public int? LegacyCustomerId { get; set; }
 
-    public int ApplicationId { get; set; }
+    public TblSchool Application { get; set; }
 
     public int Ptaid { get; set; }
 
@@ -41,7 +41,7 @@ public partial class TblCustomer
 
     public string CustomerSalt { get; set; }
 
-    public string CustomerHashId { get; set; }
+    public TblContentHash CustomerHash { get; set; }
 
     public string CustomerPasswordReset { get; set; }
 
@@ -71,7 +71,7 @@ public partial class TblCustomer
 
     public string CustomerGeneric3 { get; set; }
 
-    public int? CustomerSchoolId { get; set; }
+    public TblSchool CustomerSchool { get; set; }
 
     public string CustomerSchoolClass { get; set; }
 
@@ -109,9 +109,9 @@ public partial class TblCustomer
 
     public DateTime CustomerCreatedDate { get; set; }
 
-    public int CustomerCreatedBy { get; set; }
+    public TblCustomer CustomerCreatedBy { get; set; }
 
     public DateTime? CustomerUpdatedDate { get; set; }
 
-    public int? CustomerUpdatedBy { get; set; }
+    public TblCustomer CustomerUpdatedBy { get; set; }
 }

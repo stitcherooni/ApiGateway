@@ -7,11 +7,11 @@ public partial class TblBusinessDirectoryClick
 {
     public int BusinessDirectoryClickId { get; set; }
 
-    public int BusinessDirectoryId { get; set; }
+    public TblBusinessDirectory BusinessDirectory { get; set; }
 
-    public int? CustomerId { get; set; }
+    public TblCustomer Customer { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
     public string BusinessDirectoryClickFrom { get; set; }
 
