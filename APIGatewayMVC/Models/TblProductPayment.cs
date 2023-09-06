@@ -7,7 +7,7 @@ public partial class TblProductPayment
 {
     public int ProductPaymentId { get; set; }
 
-    public int ProductId { get; set; }
+    public TblProduct Product { get; set; }
 
     public string ProductPaymentName { get; set; }
 
@@ -17,11 +17,11 @@ public partial class TblProductPayment
 
     public bool ProductPaymentDeleted { get; set; }
 
-    public int ProductPaymentCreatedBy { get; set; }
+    public TblCustomer ProductPaymentCreatedBy { get; set; }
 
     public DateTime ProductPaymentCreatedDate { get; set; }
 
-    public int? ProductPaymentUpdatedBy { get; set; }
+    public TblCustomer ProductPaymentUpdatedBy { get; set; }
 
     public DateTime? ProductPaymentUpdatedDate { get; set; }
 }

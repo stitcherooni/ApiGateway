@@ -17,11 +17,11 @@ public partial class TblFileType
 
     public bool FileTypeDeleted { get; set; }
 
-    public int FileTypeCreatedBy { get; set; }
+    public TblCustomer FileTypeCreatedBy { get; set; }
 
     public DateTime FileTypeCreatedDate { get; set; }
 
-    public int? FileTypeUpdatedBy { get; set; }
+    public TblCustomer FileTypeUpdatedBy { get; set; }
 
     public DateTime? FileTypeUpdatedDate { get; set; }
 }

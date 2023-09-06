@@ -7,7 +7,7 @@ public partial class TblProductQuestion
 {
     public int ProductQuestionId { get; set; }
 
-    public int ProductId { get; set; }
+    public TblProduct Product { get; set; }
 
     public string ProductQuestionName { get; set;}
 
@@ -43,9 +43,9 @@ public partial class TblProductQuestion
 
     public DateTime ProductQuestionCreatedDate { get; set; }
 
-    public int ProductQuestionCreatedBy { get; set; }
+    public TblCustomer ProductQuestionCreatedBy { get; set; }
 
     public DateTime? ProductQuestionUpdatedDate { get; set; }
 
-    public int ProductQuestionUpdatedBy { get; set; }
+    public TblCustomer ProductQuestionUpdatedBy { get; set; }
 }

@@ -29,11 +29,11 @@ public partial class TblPlatformPartner
 
     public bool PlatformPartnerDeleted { get; set; }
 
-    public int PlatformPartnerCreatedBy { get; set; }
+    public TblCustomer PlatformPartnerCreatedBy { get; set; }
 
     public DateTime PlatformPartnerCreatedDate { get; set; }
 
-    public int? PlatformPartnerUpdatedBy { get; set; }
+    public TblCustomer PlatformPartnerUpdatedBy { get; set; }
 
     public DateTime? PlatformPartnerUpdatedDate { get; set; }
 }

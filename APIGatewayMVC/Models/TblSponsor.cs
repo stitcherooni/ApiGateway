@@ -9,7 +9,7 @@ public partial class TblSponsor
 
     public int SponsorTypeId { get; set; }
 
-    public int CountryId { get; set; }
+    public TblCountry Country { get; set; }
 
     public bool SponsorGlobal { get; set; }
 
@@ -55,15 +55,15 @@ public partial class TblSponsor
 
     public DateTime? SponsorEndDate { get; set; }
 
-    public int? SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
     public bool SponsorDeleted { get; set; }
 
-    public int SponsorCreatedBy { get; set; }
+    public TblCustomer SponsorCreatedBy { get; set; }
 
     public DateTime SponsorCreatedByDate { get; set; }
 
-    public int? SponsorUpdatedBy { get; set; }
+    public TblCustomer SponsorUpdatedBy { get; set; }
 
     public DateTime? SponsorUpdatedDate { get; set; }
 }

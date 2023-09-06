@@ -7,7 +7,7 @@ public partial class TblPoll
 {
     public int PollId { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
     public string PollQuestion { get; set;}
 
@@ -21,11 +21,11 @@ public partial class TblPoll
 
     public bool PollDeleted { get; set; }
 
-    public int PollCreatedBy { get; set; }
+    public TblCustomer PollCreatedBy { get; set; }
 
     public DateTime PollCreatedDate { get; set; }
 
-    public int PollUpdatedBy { get; set; }
+    public TblCustomer PollUpdatedBy { get; set; }
 
     public DateTime? PollUpdatedDate { get; set; }
 }

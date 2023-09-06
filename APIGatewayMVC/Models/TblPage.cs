@@ -17,15 +17,15 @@ public partial class TblPage
 
     public string PageContent { get; set;}
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
     public bool PageDeleted { get; set; }
 
-    public int PageCreatedBy { get; set; }
+    public TblCustomer PageCreatedBy { get; set; }
 
     public DateTime PageCreatedDate { get; set; }
 
-    public int? PageUpdatedBy { get; set; }
+    public TblCustomer PageUpdatedBy { get; set; }
 
     public DateTime? PageUpdatedDate { get; set; }
 }

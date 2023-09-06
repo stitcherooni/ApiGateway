@@ -11,7 +11,7 @@ public partial class TblOrder
 
     public string OrderUuid { get; set;}
 
-    public int OrderTypeId { get; set; }
+    public TblCustomer OrderType { get; set; }
 
     public string OrderReference { get; set; }
 
@@ -29,7 +29,7 @@ public partial class TblOrder
 
     public bool OrderRefunded { get; set; }
 
-    public int? OrderTransactionId { get; set; }
+    public TblCustomer OrderTransaction { get; set; }
 
     public string OrderTransactionType { get; set; }
 
@@ -51,11 +51,11 @@ public partial class TblOrder
 
     public DateTime? OrderCreatedDate { get; set; }
 
-    public int OrderCreatedBy { get; set; }
+    public TblCustomer OrderCreatedBy { get; set; }
 
     public DateTime? OrderUpdatedDate { get; set; }
 
-    public int? OrderUpdatedBy { get; set; }
+    public TblCustomer OrderUpdatedBy { get; set; }
 
-    public int? CustomerId { get; set; }
+    public TblCustomer Customer { get; set; }
 }

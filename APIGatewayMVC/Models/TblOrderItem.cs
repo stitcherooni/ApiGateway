@@ -9,11 +9,11 @@ public partial class TblOrderItem
 
     public int? LegacyOrderItemId { get; set; }
 
-    public int OrderId { get; set; }
+    public TblCustomer Order { get; set; }
+          
+    public TblCustomer Item { get; set; }
 
-    public int ItemId { get; set; }
-
-    public int? ProductPaymentSchemeId { get; set; }
+    public TblCustomer ProductPaymentScheme { get; set; }
 
     public string OrderItemName { get; set; }
 
@@ -41,11 +41,11 @@ public partial class TblOrderItem
 
     public bool OrderItemTest { get; set; }
 
-    public int OrderItemCreatedBy { get; set; }
+    public TblCustomer OrderItemCreatedBy { get; set; }
 
     public DateTime OrderItemCreatedDate { get; set; }
 
-    public int OrderItemUpdatedBy { get; set; }
+    public TblCustomer OrderItemUpdatedBy { get; set; }
 
     public DateTime? OrderItemUpdatedDate { get; set; }
 }

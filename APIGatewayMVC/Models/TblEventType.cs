@@ -11,11 +11,11 @@ public partial class TblEventType
 
     public bool EventTypeDeleted { get; set; }
 
-    public int EventTypeCreatedBy { get; set; }
+    public TblCustomer EventTypeCreatedBy { get; set; }
 
     public DateTime EventTypeCreatedDate { get; set; }
 
-    public int? EventTypeUpdatedBy { get; set; }
+    public TblCustomer EventTypeUpdatedBy { get; set; }
 
     public DateTime? EventTypeUpdatedDate { get; set; }
 }

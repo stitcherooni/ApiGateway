@@ -9,13 +9,13 @@ public partial class TblPtamember
 
     public string PtamemberInfo { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
-    public int RoleId { get; set; }
+    public TblRole Role { get; set; }
 
-    public int CustomerId { get; set; }
+    public TblCustomer Customer { get; set; }
 
-    public int AcademicYearId { get; set; }
+    public TblAcademicYear AcademicYear { get; set; }
 
     public bool PtamemberDeleted { get; set; }
 

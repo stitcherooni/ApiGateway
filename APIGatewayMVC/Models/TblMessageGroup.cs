@@ -7,13 +7,13 @@ public partial class TblMessageGroup
 {
     public int MessageGroupId { get; set; }
 
-    public int? EventId { get; set; }
+    public TblEvent Event { get; set; }
 
-    public int? ClassId { get; set; }
+    public TblClass Class { get; set; }
 
     public string MessageGroupType { get; set;}
 
     public DateTime MessageGroupCreatedDate { get; set; }
 
-    public int MessageGroupCreatedBy { get; set; }
+    public TblCustomer MessageGroupCreatedBy { get; set; }
 }

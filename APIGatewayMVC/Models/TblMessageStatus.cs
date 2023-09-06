@@ -11,11 +11,11 @@ public partial class TblMessageStatus
 
     public DateTime MessageStatusCreatedDate { get; set; }
 
-    public int MessageStatusCreatedBy { get; set; }
+    public TblCustomer MessageStatusCreatedBy { get; set; }
 
     public DateTime? MessageStatusUpdatedDate { get; set; }
 
-    public int? MessageStatusUpdatedBy { get; set; }
+    public TblCustomer MessageStatusUpdatedBy { get; set; }
 
     public bool MessageStatusDeleted { get; set; }
 }

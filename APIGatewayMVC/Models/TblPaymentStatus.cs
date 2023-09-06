@@ -11,11 +11,11 @@ public partial class TblPaymentStatus
 
     public bool PaymentStatusDeleted { get; set; }
 
-    public int PaymentStatusCreatedBy { get; set; }
+    public TblCustomer PaymentStatusCreatedBy { get; set; }
 
     public DateTime PaymentStatusCreatedDate { get; set; }
 
-    public int? PaymentStatusUpdatedBy { get; set; }
+    public TblCustomer PaymentStatusUpdatedBy { get; set; }
 
     public DateTime? PaymentStatusUpdatedDate { get; set; }
 }

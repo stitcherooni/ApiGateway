@@ -5,27 +5,27 @@ namespace Models;
 
 public partial class TblFaq
 {
-    public int Faqid { get; set; }
+    public int FaqId { get; set; }
 
-    public string Faqtitle { get; set;}
+    public string FaqTitle { get; set;}
 
-    public string Faqtext { get; set; }
+    public string FaqText { get; set; }
 
-    public DateTime? FaqstartDate { get; set; }
+    public DateTime? FaqStartDate { get; set; }
 
-    public DateTime? FaqendDate { get; set; }
+    public DateTime? FaqEndDate { get; set; }
 
-    public int? FaqsortOrder { get; set; }
+    public int? FaqSortOrder { get; set; }
 
-    public int SchoolId { get; set; }
+    public TblSchool School { get; set; }
 
-    public bool Faqdeleted { get; set; }
+    public bool FaqDeleted { get; set; }
 
-    public int FaqcreatedBy { get; set; }
+    public TblCustomer FaqCreatedBy { get; set; }
 
-    public DateTime FaqcreatedDate { get; set; }
+    public DateTime FaqCreatedDate { get; set; }
 
-    public int? FaqupdatedBy { get; set; }
+    public TblCustomer FaqUpdatedBy { get; set; }
 
-    public DateTime? FaqupdatedDate { get; set; }
+    public DateTime? FaqUpdatedDate { get; set; }
 }

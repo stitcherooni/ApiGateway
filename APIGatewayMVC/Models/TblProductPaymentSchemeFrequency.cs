@@ -13,11 +13,11 @@ public partial class TblProductPaymentSchemeFrequency
 
     public bool ProductPaymentSchemeFrequencyDeleted { get; set; }
 
-    public int ProductPaymentSchemeFrequencyCreatedBy { get; set; }
+    public TblCustomer ProductPaymentSchemeFrequencyCreatedBy { get; set; }
 
     public DateTime ProductPaymentSchemeFrequencyCreatedDate { get; set; }
 
-    public int? ProductPaymentSchemeFrequencypdatedBy { get; set; }
+    public TblCustomer ProductPaymentSchemeFrequencyUpdatedBy { get; set; }
 
     public DateTime? ProductPaymentSchemeFrequencyUpdatedDate { get; set; }
 }

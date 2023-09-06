@@ -7,9 +7,9 @@ public partial class TblEventTaskCustomer
 {
     public int EventTaskCustomerId { get; set; }
 
-    public int EventTaskId { get; set; }
+    public TblEventTask EventTask { get; set; }
 
-    public int CustomerId { get; set; }
+    public TblCustomer Customer { get; set; }
 
     public string EventTaskCustomerMessage { get; set; }
 
@@ -27,11 +27,11 @@ public partial class TblEventTaskCustomer
 
     public bool EventTaskCustomerDisplayName { get; set; }
 
-    public int EventTaskCustomerCreatedBy { get; set; }
+    public TblCustomer EventTaskCustomerCreatedBy { get; set; }
 
     public DateTime EventTaskCustomerCreatedDate { get; set; }
 
-    public int? EventTaskCustomerUpdatedBy { get; set; }
+    public TblCustomer EventTaskCustomerUpdatedBy { get; set; }
 
     public DateTime? EventTaskCustomerUpdatedDate { get; set; }
 

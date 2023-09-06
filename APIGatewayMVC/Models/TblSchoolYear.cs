@@ -13,11 +13,11 @@ public partial class TblSchoolYear
 
     public ulong SchoolYearDeleted { get; set; }
 
-    public int SchoolYearCreatedBy { get; set; }
+    public TblCustomer SchoolYearCreatedBy { get; set; }
 
     public DateTime SchoolYearCreatedDate { get; set; }
 
-    public int? SchoolYearUpdatedBy { get; set; }
+    public TblCustomer SchoolYearUpdatedBy { get; set; }
 
     public DateTime? SchoolYearUpdatedDate { get; set; }
 }

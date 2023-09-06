@@ -7,7 +7,7 @@ public partial class TblStripeWebHook
 {
     public int StripeWebHookId { get; set; }
 
-    public int? OrderId { get; set; }
+    public TblOrder Order { get; set; }
 
     public string StripeWebHookEventId { get; set;}
 
