@@ -221,22 +221,23 @@ public partial class PtaeventContext : DbContext
             //    .HasDefaultValueSql("'1'")
             //    .HasColumnType("int(11)")
             //    .HasColumnName("CountryID");
-            entity.HasOne(d => d.Country)
+            entity.HasOne(e => e.Country)
                 .WithMany() 
-                .HasForeignKey(d => d.Country) 
-                .OnDelete(DeleteBehavior.ClientSetNull) 
+                //.HasForeignKey(e => e.Country) 
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tblAcademicYear_tblCountry");
+
 
             entity.HasOne(d => d.AcademicYearCreatedBy)
                 .WithMany() 
-                .HasForeignKey(d => d.AcademicYearCreatedBy)
+                ////.HasForeignKey(d => d.AcademicYearCreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull) 
-                .HasConstraintName("FK_tblAcademicYear_tblCustomer");
+                .HasConstraintName("FK_tblAcademicYear.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.AcademicYearUpdatedBy)
                 .WithMany() 
-                .HasForeignKey(d => d.AcademicYearUpdatedBy)
-                .HasConstraintName("FK_tblAcademicYear_tblCustomer");
+                ////.HasForeignKey(d => d.AcademicYearUpdatedBy)
+                .HasConstraintName("FK_tblAcademicYear.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblApiAuditHistory>(entity =>
@@ -279,20 +280,20 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("CustomerID");
             entity.HasOne(d => d.Application)
                 .WithMany()
-                .HasForeignKey(d => d.Application)
+                ////.HasForeignKey(d => d.Application)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblApiAuditHistory_tblSchool");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblApiAuditHistory_tblCustomer");
 
             entity.HasOne(d => d.ApiAuditHistoryCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ApiAuditHistoryCreatedBy)
-                .HasConstraintName("FK_tblApiAuditHistory_tblCustomer");
+                ////.HasForeignKey(d => d.ApiAuditHistoryCreatedBy)
+                .HasConstraintName("FK_tblApiAuditHistory.CreatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuction>(entity =>
@@ -337,19 +338,19 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("EventID");
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblAuction_tblEvent");
 
             entity.HasOne(d => d.AuctionCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuctionCreatedBy)
-                .HasConstraintName("FK_tblFK_tblAuction_tblCustomer");
+                ////.HasForeignKey(d => d.AuctionCreatedBy)
+                .HasConstraintName("FK_tblAuction.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.AuctionUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuctionUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblAuction_tblCustomer");
+                ////.HasForeignKey(d => d.AuctionUpdatedBy)
+                .HasConstraintName("FK_tblAuction.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuditHistory>(entity =>
@@ -389,25 +390,25 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("CustomerID");
             entity.HasOne(d => d.Application)
                 .WithMany()
-                .HasForeignKey(d => d.Application)
+                ////.HasForeignKey(d => d.Application)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblAuditHistory_tblSchool");
 
             entity.HasOne(d => d.AuditHistoryUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuditHistoryUpdatedBy)
+                ////.HasForeignKey(d => d.AuditHistoryUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblAuditHistory_tblCustomer");
+                .HasConstraintName("FK_tblAuditHistory.UpdatedBy_tblCustomer");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblFK_tblAuditHistory_tblCustomer");
+                ////.HasForeignKey(d => d.Customer)
+                .HasConstraintName("FK_tblAuditHistory_tblCustomer");
 
             entity.HasOne(d => d.AuditHistoryCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuditHistoryCreatedBy)
-                .HasConstraintName("FK_tblFK_tblAuditHistory_tblCustomer");
+                ////.HasForeignKey(d => d.AuditHistoryCreatedBy)
+                .HasConstraintName("FK_tblAuditHistory.CreatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuditHistoryType>(entity =>
@@ -428,14 +429,14 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuditHistoryTypeUpdatedDate).HasColumnType("timestamp");
             entity.HasOne(d => d.AuditHistoryTypeCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuditHistoryTypeCreatedBy)
-                .HasConstraintName("FK_tblAuditHistoryType_tblCustomer");
+                ////.HasForeignKey(d => d.AuditHistoryTypeCreatedBy)
+                .HasConstraintName("FK_tblAuditHistoryType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.AuditHistoryTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.AuditHistoryTypeUpdatedBy)
+                ////.HasForeignKey(d => d.AuditHistoryTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblAuditHistoryType_tblCustomer");
+                .HasConstraintName("FK_tblAuditHistoryType.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusiness>(entity =>
@@ -469,25 +470,25 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("SchoolID");
             entity.HasOne(d => d.BankedBusinessComplianceCompletedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessComplianceCompletedBy)
+                ////.HasForeignKey(d => d.BankedBusinessComplianceCompletedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblBankedBusiness_tblCustomer");
 
             entity.HasOne(d => d.BankedBusinessUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessUpdatedBy)
+                ////.HasForeignKey(d => d.BankedBusinessUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblCustomer");
+                .HasConstraintName("FK_tblBankedBusiness.UpdatedBy_tblCustomer");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblSchool");
+                ////.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblBankedBusiness_tblSchool");
 
             entity.HasOne(d => d.BankedBusinessCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessCreatedBy)
-                .HasConstraintName("FK_tblFK_tblBankedBusiness_tblCustomer");
+                ////.HasForeignKey(d => d.BankedBusinessCreatedBy)
+                .HasConstraintName("FK_tblBankedBusiness.CreatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusinessApplication>(entity =>
@@ -515,20 +516,20 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("BankedBusinessID");
             entity.HasOne(d => d.BankedBusiness)
                .WithMany()
-               .HasForeignKey(d => d.BankedBusiness)
+               ////.HasForeignKey(d => d.BankedBusiness)
                .HasConstraintName("FK_tblBankedBusinessApplication_tblBankedBusiness");
 
             entity.HasOne(d => d.BankedBusinessApplicationCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessApplicationCreatedBy)
+                //.HasForeignKey(d => d.BankedBusinessApplicationCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblBankedBusinessApplication_tblCustomer");
+                .HasConstraintName("FK_tblBankedBusinessApplication.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BankedBusinessApplicationUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessApplicationUpdatedBy)
+                ////.HasForeignKey(d => d.BankedBusinessApplicationUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblBankedBusinessApplication_tblCustomer");
+                .HasConstraintName("FK_tblBankedBusinessApplication.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedBusinessComplianceRule>(entity =>
@@ -558,24 +559,24 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.BankedBusiness)
                .WithMany()
-               .HasForeignKey(d => d.BankedBusiness)              
+               ////.HasForeignKey(d => d.BankedBusiness)              
                .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblBankedBusiness");
 
             entity.HasOne(d => d.ComplianceRule)
                 .WithMany()
-                .HasForeignKey(d => d.ComplianceRule)                
-                .HasConstraintName("FK_tblFK_tblBankedBusinessComplianceRule_tblComplianceRule");
+                ////.HasForeignKey(d => d.ComplianceRule)                
+                .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblComplianceRule");
 
             entity.HasOne(d => d.BankedBusinessComplianceRuleCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BankedBusinessComplianceRuleCreatedBy)
-                .HasConstraintName("FK_tblFK_tblBankedBusinessComplianceRule_tblCustomer");
+                ////.HasForeignKey(d => d.BankedBusinessComplianceRuleCreatedBy)
+                .HasConstraintName("FK_tblBankedBusinessComplianceRule.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BankedBusinessComplianceRuleUpdatedBy)
                .WithMany()
-               .HasForeignKey(d => d.BankedBusinessComplianceRuleUpdatedBy)
+               ////.HasForeignKey(d => d.BankedBusinessComplianceRuleUpdatedBy)
                .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblCustomer");
+               .HasConstraintName("FK_tblBankedBusinessComplianceRule.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedWebHook>(entity =>
@@ -610,7 +611,7 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("OrderID");
             entity.HasOne(d => d.Order)
                 .WithMany()
-                .HasForeignKey(d => d.Order)
+                ////.HasForeignKey(d => d.Order)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblBankedWebHook_tblOrder");
 
@@ -648,26 +649,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Auction)
                 .WithMany()
-                .HasForeignKey(d => d.Auction)
+                ////.HasForeignKey(d => d.Auction)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblBid_tblAuction");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 
-                .HasConstraintName("FK_tblFK_tblBid_tblCustomer");
+                .HasConstraintName("FK_tblBid_tblCustomer");
 
             entity.HasOne(d => d.BidCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BidCreatedBy)
-                .HasConstraintName("FK_tblFK_tblBid_tblCustomer");
+                ////.HasForeignKey(d => d.BidCreatedBy)
+                .HasConstraintName("FK_tblBid.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BidUpdatedBy)
                .WithMany()
-               .HasForeignKey(d => d.BidUpdatedBy)
+               ////.HasForeignKey(d => d.BidUpdatedBy)
                .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblBid_tblCustomer");
+               .HasConstraintName("FK_tblBid.UpdatedBy_tblCustomer");
 
         });
 
@@ -715,32 +716,32 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Class)
                 .WithMany()
-                .HasForeignKey(d => d.Class)
+                ////.HasForeignKey(d => d.Class)
 
                 .HasConstraintName("FK_tbllBooking_tblClass");
 
             entity.HasOne(d => d.OrderItem)
                 .WithMany()
-                .HasForeignKey(d => d.OrderItem)
+                ////.HasForeignKey(d => d.OrderItem)
                 
-                .HasConstraintName("FK_tblFK_tbllBooking_tblOrderItem");
+                .HasConstraintName("FK_tbllBooking_tblOrderItem");
 
             entity.HasOne(d => d.Ticket)
                 .WithMany()
-                .HasForeignKey(d => d.Ticket)
-                .HasConstraintName("FK_tblFK_tbllBooking_tblTicket");
+                ////.HasForeignKey(d => d.Ticket)
+                .HasConstraintName("FK_tbllBooking_tblTicket");
 
             entity.HasOne(d => d.BookingCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BookingCreatedBy)
+                ////.HasForeignKey(d => d.BookingCreatedBy)
                 
-                .HasConstraintName("FK_tbllBooking_tblCustomer");
+                .HasConstraintName("FK_tbllBooking.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BookingUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BookingUpdatedBy)
+                ////.HasForeignKey(d => d.BookingUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tbllBooking_tblCustomer");
+                .HasConstraintName("FK_tbllBooking.UpdatedBy_tblCustomer");
 
 
 
@@ -784,26 +785,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.BusinessDirectoryCategory)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectoryCategory)
+                ////.HasForeignKey(d => d.BusinessDirectoryCategory)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblBusinessDirectory_tblBusinessDirectoryCategory");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblBusinessDirectory_tblBusinessDirectoryCategory");
+                .HasConstraintName("FK_tblBusinessDirectory_tblSchool");
 
             entity.HasOne(d => d.BusinessDirectoryCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectoryCreatedBy)
-                .HasConstraintName("FK_tblFK_tblBusinessDirectory_tblCustomer");
+                ////.HasForeignKey(d => d.BusinessDirectoryCreatedBy)
+                .HasConstraintName("FK_tblBusinessDirectory.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BusinessDirectoryUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectoryUpdatedBy)
+                ////.HasForeignKey(d => d.BusinessDirectoryUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBusinessDirectory_tblCustomer");
+                .HasConstraintName("FK_tblBusinessDirectory.UpdatedBy_tblCustomer");
 
         });
 
@@ -830,20 +831,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblBusinessDirectoryCategory_tblSchool");            
 
             entity.HasOne(d => d.BusinessDirectoryCategoryCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectoryCategoryCreatedBy)
-                .HasConstraintName("FK_tblFK_tblBusinessDirectoryCategory_tblCustomer");
+                ////.HasForeignKey(d => d.BusinessDirectoryCategoryCreatedBy)
+                .HasConstraintName("FK_tblBusinessDirectoryCategory.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.BusinessDirectoryCategoryUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectoryCategoryUpdatedBy)
+                ////.HasForeignKey(d => d.BusinessDirectoryCategoryUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblBusinessDirectoryCategory_tblCustomer");
+                .HasConstraintName("FK_tblBusinessDirectoryCategory.UpdatedBy_tblCustomer");
 
         });
 
@@ -878,21 +879,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.BusinessDirectory)
                 .WithMany()
-                .HasForeignKey(d => d.BusinessDirectory)
+                ////.HasForeignKey(d => d.BusinessDirectory)
                 
                 .HasConstraintName("FK_tblBusinessDirectoryClick_tblBusinessDirectory");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 
-                .HasConstraintName("FK_tblFK_tblBusinessDirectoryClick_tblSchool");
+                .HasConstraintName("FK_tblBusinessDirectoryClick_tblSchool");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblBusinessDirectoryClick_tblCustomer");
+                .HasConstraintName("FK_tblBusinessDirectoryClick_tblCustomer");
 
 
         });
@@ -931,20 +932,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.AcademicYear)
                 .WithMany()
-                .HasForeignKey(d => d.AcademicYear)
+                ////.HasForeignKey(d => d.AcademicYear)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblClass_tblAcademicYear");
 
             entity.HasOne(d => d.SchoolYear)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolYear)
+                ////.HasForeignKey(d => d.SchoolYear)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblClass_tblSchoolYear");
+                .HasConstraintName("FK_tblClass_tblSchoolYear");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblClass_tblSchool");
+                ////.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblClass_tblSchool");
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -971,26 +972,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Class)
                 .WithMany()
-                .HasForeignKey(d => d.Class)
+                ////.HasForeignKey(d => d.Class)
                 
                 .HasConstraintName("FK_tblClassRep_tblClass");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 
-                .HasConstraintName("FK_tblFK_tblClassRep_tblCustomer");
+                .HasConstraintName("FK_tblClassRep_tblCustomer");
 
             entity.HasOne(d => d.ClassRepCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ClassRepCreatedBy)
-                .HasConstraintName("FK_tblFK_tblClassRep_tblCustomer");
+                ////.HasForeignKey(d => d.ClassRepCreatedBy)
+                .HasConstraintName("FK_tblClassRep.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ClassRepUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ClassRepUpdatedBy)
+                ////.HasForeignKey(d => d.ClassRepUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblClassRep_tblCustomer");
+                .HasConstraintName("FK_tblClassRep.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblComplianceRule>(entity =>
@@ -1014,15 +1015,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ComplianceRuleCreatedBy)
                .WithMany()
-               .HasForeignKey(d => d.ComplianceRuleCreatedBy)
+               ////.HasForeignKey(d => d.ComplianceRuleCreatedBy)
                
-               .HasConstraintName("FK_tblComplianceRule_tblCustomer");
+               .HasConstraintName("FK_tblComplianceRule.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ComplianceRuleUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ComplianceRuleUpdatedBy)
+                ////.HasForeignKey(d => d.ComplianceRuleUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblComplianceRule_tblCustomer");
+                .HasConstraintName("FK_tblComplianceRule.UpdatedBy_tblCustomer");
 
         });
 
@@ -1055,24 +1056,24 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ComponentCreatedBy)
                   .WithMany()
-                  .HasForeignKey(d => d.ComponentCreatedBy)       
-                  .HasConstraintName("FK_tblComponent_tblCustomer");
+                  ////.HasForeignKey(d => d.ComponentCreatedBy)       
+                  .HasConstraintName("FK_tblComponent.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ComponentUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ComponentUpdatedBy)
+                ////.HasForeignKey(d => d.ComponentUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblComponent_tblCustomer");
+                .HasConstraintName("FK_tblComponent.UpdatedBy_tblCustomer");
 
             entity.HasOne(d => d.ComponentGroup)
                 .WithMany()
-                .HasForeignKey(d => d.ComponentGroup)
-                .HasConstraintName("FK_tblFK_tblComponent_tblComponentGroup");
+                ////.HasForeignKey(d => d.ComponentGroup)
+                .HasConstraintName("FK_tblComponent_tblComponentGroup");
 
             entity.HasOne(d => d.ComponentType)
                 .WithMany()
-                .HasForeignKey(d => d.ComponentType)
-                .HasConstraintName("FK_tblFK_tblComponent_tblComponentType");
+                ////.HasForeignKey(d => d.ComponentType)
+                .HasConstraintName("FK_tblComponent_tblComponentType");
 
         });
 
@@ -1095,15 +1096,15 @@ public partial class PtaeventContext : DbContext
            
             entity.HasOne(d => d.ComponentGroupCreatedBy)
           .WithMany()
-          .HasForeignKey(d => d.ComponentGroupCreatedBy)
+          ////.HasForeignKey(d => d.ComponentGroupCreatedBy)
           
-          .HasConstraintName("FK_tblComponentGroup_tblCustomer");
+          .HasConstraintName("FK_tblComponentGroup.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ComponentGroupUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ComponentGroupUpdatedBy)
+                ////.HasForeignKey(d => d.ComponentGroupUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblComponentGroup_tblCustomer");
+                .HasConstraintName("FK_tblComponentGroup.UpdatedBy_tblCustomer");
 
 
 
@@ -1129,15 +1130,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ComponentTypeCreatedBy)
           .WithMany()
-          .HasForeignKey(d => d.ComponentTypeCreatedBy)
+          ////.HasForeignKey(d => d.ComponentTypeCreatedBy)
          
-          .HasConstraintName("FK_tblComponentType_tblCustomer");
+          .HasConstraintName("FK_tblComponentType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ComponentTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ComponentTypeUpdatedBy)
+                ////.HasForeignKey(d => d.ComponentTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblComponentType_tblCustomer");
+                .HasConstraintName("FK_tblComponentType.UpdatedBy_tblCustomer");
 
         });
 
@@ -1184,15 +1185,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.CountryCreatedBy)
           .WithMany()
-          .HasForeignKey(d => d.CountryCreatedBy)
+          ////.HasForeignKey(d => d.CountryCreatedBy)
 
-          .HasConstraintName("FK_tblCountry_tblCustomer");
+          .HasConstraintName("FK_tblCountry.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.CountryUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CountryUpdatedBy)
+                ////.HasForeignKey(d => d.CountryUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblCountry_tblCustomer");
+                .HasConstraintName("FK_tblCountry.UpdatedBy_tblCustomer");
 
         });
 
@@ -1218,15 +1219,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.CurrencyCreatedBy)
          .WithMany()
-         .HasForeignKey(d => d.CurrencyCreatedBy)
+         ////.HasForeignKey(d => d.CurrencyCreatedBy)
 
-         .HasConstraintName("FK_tblCurrency_tblCustomer");
+         .HasConstraintName("FK_tblCurrency.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.CurrencyUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CurrencyUpdatedBy)
+                ////.HasForeignKey(d => d.CurrencyUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblCurrency_tblCustomer");
+                .HasConstraintName("FK_tblCurrency.UpdatedBy_tblCustomer");
 
         });
 
@@ -1264,7 +1265,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.CustomerCounty).HasMaxLength(100);
-            entity.Property(e => e.CustomerCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1318,7 +1319,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerTelephone).HasMaxLength(50);
             entity.Property(e => e.CustomerTitle).HasMaxLength(50);
             entity.Property(e => e.CustomerTown).HasMaxLength(250);
-            entity.Property(e => e.CustomerUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.CustomerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.CustomerUuid)
                 .HasMaxLength(100)
@@ -1336,38 +1337,38 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Application)
                .WithMany()
-               .HasForeignKey(d => d.Application)
+               ////.HasForeignKey(d => d.Application)
                
-               .HasConstraintName("FK_tblCustomer_tblSchool");
+               .HasConstraintName("FK_tblCustomer.Application_tblSchool");
 
             entity.HasOne(d => d.CustomerHash)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerHash)
+                ////.HasForeignKey(d => d.CustomerHash)
                 
-                .HasConstraintName("FK_tblFK_tblCustomer_tblContentHash");
+                .HasConstraintName("FK_tblCustomer_tblContentHash");
 
             entity.HasOne(d => d.CustomerPartner)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerPartner)
-                .HasConstraintName("FK_tblFK_tblCustomer_tblPartner");
+                ////.HasForeignKey(d => d.CustomerPartner)
+                .HasConstraintName("FK_tblCustomer_tblPartner");
 
             entity.HasOne(d => d.CustomerSchool)
                .WithMany()
-               .HasForeignKey(d => d.CustomerSchool)
+               ////.HasForeignKey(d => d.CustomerSchool)
                .OnDelete(DeleteBehavior.SetNull)
                .HasConstraintName("FK_tblCustomer_tblSchool");
 
             entity.HasOne(d => d.CustomerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerCreatedBy)
+                ////.HasForeignKey(d => d.CustomerCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblCustomer_tblCustomer");
+                .HasConstraintName("FK_tblCustomer.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.CustomerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerUpdatedBy)
+                ////.HasForeignKey(d => d.CustomerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblCustomer_tblCustomer");
+                .HasConstraintName("FK_tblCustomer.UpdatedBy_tblCustomer");
 
 
 
@@ -1395,20 +1396,20 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("CustomerID");
             entity.HasOne(d => d.ContentHash)
                .WithMany()
-               .HasForeignKey(d => d.ContentHash)
+               ////.HasForeignKey(d => d.ContentHash)
                
                .HasConstraintName("FK_tblCustomerConsent_tblContentHash");
 
             entity.HasOne(d => d.CustomerConsentForeignKey)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerConsentForeignKey)
+                ////.HasForeignKey(d => d.CustomerConsentForeignKey)
                 
-                .HasConstraintName("FK_tblFK_tblCustomerConsent_tblCustomerConsent");
+                .HasConstraintName("FK_tblCustomerConsent_tblCustomerConsent");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblFK_tblCustomerConsent_tblCustomer");
+                ////.HasForeignKey(d => d.Customer)
+                .HasConstraintName("FK_tblCustomerConsent_tblCustomer");
 
         });
 
@@ -1443,21 +1444,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Customer)
                .WithMany()
-               .HasForeignKey(d => d.Customer)
+               ////.HasForeignKey(d => d.Customer)
                
                .HasConstraintName("FK_tblCustomerDevice_tblCustomer");
 
             entity.HasOne(d => d.CustomerDeviceCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerDeviceCreatedBy)
+                ////.HasForeignKey(d => d.CustomerDeviceCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblCustomerDevice_tblCustomer");
+                .HasConstraintName("FK_tblCustomerDevice.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.CustomerDeviceUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerDeviceUpdatedBy)
+                ////.HasForeignKey(d => d.CustomerDeviceUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblCustomerDevice_tblCustomer");
+                .HasConstraintName("FK_tblCustomerDevice.UpdatedBy_tblCustomer");
 
         });
 
@@ -1490,23 +1491,23 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Customer)
                .WithMany()
-               .HasForeignKey(d => d.Customer)               
+               ////.HasForeignKey(d => d.Customer)               
                .HasConstraintName("FK_tblCustomerRole_tblCustomer");
 
             entity.HasOne(d => d.CustomerRoleCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerRoleCreatedBy)                
-                .HasConstraintName("FK_tblFK_tblCustomerRole_tblCustomer");
+                ////.HasForeignKey(d => d.CustomerRoleCreatedBy)                
+                .HasConstraintName("FK_tblCustomerRole.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.CustomerRoleUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.CustomerRoleUpdatedBy)
+                ////.HasForeignKey(d => d.CustomerRoleUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblCustomerRole_tblCustomer");
+                .HasConstraintName("FK_tblCustomerRole.UpdatedBy_tblCustomer");
 
             entity.HasOne(d => d.Role)
                .WithMany()
-               .HasForeignKey(d => d.Role)
+               ////.HasForeignKey(d => d.Role)
                .HasConstraintName("FK_tblCustomerRole_tblRole");
 
         });
@@ -1540,33 +1541,33 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Class)
                .WithMany()
-               .HasForeignKey(d => d.Class)
+               ////.HasForeignKey(d => d.Class)
                
                .HasConstraintName("FK_tblDependant_tblClass");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 
-                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
+                .HasConstraintName("FK_tblDependant_tblCustomer");
 
             entity.HasOne(d => d.DependantApprovedBy)
                 .WithMany()
-                .HasForeignKey(d => d.DependantApprovedBy)
+                ////.HasForeignKey(d => d.DependantApprovedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
+                .HasConstraintName("FK_tblDependant.ApprovedBy_tblCustomer");
 
             entity.HasOne(d => d.DependantCreatedBy)
                .WithMany()
-               .HasForeignKey(d => d.DependantCreatedBy)
+               ////.HasForeignKey(d => d.DependantCreatedBy)
                
-               .HasConstraintName("FK_tblDependant_tblCustomer");
+               .HasConstraintName("FK_tblDependant.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.DependantUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.DependantUpdatedBy)
+                ////.HasForeignKey(d => d.DependantUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblDependant_tblCustomer");
+                .HasConstraintName("FK_tblDependant.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblDiscount>(entity =>
@@ -1608,19 +1609,19 @@ public partial class PtaeventContext : DbContext
            
             entity.HasOne(d => d.School)
                .WithMany()
-               .HasForeignKey(d => d.School)               
+               ////.HasForeignKey(d => d.School)               
                .HasConstraintName("FK_tblDiscount_tblSchool");
 
             entity.HasOne(d => d.DiscountCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.DiscountCreatedBy)                
-                .HasConstraintName("FK_tblFK_tblDiscount_tblCustomer");
+                ////.HasForeignKey(d => d.DiscountCreatedBy)                
+                .HasConstraintName("FK_tblDiscount.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.DiscountUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.DiscountUpdatedBy)
+                ////.HasForeignKey(d => d.DiscountUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblDiscount_tblCustomer");
+                .HasConstraintName("FK_tblDiscount.UpdatedBy_tblCustomer");
 
         });
 
@@ -1669,21 +1670,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Message)
                .WithMany()
-               .HasForeignKey(d => d.Message)
+               ////.HasForeignKey(d => d.Message)
                
                .HasConstraintName("FK_tblEmail_tblEmail");
 
             entity.HasOne(d => d.EmailCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EmailCreatedBy)
+                ////.HasForeignKey(d => d.EmailCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblEmail_tblCustomer");
+                .HasConstraintName("FK_tblEmail.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EmailUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EmailUpdatedBy)
+                ////.HasForeignKey(d => d.EmailUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEmail_tblCustomer");
+                .HasConstraintName("FK_tblEmail.UpdatedBy_tblCustomer");
 
         });
 
@@ -1755,7 +1756,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventBccvolunteerConfirmationEmail).HasColumnName("EventBCCVolunteerConfirmationEmail");
             entity.Property(e => e.EventCarouselImage).HasMaxLength(500);
             entity.Property(e => e.EventCarouselImageText).HasMaxLength(150);
-            entity.Property(e => e.EventCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.EventCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1835,71 +1836,71 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.EventOrganiser)
                .WithMany()
-               .HasForeignKey(d => d.EventOrganiser)               
-               .HasConstraintName("FK_tblEvent_tblCustomer");
+               ////.HasForeignKey(d => d.EventOrganiser)               
+               .HasConstraintName("FK_tblEvent.EventOrganiser_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser2)
                 .WithMany()
-                .HasForeignKey(d => d.EventOrganiser2)
+                ////.HasForeignKey(d => d.EventOrganiser2)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.EventOrganiser2_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser3)
                 .WithMany()
-                .HasForeignKey(d => d.EventOrganiser3)
+                ////.HasForeignKey(d => d.EventOrganiser3)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.EventOrganiser3_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser4)
                .WithMany()
-               .HasForeignKey(d => d.EventOrganiser4)
+               ////.HasForeignKey(d => d.EventOrganiser4)
                .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblEvent_tblCustomer");
+               .HasConstraintName("FK_tblEvent.EventOrganiser4_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser5)
                 .WithMany()
-                .HasForeignKey(d => d.EventOrganiser5)
+                ////.HasForeignKey(d => d.EventOrganiser5)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.EventOrganiser5_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser6)
                 .WithMany()
-                .HasForeignKey(d => d.EventOrganiser6)
+                ////.HasForeignKey(d => d.EventOrganiser6)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.EventOrganiser6_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser7)
                .WithMany()
-               .HasForeignKey(d => d.EventOrganiser7)
+               ////.HasForeignKey(d => d.EventOrganiser7)
                .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblEvent_tblCustomer");
+               .HasConstraintName("FK_tblEvent.EventOrganiser7_tblCustomer");
 
             entity.HasOne(d => d.EventOrganiser8)
                 .WithMany()
-                .HasForeignKey(d => d.EventOrganiser8)
+                ////.HasForeignKey(d => d.EventOrganiser8)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.EventOrganiser8_tblCustomer");
 
             entity.HasOne(d => d.EventType)
                 .WithMany()
-                .HasForeignKey(d => d.EventType)
-                .HasConstraintName("FK_tblFK_tblEvent_tblEventType");
+                ////.HasForeignKey(d => d.EventType)
+                .HasConstraintName("FK_tblEvent_tblEventType");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblEvent_tblSchool");
+                ////.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblEvent_tblSchool");
 
             entity.HasOne(d => d.EventCreatedBy)
                .WithMany()
-               .HasForeignKey(d => d.EventCreatedBy)               
-               .HasConstraintName("FK_tblEvent_tblCustomer");
+               ////.HasForeignKey(d => d.EventCreatedBy)               
+               .HasConstraintName("FK_tblEvent.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventUpdatedBy)
+                ////.HasForeignKey(d => d.EventUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEvent_tblCustomer");
+                .HasConstraintName("FK_tblEvent.UpdatedBy_tblCustomer");
 
             
 
@@ -1931,26 +1932,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                .WithMany()
-               .HasForeignKey(d => d.Event)
+               ////.HasForeignKey(d => d.Event)
                
                .HasConstraintName("FK_tblEventFile_tblEvent");
 
             entity.HasOne(d => d.File)
                 .WithMany()
-                .HasForeignKey(d => d.File)
+                ////.HasForeignKey(d => d.File)
                 
-                .HasConstraintName("FK_tblFK_tblEventFile_tblFile");
+                .HasConstraintName("FK_tblEventFile_tblFile");
 
             entity.HasOne(d => d.EventFileCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventFileCreatedBy)
-                .HasConstraintName("FK_tblFK_tblEventFile_tblCustomer");
+                ////.HasForeignKey(d => d.EventFileCreatedBy)
+                .HasConstraintName("FK_tblEventFile.CreatedBy_tblCustomer");
             
             entity.HasOne(d => d.EventFileUpdatedBy)
               .WithMany()
-              .HasForeignKey(d => d.EventFileUpdatedBy)
+              ////.HasForeignKey(d => d.EventFileUpdatedBy)
               .OnDelete(DeleteBehavior.SetNull)
-              .HasConstraintName("FK_tblEventFile_tblCustomer");
+              .HasConstraintName("FK_tblEventFile.UpdatedBy_tblCustomer");
 
         });
 
@@ -1976,14 +1977,14 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 
-                .HasConstraintName("FK_tblFK_tblEventProduct_tblEvent");
+                .HasConstraintName("FK_tblEventProduct_tblEvent");
 
             entity.HasOne(d => d.Product)
                 .WithMany()
-                .HasForeignKey(d => d.Product)
-                .HasConstraintName("FK_tblFK_tblEventProduct_tblProduct");
+                ////.HasForeignKey(d => d.Product)
+                .HasConstraintName("FK_tblEventProduct_tblProduct");
         });
 
         modelBuilder.Entity<TblEventSponsor>(entity =>
@@ -2010,26 +2011,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 
-                .HasConstraintName("FK_tblFK_tblEventSponsor_tblEvent");
+                .HasConstraintName("FK_tblEventSponsor_tblEvent");
 
             entity.HasOne(d => d.Sponsor)
                 .WithMany()
-                .HasForeignKey(d => d.Sponsor)
+                ////.HasForeignKey(d => d.Sponsor)
 
-                .HasConstraintName("FK_tblFK_tblEventSponsor_tblSponsor"); 
+                .HasConstraintName("FK_tblEventSponsor_tblSponsor"); 
             entity.HasOne(d => d.EventSponsorCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventSponsorCreatedBy)
+                ////.HasForeignKey(d => d.EventSponsorCreatedBy)
                
-                .HasConstraintName("FK_tblFK_tblEventSponsor_tblCustomer");
+                .HasConstraintName("FK_tblEventSponsor.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventSponsorUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventSponsorUpdatedBy)
+                ////.HasForeignKey(d => d.EventSponsorUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventSponsor_tblCustomer");
+                .HasConstraintName("FK_tblEventSponsor.UpdatedBy_tblCustomer");
 
 
 
@@ -2088,51 +2089,51 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 
-                .HasConstraintName("FK_tblFK_tblEventTask_tblEvent");
+                .HasConstraintName("FK_tblEventTask_tblEvent");
 
             entity.HasOne(d => d.EventTaskGroup)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskGroup)
+                ////.HasForeignKey(d => d.EventTaskGroup)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblEventTaskGroup");
+                .HasConstraintName("FK_tblEventTask_tblEventTaskGroup");
 
             entity.HasOne(d => d.EventTaskOrganiser)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskOrganiser)
+                ////.HasForeignKey(d => d.EventTaskOrganiser)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.EventTaskOrganiser_tblCustomer");
 
             entity.HasOne(d => d.EventTaskOrganiser2)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskOrganiser2)
+                ////.HasForeignKey(d => d.EventTaskOrganiser2)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.EventTaskOrganiser2_tblCustomer");
 
             entity.HasOne(d => d.EventTaskOrganiser3)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskOrganiser3)
+                ////.HasForeignKey(d => d.EventTaskOrganiser3)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.EventTaskOrganiser3_tblCustomer");
 
             entity.HasOne(d => d.EventTaskOrganiser4)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskOrganiser4)
+                ////.HasForeignKey(d => d.EventTaskOrganiser4)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.EventTaskOrganiser4_tblCustomer");
 
             entity.HasOne(d => d.EventTaskCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskCreatedBy)
+                ////.HasForeignKey(d => d.EventTaskCreatedBy)
                
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventTaskUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskUpdatedBy)
+                ////.HasForeignKey(d => d.EventTaskUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTask_tblCustomer");
+                .HasConstraintName("FK_tblEventTask.UpdatedBy_tblCustomer");
 
 
 
@@ -2172,24 +2173,24 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.EventTask)
                 .WithMany()
-                .HasForeignKey(d => d.EventTask)                
+                ////.HasForeignKey(d => d.EventTask)                
                 .HasConstraintName("FK_tblEventTaskCustomer_tblEventTask");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)               
-                .HasConstraintName("FK_tblFK_tblEventTaskCustomer_tblCustomer");
+                ////.HasForeignKey(d => d.Customer)               
+                .HasConstraintName("FK_tblEventTaskCustomer_tblCustomer");
 
             entity.HasOne(d => d.EventTaskCustomerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskCustomerCreatedBy)
-                .HasConstraintName("FK_tblFK_tblEventTaskCustomer_tblCustomer");
+                ////.HasForeignKey(d => d.EventTaskCustomerCreatedBy)
+                .HasConstraintName("FK_tblEventTaskCustomer.CreatedBy_tblCustomer");
            
             entity.HasOne(d => d.EventTaskCustomerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskCustomerUpdatedBy)
+                ////.HasForeignKey(d => d.EventTaskCustomerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblEventTaskCustomer_tblCustomer");
+                .HasConstraintName("FK_tblEventTaskCustomer.UpdatedBy_tblCustomer");
 
         });
 
@@ -2222,32 +2223,32 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 
                 .HasConstraintName("FK_tblEventTaskGroup_tblEvent");
 
             entity.HasOne(d => d.EventTaskGroupOrganiser)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskGroupOrganiser)
+                ////.HasForeignKey(d => d.EventTaskGroupOrganiser)
                 
-                .HasConstraintName("FK_tblFK_tblEventTaskGroup_tblCustomer");
+                .HasConstraintName("FK_tblEventTaskGroup_tblCustomer");
 
             entity.HasOne(d => d.EventTaskGroupRepsSchoolYear)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskGroupRepsSchoolYear)
-                .HasConstraintName("FK_tblFK_tblEventTaskGroup_tblSchoolYear");
+                ////.HasForeignKey(d => d.EventTaskGroupRepsSchoolYear)
+                .HasConstraintName("FK_tblEventTaskGroup_tblSchoolYear");
 
             entity.HasOne(d => d.EventTaskGroupCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskGroupCreatedBy)
+                ////.HasForeignKey(d => d.EventTaskGroupCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblEventTaskGroup_tblCustomer");
+                .HasConstraintName("FK_tblEventTaskGroup.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventTaskGroupUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTaskGroupUpdatedBy)
+                ////.HasForeignKey(d => d.EventTaskGroupUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEventTaskGroup_tblCustomer");
+                .HasConstraintName("FK_tblEventTaskGroup.UpdatedBy_tblCustomer");
 
         });
 
@@ -2270,15 +2271,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.EventTypeCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTypeCreatedBy)
+                ////.HasForeignKey(d => d.EventTypeCreatedBy)
             
-                .HasConstraintName("FK_tblEventType_tblCustomer");
+                .HasConstraintName("FK_tblEventType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.EventTypeUpdatedBy)
+                ////.HasForeignKey(d => d.EventTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEventType_tblCustomer");
+                .HasConstraintName("FK_tblEventType.UpdatedBy_tblCustomer");
 
 
 
@@ -2361,20 +2362,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                  .WithMany()
-                 .HasForeignKey(d => d.School)     
+                 ////.HasForeignKey(d => d.School)     
                  .HasConstraintName("FK_tblFaq_tblSchool");
 
             entity.HasOne(d => d.FaqCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FaqCreatedBy)
+                ////.HasForeignKey(d => d.FaqCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblFaq_tblCustomer");
+                .HasConstraintName("FK_tblFaq.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.FaqUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FaqUpdatedBy)
+                ////.HasForeignKey(d => d.FaqUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblFaq_tblCustomer");
+                .HasConstraintName("FK_tblFaq.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblFile>(entity =>
@@ -2408,24 +2409,24 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.FileType)
                 .WithMany()
-                .HasForeignKey(d => d.FileType)
+                ////.HasForeignKey(d => d.FileType)
                 .HasConstraintName("FK_tblFile>_tblFileType");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblFile>_tblSchool");
+                ////.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblFile>_tblSchool");
 
             entity.HasOne(d => d.FileCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileCreatedBy)
-                .HasConstraintName("FK_tblFK_tblFile_tblCustomer");
+                ////.HasForeignKey(d => d.FileCreatedBy)
+                .HasConstraintName("FK_tblFile.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.FileUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileUpdatedBy)
+                ////.HasForeignKey(d => d.FileUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblFile_tblCustomer");
+                .HasConstraintName("FK_tblFile.UpdatedBy_tblCustomer");
 
 
         });
@@ -2454,26 +2455,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.File)
                 .WithMany()
-                .HasForeignKey(d => d.File)
+                ////.HasForeignKey(d => d.File)
                 
                 .HasConstraintName("FK_tblFileRole_tblFile");
 
             entity.HasOne(d => d.Role)
                 .WithMany()
-                .HasForeignKey(d => d.Role)
+                ////.HasForeignKey(d => d.Role)
                 
-                .HasConstraintName("FK_tblFK_tblFileRole_tblRole");
+                .HasConstraintName("FK_tblFileRole_tblRole");
 
             entity.HasOne(d => d.FileRoleCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileRoleCreatedBy)
-                .HasConstraintName("FK_tblFK_tblFileRole_tblCustomer");
+                ////.HasForeignKey(d => d.FileRoleCreatedBy)
+                .HasConstraintName("FK_tblFileRole.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.FileRoleUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileRoleUpdatedBy)
+                ////.HasForeignKey(d => d.FileRoleUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblFileRole_tblCustomer");
+                .HasConstraintName("FK_tblFileRole.UpdatedBy_tblCustomer");
 
         });
 
@@ -2499,15 +2500,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.FileTypeCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileTypeCreatedBy)
+                ////.HasForeignKey(d => d.FileTypeCreatedBy)
                 
-                .HasConstraintName("FK_tblFileType_tblCustomer");
+                .HasConstraintName("FK_tblFileType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.FileTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.FileTypeUpdatedBy)
+                ////.HasForeignKey(d => d.FileTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblFileType_tblCustomer");
+                .HasConstraintName("FK_tblFileType.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblIplookUp>(entity =>
@@ -2588,15 +2589,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.LanguageCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.LanguageCreatedBy)
+                ////.HasForeignKey(d => d.LanguageCreatedBy)
                
-                .HasConstraintName("FK_tblLanguage_tblCustomer");
+                .HasConstraintName("FK_tblLanguage.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.LanguageUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.LanguageUpdatedBy)
+                ////.HasForeignKey(d => d.LanguageUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblLanguage_tblCustomer");
+                .HasConstraintName("FK_tblLanguage.UpdatedBy_tblCustomer");
 
         });
 
@@ -2619,7 +2620,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblMessage");
 
-            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            //entity.HasIndex(e => e.Customer, "Customer");
 
             entity.HasIndex(e => e.MessageCreatedDate, "MessageCreatedDate");
 
@@ -2627,27 +2628,27 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.MessageTypeId, "MessageTypeID");
 
-            entity.HasIndex(e => new { e.CustomerId, e.MessageTypeId, e.MessageCreatedDate }, "idx_message_customermessagetype");
+            //entity.HasIndex(e => new { e.Customer, e.MessageTypeId, e.MessageCreatedDate }, "idx_message_customermessagetype");
 
-            entity.HasIndex(e => new { e.MessageTypeId, e.CustomerId, e.MessageMailGunId, e.MessageCreatedDate }, "idx_message_email_tracker");
+            //entity.HasIndex(e => new { e.MessageTypeId, e.Customer, e.MessageMailGunId, e.MessageCreatedDate }, "idx_message_email_tracker");
 
             entity.Property(e => e.MessageId)
                 .HasColumnType("int(11)")
                 .HasColumnName("MessageID");
-            entity.Property(e => e.CustomerId)
-                .HasColumnType("int(11)")
-                .HasColumnName("CustomerID");
+            //entity.Property(e => e.Customer)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("CustomerD");
             entity.Property(e => e.MessageAttachment1).HasMaxLength(500);
             entity.Property(e => e.MessageAttachment2).HasMaxLength(500);
-            entity.Property(e => e.MessageCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.MessageCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.MessageCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.MessageCustomerEmail).HasMaxLength(250);
             entity.Property(e => e.MessageCustomerName).HasMaxLength(250);
-            entity.Property(e => e.MessageGroupId)
-                .HasColumnType("int(11)")
-                .HasColumnName("MessageGroupID");
+            //entity.Property(e => e.MessageGroup)
+                //.HasColumnType("int(11)")
+                //.HasColumnName("MessageGroup");
             entity.Property(e => e.MessageMailGunId)
                 .HasMaxLength(250)
                 .HasColumnName("MessageMailGunID");
@@ -2659,31 +2660,31 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.MessageTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("MessageTypeID");
-            entity.Property(e => e.MessageUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.MessageUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.MessageUpdatedDate).HasColumnType("timestamp");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                
                 .HasConstraintName("FK_tblMessage_tblCustomer");
 
             entity.HasOne(d => d.MessageGroup)
                 .WithMany()
-                .HasForeignKey(d => d.MessageGroup)
+                ////.HasForeignKey(d => d.MessageGroup)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblMessage_tblMessageGroup");
+                .HasConstraintName("FK_tblMessage_tblMessageGroup");
 
             entity.HasOne(d => d.MessageCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageCreatedBy)
+                ////.HasForeignKey(d => d.MessageCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblMessage_tblCustomer");
+                .HasConstraintName("FK_tblMessage.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.MessageUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblMessage_tblCustomer");
+                ////.HasForeignKey(d => d.MessageUpdatedBy)
+                .HasConstraintName("FK_tblMessage.UpdatedBy_tblCustomer");
 
         });
 
@@ -2693,7 +2694,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblMessageGroup");
 
-            entity.HasIndex(e => e.MessageGroupCreatedBy, "MessageGroupCreatedBy");
+            //entity.HasIndex(e => e.MessageGroupCreatedBy, "MessageGroupCreatedBy");
 
             entity.Property(e => e.MessageGroupId)
                 .HasColumnType("int(11)")
@@ -2712,20 +2713,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Class)
                 .WithMany()
-                .HasForeignKey(d => d.Class)
+                ////.HasForeignKey(d => d.Class)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblMessageGroup_tblClass");
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                ////.HasForeignKey(d => d.Event)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblMessageGroup_tblEvent");
+                .HasConstraintName("FK_tblMessageGroup_tblEvent");
 
             entity.HasOne(d => d.MessageGroupCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageGroupCreatedBy)
-                .HasConstraintName("FK_tblFK_tblMessageGroup_tblCustomer");
+                ////.HasForeignKey(d => d.MessageGroupCreatedBy)
+                .HasConstraintName("FK_tblMessageGroup.CreatedBy_tblCustomer");
 
         });
 
@@ -2748,15 +2749,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.MessageStatusCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageStatusCreatedBy)
+                ////.HasForeignKey(d => d.MessageStatusCreatedBy)
                 
-                .HasConstraintName("FK_tblMessageStatus_tblCustomer");
+                .HasConstraintName("FK_tblMessageStatus.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.MessageStatusUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageStatusUpdatedBy)
+                ////.HasForeignKey(d => d.MessageStatusUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblMessageStatus_tblCustomer");
+                .HasConstraintName("FK_tblMessageStatus.UpdatedBy_tblCustomer");
 
         });
 
@@ -2779,15 +2780,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.MessageTypeCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageTypeCreatedBy)
+                ////.HasForeignKey(d => d.MessageTypeCreatedBy)
                 
-                .HasConstraintName("FK_tblMessageType_tblCustomer");
+                .HasConstraintName("FK_tblMessageType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.MessageTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.MessageTypeUpdatedBy)
+                ////.HasForeignKey(d => d.MessageTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblMessageType_tblCustomer");
+                .HasConstraintName("FK_tblMessageType.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblNews>(entity =>
@@ -2820,21 +2821,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 
                 .HasConstraintName("FK_tblNews_tblSchool");
 
             entity.HasOne(d => d.NewsCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.NewsCreatedBy)
+                ////.HasForeignKey(d => d.NewsCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblNews_tblCustomer");
+                .HasConstraintName("FK_tblNews.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.NewsUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.NewsUpdatedBy)
+                ////.HasForeignKey(d => d.NewsUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblNews_tblCustomer");
+                .HasConstraintName("FK_tblNews.UpdatedBy_tblCustomer");
 
         });
 
@@ -2905,32 +2906,32 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                ////.HasForeignKey(d => d.Customer)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblOrder_tblCustomer");
 
             entity.HasOne(d => d.OrderTransaction)
                 .WithMany()
-                .HasForeignKey(d => d.OrderTransaction)
+                ////.HasForeignKey(d => d.OrderTransaction)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblOrder_tblCustomer");
+                .HasConstraintName("FK_tblOrder.OrderTransaction_tblCustomer");
 
             entity.HasOne(d => d.OrderType)
                 .WithMany()
-                .HasForeignKey(d => d.OrderType)
-                .HasConstraintName("FK_tblFK_tblOrder_tblCustomer");
+                ////.HasForeignKey(d => d.OrderType)
+                .HasConstraintName("FK_tblOrder.OrderType_tblCustomer");
 
             entity.HasOne(d => d.OrderCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.OrderCreatedBy)
+                ////.HasForeignKey(d => d.OrderCreatedBy)
                 
-                .HasConstraintName("FK_tblOrder_tblCustomer");
+                .HasConstraintName("FK_tblOrder.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.OrderUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.OrderUpdatedBy)
+                ////.HasForeignKey(d => d.OrderUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblOrder_tblCustomer");
+                .HasConstraintName("FK_tblOrder.UpdatedBy_tblCustomer");
 
 
         });
@@ -2986,33 +2987,33 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Item)
                 .WithMany()
-                .HasForeignKey(d => d.Item)
+                ////.HasForeignKey(d => d.Item)
                 
-                .HasConstraintName("FK_tblOrderItem_tblCustomer");
+                .HasConstraintName("FK_tblOrderItem.Item_tblCustomer");
 
             entity.HasOne(d => d.Order)
                 .WithMany()
-                .HasForeignKey(d => d.Order)
+                ////.HasForeignKey(d => d.Order)
                 
-                .HasConstraintName("FK_tblFK_tblOrderItem_tblCustomer");
+                .HasConstraintName("FK_tblOrderItem.Order_tblCustomer");
 
             entity.HasOne(d => d.ProductPaymentScheme)
                 .WithMany()
-                .HasForeignKey(d => d.ProductPaymentScheme)
+                ////.HasForeignKey(d => d.ProductPaymentScheme)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblOrderItem_tblCustomer");
+                .HasConstraintName("FK_tblOrderItem.ProductPaymentScheme_tblCustomer");
 
             entity.HasOne(d => d.OrderItemCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.OrderItemCreatedBy)
+                ////.HasForeignKey(d => d.OrderItemCreatedBy)
                 
-                .HasConstraintName("FK_tblOrderItem_tblCustomer");
+                .HasConstraintName("FK_tblOrderItem.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.OrderItemUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.OrderItemUpdatedBy)
+                ////.HasForeignKey(d => d.OrderItemUpdatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblOrderItem_tblCustomer");
+                .HasConstraintName("FK_tblOrderItem.UpdatedBy_tblCustomer");
 
         });
 
@@ -3041,15 +3042,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.OrganisationTypeCreatedBy)
                .WithMany()
-               .HasForeignKey(d => d.OrganisationTypeCreatedBy)
+               ////.HasForeignKey(d => d.OrganisationTypeCreatedBy)
               
-               .HasConstraintName("FK_tbllOrganisationType_tblCustomer");
+               .HasConstraintName("FK_tbllOrganisationType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.OrganisationTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.OrganisationTypeUpdatedBy)
+                ////.HasForeignKey(d => d.OrganisationTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tbllOrganisationType_tblCustomer");
+                .HasConstraintName("FK_tbllOrganisationType.UpdatedBy_tblCustomer");
 
         });
 
@@ -3080,21 +3081,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 
                 .HasConstraintName("FK_tblPage_tblCustomer");
 
             entity.HasOne(d => d.PageCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PageCreatedBy)
-                .
-                .HasConstraintName("FK_tblFK_tblPage_tblCustomer");
+                ////.HasForeignKey(d => d.PageCreatedBy)
+                .HasConstraintName("FK_tblPage.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PageUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PageUpdatedBy)
+                ////.HasForeignKey(d => d.PageUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblPage_tblCustomer");
+                .HasConstraintName("FK_tblPage.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblPartner>(entity =>
@@ -3127,21 +3127,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                ////.HasForeignKey(d => d.School)
                 
                 .HasConstraintName("FK_tblPartner_tblSchool");
 
             entity.HasOne(d => d.PartnerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PartnerCreatedBy)
+                //.HasForeignKey(d => d.PartnerCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblPartner_tblCustomer");
+                .HasConstraintName("FK_tblPartner.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PartnerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PartnerUpdatedBy)
+                //.HasForeignKey(d => d.PartnerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblPartner_tblCustomer");
+                .HasConstraintName("FK_tblPartner.UpdatedBy_tblCustomer");
 
         });
 
@@ -3164,15 +3164,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.PaymentMethodCreatedBy)
               .WithMany()
-              .HasForeignKey(d => d.PaymentMethodCreatedBy)
+              //.HasForeignKey(d => d.PaymentMethodCreatedBy)
              
-              .HasConstraintName("FK_tblPaymentMethod_tblCustomer");
+              .HasConstraintName("FK_tblPaymentMethod.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PaymentMethodUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PaymentMethodUpdatedBy)
+                //.HasForeignKey(d => d.PaymentMethodUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblPaymentMethod_tblCustomer");
+                .HasConstraintName("FK_tblPaymentMethod.UpdatedBy_tblCustomer");
 
         });
 
@@ -3194,15 +3194,15 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PaymentStatusUpdatedDate).HasColumnType("timestamp");
             entity.HasOne(d => d.PaymentStatusCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PaymentStatusCreatedBy)
+                //.HasForeignKey(d => d.PaymentStatusCreatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tbllPaymentStatus_tblCustomer");
+                .HasConstraintName("FK_tbllPaymentStatus.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PaymentStatusUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PaymentStatusUpdatedBy)
+                //.HasForeignKey(d => d.PaymentStatusUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tbllPaymentStatus_tblCustomer");
+                .HasConstraintName("FK_tbllPaymentStatus.UpdatedBy_tblCustomer");
 
 
         });
@@ -3257,8 +3257,8 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.PaypalParentTransaction)
                 .WithMany()
-                .HasForeignKey(d => d.PaypalParentTransaction)
-                .HasConstraintName("FK_tblFK_tblPaypal_tblPaypal");
+                //.HasForeignKey(d => d.PaypalParentTransaction)
+                .HasConstraintName("FK_tblPaypal_tblPaypal");
 
         });
 
@@ -3287,7 +3287,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PlatformPartnerID");
             entity.Property(e => e.PlatformPartnerCode).HasMaxLength(100);
-            entity.Property(e => e.PlatformPartnerCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.PlatformPartnerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PlatformPartnerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3299,7 +3299,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PlatformPartnerNationalAdvertisingRevShare).HasPrecision(10);
             entity.Property(e => e.PlatformPartnerPlatformFeeRevShare).HasPrecision(10);
             entity.Property(e => e.PlatformPartnerTelephone).HasMaxLength(100);
-            entity.Property(e => e.PlatformPartnerUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.PlatformPartnerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PlatformPartnerUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.PlatformPartnerUrl)
                 .HasMaxLength(255)
@@ -3307,15 +3307,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.PlatformPartnerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PlatformPartnerCreatedBy)
+                //.HasForeignKey(d => d.PlatformPartnerCreatedBy)
                 
-                .HasConstraintName("FK_tblPlatformPartner_tblCustomer");
+                .HasConstraintName("FK_tblPlatformPartner.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PlatformPartnerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PlatformPartnerUpdatedBy)
+                //.HasForeignKey(d => d.PlatformPartnerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblPlatformPartner_tblCustomer");
+                .HasConstraintName("FK_tblPlatformPartner.UpdatedBy_tblCustomer");
 
         });
 
@@ -3345,18 +3345,18 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblPoll_tblSchool");
+                //.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblPoll_tblSchool");
 
             entity.HasOne(d => d.PollCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollCreatedBy)
-                .HasConstraintName("FK_tblFK_tblPoll_tblCustomer");
+                //.HasForeignKey(d => d.PollCreatedBy)
+                .HasConstraintName("FK_tblPoll.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PollUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblPoll_tblCustomer");
+                //.HasForeignKey(d => d.PollUpdatedBy)
+                .HasConstraintName("FK_tblPoll.UpdatedBy_tblCustomer");
 
 
         });
@@ -3386,23 +3386,23 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.PollOption)
                 .WithMany()
-                .HasForeignKey(d => d.PollOption)
-                .HasConstraintName("FK_tblFK_tblPollAnswer_tblPollOption");
+                //.HasForeignKey(d => d.PollOption)
+                .HasConstraintName("FK_tblPollAnswer_tblPollOption");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblFK_tblPollAnswer_tblCustomer");
+                //.HasForeignKey(d => d.Customer)
+                .HasConstraintName("FK_tblPollAnswer_tblCustomer");
 
             entity.HasOne(d => d.PollAnswerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollAnswerCreatedBy)
-                .HasConstraintName("FK_tblFK_tblPollAnswer_tblCustomer");
+                //.HasForeignKey(d => d.PollAnswerCreatedBy)
+                .HasConstraintName("FK_tblPollAnswer.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PollAnswerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollAnswerUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblPollAnswer_tblCustomer");
+                //.HasForeignKey(d => d.PollAnswerUpdatedBy)
+                .HasConstraintName("FK_tblPollAnswer.UpdatedBy_tblCustomer");
 
 
         });
@@ -3416,33 +3416,33 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PollOptionId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PollOptionID");
-            entity.Property(e => e.PollId)
-                .HasColumnType("int(11)")
-                .HasColumnName("PollID");
+            //entity.Property(e => e.Poll)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("Poll");
             entity.Property(e => e.PollOption).HasMaxLength(150);
-            entity.Property(e => e.PollOptionCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.PollOptionCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollOptionCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            entity.Property(e => e.PollOptionUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.PollOptionUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollOptionUpdatedDate).HasColumnType("timestamp");
 
             entity.HasOne(d => d.Poll)
                 .WithMany()
-                .HasForeignKey(d => d.Poll)
+                //.HasForeignKey(d => d.Poll)
                 
                 .HasConstraintName("FK_tblPollOption_tblPoll");
 
             entity.HasOne(d => d.PollOptionCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollOptionCreatedBy)
+                //.HasForeignKey(d => d.PollOptionCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblPollOption_tblCustomer");
+                .HasConstraintName("FK_tblPollOption.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PollOptionUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.PollOptionUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblPollOption_tblCustomer");
+                //.HasForeignKey(d => d.PollOptionUpdatedBy)
+                .HasConstraintName("FK_tblPollOption.UpdatedBy_tblCustomer");
 
         });
 
@@ -3514,7 +3514,7 @@ public partial class PtaeventContext : DbContext
             //entity.Property(e => e.ProductTypeId)
             //    .HasColumnType("int(11)")
             //    .HasColumnName("ProductTypeID");
-            entity.Property(e => e.ProductUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ProductUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductUpdatedDate).HasColumnType("timestamp");
             //entity.Property(e => e.SchoolId)
             //    .HasColumnType("int(11)")
@@ -3525,38 +3525,38 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Auction)
                 .WithMany()
-                .HasForeignKey(d => d.Auction)
+                //.HasForeignKey(d => d.Auction)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblProduct_tblAuction");
 
             entity.HasOne(d => d.ProductType)
                 .WithMany()
-                .HasForeignKey(d => d.ProductType)
+                //.HasForeignKey(d => d.ProductType)
                
-                .HasConstraintName("FK_tblFK_tblProduct_tblProductType");
+                .HasConstraintName("FK_tblProduct_tblProductType");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblProduct_tblSchool");
+                //.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblProduct_tblSchool");
 
             entity.HasOne(d => d.SubGroup)
                 .WithMany()
-                .HasForeignKey(d => d.SubGroup)
+                //.HasForeignKey(d => d.SubGroup)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblProduct_tblSubGroup");
 
             entity.HasOne(d => d.ProductCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductCreatedBy)
+                //.HasForeignKey(d => d.ProductCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblProduct_tblCustomer");
+                .HasConstraintName("FK_tblProduct.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductUpdatedBy)
+                //.HasForeignKey(d => d.ProductUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblProduct_tblCustomer");
+                .HasConstraintName("FK_tblProduct.UpdatedBy_tblCustomer");
 
         });
 
@@ -3595,21 +3595,21 @@ public partial class PtaeventContext : DbContext
             
             entity.HasOne(d => d.Product)
                 .WithMany()
-                .HasForeignKey(d => d.Product)
+                //.HasForeignKey(d => d.Product)
                 
                 .HasConstraintName("FK_tblProductAttribute_tblProduct");
 
             entity.HasOne(d => d.ProductAttributeCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductAttributeCreatedBy)
+                //.HasForeignKey(d => d.ProductAttributeCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblProductAttribute_tblCustomer");
+                .HasConstraintName("FK_tblProductAttribute.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductAttributeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductAttributeUpdatedBy)
+                //.HasForeignKey(d => d.ProductAttributeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblProductAttribute_tblCustomer");
+                .HasConstraintName("FK_tblProductAttribute.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblProductClass>(entity =>
@@ -3638,26 +3638,26 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Class)
                 .WithMany()
-                .HasForeignKey(d => d.Class)
+                //.HasForeignKey(d => d.Class)
                 
                 .HasConstraintName("FK_tbllProductClass_tblClass");
 
             entity.HasOne(d => d.Product)
                 .WithMany()
-                .HasForeignKey(d => d.Product)
+                //.HasForeignKey(d => d.Product)
                 
-                .HasConstraintName("FK_tblFK_tbllProductClass_tblProduct");
+                .HasConstraintName("FK_tbllProductClass_tblProduct");
 
             entity.HasOne(d => d.ProductClassCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductClassCreatedBy)
-                .HasConstraintName("FK_tblFK_tbllProductClass_tblCustomer");
+                //.HasForeignKey(d => d.ProductClassCreatedBy)
+                .HasConstraintName("FK_tbllProductClass.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductClassUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductClassUpdatedBy)
+                //.HasForeignKey(d => d.ProductClassUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tbllProductClass_tblCustomer");
+                .HasConstraintName("FK_tbllProductClass.UpdatedBy_tblCustomer");
 
         });
 
@@ -3670,36 +3670,36 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductPaymentID");
-            entity.Property(e => e.ProductId)
-                .HasColumnType("int(11)")
-                .HasColumnName("ProductID");
+            //entity.Property(e => e.Product)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("Product");
             entity.Property(e => e.ProductPaymentAmount).HasPrecision(10, 2);
-            entity.Property(e => e.ProductPaymentCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ProductPaymentCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ProductPaymentDueDate).HasColumnType("timestamp");
             entity.Property(e => e.ProductPaymentName).HasMaxLength(100);
-            entity.Property(e => e.ProductPaymentUpdatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ProductPaymentUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentUpdatedDate).HasColumnType("timestamp");
 
             entity.HasOne(d => d.Product)
                 .WithMany()
-                .HasForeignKey(d => d.Product)
+                //.HasForeignKey(d => d.Product)
                 
                 .HasConstraintName("FK_tblProductPayment_tblProduct");
 
             entity.HasOne(d => d.ProductPaymentCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductPaymentCreatedBy)
+                //.HasForeignKey(d => d.ProductPaymentCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblProductPayment_tblCustomer");
+                .HasConstraintName("FK_tblProductPayment.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductPaymentUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductPaymentUpdatedBy)
+                //.HasForeignKey(d => d.ProductPaymentUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblProductPayment_tblCustomer");
+                .HasConstraintName("FK_tblProductPayment.UpdatedBy_tblCustomer");
 
         });
 
@@ -3738,7 +3738,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentSchemeFrequencyId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductPaymentSchemeFrequencyID");
-            entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedBy).HasColumnType("int(11)");
+            //entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3749,14 +3749,14 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ProductPaymentSchemeFrequencyCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductPaymentSchemeFrequencyCreatedBy)
-                .HasConstraintName("FK_tblProductPaymentSchemeFrequency_tblCustomer");
+                //.HasForeignKey(d => d.ProductPaymentSchemeFrequencyCreatedBy)
+                .HasConstraintName("FK_tblProductPaymentSchemeFrequency.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductPaymentSchemeFrequencyUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductPaymentSchemeFrequencyUpdatedBy)
+                //.HasForeignKey(d => d.ProductPaymentSchemeFrequencyUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblProductPaymentSchemeFrequency_tblCustomer");
+                .HasConstraintName("FK_tblProductPaymentSchemeFrequency.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblProductQuestion>(entity =>
@@ -3805,20 +3805,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Product)
                 .WithMany()
-                .HasForeignKey(d => d.Product)
+                //.HasForeignKey(d => d.Product)
                 
                 .HasConstraintName("FK_tblProductQuestion_tblProduct");
 
             entity.HasOne(d => d.ProductQuestionCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductQuestionCreatedBy)
+                //.HasForeignKey(d => d.ProductQuestionCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblProductQuestion_tblCustomer");
+                .HasConstraintName("FK_tblProductQuestion.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductQuestionUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductQuestionUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblProductQuestion_tblCustomer");
+                //.HasForeignKey(d => d.ProductQuestionUpdatedBy)
+                .HasConstraintName("FK_tblProductQuestion.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblProductQuestionAnswer>(entity =>
@@ -3858,21 +3858,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ProductQuestion)
                 .WithMany()
-                .HasForeignKey(d => d.ProductQuestion)
+                //.HasForeignKey(d => d.ProductQuestion)
                 
                 .HasConstraintName("FK_tblProductQuestionAnswer_tblCustomer");
 
             entity.HasOne(d => d.ProductQuestionAnswerCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductQuestionAnswerCreatedBy[])
+                //.HasForeignKey(d => d.ProductQuestionAnswerCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblProductQuestionAnswer_tblCustomer");
+                .HasConstraintName("FK_tblProductQuestionAnswer.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductQuestionAnswerUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductQuestionAnswerUpdatedBy)
+                //.HasForeignKey(d => d.ProductQuestionAnswerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblProductQuestionAnswer_tblCustomer");
+                .HasConstraintName("FK_tblProductQuestionAnswer.UpdatedBy_tblCustomer");
 
         });
 
@@ -3897,14 +3897,14 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.ProductTypeCreatedBy)
                   .WithMany()
-                  .HasForeignKey(d => d.ProductTypeCreatedBy)   
-                      .HasConstraintName("FK_tblProductType_tblCustomer");
+                  //.HasForeignKey(d => d.ProductTypeCreatedBy)   
+                      .HasConstraintName("FK_tblProductType.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.ProductTypeUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.ProductTypeUpdatedBy)
+                //.HasForeignKey(d => d.ProductTypeUpdatedBy)
                
-                .HasConstraintName("FK_tblFK_tblProductType_tblCustomer");
+                .HasConstraintName("FK_tblProductType.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblPtamember>(entity =>
@@ -3922,9 +3922,9 @@ public partial class PtaeventContext : DbContext
             //entity.Property(e => e.CustomerId)
             //    .HasColumnType("int(11)")
             //    .HasColumnName("CustomerID");
-            entity.Property(e => e.PtamemberCreatedBy)
-                .HasColumnType("int(11)")
-                .HasColumnName("PTAMemberCreatedBy");
+            //entity.Property(e => e.PtamemberCreatedBy)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("PTAMemberCreatedBy");
             entity.Property(e => e.PtamemberCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp")
@@ -3948,38 +3948,38 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.AcademicYear)
            .WithMany()
-           .HasForeignKey(d => d.AcademicYear)
+           //.HasForeignKey(d => d.AcademicYear)
            
            .HasConstraintName("FK_tblPtamember_tblAcademicYear");
 
             entity.HasOne(d => d.Role)
                 .WithMany()
-                .HasForeignKey(d => d.Role)
+                //.HasForeignKey(d => d.Role)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblPtamember_tblRole");
+                .HasConstraintName("FK_tblPtamember_tblRole");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblPtamember_tblSchool");
+                //.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblPtamember_tblSchool");
 
             entity.HasOne(d => d.Customer)
                .WithMany()
-               .HasForeignKey(d => d.Customer)
+               //.HasForeignKey(d => d.Customer)
               
                .HasConstraintName("FK_tblPtamember_tblCustomer");
 
             entity.HasOne(d => d.PtamemberCreatedBy)
               .WithMany()
-              .HasForeignKey(d => d.PtamemberCreatedBy)
+              //.HasForeignKey(d => d.PtamemberCreatedBy)
 
-              .HasConstraintName("FK_tblPtamember_tblCustomer");
+              .HasConstraintName("FK_tblPtamember.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.PtamemberUpdatedBy)
               .WithMany()
-              .HasForeignKey(d => d.PtamemberUpdatedBy)
+              //.HasForeignKey(d => d.PtamemberUpdatedBy)
 
-              .HasConstraintName("FK_tblPtamember_tblCustomer");
+              .HasConstraintName("FK_tblPtamember.UpdatedBy_tblCustomer");
 
 
         });
@@ -4007,21 +4007,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Order)
            .WithMany()
-           .HasForeignKey(d => d.Order)
+           //.HasForeignKey(d => d.Order)
           
            .HasConstraintName("FK_tblRefund_tblOrdr");
 
             entity.HasOne(d => d.RefundCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.RefundCreatedBy)
+                //.HasForeignKey(d => d.RefundCreatedBy)
                
-                .HasConstraintName("FK_tblFK_tblRefund_tblCustomer");
+                .HasConstraintName("FK_tblRefund.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.RefundUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.RefundUpdatedBy)
+                //.HasForeignKey(d => d.RefundUpdatedBy)
                  .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblRefund_tblCustomer");
+                .HasConstraintName("FK_tblRefund.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblRole>(entity =>
@@ -4046,15 +4046,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.RoleCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.RoleCreatedBy)
+                //.HasForeignKey(d => d.RoleCreatedBy)
                 
-                .HasConstraintName("FK_tblRole_tblCustomer");
+                .HasConstraintName("FK_tblRole.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.RoleUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.RoleUpdatedBy)
+                //.HasForeignKey(d => d.RoleUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblRole_tblCustomer");
+                .HasConstraintName("FK_tblRole.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblSchool>(entity =>
@@ -4133,9 +4133,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.SchoolGdprlawfulBasis)
                 .HasMaxLength(200)
                 .HasColumnName("SchoolGDPRLawfulBasis");
-            entity.Property(e => e.SchoolGdprsignedBy)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolGDPRSignedBy");
+            //entity.Property(e => e.SchoolGdprsignedBy)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolGDPRSignedBy");
             entity.Property(e => e.SchoolKnownByName).HasMaxLength(250);
             entity.Property(e => e.SchoolLinkColour).HasMaxLength(10);
             entity.Property(e => e.SchoolName).HasMaxLength(250);
@@ -4227,9 +4227,9 @@ public partial class PtaeventContext : DbContext
                 .HasMaxLength(250)
                 .HasColumnName("SchoolPTAInstagram");
             entity.Property(e => e.SchoolPtalotteryLicenceUploaded).HasColumnName("SchoolPTALotteryLicenceUploaded");
-            entity.Property(e => e.SchoolPtalotteryLicenceUploadedBy)
-                .HasColumnType("int(11)")
-                .HasColumnName("SchoolPTALotteryLicenceUploadedBy");
+            //entity.Property(e => e.SchoolPtalotteryLicenceUploadedBy)
+            //    .HasColumnType("int(11)")
+            //    .HasColumnName("SchoolPTALotteryLicenceUploadedBy");
             entity.Property(e => e.SchoolPtametaDescription)
                 .HasMaxLength(500)
                 .HasColumnName("SchoolPTAMetaDescription");
@@ -4330,56 +4330,56 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.OrganisationType)
                 .WithMany()
-                .HasForeignKey(d => d.OrganisationType)
+                //.HasForeignKey(d => d.OrganisationType)
                 
                 .HasConstraintName("FK_tblSchool_tblOrganisationType");
 
             entity.HasOne(d => d.PlanType)
                 .WithMany()
-                .HasForeignKey(d => d.PlanType)
+                //.HasForeignKey(d => d.PlanType)
                 
-                .HasConstraintName("FK_tblFK_tblSchool_tblPlanType");
+                .HasConstraintName("FK_tblSchool_tblPlanType");
 
             entity.HasOne(d => d.SchoolPtacountry)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolPtacountry)
-                .HasConstraintName("FK_tblFK_tblScchool_tblCountry");
+                //.HasForeignKey(d => d.SchoolPtacountry)
+                .HasConstraintName("FK_tblScchool_tblCountry");
 
             entity.HasOne(d => d.SchoolPtacurrency)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolPtacurrency)
+                //.HasForeignKey(d => d.SchoolPtacurrency)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblSchool_tblCurrency");
 
             entity.HasOne(d => d.SchoolDpasignedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolDpasignedBy)
+                //.HasForeignKey(d => d.SchoolDpasignedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSchool_tblCustomer");
+                .HasConstraintName("FK_tblSchool.SchoolDpasignedBy_tblCustomer");
 
             entity.HasOne(d => d.SchoolPtalotteryLicenceUploadedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolPtalotteryLicenceUploadedBy)
+                //.HasForeignKey(d => d.SchoolPtalotteryLicenceUploadedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblScchool_tblCustomer");
+                .HasConstraintName("FK_tblScchool.SchoolPtalotteryLicenceUploadedBy_tblCustomer");
 
             entity.HasOne(d => d.SchoolTermsSignedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolTermsSignedBy)
+                //.HasForeignKey(d => d.SchoolTermsSignedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSchool_tblCustomer");
+                .HasConstraintName("FK_tblSchool.SchoolTermsSignedBy_tblCustomer");
 
             entity.HasOne(d => d.SchoolCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolCreatedBy)
+                //.HasForeignKey(d => d.SchoolCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblSchool_tblCustomer");
+                .HasConstraintName("FK_tblSchool.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.SchoolUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolUpdatedBy)
+                //.HasForeignKey(d => d.SchoolUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblScchool_tblCustomer");
+                .HasConstraintName("FK_tblScchool.UpdatedBy_tblCustomer");
 
         });
 
@@ -4404,15 +4404,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.SchoolYearCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolYearCreatedBy)
+                //.HasForeignKey(d => d.SchoolYearCreatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSchoolYear_tblCustomer");
+                .HasConstraintName("FK_tblSchoolYear.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.SchoolYearUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SchoolYearUpdatedBy)
+                //.HasForeignKey(d => d.SchoolYearUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSchoolYear_tblCustomer");
+                .HasConstraintName("FK_tblSchoolYear.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblSponsor>(entity =>
@@ -4465,27 +4465,27 @@ public partial class PtaeventContext : DbContext
             
             entity.HasOne(d => d.Country)
                 .WithMany()
-                .HasForeignKey(d => d.Country)
+                //.HasForeignKey(d => d.Country)
                 
                 .HasConstraintName("FK_tblSponsor_tblCountry");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                //.HasForeignKey(d => d.School)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSponsor_tblSchool");
+                .HasConstraintName("FK_tblSponsor_tblSchool");
             
             entity.HasOne(d => d.SponsorCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SponsorCreatedBy)
+                //.HasForeignKey(d => d.SponsorCreatedBy)
                 
-                .HasConstraintName("FK_tblSponsor_tblCustomer");
+                .HasConstraintName("FK_tblSponsor.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.SponsorUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SponsorUpdatedBy)
+                //.HasForeignKey(d => d.SponsorUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSponsor_tblCustomer");
+                .HasConstraintName("FK_tblSponsor.UpdatedBy_tblCustomer");
 
 
 
@@ -4523,20 +4523,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                //.HasForeignKey(d => d.Customer)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblSponsorClick_tblCustomer");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
+                //.HasForeignKey(d => d.School)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSponsorClick_tblSchool");
+                .HasConstraintName("FK_tblSponsorClick_tblSchool");
 
             entity.HasOne(d => d.Sponsor)
                 .WithMany()
-                .HasForeignKey(d => d.Sponsor)
-                .HasConstraintName("FK_tblFK_tblSponsorClick_tblSponsor");
+                //.HasForeignKey(d => d.Sponsor)
+                .HasConstraintName("FK_tblSponsorClick_tblSponsor");
         });
 
         modelBuilder.Entity<TblSponsorImpression>(entity =>
@@ -4569,20 +4569,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
-                .HasForeignKey(d => d.Customer)
+                //.HasForeignKey(d => d.Customer)
                 
                 .HasConstraintName("FK_tblSponsorImpression_tblCustomer");
 
             entity.HasOne(d => d.Sponsor)
                 .WithMany()
-                .HasForeignKey(d => d.Sponsor)
+                //.HasForeignKey(d => d.Sponsor)
                 
-                .HasConstraintName("FK_tblFK_tblSponsorImpression_tblSponsor");
+                .HasConstraintName("FK_tblSponsorImpression_tblSponsor");
 
             entity.HasOne(d => d.School)
                 .WithMany()
-                .HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFK_tblSponsorImpression_tblSchool");
+                //.HasForeignKey(d => d.School)
+                .HasConstraintName("FK_tblSponsorImpression_tblSchool");
 
         });
 
@@ -4618,7 +4618,7 @@ public partial class PtaeventContext : DbContext
             //    .HasColumnName("StripePayoutID");
             entity.HasOne(d => d.StripePayout)
                 .WithMany()
-                .HasForeignKey(d => d.StripePayout)
+                //.HasForeignKey(d => d.StripePayout)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblStripeFee_tblStripePayout");
 
@@ -4691,9 +4691,9 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Order)
                 .WithMany()
-                .HasForeignKey(d => d.Order)
+                //.HasForeignKey(d => d.Order)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblStripeWebHook_tblOrder");
+                .HasConstraintName("FK_tblStripeWebHook_tblOrder");
         });
 
         modelBuilder.Entity<TblSubGroup>(entity =>
@@ -4721,20 +4721,20 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.Event)
                 .WithMany()
-                .HasForeignKey(d => d.Event)
+                //.HasForeignKey(d => d.Event)
                 
                 .HasConstraintName("FK_tblSubGroup_tblEvent");
 
             entity.HasOne(d => d.SubGroupCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SubGroupCreatedBy
+                //.HasForeignKey(d => d.SubGroupCreatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblSubGroup_tblCustomer");
+                .HasConstraintName("FK_tblSubGroup.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.SubGroupUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.SubGroupUpdatedBy)
-                .HasConstraintName("FK_tblFK_tblSubGroup_tblCustomer");
+                //.HasForeignKey(d => d.SubGroupUpdatedBy)
+                .HasConstraintName("FK_tblSubGroup.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblTicket>(entity =>
@@ -4779,21 +4779,21 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(d => d.OrderItem)
                 .WithMany()
-                .HasForeignKey(d => d.OrderItem)
+                //.HasForeignKey(d => d.OrderItem)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblTicket_tblOrder");
 
             entity.HasOne(d => d.TicketCreatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.TicketCreatedBy)
+                //.HasForeignKey(d => d.TicketCreatedBy)
                 
-                .HasConstraintName("FK_tblFK_tblTicket_tblCustomer");
+                .HasConstraintName("FK_tblTicket.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.TicketUpdatedBy)
                 .WithMany()
-                .HasForeignKey(d => d.TicketUpdatedByb)
+                //.HasForeignKey(d => d.TicketUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFK_tblTicket_tblCustomer");
+                .HasConstraintName("FK_tblTicket.UpdatedBy_tblCustomer");
 
         });
 

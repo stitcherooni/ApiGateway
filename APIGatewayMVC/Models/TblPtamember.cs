@@ -21,9 +21,9 @@ public partial class TblPtamember
 
     public DateTime PtamemberCreatedDate { get; set; }
 
-    public int? PtamemberCreatedBy { get; set; }
+    public TblCustomer PtamemberCreatedBy { get; set; }
 
     public DateTime? PtamemberUpdatedDate { get; set; }
 
-    public int? PtamemberUpdatedBy { get; set; }
+    public TblCustomer PtamemberUpdatedBy { get; set; }
 }

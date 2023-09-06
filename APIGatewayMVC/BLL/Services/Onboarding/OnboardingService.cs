@@ -46,18 +46,18 @@ namespace BLL.Services.Onboarding
                 await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
 
                 var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
-                accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
+                accountDetailsMap.CustomerSchool = schoolDetailsMap;
                 await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
 
                 var customerRole2 = new TblCustomerRole
                 {
-                    CustomerId = accountDetailsMap.CustomerId,
-                    RoleId = 2
+                    Customer = accountDetailsMap,
+                    Role = new TblRole { RoleId=2}
                 };
                 var customerRole7 = new TblCustomerRole
                 {
-                    CustomerId = accountDetailsMap.CustomerId,
-                    RoleId = 7
+                    Customer = accountDetailsMap,
+                    Role = new TblRole { RoleId = 7 }
                 };
                 await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);
                 await _customerRoleRepository.AddAsync(customerRole7, cancellationToken);

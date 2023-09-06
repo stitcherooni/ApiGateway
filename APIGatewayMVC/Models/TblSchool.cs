@@ -45,7 +45,7 @@ public partial class TblSchool
 
     public DateTime? SchoolDpadateSigned { get; set; }
 
-    public int? SchoolDpasignedBy { get; set; }
+    public TblCustomer SchoolDpasignedBy { get; set; }
 
     public string SchoolDataRetentionSettings { get; set;}
 
