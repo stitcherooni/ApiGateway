@@ -17,6 +17,7 @@
         banked,
         child_only_bookings,
         email_tracker,
-        bookingtest
+        bookingstest,
+        randombookings
     }
 }
