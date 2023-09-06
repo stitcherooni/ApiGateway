@@ -149,6 +149,11 @@ namespace APIGatewayMVC.Controllers
                             var response = await _dashboardStatisticService.GetEmailTrackerReport(cancellationToken);
                             return Ok(response);
                         }
+                    case nameof(ReportTypes.bookingtest):
+                        {
+                            var response = await _dashboardStatisticService.GetTestBookingReport(getReportByTabRequest.Count, cancellationToken);
+                            return Ok(response);
+                        }
 
                     default:
                         {

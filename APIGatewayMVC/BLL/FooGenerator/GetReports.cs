@@ -93,6 +93,17 @@ namespace BLL.FooGenerator
             return result;
         }
 
+        public static async Task<IList<BookingDTO>> TestBookingReport(int? count, CancellationToken cancellationToken)
+        {
+            var rnd = new Random();
+            var result = new List<BookingDTO>();
+            for (int i = 1; i <= count; i++)
+            {
+                result.Add(GetBooking(i));
+            }
+            return result;
+        }
+
         public static async Task<IList<ProductQuestionHorizontalDTO>> ProductQuestionHorisontalReport(CancellationToken cancellationToken)
         {
             var result = new List<ProductQuestionHorizontalDTO>();

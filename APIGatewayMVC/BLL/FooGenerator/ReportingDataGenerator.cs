@@ -120,6 +120,18 @@ namespace BLL.FooGenerator
             return response;
         }
 
+        public static async Task<GetBookingsReportsResponse> GetTestBookingReport(int? count, CancellationToken cancellationToken)
+        {
+            var result = await GetReports.TestBookingReport(count, cancellationToken);
+
+            var response = new GetBookingsReportsResponse
+            {
+                Data = result,
+                TotalProductQuantity = result.Select(x => x.Quantity).ToList().Sum()
+            };
+            return response;
+        }
+
         public static async Task<GetBookingsProductsReportsResponse> GetBookingProductsReport(CancellationToken cancellationToken)
         {
             var result = await GetReports.BookingReport(cancellationToken);

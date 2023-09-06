@@ -16,6 +16,7 @@
         treasurer_by_event,
         banked,
         child_only_bookings,
-        email_tracker
+        email_tracker,
+        bookingtest
     }
 }
