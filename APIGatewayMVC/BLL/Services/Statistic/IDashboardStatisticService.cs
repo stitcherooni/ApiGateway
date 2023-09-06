@@ -42,7 +42,8 @@ namespace BLL.Services.Statistic
         public Task<GetBankedReportsResponse> GetBankedTransactionReport(CancellationToken cancellationToken);
         public Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken);
         public Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken);
-        public Task<GetBookingsReportsResponse> GetTestBookingReport(int? count, CancellationToken cancellationToken);
+        public Task<GetBookingsReportsResponse> GetTestBookingReport(CancellationToken cancellationToken);
+        public Task<GetBookingsReportsResponse> GetRandomBookingReport(int? count, CancellationToken cancellationToken);
         public Task<GetOrdersReportsResponse> TestReportsOrders(CancellationToken cancellationToken);
         public Task<GetBankedReportsResponse> TestBankedTransaction(CancellationToken cancellationToken);
         public Task<GetChildOnlyBookingReportsResponse> GetTestChildBooking(CancellationToken cancellationToken);

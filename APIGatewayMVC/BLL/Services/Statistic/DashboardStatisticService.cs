@@ -135,7 +135,13 @@ namespace BLL.Services.Statistic
             var response = await ReportingDataGenerator.GetBankedReport(cancellationToken);
             return response;
         }
-        public async Task<GetBookingsReportsResponse> GetTestBookingReport(int? count, CancellationToken cancellationToken)
+        public async Task<GetBookingsReportsResponse> GetTestBookingReport(CancellationToken cancellationToken)
+        {
+            var response = await ReportingDataGenerator.GetBookingReport(cancellationToken);
+            return response;
+        }
+
+        public async Task<GetBookingsReportsResponse> GetRandomBookingReport(int? count, CancellationToken cancellationToken)
         {
             if (count == null)
                 count = 1;
