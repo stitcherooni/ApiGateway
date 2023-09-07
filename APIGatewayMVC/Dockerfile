@@ -6,7 +6,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
+RUN pwd
 RUN ls -la
+RUN cd ../ && ls -la
+RUN cd ../../ && ls -la
 COPY ["APIGatewayMVC/APIGatewayMVC.csproj", "APIGatewayMVC/"]
 COPY ["BLL/BLL.csproj", "BLL/"]
 COPY ["DAL/DAL.csproj", "DAL/"]
