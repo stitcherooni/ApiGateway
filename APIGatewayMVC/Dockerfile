@@ -2,14 +2,11 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 RUN pwd
-RUN ls -la
-RUN cd ../ && ls -la
-RUN cd ../../ && ls -la
+RUN ls -la /azp/_work/1/s
 COPY ["APIGatewayMVC/APIGatewayMVC.csproj", "APIGatewayMVC/"]
 COPY ["BLL/BLL.csproj", "BLL/"]
 COPY ["DAL/DAL.csproj", "DAL/"]
@@ -24,5 +21,6 @@ RUN dotnet publish "APIGatewayMVC.csproj" -c Release -o /app/publish /p:UseAppHo
 
 FROM base AS final
 WORKDIR /app
+EXPOSE 80
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "APIGatewayMVC.dll"]
