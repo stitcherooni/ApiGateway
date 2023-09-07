@@ -25,6 +25,8 @@ stages:
       inputs:
         targetType: inline
         script: |
+          pwd
+          ls -la
           podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
           podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
           podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
