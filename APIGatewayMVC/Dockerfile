@@ -5,8 +5,6 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-RUN pwd
-RUN ls -la /azp/_work/1/s
 COPY ["APIGatewayMVC/APIGatewayMVC.csproj", "APIGatewayMVC/"]
 COPY ["BLL/BLL.csproj", "BLL/"]
 COPY ["DAL/DAL.csproj", "DAL/"]
