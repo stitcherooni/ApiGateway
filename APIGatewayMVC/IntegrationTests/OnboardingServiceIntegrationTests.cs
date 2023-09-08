@@ -57,7 +57,7 @@ namespace IntegrationTests
         public async Task Get_Not_Null_Entity_Count()
         {
             // Arrange
-            var entitySchool = new TblSchool() { SchoolPtadirectory = await Helper.GenerateUrl(), SchoolPtaname="name", SchoolCreatedBy=new TblCustomer() };
+            var entitySchool = new TblSchool() { SchoolPtadirectory = await Helper.GenerateUrl(), SchoolPtaname="name", SchoolCreatedById=null };
             await _schoolRepository.AddAsync(entitySchool, CancellationToken.None);
 
             // Act

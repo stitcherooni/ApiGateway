@@ -211,7 +211,7 @@ public partial class TblSchool
 
     public bool SchoolDeleted { get; set; }
 
-    public TblCustomer SchoolCreatedBy { get; set; }
+    public TblCustomer? SchoolCreatedBy { get; set; }
 
     public DateTime SchoolCreatedDate { get; set; }
 
@@ -222,4 +222,6 @@ public partial class TblSchool
     public string SchoolCustomCss { get; set; }
 
     public string Lacode { get; set; }
+
+    public int? SchoolCreatedById { get; set; }
 }

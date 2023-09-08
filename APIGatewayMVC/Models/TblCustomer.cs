@@ -114,4 +114,6 @@ public partial class TblCustomer
     public DateTime? CustomerUpdatedDate { get; set; }
 
     public TblCustomer CustomerUpdatedBy { get; set; }
+
+    public ICollection<TblSchool> Schools { get; set; }
 }

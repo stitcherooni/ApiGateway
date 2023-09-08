@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics;
 
 namespace Models;
 
@@ -1370,7 +1371,9 @@ public partial class PtaeventContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblCustomer.UpdatedBy_tblCustomer");
 
-
+            entity.HasMany(c => c.Schools) // Define the navigation property for the one-to-many relationship
+                .WithOne(s => s.SchoolCreatedBy)
+                .HasForeignKey(s => s.SchoolCreatedById);
 
         });
 
@@ -4369,17 +4372,16 @@ public partial class PtaeventContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblSchool.SchoolTermsSignedBy_tblCustomer");
 
-            entity.HasOne(d => d.SchoolCreatedBy)
-                .WithMany()
+            entity.HasOne<TblCustomer>(d => d.SchoolCreatedBy)
+                .WithMany(f=>f.Schools)
                 //.HasForeignKey(d => d.SchoolCreatedBy)
-                
+                .HasForeignKey(d => d.SchoolCreatedById)
                 .HasConstraintName("FK_tblSchool.CreatedBy_tblCustomer");
 
-            entity.HasOne(d => d.SchoolUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SchoolUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblScchool.UpdatedBy_tblCustomer");
+            entity.HasOne(d => d.SchoolCreatedBy)
+                .WithMany(c => c.Schools) // Define the navigation property for the one-to-many relationship
+                .HasForeignKey(d => d.SchoolCreatedById)
+                .HasConstraintName("FK_tblSchool.CreatedBy_tblCustomer");
 
         });
 
