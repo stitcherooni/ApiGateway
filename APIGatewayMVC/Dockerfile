@@ -11,15 +11,26 @@ COPY ["APIGatewayMVC/APIGatewayMVC.csproj", "APIGatewayMVC/"]
 COPY ["BLL/BLL.csproj", "BLL/"]
 COPY ["DAL/DAL.csproj", "DAL/"]
 COPY ["Models/Models.csproj", "Models/"]
+COPY ["UnitTests/UnitTests.csproj", "UnitTests"]
+
 RUN dotnet restore "APIGatewayMVC/APIGatewayMVC.csproj"
+
 COPY . .
 WORKDIR "/src/APIGatewayMVC"
 RUN dotnet build "APIGatewayMVC.csproj" -c Release -o /app/build
 
+FROM build AS test  
+ARG BuildId
+LABEL test=true
+WORKDIR "/src/UnitTests"
+RUN dotnet test --logger "trx;logfilename=testresults.trx"
+
 FROM build AS publish
-RUN dotnet publish "APIGatewayMVC.csproj" -c Release -o /app/publish /p:UseAppHost=false
+WORKDIR "/src/APIGatewayMVC"
+RUN dotnet publish "APIGatewayMVC.csproj" -c Release -o /app/publish /p:UseAppHost=false  
 
 FROM base AS final
 WORKDIR /app
+COPY --from=test /src/UnitTests/TestResults/testresults.trx testresults/testresults.trx
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "APIGatewayMVC.dll"]
