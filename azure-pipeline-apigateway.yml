@@ -30,6 +30,15 @@ stages:
                 podman cp $(appName):/app/testresults/ $(Build.ArtifactStagingDirectory)/testresults 
                 podman rm -fv $(appName)
 
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/testresults.xml'
+              searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
+              mergeTestResults: true
+              #failTaskOnFailedTests: true
+              testRunTitle: 'UnitTest'
+
 # podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
 # podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
 
