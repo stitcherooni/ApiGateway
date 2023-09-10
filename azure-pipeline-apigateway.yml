@@ -27,8 +27,10 @@ stages:
         script: |
           cd $(Build.SourcesDirectory)/APIGatewayMVC
           podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
-          podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
-          podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
+          podman run -v $(Build.SourcesDirectory)/UnitTests:/src/UnitTests $(appName):$(tag)
+
+# podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
+# podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
 
 # - stage: Deploy
 #   displayName: Deploy image to AKS
