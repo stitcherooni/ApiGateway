@@ -26,7 +26,9 @@ stages:
               script: |
                 cd $(Build.SourcesDirectory)/APIGatewayMVC
                 podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
-                mkdir $(Build.SourcesDirectory)/UnitTests | podman run -v $(Build.SourcesDirectory)/UnitTests:/src/UnitTests $(appName):$(tag)
+                podman create -ti --name $(appName) $(appName):$(tag)
+                podman cp $(appName):/app/testresults/ $(Build.ArtifactStagingDirectory)/testresults 
+                podman rm -fv $(appName)
 
 # podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
 # podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
