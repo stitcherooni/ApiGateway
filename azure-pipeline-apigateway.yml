@@ -1,33 +1,32 @@
-trigger:
-    none
+trigger: none
 
 pool:
   name: internal-agent
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: "$(Build.BuildId)"
   appName: apigateway
 
 resources:
-- repo: self
+  - repo: self
 
 stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    variables:
-    - group: internal
-    steps:
-    - task: Bash@3
-      displayName: Build and Push Image to Azure Container Registry
-      inputs:
-        targetType: inline
-        script: |
-          cd $(Build.SourcesDirectory)/APIGatewayMVC
-          podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
-          podman run -v $(Build.SourcesDirectory)/UnitTests:/src/UnitTests $(appName):$(tag)
+  - stage: Build
+    displayName: Build and push stage
+    jobs:
+      - job: Build
+        displayName: Build
+        variables:
+          - group: internal
+        steps:
+          - task: Bash@3
+            displayName: Build and Push Image to Azure Container Registry
+            inputs:
+              targetType: inline
+              script: |
+                cd $(Build.SourcesDirectory)/APIGatewayMVC
+                podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
+                mkdir $(Build.SourcesDirectory)/UnitTests | podman run -v $(Build.SourcesDirectory)/UnitTests:/src/UnitTests $(appName):$(tag)
 
 # podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
 # podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
