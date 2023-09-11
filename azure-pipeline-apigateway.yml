@@ -32,8 +32,8 @@ stages:
 
           - task: PublishTestResults@2
             inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: '**/testresults.xml'
+              testResultsFormat: 'XUnit V2'
+              testResultsFiles: '**/testresults.trx'
               searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
               mergeTestResults: true
               #failTaskOnFailedTests: true
