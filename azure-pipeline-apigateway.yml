@@ -32,7 +32,7 @@ stages:
 
           - task: PublishTestResults@2
             inputs:
-              testResultsFormat: 'XUnit V2'
+              testResultsFormat: 'VSTest'
               testResultsFiles: '**/testresults.trx'
               searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
               mergeTestResults: true
