@@ -19,7 +19,7 @@ FROM build AS test
 ARG BuildId
 LABEL test=true
 WORKDIR "/src/UnitTests"
-RUN dotnet test --logger "trx;logfilename=testresults.trx"
+RUN dotnet test --logger "xunit;LogFilePath=testresults\testresults.xml"
 
 FROM build AS publish
 WORKDIR "/src/APIGatewayMVC"
