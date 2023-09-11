@@ -23,7 +23,7 @@ FROM build AS test
 ARG BuildId
 LABEL test=true
 WORKDIR "/src/UnitTests"
-RUN dotnet test > testresults.xml
+RUN dotnet test --logger "trx;logfilename=testresults.trx"
 
 FROM build AS publish
 WORKDIR "/src/APIGatewayMVC"
@@ -31,6 +31,6 @@ RUN dotnet publish "APIGatewayMVC.csproj" -c Release -o /app/publish /p:UseAppHo
 
 FROM base AS final
 WORKDIR /app
-COPY --from=test /src/UnitTests/testresults.xml testresults/testresults.xml
+COPY --from=test /src/UnitTests/TestResults/testresults.trx testresults/testresults.trx
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "APIGatewayMVC.dll"]
