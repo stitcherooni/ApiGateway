@@ -486,6 +486,23 @@ namespace APIGatewayMVC.Controllers
         }
 
         [HttpPost]
+        [Route("childonlybookingsexcel")]
+        public async Task<IActionResult> GetChildOnlyBookingsReportExcel(GetFileRequest getChildOnlyBookingsReportExcelRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.LogInformation("Request received for child only booking report in excel.");
+                byte[] blobData = _blobService.GenerateChildOnlyBookingsExcelResponse(getChildOnlyBookingsReportExcelRequest, cancellationToken);
+                return File(blobData, "application/excel", "ChildOnlyBookings.excel");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while fetching child only booking report in excel.");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate child only booking report in excel"));
+            }
+        }
+
+        [HttpPost]
         [Route("customersexcel")]
         public async Task<IActionResult> GetCustomerReportExcel(GetFileRequest getCustomerReportExcelRequest, CancellationToken cancellationToken)
         {

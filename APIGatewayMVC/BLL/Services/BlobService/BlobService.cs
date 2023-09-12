@@ -45,6 +45,11 @@ namespace BLL.Services.BlobService
             return FileGenerator.CreatePDFFile(GetDataForBlob.GetListRequest());
             //TODO:            return GetChildOnlyBookingsReportResponse
         }
+        public byte[] GenerateChildOnlyBookingsExcelResponse(GetFileRequest getChildOnlyBookingsReportExcelRequest, CancellationToken cancellationToken)
+        {
+            return FileGenerator.CreateExcelFile(GetDataForBlob.GetListRequest());
+            //TODO:            return GetChildOnlyBookingsReportResponse
+        }
         public byte[] GenerateCustomerReportExcelResponse(GetFileRequest getCustomerReportExcelRequest, CancellationToken cancellationToken)
         {
             return FileGenerator.CreateExcelFile(GetDataForBlob.GetListRequest());

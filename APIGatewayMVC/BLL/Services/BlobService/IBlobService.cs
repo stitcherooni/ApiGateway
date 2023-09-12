@@ -22,6 +22,7 @@ namespace BLL.Services.BlobService
         public byte[] GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateBookingsReportExcelResponse(GetFileRequest getBookingsReportExcelRequest, CancellationToken cancellationToken);
         public byte[] GenerateChildOnlyBookingsPdfResponse(GetFileRequest getChildOnlyBookingsReportPdfRequest, CancellationToken cancellationToken);
+        public byte[] GenerateChildOnlyBookingsExcelResponse(GetFileRequest getChildOnlyBookingsReportExcelRequest, CancellationToken cancellationToken);
         public byte[] GenerateCustomerReportExcelResponse(GetFileRequest getCustomerReportExcelRequest, CancellationToken cancellationToken);
         public byte[] GenerateCustomerReportPdfResponse(GetFileRequest getCustomerReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateOrdersReportExcelResponse(GetFileRequest getOrdersReportExcelRequest, CancellationToken cancellationToken);
