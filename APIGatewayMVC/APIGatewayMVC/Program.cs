@@ -12,6 +12,7 @@ namespace APIGatewayMVC
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
                 .Build();
             CreateHostBuilder(args, configuration).Build().Run();
         }

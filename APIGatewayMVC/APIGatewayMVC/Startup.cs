@@ -37,16 +37,19 @@ namespace APIGatewayMVC
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddControllers();
 
-            string connectionString = _config.GetConnectionString("MariaDbServer");
-            if (connectionString == null)
-            {
-                Console.WriteLine("ERROR: No connection string found in the config file");
-            }
+            string DB_HOST_NAME = configuration["DB_HOST_NAME"];
+            string DB_HOST_PORT = configuration["DB_HOST_PORT"];
+            string DB_USER_NAME = configuration["DB_USER_NAME"];
+            string DB_PASSWORD = configuration["DB_PASSWORD"];
+            string DB_NAME = configuration["DB_NAME"];
 
-                services.AddDbContext<PtaeventContext>(options =>
-                {
-                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-                });
+            var connectionString = String.Format("data source={0};port={1};Database={2};uid={3};pwd={4};Allow User Variables=true",
+                DB_HOST_NAME, DB_HOST_PORT, DB_NAME, DB_USER_NAME, DB_PASSWORD);
+
+            services.AddDbContext<PtaeventContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
 
             services.AddScoped<IOnboardingService, OnboardingService>();
             services.AddScoped<ISearchingService, SearchingService>();
