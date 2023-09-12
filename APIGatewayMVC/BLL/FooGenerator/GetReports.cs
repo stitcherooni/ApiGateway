@@ -543,7 +543,7 @@ namespace BLL.FooGenerator
                 Id = rnd.Next(0, 50),
                 CustomerName = rnd.Next(0, 50).ToString() + "name",
                 CustomerId = rnd.Next(0, 50),
-                Status = rnd.Next(0, 10).ToString() + "status",
+                Status = GetStatus(),
                 Date = new DateTime(2022, month, day),
                 Orders = rnd.Next(0, 70),
                 Value = new Price { Amount = rnd.Next(1, 40), Currency = "GBP" },
