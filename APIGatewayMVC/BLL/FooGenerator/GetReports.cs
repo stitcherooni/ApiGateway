@@ -104,22 +104,22 @@ namespace BLL.FooGenerator
             return result;
         }
 
-        public static async Task<IList<ProductQuestionHorizontalDTO>> ProductQuestionHorisontalReport(CancellationToken cancellationToken)
+        public static async Task<IList<ProductQuestionHorizontalDTO>> ProductQuestionHorisontalReport(int count,CancellationToken cancellationToken)
         {
             var result = new List<ProductQuestionHorizontalDTO>();
             for (int i = 1; i <= 50; i++)
             {
-                result.Add(GetProductQuestionHorizontal(i));
+                result.Add(GetProductQuestionHorizontal(count, i));
             }
             return result;
         }
 
-        public static async Task<IList<ProductQuestionVerticalDTO>> ProductQuestionVerticalReport(CancellationToken cancellationToken)
+        public static async Task<IList<ProductQuestionVerticalDTO>> ProductQuestionVerticalReport(int count, CancellationToken cancellationToken)
         {
             var result = new List<ProductQuestionVerticalDTO>();
             for (int i = 1; i <= 50; i++)
             {
-                result.Add(GetProductQuestionVertical(i));
+                result.Add(GetProductQuestionVertical(count, i));
             }
             return result;
         }
@@ -716,7 +716,7 @@ namespace BLL.FooGenerator
             };
         }
 
-        private static ProductQuestionHorizontalDTO GetProductQuestionHorizontal(int id)
+        private static ProductQuestionHorizontalDTO GetProductQuestionHorizontal(int answerCount, int id)
         {
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
@@ -729,8 +729,8 @@ namespace BLL.FooGenerator
             }
 
             List<DTO.Statistic.Reports.ProductQuestion.Answers> answers = new();
-            count = rnd.Next(1, 10);
-            for (int i = 0; i < count; i++)
+
+            for (int i = 0; i < answerCount; i++)
             {
                 answers.Add(CreateAnswers(i));
             }
@@ -754,7 +754,7 @@ namespace BLL.FooGenerator
             };
         }
 
-        private static ProductQuestionVerticalDTO GetProductQuestionVertical(int id)
+        private static ProductQuestionVerticalDTO GetProductQuestionVertical(int answerCount, int id)
         {
             Random rnd = new Random();
             var month = rnd.Next(1, 12);
@@ -768,8 +768,8 @@ namespace BLL.FooGenerator
             }
 
             List<DTO.Statistic.Reports.ProductQuestion.Answers> answers = new();
-            count = rnd.Next(1, 10);
-            for (int i = 0; i < count; i++)
+
+            for (int i = 0; i < answerCount; i++)
             {
                 answers.Add(CreateAnswers(i));
             }

@@ -145,24 +145,26 @@ namespace BLL.FooGenerator
 
         public static async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken)
         {
-            var result = await GetReports.ProductQuestionHorisontalReport(cancellationToken);
+            var questions = GetReports.GetQuestions(cancellationToken);
+            var result = await GetReports.ProductQuestionHorisontalReport(questions.ToList().Count, cancellationToken);
 
             var response = new GetProductQuestionsHorizontalReportsResponse
             {
                 Data = result,
-                Questions = GetReports.GetQuestions(cancellationToken)
+                Questions = questions
             };
             return response;
         }
 
         public static async Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken)
         {
-            var result = await GetReports.ProductQuestionVerticalReport(cancellationToken);
+            var questions = GetReports.GetQuestions(cancellationToken);
+            var result = await GetReports.ProductQuestionVerticalReport(questions.ToList().Count, cancellationToken);
 
             var response = new GetProductQuestionsVerticalReportsResponse
             {
                 Data = result,
-                Questions = GetReports.GetQuestions(cancellationToken)
+                Questions = questions
             };
             return response;
         }
