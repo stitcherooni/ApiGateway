@@ -67,8 +67,8 @@ stages:
       )
     dependsOn: Build
     jobs:
-    - job: ApplyKubernetesJob
-      displayName: 'Apply Kubernetes Job'
+    - job: KubernetesDeployment
+      displayName: 'Kubernetes Deployment'
       variables:
       - group: dev
       steps:
@@ -116,8 +116,8 @@ stages:
       )
     dependsOn: Build
     jobs:
-    - job: ApplyKubernetesJob
-      displayName: 'Apply Kubernetes Job'
+    - job: KubernetesDeployment
+      displayName: 'Kubernetes Deployment'
       variables:
       - group: qa
       steps:
