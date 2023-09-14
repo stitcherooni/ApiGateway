@@ -115,5 +115,9 @@ public partial class TblCustomer
 
     public TblCustomer CustomerUpdatedBy { get; set; }
 
-    public ICollection<TblSchool> Schools { get; set; }
+    public List<TblSchool> SchoolsCreated { get; set; }
+    public List<TblSchool> SchoolUpdatedBy { get; set; }
+    public List<TblSchool> SchoolsDpasigned { get; set; }
+    public List<TblSchool> SchoolsPtalotteryLicenceUploadedBy { get; set; }
+    public List<TblSchool> SchoolsTermsSignedBy { get; set; }
 }

@@ -19,7 +19,7 @@ public partial class TblSchool
 
     public string PartnerMembershipNumber { get; set; }
 
-    public TblPlanType PlanType { get; set; }
+    public int PlanTypeId { get; set; }
 
     public int SchoolPupils { get; set; }
 
@@ -33,7 +33,7 @@ public partial class TblSchool
 
     public DateTime? SchoolBrandingEmailSentDate { get; set; }
 
-    public TblCustomer SchoolTermsSignedBy { get; set; }
+    public int? SchoolTermsSignedBy { get; set; }
 
     public string SchoolGdprlawfulBasis { get; set; }
 
@@ -41,11 +41,11 @@ public partial class TblSchool
 
     public DateTime? SchoolGdprdateSigned { get; set; }
 
-    public TblCustomer SchoolGdprsignedBy { get; set; }
+    public int? SchoolGdprsignedBy { get; set; }
 
     public DateTime? SchoolDpadateSigned { get; set; }
 
-    public TblCustomer SchoolDpasignedBy { get; set; }
+    public int? SchoolDpasignedBy { get; set; }
 
     public string SchoolDataRetentionSettings { get; set;}
 
@@ -137,7 +137,7 @@ public partial class TblSchool
 
     public bool SchoolPtalotteryLicenceUploaded { get; set; }
 
-    public TblCustomer SchoolPtalotteryLicenceUploadedBy { get; set; }
+    public int? SchoolPtalotteryLicenceUploadedBy { get; set; }
 
     public string SchoolPtagoCardlessTestToken { get; set; }
 
@@ -151,9 +151,9 @@ public partial class TblSchool
 
     public string SchoolPtagoCardlessLiveOrganisationId { get; set; }
 
-    public TblCurrency SchoolPtacurrency { get; set; }
+    public int SchoolPtacurrencyId { get; set; }
 
-    public TblCountry SchoolPtacountry { get; set; }
+    public int SchoolPtacountryId { get; set; }
 
     public int TimeZoneId { get; set; }
 
@@ -197,7 +197,7 @@ public partial class TblSchool
 
     public string SchoolPtagoogleVerificationCode { get; set; }
 
-    public TblOrganisationType OrganisationType { get; set; }
+    public int OrganisationTypeId { get; set; }
 
     public bool SchoolPkmember { get; set; }
 
@@ -211,17 +211,24 @@ public partial class TblSchool
 
     public bool SchoolDeleted { get; set; }
 
-    public TblCustomer? SchoolCreatedBy { get; set; }
+    public int? SchoolCreatedBy { get; set; }
 
     public DateTime SchoolCreatedDate { get; set; }
 
-    public TblCustomer SchoolUpdatedBy { get; set; }
+    public int? SchoolUpdatedBy { get; set; }
 
     public DateTime? SchoolUpdatedDate { get; set; }
 
     public string SchoolCustomCss { get; set; }
 
     public string Lacode { get; set; }
-
-    public int? SchoolCreatedById { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer DpasignedBy { get; set; }
+    public TblCountry Ptacountry { get; set; }
+    public TblCurrency Ptacurrency { get; set; }
+    public TblCustomer PtalotteryLicenceUploadedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+    public TblCustomer TermsSignedBy { get; set; }
+    public TblOrganisationType OrganisationType { get; set; }
+    public TblPlanType PlanType { get; set; }
 }

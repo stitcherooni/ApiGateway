@@ -22,4 +22,6 @@ public partial class TblCountry
     public TblCustomer  CountryUpdatedBy { get; set; }
 
     public DateTime? CountryUpdatedDate { get; set; }
+
+    public List<TblSchool> SchoolsPtacountry { get; set; }
 }

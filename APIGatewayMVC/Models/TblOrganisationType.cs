@@ -22,4 +22,6 @@ public partial class TblOrganisationType
     public DateTime? OrganisationTypeUpdatedDate { get; set; }
 
     public TblCustomer OrganisationTypeUpdatedBy { get; set; }
+
+    public List<TblSchool> OrganisationType { get; set; }
 }

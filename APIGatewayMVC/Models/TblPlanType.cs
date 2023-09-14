@@ -10,4 +10,6 @@ public partial class TblPlanType
     public string PlanTypeName { get; set;}
 
     public string PlanTypeDescription { get; set; }
+
+    public List<TblSchool> PlanType { get; set; }
 }
