@@ -19,6 +19,15 @@ resources:
 #   type: boolean
 #   default: false
 
+parameters:
+- name: environment
+  displayName: 'Repository'
+  type: string
+  values:
+   - azure-pipeline-deployment
+   - qa
+  default: azure-pipeline-deployment
+
 stages:
   - stage: Build
     displayName: Build and push stage
@@ -71,6 +80,7 @@ stages:
       variables:
       - group: dev
       steps:
+      - checkout: ${{parameters.environment}}
       - task: KubeloginInstaller@0
         inputs:
           kubeloginVersion: 'latest'
@@ -120,6 +130,7 @@ stages:
       variables:
       - group: qa
       steps:
+      - checkout: ${{parameters.environment}}
       - task: KubeloginInstaller@0
         inputs:
           kubeloginVersion: 'latest'
