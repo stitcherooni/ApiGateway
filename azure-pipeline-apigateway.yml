@@ -1,7 +1,4 @@
-trigger:
-  branches:
-    include:
-    - azure-pipeline-deployment
+trigger: none
 
 pool:
   name: internal-agent
@@ -13,20 +10,15 @@ variables:
 resources:
   - repo: self
 
-# parameters:
-# - name: dev_deployment
-#   displayName: Deploy to dev Environment
-#   type: boolean
-#   default: false
-
 parameters:
-- name: environment
-  displayName: 'Repository'
-  type: string
-  values:
-   - dev
-   - qa
-  default: dev
+- name: dev_env
+  displayName: dev
+  type: boolean
+  default: false
+- name: qa_env
+  displayName: qa
+  type: boolean
+  default: false
 
 stages:
   - stage: Build
@@ -68,12 +60,12 @@ stages:
 #Stage Deploy to dev Environment
   - stage: Deploy_to_dev
     displayName: Deploy to dev
-    # condition: |
-    #   and(
-    #     succeeded('Build'), 
-    #     eq(${{ parameters.dev_deployment }}, true)
-    #   )
-    # dependsOn: Build
+    condition: |
+      and(
+        succeeded('Build'), 
+        eq(${{ parameters.dev_env }}, true)
+      )
+    dependsOn: Build
     jobs:
     - job: ApplyKubernetesJob
       displayName: 'Apply Kubernetes Job'
@@ -118,12 +110,12 @@ stages:
 #Stage Deploy to qa Environment
   - stage: Deploy_to_qa
     displayName: Deploy to qa
-    # condition: |
-    #   and(
-    #     succeeded('Build'), 
-    #     eq(${{ parameters.dev_deployment }}, true)
-    #   )
-    # dependsOn: Build
+    condition: |
+      and(
+        succeeded('Build'), 
+        eq(${{ parameters.qa_env }}, true)
+      )
+    dependsOn: Build
     jobs:
     - job: ApplyKubernetesJob
       displayName: 'Apply Kubernetes Job'
