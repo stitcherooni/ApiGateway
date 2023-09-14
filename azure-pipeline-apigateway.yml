@@ -54,7 +54,7 @@ stages:
 
 #Stage Deploy to dev Environment
   - stage: Deploy
-    displayName: Deploy image to AKS
+    displayName: Deploy to dev
     condition: |
       and(
         succeeded('Build'), 
