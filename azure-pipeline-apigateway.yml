@@ -24,9 +24,9 @@ parameters:
   displayName: 'Repository'
   type: string
   values:
-   - azure-pipeline-deployment
+   - dev
    - qa
-  default: azure-pipeline-deployment
+  default: dev
 
 stages:
   - stage: Build
