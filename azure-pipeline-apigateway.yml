@@ -1,4 +1,7 @@
-trigger: none
+trigger:
+  branches:
+    include:
+    - azure-pipeline-deployment
 
 pool:
   name: internal-agent
@@ -102,3 +105,21 @@ stages:
 #         secretType: 'dockerRegistry'
 #         containerRegistryType: 'Azure Container Registry'
 
+#Stage Deploy to qa Environment
+  - stage: Deploy
+    displayName: Deploy to qa
+    # condition: |
+    #   and(
+    #     succeeded('Build'), 
+    #     eq(${{ parameters.dev_deployment }}, true)
+    #   )
+    # dependsOn: Build
+    jobs:
+    - job: ApplyKubernetesJob
+      displayName: 'Apply Kubernetes Job'
+      variables:
+      - group: qa
+      steps:
+      - task: KubeloginInstaller@0
+        inputs:
+          kubeloginVersion: 'latest'
