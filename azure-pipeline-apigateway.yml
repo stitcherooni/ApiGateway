@@ -9,11 +9,12 @@ variables:
 
 resources:
   - repo: self
-parameters:
-- name: dev_deployment
-  displayName: Deploy to dev Environment
-  type: boolean
-  default: false
+
+# parameters:
+# - name: dev_deployment
+#   displayName: Deploy to dev Environment
+#   type: boolean
+#   default: false
 
 stages:
   - stage: Build
@@ -55,12 +56,12 @@ stages:
 #Stage Deploy to dev Environment
   - stage: Deploy
     displayName: Deploy to dev
-    condition: |
-      and(
-        succeeded('Build'), 
-        eq(${{ parameters.dev_deployment }}, true)
-      )
-    dependsOn: Build
+    # condition: |
+    #   and(
+    #     succeeded('Build'), 
+    #     eq(${{ parameters.dev_deployment }}, true)
+    #   )
+    # dependsOn: Build
     jobs:
     - job: ApplyKubernetesJob
       displayName: 'Apply Kubernetes Job'
