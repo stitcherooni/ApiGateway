@@ -231,4 +231,7 @@ public partial class TblSchool
     public TblCustomer TermsSignedBy { get; set; }
     public TblOrganisationType OrganisationType { get; set; }
     public TblPlanType PlanType { get; set; }
+
+    public List<TblCustomer> Application { get; set; }
+    public List<TblCustomer> CustomerSchool { get; set; }
 }

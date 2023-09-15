@@ -9,11 +9,11 @@ public partial class TblCustomer
 
     public bool CustomerGuest { get; set; }
 
-    public TblPartner CustomerPartner { get; set; }
+    public int CustomerPartnerId { get; set; }
 
     public int? LegacyCustomerId { get; set; }
 
-    public TblSchool Application { get; set; }
+    public int ApplicationId { get; set; }
 
     public int Ptaid { get; set; }
 
@@ -41,7 +41,7 @@ public partial class TblCustomer
 
     public string CustomerSalt { get; set; }
 
-    public TblContentHash CustomerHash { get; set; }
+    public int CustomerHashId { get; set; }
 
     public string CustomerPasswordReset { get; set; }
 
@@ -71,7 +71,7 @@ public partial class TblCustomer
 
     public string CustomerGeneric3 { get; set; }
 
-    public TblSchool CustomerSchool { get; set; }
+    public int CustomerSchoolId { get; set; }
 
     public string CustomerSchoolClass { get; set; }
 
@@ -109,15 +109,24 @@ public partial class TblCustomer
 
     public DateTime CustomerCreatedDate { get; set; }
 
-    public TblCustomer CustomerCreatedBy { get; set; }
+    public int CustomerCreatedBy { get; set; }
 
     public DateTime? CustomerUpdatedDate { get; set; }
 
-    public TblCustomer CustomerUpdatedBy { get; set; }
+    public int? CustomerUpdatedBy { get; set; }
 
     public List<TblSchool> SchoolsCreated { get; set; }
     public List<TblSchool> SchoolUpdatedBy { get; set; }
     public List<TblSchool> SchoolsDpasigned { get; set; }
     public List<TblSchool> SchoolsPtalotteryLicenceUploadedBy { get; set; }
     public List<TblSchool> SchoolsTermsSignedBy { get; set; }
+    public List<TblCustomer> CreatedBy { get; set; }
+    public List<TblCustomer> UpdatedBy { get; set; }
+
+    public TblPartner Partner { get; set; }
+    public TblSchool Application { get; set; }
+    public TblContentHash Hash { get; set; }
+    public TblSchool CustomerSchool { get; set; }
+    public TblCustomer CreatedById { get; set; }
+    public TblCustomer UpdatedById { get; set; }
 }

@@ -1161,6 +1161,11 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("timestamp");
             entity.Property(e => e.ContentHashName).HasMaxLength(50);
             entity.Property(e => e.ContentHashValue).HasMaxLength(32);
+
+            entity.HasMany(contentHash => contentHash.CustomerHash)
+.WithOne(customer => customer.Hash)
+.HasForeignKey(customer => customer.CustomerHashId)
+.IsRequired(false);
         });
 
         modelBuilder.Entity<TblCountry>(entity =>
@@ -1248,25 +1253,25 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblCustomer");
 
-            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
 
             entity.HasIndex(e => e.CustomerDeleted, "CustomerDeleted");
 
             entity.HasIndex(e => e.CustomerEmail, "CustomerEmail");
 
-            //entity.HasIndex(e => e.CustomerSchoolId, "CustomerSchoolID");
+            entity.HasIndex(e => e.CustomerSchoolId, "CustomerSchoolID");
 
             entity.HasIndex(e => e.CustomerUuid, "CustomerUUID");
 
-            //entity.HasIndex(e => new { e.ApplicationId, e.CustomerSchoolId }, "idx_customerappschool");
+            entity.HasIndex(e => new { e.ApplicationId, e.CustomerSchoolId }, "idx_customerappschool");
 
             entity.Property(e => e.CustomerId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerID");
-            //entity.Property(e => e.ApplicationId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ApplicationID");
+            entity.Property(e => e.ApplicationId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("ApplicationID");
             entity.Property(e => e.CustomerAddress1).HasMaxLength(250);
             entity.Property(e => e.CustomerAddress2).HasMaxLength(250);
             entity.Property(e => e.CustomerApproved)
@@ -1276,7 +1281,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.CustomerCounty).HasMaxLength(100);
-            //entity.Property(e => e.CustomerCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1291,9 +1296,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerGiftAidDeclarationDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerGoCardlessLiveMandate).HasMaxLength(100);
             entity.Property(e => e.CustomerGoCardlessTestMandate).HasMaxLength(100);
-            //entity.Property(e => e.CustomerHashId)
-            //    .HasMaxLength(250)
-            //    .HasColumnName("CustomerHashID");
+            entity.Property(e => e.CustomerHashId)
+                .HasMaxLength(250)
+                .HasColumnName("CustomerHashID");
             entity.Property(e => e.CustomerLastLoginAttemptDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerLastLoginDate).HasColumnType("datetime");
             entity.Property(e => e.CustomerLastLoginDateTime).HasColumnType("timestamp");
@@ -1305,9 +1310,9 @@ public partial class PtaeventContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.CustomerMobile).HasMaxLength(50);
-            //entity.Property(e => e.CustomerPartnerId)
-            //    .HasMaxLength(50)
-            //    .HasColumnName("CustomerPartnerID");
+            entity.Property(e => e.CustomerPartnerId)
+                .HasMaxLength(50)
+                .HasColumnName("CustomerPartnerID");
             entity.Property(e => e.CustomerPassword).HasMaxLength(250);
             entity.Property(e => e.CustomerPasswordReset).HasMaxLength(100);
             entity.Property(e => e.CustomerPasswordResetDate).HasColumnType("datetime");
@@ -1318,9 +1323,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerQflowPassword).HasMaxLength(10);
             entity.Property(e => e.CustomerSalt).HasMaxLength(250);
             entity.Property(e => e.CustomerSchoolClass).HasMaxLength(100);
-            //entity.Property(e => e.CustomerSchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerSchoolID");
+            entity.Property(e => e.CustomerSchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerSchoolID");
             entity.Property(e => e.CustomerStripeLiveId)
                 .HasMaxLength(100)
                 .HasColumnName("CustomerStripeLiveID");
@@ -1330,7 +1335,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerTelephone).HasMaxLength(50);
             entity.Property(e => e.CustomerTitle).HasMaxLength(50);
             entity.Property(e => e.CustomerTown).HasMaxLength(250);
-            //entity.Property(e => e.CustomerUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.CustomerUuid)
                 .HasMaxLength(100)
@@ -1346,66 +1351,59 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PTAID");
 
-            entity.HasOne(d => d.Application)
-               .WithMany()
-               ////.HasForeignKey(d => d.Application)
-
-               .HasConstraintName("FK_tblCustomer.Application_tblSchool");
-
-            entity.HasOne(d => d.CustomerHash)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerHash)
-
-                .HasConstraintName("FK_tblCustomer_tblContentHash");
-
-            entity.HasOne(d => d.CustomerPartner)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerPartner)
-                .HasConstraintName("FK_tblCustomer_tblPartner");
-
-            entity.HasOne(d => d.CustomerSchool)
-               .WithMany()
-               ////.HasForeignKey(d => d.CustomerSchool)
-               .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblCustomer_tblSchool");
-
-            entity.HasOne(d => d.CustomerCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerCreatedBy)
-
-                .HasConstraintName("FK_tblCustomer.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.CustomerUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblCustomer.UpdatedBy_tblCustomer");
-
             entity.HasMany(customer => customer.SchoolsCreated)
-        .WithOne(school => school.CreatedBy)
-        .HasForeignKey(school => school.SchoolCreatedBy)
-        .IsRequired(false);
-
+                .WithOne(school => school.CreatedBy)
+                .HasForeignKey(school => school.SchoolCreatedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.SchoolsDpasigned)
-.WithOne(school => school.DpasignedBy)
-.HasForeignKey(school => school.SchoolDpasignedBy)
-.IsRequired(false);
-
+                .WithOne(school => school.DpasignedBy)
+                .HasForeignKey(school => school.SchoolDpasignedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.SchoolsPtalotteryLicenceUploadedBy)
-.WithOne(school => school.PtalotteryLicenceUploadedBy)
-.HasForeignKey(school => school.SchoolPtalotteryLicenceUploadedBy)
-.IsRequired(false);
-
+                .WithOne(school => school.PtalotteryLicenceUploadedBy)
+                .HasForeignKey(school => school.SchoolPtalotteryLicenceUploadedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.SchoolUpdatedBy)
-.WithOne(school => school.UpdatedBy)
-.HasForeignKey(school => school.SchoolUpdatedBy)
-.IsRequired(false);
-
+                .WithOne(school => school.UpdatedBy)
+                .HasForeignKey(school => school.SchoolUpdatedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.SchoolsTermsSignedBy)
-.WithOne(school => school.TermsSignedBy)
-.HasForeignKey(school => school.SchoolTermsSignedBy)
-.IsRequired(false);
+                .WithOne(school => school.TermsSignedBy)
+                .HasForeignKey(school => school.SchoolTermsSignedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.UpdatedBy)
+                .WithOne(customer => customer.UpdatedById)
+                .HasForeignKey(customer => customer.CustomerUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CreatedBy)
+                .WithOne(customer => customer.CreatedById)
+                .HasForeignKey(customer => customer.CustomerCreatedBy)
+                .IsRequired(false);
 
+            entity.HasOne(customer => customer.Application)
+                .WithMany(school => school.Application)
+                .HasForeignKey(customer => customer.ApplicationId)
+                .IsRequired(false);
+            entity.HasOne(customer => customer.Hash)
+                .WithMany(contentHash => contentHash.CustomerHash)
+                .HasForeignKey(customer => customer.CustomerHashId)
+                .IsRequired(false);
+            entity.HasOne(customer => customer.Partner)
+                .WithMany(partner => partner.CustomerPartner)
+                .HasForeignKey(customer => customer.CustomerPartnerId)
+                .IsRequired(false);
+            entity.HasOne(customer => customer.CustomerSchool)
+                .WithMany(school => school.CustomerSchool)
+                .HasForeignKey(customer => customer.CustomerSchoolId)
+                .IsRequired(false);
+            entity.HasOne(customer => customer.UpdatedById)
+                .WithMany(customer => customer.UpdatedBy)
+                .HasForeignKey(school => school.CustomerUpdatedBy)
+                .IsRequired(false);
+            entity.HasOne(customer => customer.CreatedById)
+                .WithMany(customer => customer.CreatedBy)
+                .HasForeignKey(customer => customer.CustomerCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2215,10 +2213,10 @@ public partial class PtaeventContext : DbContext
                 ////.HasForeignKey(d => d.Customer)               
                 .HasConstraintName("FK_tblEventTaskCustomer_tblCustomer");
 
-            entity.HasOne(d => d.EventTaskCustomerCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTaskCustomerCreatedBy)
-                .HasConstraintName("FK_tblEventTaskCustomer.CreatedBy_tblCustomer");
+            //entity.HasOne(d => d.EventTaskCustomerCreatedBy)
+            //    .WithMany()
+            //    ////.HasForeignKey(d => d.EventTaskCustomerCreatedBy)
+            //    .HasConstraintName("FK_tblEventTaskCustomer.CreatedBy_tblCustomer");
 
             entity.HasOne(d => d.EventTaskCustomerUpdatedBy)
                 .WithMany()
@@ -3181,6 +3179,11 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.PartnerUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblPartner.UpdatedBy_tblCustomer");
+
+            entity.HasMany(partner => partner.CustomerPartner)
+.WithOne(customer => customer.Partner)
+.HasForeignKey(customer => customer.CustomerPartnerId)
+.IsRequired(false);
 
         });
 
@@ -4408,6 +4411,16 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.SchoolUpdatedBy)
                 .HasForeignKey(school => school.SchoolUpdatedBy)
                 .IsRequired(false);
+
+            entity.HasMany(school => school.Application)
+.WithOne(customer => customer.Application)
+.HasForeignKey(customer => customer.ApplicationId)
+.IsRequired(false);
+
+            entity.HasMany(school => school.CustomerSchool)
+.WithOne(customer => customer.CustomerSchool)
+.HasForeignKey(customer => customer.CustomerSchoolId)
+.IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>

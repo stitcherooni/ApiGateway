@@ -14,4 +14,6 @@ public partial class TblContentHash
     public string ContentHashText { get; set;}
 
     public DateTime ContentHashCreatedDate { get; set; }
+
+    public List<TblCustomer> CustomerHash { get; set; }
 }
