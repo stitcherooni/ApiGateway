@@ -9,7 +9,7 @@ public partial class TblCustomer
 
     public bool CustomerGuest { get; set; }
 
-    public int CustomerPartnerId { get; set; }
+    public string CustomerPartnerId { get; set; }
 
     public int? LegacyCustomerId { get; set; }
 

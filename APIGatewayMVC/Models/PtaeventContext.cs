@@ -4108,19 +4108,17 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(role => role.CreatedBy)
                 .WithMany(customer => customer.RoleCreatedBy)
-                .HasForeignKey(role => role.CreatedBy)
+                .HasForeignKey(role => role.RoleCreatedBy)
                 .IsRequired(false);
-
             entity.HasOne(role => role.UpdatedBy)
                 .WithMany(customer => customer.RoleUpdatedBy)
-                .HasForeignKey(role => role.UpdatedBy)
+                .HasForeignKey(role => role.RoleUpdatedBy)
                 .IsRequired(false);
 
-
             entity.HasMany(role => role.CustomerRole)
-.WithOne(customerRole => customerRole.Role)
-.HasForeignKey(customerRole => customerRole.RoleId)
-.IsRequired(false);
+                .WithOne(customerRole => customerRole.Role)
+                .HasForeignKey(customerRole => customerRole.RoleId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchool>(entity =>

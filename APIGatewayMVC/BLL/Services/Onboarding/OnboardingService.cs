@@ -5,6 +5,8 @@ using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,18 +21,21 @@ namespace BLL.Services.Onboarding
         private readonly IRepository<TblSchool> _schoolRepository;
         private readonly IRepository<TblCustomer> _customerRepository;
         private readonly IRepository<TblCustomerRole> _customerRoleRepository;
+        private readonly IRepository<TblRole> _roleRepository;
 
         public OnboardingService(IMapper mapper,
                                  IEmailService emailService,
                                  IRepository<TblSchool> schoolRepository,
                                  IRepository<TblCustomer> customerRepository,
-                                 IRepository<TblCustomerRole> customerRoleRepository)
+                                 IRepository<TblCustomerRole> customerRoleRepository,
+                                 IRepository<TblRole> roleRepository)
         {
             _mapper = mapper;
             _emailService = emailService;
             _schoolRepository = schoolRepository;
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
+            _roleRepository = roleRepository;
         }
 
         public async Task<OnboardingEntities> OnboardOrganisation(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
@@ -52,12 +57,12 @@ namespace BLL.Services.Onboarding
                 var customerRole2 = new TblCustomerRole
                 {
                     Customer = accountDetailsMap,
-                    Role = new TblRole { RoleId=2}
+                    RoleId = 2
                 };
                 var customerRole7 = new TblCustomerRole
                 {
                     Customer = accountDetailsMap,
-                    Role = new TblRole { RoleId = 7 }
+                    RoleId = 7
                 };
                 await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);
                 await _customerRoleRepository.AddAsync(customerRole7, cancellationToken);
@@ -86,7 +91,7 @@ namespace BLL.Services.Onboarding
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             var urlVariants = new List<string>();
- 
+
             string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
