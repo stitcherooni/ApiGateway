@@ -1380,17 +1380,25 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(customer => customer.CustomerCreatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.CustomerRole)
-    .WithOne(customerRole => customerRole.Customer)
-    .HasForeignKey(customerRole => customerRole.CustomerId)
-    .IsRequired(false);
-
+                .WithOne(customerRole => customerRole.Customer)
+                .HasForeignKey(customerRole => customerRole.CustomerId)
+                .IsRequired(false);
             entity.HasMany(customer => customer.CustomerRoleUpdatedBy)
-    .WithOne(customerRole => customerRole.UpdatedBy)
-    .HasForeignKey(customerRole => customerRole.CustomerRoleUpdatedBy)
-    .IsRequired(false);
+                .WithOne(customerRole => customerRole.UpdatedBy)
+                .HasForeignKey(customerRole => customerRole.CustomerRoleUpdatedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.CustomerRoleCreatedBy)
                 .WithOne(customerRole => customerRole.CreatedBy)
                 .HasForeignKey(customerRole => customerRole.CustomerRoleCreatedBy)
+                .IsRequired(false);
+
+            entity.HasMany(customer => customer.RoleUpdatedBy)
+    .WithOne(role => role.UpdatedBy)
+    .HasForeignKey(role => role.RoleUpdatedBy)
+    .IsRequired(false);
+            entity.HasMany(customer => customer.RoleCreatedBy)
+                .WithOne(role => role.CreatedBy)
+                .HasForeignKey(role => role.RoleCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
@@ -4089,27 +4097,26 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("RoleID");
             entity.Property(e => e.RoleCode).HasMaxLength(25);
-            //entity.Property(e => e.RoleCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.RoleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.RoleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.RoleDescription).HasMaxLength(1000);
             entity.Property(e => e.RoleName).HasMaxLength(50);
             entity.Property(e => e.RoleSortOrder).HasColumnType("int(11)");
-            //entity.Property(e => e.RoleUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.RoleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.RoleUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.RoleCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.RoleCreatedBy)
+            entity.HasOne(role => role.CreatedBy)
+                .WithMany(customer => customer.SchoolsCreated)
+                .HasForeignKey(role => role.SchoolCreatedBy)
+                .IsRequired(false);
 
-                .HasConstraintName("FK_tblRole.CreatedBy_tblCustomer");
+            entity.HasOne(role => role.UpdatedBy)
+                .WithMany(customer => customer.SchoolUpdatedBy)
+                .HasForeignKey(role => role.SchoolUpdatedBy)
+                .IsRequired(false);
 
-            entity.HasOne(d => d.RoleUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.RoleUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblRole.UpdatedBy_tblCustomer");
 
             entity.HasMany(role => role.CustomerRole)
 .WithOne(customerRole => customerRole.Role)

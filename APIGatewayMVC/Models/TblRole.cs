@@ -19,12 +19,16 @@ public partial class TblRole
 
     public bool RoleDeleted { get; set; }
 
-    public TblCustomer RoleCreatedBy { get; set; }
+    public int RoleCreatedBy { get; set; }
 
     public DateTime RoleCreatedDate { get; set; }
 
-    public TblCustomer RoleUpdatedBy { get; set; }
+    public int RoleUpdatedBy { get; set; }
 
     public DateTime? RoleUpdatedDate { get; set; }
+
     public List<TblCustomerRole> CustomerRole { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
