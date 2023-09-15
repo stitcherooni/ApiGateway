@@ -1379,6 +1379,19 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customer => customer.CreatedById)
                 .HasForeignKey(customer => customer.CustomerCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerRole)
+    .WithOne(customerRole => customerRole.Customer)
+    .HasForeignKey(customerRole => customerRole.CustomerId)
+    .IsRequired(false);
+
+            entity.HasMany(customer => customer.CustomerRoleUpdatedBy)
+    .WithOne(customerRole => customerRole.UpdatedBy)
+    .HasForeignKey(customerRole => customerRole.CustomerRoleUpdatedBy)
+    .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerRoleCreatedBy)
+                .WithOne(customerRole => customerRole.CreatedBy)
+                .HasForeignKey(customerRole => customerRole.CustomerRoleCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1500,48 +1513,43 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblCustomerRole");
 
-            //entity.HasIndex(e => e.CustomerId, "CustomerID");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
 
-            //entity.HasIndex(e => e.RoleId, "RoleID");
+            entity.HasIndex(e => e.RoleId, "RoleID");
 
             entity.Property(e => e.CustomerRoleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerRoleID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.CustomerRoleCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerRoleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerRoleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CustomerRoleDeleted).HasColumnType("tinyint(4)");
-            //entity.Property(e => e.CustomerRoleUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerRoleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerRoleUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.RoleId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("RoleID");
+            entity.Property(e => e.RoleId)
+                .HasColumnType("int(11)")
+                .HasColumnName("RoleID");
 
-            entity.HasOne(d => d.Customer)
-               .WithMany()
-               ////.HasForeignKey(d => d.Customer)               
-               .HasConstraintName("FK_tblCustomerRole_tblCustomer");
-
-            entity.HasOne(d => d.CustomerRoleCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerRoleCreatedBy)                
-                .HasConstraintName("FK_tblCustomerRole.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.CustomerRoleUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerRoleUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblCustomerRole.UpdatedBy_tblCustomer");
-
-            entity.HasOne(d => d.Role)
-               .WithMany()
-               ////.HasForeignKey(d => d.Role)
-               .HasConstraintName("FK_tblCustomerRole_tblRole");
-
+            entity.HasOne(customerRole => customerRole.Customer)
+                .WithMany(customer => customer.CustomerRole)
+                .HasForeignKey(customerRole => customerRole.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(customerRole => customerRole.Role)
+                .WithMany(role => role.CustomerRole)
+                .HasForeignKey(customerRole => customerRole.RoleId)
+                .IsRequired(false);
+            entity.HasOne(customerRole => customerRole.CreatedBy)
+                .WithMany(customer => customer.CustomerRoleCreatedBy)
+                .HasForeignKey(customerRole => customerRole.CustomerRoleCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(customerRole => customerRole.UpdatedBy)
+                .WithMany(customer => customer.CustomerRoleUpdatedBy)
+                .HasForeignKey(customerRole => customerRole.CustomerRoleUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblDependant>(entity =>
@@ -4102,6 +4110,11 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.RoleUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblRole.UpdatedBy_tblCustomer");
+
+            entity.HasMany(role => role.CustomerRole)
+.WithOne(customerRole => customerRole.Role)
+.HasForeignKey(customerRole => customerRole.RoleId)
+.IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchool>(entity =>

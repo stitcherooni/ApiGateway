@@ -26,4 +26,5 @@ public partial class TblRole
     public TblCustomer RoleUpdatedBy { get; set; }
 
     public DateTime? RoleUpdatedDate { get; set; }
+    public List<TblCustomerRole> CustomerRole { get; set; }
 }

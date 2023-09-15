@@ -122,6 +122,9 @@ public partial class TblCustomer
     public List<TblSchool> SchoolsTermsSignedBy { get; set; }
     public List<TblCustomer> CreatedBy { get; set; }
     public List<TblCustomer> UpdatedBy { get; set; }
+    public List<TblCustomerRole> CustomerRole { get; set; }
+    public List<TblCustomerRole> CustomerRoleCreatedBy { get; set; }
+    public List<TblCustomerRole> CustomerRoleUpdatedBy { get; set; }
 
     public TblPartner Partner { get; set; }
     public TblSchool Application { get; set; }
