@@ -247,7 +247,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.ApiAuditHistoryIpaddress, "ApiAuditHistoryIPAddress");
 
-            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
             //entity.HasIndex(e => e.CustomerId, "CustomerID");
             //entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
 
@@ -267,19 +267,14 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ApiAuditHistoryStatusCode).HasMaxLength(20);
             entity.Property(e => e.ApiAuditHistoryUri).HasMaxLength(500);
             entity.Property(e => e.ApiAuditHistoryUserAgent).HasMaxLength(500);
-            //entity.Property(e => e.ApplicationId)
-            //    .HasDefaultValueSql("'0'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ApplicationID");
+            entity.Property(e => e.ApplicationId)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("int(11)")
+                .HasColumnName("ApplicationID");
             //entity.Property(e => e.CustomerId)
             //    .HasDefaultValueSql("'0'")
             //    .HasColumnType("int(11)")
             //    .HasColumnName("CustomerID");
-            entity.HasOne(d => d.Application)
-                .WithMany()
-                ////.HasForeignKey(d => d.Application)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblApiAuditHistory_tblSchool");
 
             entity.HasOne(d => d.Customer)
                 .WithMany()
@@ -291,6 +286,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany()
                 ////.HasForeignKey(d => d.ApiAuditHistoryCreatedBy)
                 .HasConstraintName("FK_tblApiAuditHistory.CreatedBy_tblCustomer");
+
+            entity.HasOne(apiAuditHistory => apiAuditHistory.Application)
+                .WithMany(school => school.AuditHistoryApplication)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblAuction>(entity =>
@@ -4438,14 +4438,17 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
 
             entity.HasMany(school => school.Application)
-.WithOne(customer => customer.Application)
-.HasForeignKey(customer => customer.ApplicationId)
-.IsRequired(false);
-
+                .WithOne(customer => customer.Application)
+                .HasForeignKey(customer => customer.ApplicationId)
+                .IsRequired(false);
             entity.HasMany(school => school.CustomerSchool)
-.WithOne(customer => customer.CustomerSchool)
-.HasForeignKey(customer => customer.CustomerSchoolId)
-.IsRequired(false);
+                .WithOne(customer => customer.CustomerSchool)
+                .HasForeignKey(customer => customer.CustomerSchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.AuditHistoryApplication)
+                .WithOne(apiAuditHistory => apiAuditHistory.Application)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
