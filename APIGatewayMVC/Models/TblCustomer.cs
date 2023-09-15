@@ -9,7 +9,7 @@ public partial class TblCustomer
 
     public bool CustomerGuest { get; set; }
 
-    public int CustomerPartnerId { get; set; }
+    public string CustomerPartnerId { get; set; }
 
     public int? LegacyCustomerId { get; set; }
 
@@ -129,6 +129,8 @@ public partial class TblCustomer
     public List<TblRole> RoleUpdatedBy { get; set; }
     public List<TblAcademicYear> AcademicYearCreatedBy { get; set; }
     public List<TblAcademicYear> AcademicYearUpdatedBy { get; set; }
+    public List<TblApiAuditHistory> ApiAuditHistoryCustomer { get; set; }
+    public List<TblApiAuditHistory> ApiAuditHistoryCreatedBy { get; set; }
 
     public TblPartner Partner { get; set; }
     public TblSchool Application { get; set; }

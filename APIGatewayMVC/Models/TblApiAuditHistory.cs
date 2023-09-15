@@ -23,7 +23,7 @@ public partial class TblApiAuditHistory
 
     public int ApplicationId { get; set; }
 
-    public TblCustomer Customer { get; set; }
+    public int CustomerId { get; set; }
 
     public string ApiAuditHistoryServer { get; set; }
 
@@ -32,4 +32,6 @@ public partial class TblApiAuditHistory
     public TblCustomer ApiAuditHistoryCreatedBy { get; set; }
 
     public TblSchool Application { get; set; }
+    public TblCustomer Customer { get; set; }
+    public TblCustomer CreatedBy { get; set; }
 }

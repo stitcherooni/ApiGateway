@@ -248,8 +248,8 @@ public partial class PtaeventContext : DbContext
             entity.HasIndex(e => e.ApiAuditHistoryIpaddress, "ApiAuditHistoryIPAddress");
 
             entity.HasIndex(e => e.ApplicationId, "ApplicationID");
-            //entity.HasIndex(e => e.CustomerId, "CustomerID");
-            //entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
 
             entity.Property(e => e.ApiAuditHistoryId)
                 .HasColumnType("int(11)")
@@ -271,25 +271,22 @@ public partial class PtaeventContext : DbContext
                 .HasDefaultValueSql("'0'")
                 .HasColumnType("int(11)")
                 .HasColumnName("ApplicationID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasDefaultValueSql("'0'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblApiAuditHistory_tblCustomer");
-
-            entity.HasOne(d => d.ApiAuditHistoryCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ApiAuditHistoryCreatedBy)
-                .HasConstraintName("FK_tblApiAuditHistory.CreatedBy_tblCustomer");
+            entity.Property(e => e.CustomerId)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
             entity.HasOne(apiAuditHistory => apiAuditHistory.Application)
                 .WithMany(school => school.AuditHistoryApplication)
                 .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
+                .IsRequired(false);
+            entity.HasOne(apiAuditHistory => apiAuditHistory.Customer)
+                .WithMany(customer => customer.ApiAuditHistoryCustomer)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(apiAuditHistory => apiAuditHistory.CreatedBy)
+                .WithMany(customer => customer.ApiAuditHistoryCreatedBy)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApiAuditHistoryCreatedBy)
                 .IsRequired(false);
         });
 
@@ -1399,6 +1396,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(role => role.CreatedBy)
                 .HasForeignKey(role => role.RoleCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.ApiAuditHistoryCustomer)
+                .WithOne(apiAuditHistory => apiAuditHistory.Customer)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ApiAuditHistoryCreatedBy)
+                .WithOne(apiAuditHistory => apiAuditHistory.CreatedBy)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApiAuditHistoryCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1410,7 +1415,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(customer => customer.Partner)
                 .WithMany(partner => partner.CustomerPartner)
-                .HasForeignKey(customer => customer.CustomerPartnerId)
+                //.HasForeignKey(customer => customer.CustomerPartnerId)
                 .IsRequired(false);
             entity.HasOne(customer => customer.CustomerSchool)
                 .WithMany(school => school.CustomerSchool)
@@ -1431,6 +1436,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.AcademicYearCreatedBy)
                 .WithOne(academicYear => academicYear.CreatedBy)
                 .HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ApiAuditHistoryCustomer)
+                .WithOne(apiAuditHistory => apiAuditHistory.Customer)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
                 .IsRequired(false);
         });
 
