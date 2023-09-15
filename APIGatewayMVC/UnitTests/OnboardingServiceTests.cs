@@ -33,6 +33,7 @@ namespace OnboardingServiceTests
             _customerRepositoryMock = new Mock<IRepository<TblCustomer>>();
             _customerRoleRepositoryMock = new Mock<IRepository<TblCustomerRole>>();
 
+
             _onboardingService = new OnboardingService(_mapperMock.Object,
                                                        _emailsenderMock.Object,
                                                        _schoolRepositoryMock.Object,
@@ -91,8 +92,8 @@ namespace OnboardingServiceTests
             _schoolRepositoryMock.Verify(repo => repo.AddAsync(schoolMappingResult, It.IsAny<CancellationToken>()), Times.Once);
             _customerRepositoryMock.Verify(repo => repo.AddAsync(customerMappingResult, It.IsAny<CancellationToken>()), Times.Once);
             _customerRoleRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<TblCustomerRole>(), It.IsAny<CancellationToken>()), Times.Exactly(2));
-            _customerRoleRepositoryMock.Verify(x => x.AddAsync(It.Is<TblCustomerRole>(role => role.Role.RoleId == 2), It.IsAny<CancellationToken>()), Times.Once);
-            _customerRoleRepositoryMock.Verify(x => x.AddAsync(It.Is<TblCustomerRole>(role => role.Role.RoleId == 7), It.IsAny<CancellationToken>()), Times.Once);
+            _customerRoleRepositoryMock.Verify(x => x.AddAsync(It.Is<TblCustomerRole>(role => role.RoleId == 2), It.IsAny<CancellationToken>()), Times.Once);
+            _customerRoleRepositoryMock.Verify(x => x.AddAsync(It.Is<TblCustomerRole>(role => role.RoleId == 7), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

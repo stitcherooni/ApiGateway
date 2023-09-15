@@ -12,15 +12,19 @@ public partial class TblAcademicYear
 
     public DateTime? AcademicYearEndDate { get; set; }
 
-    public TblCountry Country { get; set; }
+    public int CountryId { get; set; }
 
     public bool AcademicYearDeleted { get; set; }
 
-    public TblCustomer AcademicYearCreatedBy { get; set; }
+    public int AcademicYearCreatedBy { get; set; }
 
     public DateTime AcademicYearCreatedDate { get; set; }
 
-    public TblCustomer AcademicYearUpdatedBy { get; set; }
+    public int AcademicYearUpdatedBy { get; set; }
 
     public DateTime? AcademicYearUpdatedDate { get; set; }
+
+    public TblCountry Country { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

@@ -21,21 +21,18 @@ namespace BLL.Services.Onboarding
         private readonly IRepository<TblSchool> _schoolRepository;
         private readonly IRepository<TblCustomer> _customerRepository;
         private readonly IRepository<TblCustomerRole> _customerRoleRepository;
-        private readonly IRepository<TblRole> _roleRepository;
 
         public OnboardingService(IMapper mapper,
                                  IEmailService emailService,
                                  IRepository<TblSchool> schoolRepository,
                                  IRepository<TblCustomer> customerRepository,
-                                 IRepository<TblCustomerRole> customerRoleRepository,
-                                 IRepository<TblRole> roleRepository)
+                                 IRepository<TblCustomerRole> customerRoleRepository)
         {
             _mapper = mapper;
             _emailService = emailService;
             _schoolRepository = schoolRepository;
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
-            _roleRepository = roleRepository;
         }
 
         public async Task<OnboardingEntities> OnboardOrganisation(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)

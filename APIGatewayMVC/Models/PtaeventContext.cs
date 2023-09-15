@@ -216,29 +216,25 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AcademicYearStartDate).HasColumnType("timestamp");
             entity.Property(e => e.AcademicYearUpdatedDate).HasColumnType("timestamp");
 
-            //entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
-            //entity.Property(e => e.AcademicYearUpdatedBy).HasColumnType("int(11)");
-            //entity.Property(e => e.CountryId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CountryID");
-            entity.HasOne(e => e.Country)
-                .WithMany()
-                //.HasForeignKey(e => e.Country) 
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_tblAcademicYear_tblCountry");
+            entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AcademicYearUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CountryId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("CountryID");
 
-
-            entity.HasOne(d => d.AcademicYearCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AcademicYearCreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_tblAcademicYear.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.AcademicYearUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AcademicYearUpdatedBy)
-                .HasConstraintName("FK_tblAcademicYear.UpdatedBy_tblCustomer");
+            entity.HasOne(academicYear => academicYear.Country)
+                .WithMany(country => country.AcademicCountry)
+                .HasForeignKey(academicYear => academicYear.CountryId)
+                .IsRequired(false);
+            entity.HasOne(academicYear => academicYear.CreatedBy)
+                .WithMany(customer => customer.AcademicYearCreatedBy)
+                .HasForeignKey(academicYear => academicYear.AcademicYearCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(academicYear => academicYear.UpdatedBy)
+                .WithMany(customer => customer.AcademicYearUpdatedBy)
+                .HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblApiAuditHistory>(entity =>
@@ -1202,9 +1198,13 @@ public partial class PtaeventContext : DbContext
                 .HasConstraintName("FK_tblCountry.UpdatedBy_tblCustomer");
 
             entity.HasMany(country => country.SchoolsPtacountry)
-.WithOne(school => school.Ptacountry)
-.HasForeignKey(school => school.SchoolPtacountryId)
-.IsRequired(false);
+                .WithOne(school => school.Ptacountry)
+                .HasForeignKey(school => school.SchoolPtacountryId)
+                .IsRequired(false);
+            entity.HasMany(country => country.AcademicCountry)
+                .WithOne(academicYear => academicYear.Country)
+                .HasForeignKey(academicYear => academicYear.CountryId)
+                .IsRequired(false);
 
         });
 
@@ -1423,6 +1423,14 @@ public partial class PtaeventContext : DbContext
             entity.HasOne(customer => customer.CreatedById)
                 .WithMany(customer => customer.CreatedBy)
                 .HasForeignKey(customer => customer.CustomerCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AcademicYearUpdatedBy)
+                .WithOne(school => school.UpdatedBy)
+                .HasForeignKey(school => school.AcademicYearUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AcademicYearCreatedBy)
+                .WithOne(academicYear => academicYear.CreatedBy)
+                .HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
                 .IsRequired(false);
         });
 

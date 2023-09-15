@@ -24,4 +24,5 @@ public partial class TblCountry
     public DateTime? CountryUpdatedDate { get; set; }
 
     public List<TblSchool> SchoolsPtacountry { get; set; }
+    public List<TblAcademicYear> AcademicCountry{ get; set; }
 }

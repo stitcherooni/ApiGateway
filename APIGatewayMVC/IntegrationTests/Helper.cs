@@ -38,14 +38,12 @@ namespace IntegrationTests
             var _schoolRepository = new Repository<TblSchool>(_dbContext);
             var _customerRepository = new Repository<TblCustomer>(_dbContext);
             var _customerRoleRepository = new Repository<TblCustomerRole>(_dbContext);
-            var _roleRepository = new Repository<TblRole>(_dbContext);
             return new OnboardingService(
                                                             CreateMapper().Object,
                                                             CreateEmailService(),
                                                             _schoolRepository,
                                                             _customerRepository,
-                                                            _customerRoleRepository,
-                                                            _roleRepository);
+                                                            _customerRoleRepository);
         }
 
         public static IEmailService CreateEmailService()
