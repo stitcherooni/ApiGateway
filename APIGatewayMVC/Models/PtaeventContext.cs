@@ -1391,11 +1391,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customerRole => customerRole.CreatedBy)
                 .HasForeignKey(customerRole => customerRole.CustomerRoleCreatedBy)
                 .IsRequired(false);
-
             entity.HasMany(customer => customer.RoleUpdatedBy)
-    .WithOne(role => role.UpdatedBy)
-    .HasForeignKey(role => role.RoleUpdatedBy)
-    .IsRequired(false);
+                .WithOne(role => role.UpdatedBy)
+                .HasForeignKey(role => role.RoleUpdatedBy)
+                .IsRequired(false);
             entity.HasMany(customer => customer.RoleCreatedBy)
                 .WithOne(role => role.CreatedBy)
                 .HasForeignKey(role => role.RoleCreatedBy)
@@ -4108,13 +4107,13 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.RoleUpdatedDate).HasColumnType("timestamp");
 
             entity.HasOne(role => role.CreatedBy)
-                .WithMany(customer => customer.SchoolsCreated)
-                .HasForeignKey(role => role.SchoolCreatedBy)
+                .WithMany(customer => customer.RoleCreatedBy)
+                .HasForeignKey(role => role.CreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(role => role.UpdatedBy)
-                .WithMany(customer => customer.SchoolUpdatedBy)
-                .HasForeignKey(role => role.SchoolUpdatedBy)
+                .WithMany(customer => customer.RoleUpdatedBy)
+                .HasForeignKey(role => role.UpdatedBy)
                 .IsRequired(false);
 
 
