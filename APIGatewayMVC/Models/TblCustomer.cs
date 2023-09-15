@@ -131,6 +131,8 @@ public partial class TblCustomer
     public List<TblAcademicYear> AcademicYearUpdatedBy { get; set; }
     public List<TblApiAuditHistory> ApiAuditHistoryCustomer { get; set; }
     public List<TblApiAuditHistory> ApiAuditHistoryCreatedBy { get; set; }
+    public List<TblAuction> AuctionUpdatedBy { get; set; }
+    public List<TblAuction> AuctionCreatedBy { get; set; }
 
     public TblPartner Partner { get; set; }
     public TblSchool Application { get; set; }

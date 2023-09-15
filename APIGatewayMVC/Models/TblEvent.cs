@@ -118,4 +118,6 @@ public partial class TblEvent
     public DateTime? EventUpdatedDate { get; set; }
 
     public TblSchool School { get; set; }
+
+    public List<TblAuction> Event { get; set; }
 }

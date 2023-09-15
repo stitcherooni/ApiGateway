@@ -298,13 +298,13 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.AuctionStartDate, "AuctionStartDate");
 
-            //entity.HasIndex(e => e.EventId, "EventID");
+            entity.HasIndex(e => e.EventId, "EventID");
 
             entity.Property(e => e.AuctionId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuctionID");
             entity.Property(e => e.AuctionBuyNowPrice).HasPrecision(10, 2);
-            //entity.Property(e => e.AuctionCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AuctionCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuctionCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -322,29 +322,27 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuctionStartDate).HasColumnType("datetime");
             entity.Property(e => e.AuctionStartPrice).HasPrecision(10, 2);
             entity.Property(e => e.AuctionStockQty).HasColumnType("int(11)");
-            //entity.Property(e => e.AuctionUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AuctionUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuctionUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.AuctionUuid)
                 .HasMaxLength(50)
                 .HasColumnName("AuctionUUID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                ////.HasForeignKey(d => d.Event)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblAuction_tblEvent");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
 
-            entity.HasOne(d => d.AuctionCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuctionCreatedBy)
-                .HasConstraintName("FK_tblAuction.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.AuctionUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuctionUpdatedBy)
-                .HasConstraintName("FK_tblAuction.UpdatedBy_tblCustomer");
+            entity.HasOne(auction => auction.Event)
+                .WithMany(events => events.Event)
+                .HasForeignKey(auction => auction.EventId)
+                .IsRequired(false);
+            entity.HasOne(auction => auction.CreatedBy)
+                .WithMany(customer => customer.AuctionCreatedBy)
+                .HasForeignKey(auction => auction.AuctionCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(auction => auction.UpdatedBy)
+                .WithMany(customer => customer.AuctionUpdatedBy)
+                .HasForeignKey(auction => auction.AuctionUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblAuditHistory>(entity =>
@@ -1404,6 +1402,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(apiAuditHistory => apiAuditHistory.CreatedBy)
                 .HasForeignKey(apiAuditHistory => apiAuditHistory.ApiAuditHistoryCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.AuctionUpdatedBy)
+                .WithOne(auction => auction.UpdatedBy)
+                .HasForeignKey(auction => auction.AuctionUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuctionCreatedBy)
+                .WithOne(auction => auction.CreatedBy)
+                .HasForeignKey(auction => auction.AuctionCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1415,7 +1421,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(customer => customer.Partner)
                 .WithMany(partner => partner.CustomerPartner)
-                //.HasForeignKey(customer => customer.CustomerPartnerId)
+                .HasForeignKey(customer => customer.CustomerPartnerId)
                 .IsRequired(false);
             entity.HasOne(customer => customer.CustomerSchool)
                 .WithMany(school => school.CustomerSchool)
@@ -1969,6 +1975,11 @@ public partial class PtaeventContext : DbContext
 
 
 
+
+            entity.HasMany(events => events.Event)
+                .WithOne(auction => auction.Event)
+                .HasForeignKey(auction => auction.EventId)
+                .IsRequired(false);
 
         });
 
