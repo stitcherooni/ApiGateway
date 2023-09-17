@@ -133,6 +133,10 @@ public partial class TblCustomer
     public List<TblApiAuditHistory> ApiAuditHistoryCreatedBy { get; set; }
     public List<TblAuction> AuctionUpdatedBy { get; set; }
     public List<TblAuction> AuctionCreatedBy { get; set; }
+    public List<TblAuditHistory> AuditHistoryUpdatedBy { get; set; }
+    public List<TblAuditHistory> AuditHistoryCreatedBy { get; set; }
+    public List<TblAuditHistory> AuditHistoryCustomer { get; set; }
+
 
     public TblPartner Partner { get; set; }
     public TblSchool Application { get; set; }

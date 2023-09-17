@@ -277,7 +277,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("CustomerID");
 
             entity.HasOne(apiAuditHistory => apiAuditHistory.Application)
-                .WithMany(school => school.AuditHistoryApplication)
+                .WithMany(school => school.ApiAuditHistoryApplication)
                 .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
                 .IsRequired(false);
             entity.HasOne(apiAuditHistory => apiAuditHistory.Customer)
@@ -351,19 +351,19 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblAuditHistory");
 
-            //entity.HasIndex(e => e.ApplicationId, "ApplicationID");
-            //entity.HasIndex(e => e.CustomerId, "CustomerID");
-            //entity.HasIndex(e => new { e.AuditHistoryUserAgent, e.ApplicationId }, "idx");
-            //entity.HasIndex(e => new { e.ApplicationId, e.AuditHistoryCreatedDate, e.AuditHistoryUserAgent }, "idx2");
+            entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
+            entity.HasIndex(e => new { e.AuditHistoryUserAgent, e.ApplicationId }, "idx");
+            entity.HasIndex(e => new { e.ApplicationId, e.AuditHistoryCreatedDate, e.AuditHistoryUserAgent }, "idx2");
 
             entity.Property(e => e.AuditHistoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuditHistoryID");
-            //entity.Property(e => e.ApplicationId)
-            //    .HasDefaultValueSql("'0'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ApplicationID");
-            //entity.Property(e => e.AuditHistoryCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ApplicationId)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("int(11)")
+                .HasColumnName("ApplicationID");
+            entity.Property(e => e.AuditHistoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -374,33 +374,30 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuditHistoryLoadTime).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryQueryString).HasMaxLength(500);
             entity.Property(e => e.AuditHistoryServer).HasMaxLength(50);
-            //entity.Property(e => e.AuditHistoryUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AuditHistoryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.AuditHistoryUserAgent).HasMaxLength(500);
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            entity.HasOne(d => d.Application)
-                .WithMany()
-                ////.HasForeignKey(d => d.Application)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblAuditHistory_tblSchool");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
-            entity.HasOne(d => d.AuditHistoryUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuditHistoryUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblAuditHistory.UpdatedBy_tblCustomer");
+            entity.HasOne(auditHistory => auditHistory.Application)
+                .WithMany(school => school.AuditHistoryApplication)
+                .HasForeignKey(auditHistory => auditHistory.ApplicationId)
+                .IsRequired(false);
+            entity.HasOne(auditHistory => auditHistory.Customer)
+                .WithMany(customer => customer.AuditHistoryCustomer)
+                .HasForeignKey(auditHistory => auditHistory.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(auditHistory => auditHistory.CreatedBy)
+                .WithMany(customer => customer.AuditHistoryCreatedBy)
+                .HasForeignKey(auditHistory => auditHistory.AuditHistoryCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(auditHistory => auditHistory.UpdatedBy)
+                .WithMany(customer => customer.AuditHistoryUpdatedBy)
+                .HasForeignKey(auditHistory => auditHistory.AuditHistoryUpdatedBy)
+                .IsRequired(false);
 
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblAuditHistory_tblCustomer");
-
-            entity.HasOne(d => d.AuditHistoryCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuditHistoryCreatedBy)
-                .HasConstraintName("FK_tblAuditHistory.CreatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblAuditHistoryType>(entity =>
@@ -1446,6 +1443,18 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.ApiAuditHistoryCustomer)
                 .WithOne(apiAuditHistory => apiAuditHistory.Customer)
                 .HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuditHistoryUpdatedBy)
+                .WithOne(auditHistory => auditHistory.UpdatedBy)
+                .HasForeignKey(auditHistory => auditHistory.AuditHistoryUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuditHistoryCreatedBy)
+                .WithOne(auditHistory => auditHistory.CreatedBy)
+                .HasForeignKey(auditHistory => auditHistory.AuditHistoryCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuditHistoryCustomer)
+                .WithOne(auditHistory => auditHistory.Customer)
+                .HasForeignKey(auditHistory => auditHistory.CustomerId)
                 .IsRequired(false);
         });
 
@@ -4465,9 +4474,13 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customer => customer.CustomerSchool)
                 .HasForeignKey(customer => customer.CustomerSchoolId)
                 .IsRequired(false);
-            entity.HasMany(school => school.AuditHistoryApplication)
+            entity.HasMany(school => school.ApiAuditHistoryApplication)
                 .WithOne(apiAuditHistory => apiAuditHistory.Application)
                 .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
+                .IsRequired(false);
+            entity.HasMany(school => school.AuditHistoryApplication)
+                .WithOne(auditHistory => auditHistory.Application)
+                .HasForeignKey(auditHistory => auditHistory.ApplicationId)
                 .IsRequired(false);
         });
 
