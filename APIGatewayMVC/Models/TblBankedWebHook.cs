@@ -7,7 +7,7 @@ public partial class TblBankedWebHook
 {
     public int BankedWebHookId { get; set; }
 
-    public TblOrder Order { get; set; }
+    public int OrderId { get; set; }
 
     public string BankedWebHookBankedId { get; set;}
 
@@ -22,4 +22,5 @@ public partial class TblBankedWebHook
     public string BankedWebHookContent { get; set; }
 
     public DateTime BankedWebHookCreatedDate { get; set; }
+    public TblOrder Order { get; set; }
 }

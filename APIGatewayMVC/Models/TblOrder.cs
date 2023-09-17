@@ -58,4 +58,6 @@ public partial class TblOrder
     public TblCustomer OrderUpdatedBy { get; set; }
 
     public TblCustomer Customer { get; set; }
+
+    public List<TblBankedWebHook> BankedWebHookOrder { get; set; }
 }

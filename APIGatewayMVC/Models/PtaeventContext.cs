@@ -562,7 +562,6 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.BankedBusinessComplianceRuleUpdatedBy)
                 .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleUpdatedBy)
                 .IsRequired(false);
-
         });
 
         modelBuilder.Entity<TblBankedWebHook>(entity =>
@@ -575,7 +574,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.BankedWebHookEndToEndId, "BankedWebHookRequestID");
 
-            //entity.HasIndex(e => e.OrderId, "OrderID");
+            entity.HasIndex(e => e.OrderId, "OrderID");
 
             entity.Property(e => e.BankedWebHookId)
                 .HasColumnType("int(11)")
@@ -592,14 +591,14 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BankedWebHookEvent).HasMaxLength(50);
             entity.Property(e => e.BankedWebHookStatus).HasMaxLength(50);
             entity.Property(e => e.BankedWebHookType).HasMaxLength(50);
-            //entity.Property(e => e.OrderId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderID");
-            entity.HasOne(d => d.Order)
-                .WithMany()
-                ////.HasForeignKey(d => d.Order)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBankedWebHook_tblOrder");
+            entity.Property(e => e.OrderId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderID");
+
+            entity.HasOne(bankedWebHook => bankedWebHook.Order)
+                .WithMany(order => order.BankedWebHookOrder)
+                .HasForeignKey(bankedWebHook => bankedWebHook.OrderId)
+                .IsRequired(false);
 
         });
 
@@ -3054,6 +3053,12 @@ public partial class PtaeventContext : DbContext
                 ////.HasForeignKey(d => d.OrderUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblOrder.UpdatedBy_tblCustomer");
+
+
+            entity.HasMany(order => order.BankedWebHookOrder)
+                .WithOne(bankedWebHook => bankedWebHook.Order)
+                .HasForeignKey(bankedWebHook => bankedWebHook.OrderId)
+                .IsRequired(false);
 
 
         });
