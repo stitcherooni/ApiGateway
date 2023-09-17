@@ -100,7 +100,7 @@ stages:
           kubernetesCluster: 'internal-ptae-aks-01'
           namespace: $(envName)
           command: 'apply'
-          arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/migration-service.yaml'
+          arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/apigateway.yaml'
           secretType: 'dockerRegistry'
           containerRegistryType: 'Azure Container Registry'
 
