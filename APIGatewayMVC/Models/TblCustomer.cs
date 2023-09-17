@@ -141,6 +141,8 @@ public partial class TblCustomer
     public List<TblBankedBusiness> BankedBusinessComplianceCompletedBy { get; set; }
     public List<TblBankedBusiness> BankedBusinessCreatedBy { get; set; }
     public List<TblBankedBusiness> BankedBusinessUpdatedBy { get; set; }
+    public List<TblBankedBusinessApplication> BankedBusinessApplicationCreatedBy { get; set; }
+    public List<TblBankedBusinessApplication> BankedBusinessApplicationUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

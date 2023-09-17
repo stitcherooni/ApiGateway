@@ -7,7 +7,7 @@ public partial class TblBankedBusinessApplication
 {
     public int BankedBusinessApplicationId { get; set; }
 
-    public TblBankedBusiness BankedBusiness { get; set; }
+    public int BankedBusinessId { get; set; }
 
     public string BankedBusinessApplicationUuid { get; set;}
 
@@ -19,11 +19,16 @@ public partial class TblBankedBusinessApplication
 
     public bool BankedBusinessApplicationDeleted { get; set; }
 
-    public TblCustomer BankedBusinessApplicationCreatedBy { get; set; }
+    public int BankedBusinessApplicationCreatedBy { get; set; }
 
     public DateTime BankedBusinessApplicationCreatedDate { get; set; }
 
-    public TblCustomer BankedBusinessApplicationUpdatedBy { get; set; }
+    public int? BankedBusinessApplicationUpdatedBy { get; set; }
 
     public DateTime? BankedBusinessApplicationUpdatedDate { get; set; }
+
+    public TblBankedBusiness BankedBusiness { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
