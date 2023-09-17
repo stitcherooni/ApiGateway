@@ -343,6 +343,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.AuctionUpdatedBy)
                 .HasForeignKey(auction => auction.AuctionUpdatedBy)
                 .IsRequired(false);
+
+            entity.HasMany(auction => auction.BidAuction)
+                .WithOne(bid => bid.Auction)
+                .HasForeignKey(bid => bid.AuctionId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblAuditHistory>(entity =>
@@ -608,7 +613,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBid");
 
-            //entity.HasIndex(e => e.AuctionId, "AuctionID");
+            entity.HasIndex(e => e.AuctionId, "AuctionID");
 
             entity.HasIndex(e => e.BidAmount, "BidAmount");
 
@@ -617,44 +622,37 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BidId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BidID");
-            //entity.Property(e => e.AuctionId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("AuctionID");
+            entity.Property(e => e.AuctionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("AuctionID");
             entity.Property(e => e.BidAmount).HasPrecision(10, 2);
-            //entity.Property(e => e.BidCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BidCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BidCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BidDateTime).HasColumnType("datetime");
-            //entity.Property(e => e.BidUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BidUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BidUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
-            entity.HasOne(d => d.Auction)
-                .WithMany()
-                ////.HasForeignKey(d => d.Auction)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBid_tblAuction");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-
-                .HasConstraintName("FK_tblBid_tblCustomer");
-
-            entity.HasOne(d => d.BidCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BidCreatedBy)
-                .HasConstraintName("FK_tblBid.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.BidUpdatedBy)
-               .WithMany()
-               ////.HasForeignKey(d => d.BidUpdatedBy)
-               .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblBid.UpdatedBy_tblCustomer");
-
+            entity.HasOne(bid => bid.Auction)
+                .WithMany(auction => auction.BidAuction)
+                .HasForeignKey(bid => bid.AuctionId)
+                .IsRequired(false);
+            entity.HasOne(bid => bid.Customer)
+                .WithMany(customer => customer.BidCustomer)
+                .HasForeignKey(bid => bid.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(bid => bid.CreatedBy)
+                .WithMany(customer => customer.BidCreatedBy)
+                .HasForeignKey(bid => bid.BidCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(bid => bid.UpdatedBy)
+                .WithMany(customer => customer.BidUpdatedBy)
+                .HasForeignKey(bid => bid.BidUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBooking>(entity =>
@@ -1415,6 +1413,18 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.AuditHistoryTypeCreatedBy)
                 .WithOne(auction => auction.CreatedBy)
                 .HasForeignKey(auction => auction.AuditHistoryTypeCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BidCustomer)
+                .WithOne(bid => bid.Customer)
+                .HasForeignKey(bid => bid.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BidUpdatedBy)
+                .WithOne(bid => bid.UpdatedBy)
+                .HasForeignKey(bid => bid.BidUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BidCreatedBy)
+                .WithOne(bid => bid.CreatedBy)
+                .HasForeignKey(bid => bid.BidCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)

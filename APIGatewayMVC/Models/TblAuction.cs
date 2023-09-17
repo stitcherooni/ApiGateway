@@ -54,4 +54,6 @@ public partial class TblAuction
     public TblEvent Event { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBid> BidAuction { get; set; }
 }
