@@ -48,4 +48,6 @@ public partial class TblOrderItem
     public TblCustomer OrderItemUpdatedBy { get; set; }
 
     public DateTime? OrderItemUpdatedDate { get; set; }
+
+    public List<TblBooking> BookingOrderItem { get; set; }
 }

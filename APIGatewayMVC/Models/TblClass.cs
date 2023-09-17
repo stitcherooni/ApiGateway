@@ -36,4 +36,6 @@ public partial class TblClass
     public TblSchoolYear SchoolYear { get; set; }
 
     public bool ClassDeleted { get; set; }
+
+    public List<TblBooking> BookingClass { get; set; }
 }

@@ -663,18 +663,18 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.BookingName, "BookingName");
 
-            //entity.HasIndex(e => e.ClassId, "ClassID");
+            entity.HasIndex(e => e.ClassId, "ClassID");
 
-            //entity.HasIndex(e => e.OrderItemId, "OrderItemID");
+            entity.HasIndex(e => e.OrderItemId, "OrderItemID");
 
-            //entity.HasIndex(e => e.TicketId, "TicketID");
+            entity.HasIndex(e => e.TicketId, "TicketID");
 
-            //entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ClassId }, "idx_bookings");
+            entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ClassId }, "idx_bookings");
 
             entity.Property(e => e.BookingId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BookingID");
-            //entity.Property(e => e.BookingCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BookingCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BookingCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -685,49 +685,38 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BookingLastName).HasMaxLength(100);
             entity.Property(e => e.BookingName).HasMaxLength(200);
             entity.Property(e => e.BookingNo).HasColumnType("int(11)");
-            //entity.Property(e => e.BookingUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BookingUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BookingUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.ClassId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ClassID");
-            //entity.Property(e => e.OrderItemId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderItemID");
-            //entity.Property(e => e.TicketId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("TicketID");
+            entity.Property(e => e.ClassId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ClassID");
+            entity.Property(e => e.OrderItemId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderItemID");
+            entity.Property(e => e.TicketId)
+                .HasColumnType("int(11)")
+                .HasColumnName("TicketID");
 
-            entity.HasOne(d => d.Class)
-                .WithMany()
-                ////.HasForeignKey(d => d.Class)
-
-                .HasConstraintName("FK_tbllBooking_tblClass");
-
-            entity.HasOne(d => d.OrderItem)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderItem)
-
-                .HasConstraintName("FK_tbllBooking_tblOrderItem");
-
-            entity.HasOne(d => d.Ticket)
-                .WithMany()
-                ////.HasForeignKey(d => d.Ticket)
-                .HasConstraintName("FK_tbllBooking_tblTicket");
-
-            entity.HasOne(d => d.BookingCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BookingCreatedBy)
-
-                .HasConstraintName("FK_tbllBooking.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.BookingUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BookingUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tbllBooking.UpdatedBy_tblCustomer");
-
-
-
+            entity.HasOne(booking => booking.Class)
+                .WithMany(classes => classes.BookingClass)
+                .HasForeignKey(booking => booking.ClassId)
+                .IsRequired(false);
+            entity.HasOne(booking => booking.OrderItem)
+                .WithMany(orderItem => orderItem.BookingOrderItem)
+                .HasForeignKey(booking => booking.OrderItemId)
+                .IsRequired(false);
+            entity.HasOne(booking => booking.Ticket)
+                .WithMany(ticket => ticket.BookingTicket)
+                .HasForeignKey(booking => booking.TicketId)
+                .IsRequired(false);
+            entity.HasOne(booking => booking.CreatedBy)
+                .WithMany(customer => customer.BookingCreatedBy)
+                .HasForeignKey(booking => booking.BookingCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(booking => booking.UpdatedBy)
+                .WithMany(customer => customer.BookingUpdatedBy)
+                .HasForeignKey(booking => booking.BookingUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBusinessDirectory>(entity =>
@@ -929,6 +918,12 @@ public partial class PtaeventContext : DbContext
                 .WithMany()
                 ////.HasForeignKey(d => d.School)
                 .HasConstraintName("FK_tblClass_tblSchool");
+
+
+            entity.HasMany(classes => classes.BookingClass)
+                .WithOne(booking => booking.Class)
+                .HasForeignKey(booking => booking.ClassId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -1425,6 +1420,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BidCreatedBy)
                 .WithOne(bid => bid.CreatedBy)
                 .HasForeignKey(bid => bid.BidCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BookingUpdatedBy)
+                .WithOne(booking => booking.UpdatedBy)
+                .HasForeignKey(booking => booking.BookingUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BookingCreatedBy)
+                .WithOne(booking => booking.CreatedBy)
+                .HasForeignKey(booking => booking.BookingCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
@@ -3152,6 +3155,11 @@ public partial class PtaeventContext : DbContext
 
                 .HasConstraintName("FK_tblOrderItem.UpdatedBy_tblCustomer");
 
+
+            entity.HasMany(orderItem => orderItem.BookingOrderItem)
+                .WithOne(booking => booking.OrderItem)
+                .HasForeignKey(booking => booking.OrderItemId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblOrganisationType>(entity =>
@@ -4952,6 +4960,11 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.TicketUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblTicket.UpdatedBy_tblCustomer");
+
+            entity.HasMany(ticket => ticket.BookingTicket)
+                .WithOne(booking => booking.Ticket)
+                .HasForeignKey(booking => booking.TicketId)
+                .IsRequired(false);
 
         });
 

@@ -26,4 +26,6 @@ public partial class TblTicket
     public TblCustomer TicketUpdatedBy { get; set; }
 
     public DateTime? TicketUpdatedDate { get; set; }
+
+    public List<TblBooking> BookingTicket { get; set; }
 }
