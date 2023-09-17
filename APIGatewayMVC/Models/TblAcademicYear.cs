@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -27,4 +28,6 @@ public partial class TblAcademicYear
     public TblCountry Country { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblClass> AcademicYearClass { get; set; }
 }

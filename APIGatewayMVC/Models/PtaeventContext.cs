@@ -235,6 +235,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.AcademicYearUpdatedBy)
                 .HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
                 .IsRequired(false);
+
+            entity.HasMany(academicYear => academicYear.AcademicYearClass)
+                .WithOne(classes => classes.AcademicYear)
+                .HasForeignKey(classes => classes.AcademicYearId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblApiAuditHistory>(entity =>
@@ -872,10 +877,10 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ClassID");
-            //entity.Property(e => e.AcademicYearId)
-            //    .HasDefaultValueSql("'0'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("AcademicYearID");
+            entity.Property(e => e.AcademicYearId)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("int(11)")
+                .HasColumnName("AcademicYearID");
             entity.Property(e => e.ClassAllowParentsEmail)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
@@ -888,30 +893,25 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassTeacherEmail).HasMaxLength(250);
             entity.Property(e => e.ClassTeacherName).HasMaxLength(250);
             entity.Property(e => e.ClassTeacherTelephone).HasMaxLength(30);
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
-            //entity.Property(e => e.SchoolYearId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolYearID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolYearId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolYearID");
 
-            entity.HasOne(d => d.AcademicYear)
-                .WithMany()
-                ////.HasForeignKey(d => d.AcademicYear)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblClass_tblAcademicYear");
-
-            entity.HasOne(d => d.SchoolYear)
-                .WithMany()
-                ////.HasForeignKey(d => d.SchoolYear)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblClass_tblSchoolYear");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblClass_tblSchool");
-
+            entity.HasOne(classes => classes.School)
+                .WithMany(school => school.SchoolClass)
+                .HasForeignKey(classes => classes.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(classes => classes.AcademicYear)
+                .WithMany(academicYear => academicYear.AcademicYearClass)
+                .HasForeignKey(classes => classes.AcademicYearId)
+                .IsRequired(false);
+            entity.HasOne(classes => classes.SchoolYear)
+                .WithMany(schoolYear => schoolYear.SchoolYearClass)
+                .HasForeignKey(classes => classes.SchoolYearId)
+                .IsRequired(false);
 
             entity.HasMany(classes => classes.BookingClass)
                 .WithOne(booking => booking.Class)
@@ -4572,6 +4572,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(businessDirectoryClick => businessDirectoryClick.School)
                 .HasForeignKey(businessDirectoryClick => businessDirectoryClick.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.SchoolClass)
+                .WithOne(classes => classes.School)
+                .HasForeignKey(classes => classes.SchoolId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -4604,6 +4608,11 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.SchoolYearUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblSchoolYear.UpdatedBy_tblCustomer");
+
+            entity.HasMany(schoolYear => schoolYear.SchoolYearClass)
+                .WithOne(casses => casses.SchoolYear)
+                .HasForeignKey(casses => casses.SchoolYearId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSponsor>(entity =>

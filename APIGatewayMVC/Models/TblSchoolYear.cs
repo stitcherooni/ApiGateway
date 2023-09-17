@@ -20,4 +20,6 @@ public partial class TblSchoolYear
     public TblCustomer SchoolYearUpdatedBy { get; set; }
 
     public DateTime? SchoolYearUpdatedDate { get; set; }
+
+    public List<TblClass> SchoolYearClass { get; set; }
 }
