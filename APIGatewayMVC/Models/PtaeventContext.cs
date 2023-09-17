@@ -432,19 +432,19 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBankedBusiness");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
             entity.Property(e => e.BankedBusinessId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BankedBusinessID");
-            //entity.Property(e => e.BankedBusinessComplianceCompletedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BankedBusinessComplianceCompletedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceCompletedDate).HasColumnType("datetime");
-            //entity.Property(e => e.BankedBusinessCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BankedBusinessCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessIdchecked).HasColumnName("BankedBusinessIDChecked");
-            //entity.Property(e => e.BankedBusinessUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BankedBusinessUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessUuid)
                 .HasMaxLength(50)
@@ -452,30 +452,26 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.Kycid)
                 .HasMaxLength(50)
                 .HasColumnName("KYCID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
-            entity.HasOne(d => d.BankedBusinessComplianceCompletedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BankedBusinessComplianceCompletedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBankedBusiness_tblCustomer");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.BankedBusinessUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BankedBusinessUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBankedBusiness.UpdatedBy_tblCustomer");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblBankedBusiness_tblSchool");
-
-            entity.HasOne(d => d.BankedBusinessCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BankedBusinessCreatedBy)
-                .HasConstraintName("FK_tblBankedBusiness.CreatedBy_tblCustomer");
+            entity.HasOne(bankedBusiness => bankedBusiness.School)
+                .WithMany(school => school.BankedBusinessSchool)
+                .HasForeignKey(bankedBusiness => bankedBusiness.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(bankedBusiness => bankedBusiness.ComplianceCompletedBy)
+                .WithMany(customer => customer.BankedBusinessComplianceCompletedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessComplianceCompletedBy)
+                .IsRequired(false);
+            entity.HasOne(bankedBusiness => bankedBusiness.CreatedBy)
+                .WithMany(customer => customer.BankedBusinessCreatedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(bankedBusiness => bankedBusiness.UpdatedBy)
+                .WithMany(customer => customer.BankedBusinessUpdatedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBankedBusinessApplication>(entity =>
@@ -1461,6 +1457,18 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.AuditHistoryCustomer)
                 .WithOne(auditHistory => auditHistory.Customer)
                 .HasForeignKey(auditHistory => auditHistory.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BankedBusinessComplianceCompletedBy)
+                .WithOne(bankedBusiness => bankedBusiness.ComplianceCompletedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessComplianceCompletedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BankedBusinessUpdatedBy)
+                .WithOne(bankedBusiness => bankedBusiness.UpdatedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BankedBusinessCreatedBy)
+                .WithOne(bankedBusiness => bankedBusiness.CreatedBy)
+                .HasForeignKey(bankedBusiness => bankedBusiness.BankedBusinessCreatedBy)
                 .IsRequired(false);
         });
 
@@ -4487,6 +4495,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.AuditHistoryApplication)
                 .WithOne(auditHistory => auditHistory.Application)
                 .HasForeignKey(auditHistory => auditHistory.ApplicationId)
+                .IsRequired(false);
+            entity.HasMany(school => school.BankedBusinessSchool)
+                .WithOne(bankedBusiness => bankedBusiness.School)
+                .HasForeignKey(auditHistory => auditHistory.SchoolId)
                 .IsRequired(false);
         });
 

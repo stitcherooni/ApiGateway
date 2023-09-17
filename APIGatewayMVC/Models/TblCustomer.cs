@@ -138,6 +138,9 @@ public partial class TblCustomer
     public List<TblAuditHistory> AuditHistoryCustomer { get; set; }
     public List<TblAuditHistoryType> AuditHistoryTypeUpdatedBy { get; set; }
     public List<TblAuditHistoryType> AuditHistoryTypeCreatedBy { get; set; }
+    public List<TblBankedBusiness> BankedBusinessComplianceCompletedBy { get; set; }
+    public List<TblBankedBusiness> BankedBusinessCreatedBy { get; set; }
+    public List<TblBankedBusiness> BankedBusinessUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
