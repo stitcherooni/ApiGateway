@@ -1052,27 +1052,22 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ComponentGroupId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ComponentGroupID");
-            //entity.Property(e => e.ComponentGroupCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComponentGroupCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentGroupCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ComponentGroupName).HasMaxLength(100);
-            //entity.Property(e => e.ComponentGroupUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComponentGroupUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentGroupUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.ComponentGroupCreatedBy)
-          .WithMany()
-          ////.HasForeignKey(d => d.ComponentGroupCreatedBy)
-
-          .HasConstraintName("FK_tblComponentGroup.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ComponentGroupUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComponentGroupUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblComponentGroup.UpdatedBy_tblCustomer");
-
-
+            entity.HasOne(componentGroup => componentGroup.CreatedBy)
+                .WithMany(customer => customer.ComponentGroupCreatedBy)
+                .HasForeignKey(componentGroup => componentGroup.ComponentGroupCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(componentGroup => componentGroup.UpdatedBy)
+                .WithMany(customer => customer.ComponentGroupUpdatedBy)
+                .HasForeignKey(componentGroup => componentGroup.ComponentGroupUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(componentGroup => componentGroup.ComponentGroups)
                 .WithOne(component => component.ComponentGroup)
@@ -1537,6 +1532,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.ComplianceRuleCreatedBy)
                 .WithOne(complianceRule => complianceRule.CreatedBy)
                 .HasForeignKey(complianceRule => complianceRule.ComplianceRuleCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ComponentGroupUpdatedBy)
+                .WithOne(componentGroup => componentGroup.UpdatedBy)
+                .HasForeignKey(componentGroup => componentGroup.ComponentGroupUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ComponentGroupCreatedBy)
+                .WithOne(componentGroup => componentGroup.CreatedBy)
+                .HasForeignKey(componentGroup => componentGroup.ComponentGroupCreatedBy)
                 .IsRequired(false);
         });
 
