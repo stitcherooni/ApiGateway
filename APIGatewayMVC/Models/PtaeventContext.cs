@@ -409,23 +409,21 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AuditHistoryTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AuditHistoryTypeID");
-            //entity.Property(e => e.AuditHistoryTypeCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AuditHistoryTypeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryTypeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.AuditHistoryTypeName).HasMaxLength(200);
-            //entity.Property(e => e.AuditHistoryTypeUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AuditHistoryTypeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AuditHistoryTypeUpdatedDate).HasColumnType("timestamp");
-            entity.HasOne(d => d.AuditHistoryTypeCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuditHistoryTypeCreatedBy)
-                .HasConstraintName("FK_tblAuditHistoryType.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.AuditHistoryTypeUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.AuditHistoryTypeUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblAuditHistoryType.UpdatedBy_tblCustomer");
+            entity.HasOne(auditHistoryType => auditHistoryType.CreatedBy)
+                .WithMany(customer => customer.AuditHistoryTypeCreatedBy)
+                .HasForeignKey(auditHistoryType => auditHistoryType.AuditHistoryTypeCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(auditHistoryType => auditHistoryType.UpdatedBy)
+                .WithMany(customer => customer.AuditHistoryTypeUpdatedBy)
+                .HasForeignKey(auditHistoryType => auditHistoryType.AuditHistoryTypeUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBankedBusiness>(entity =>
@@ -1406,6 +1404,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.AuctionCreatedBy)
                 .WithOne(auction => auction.CreatedBy)
                 .HasForeignKey(auction => auction.AuctionCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuditHistoryTypeUpdatedBy)
+                .WithOne(auction => auction.UpdatedBy)
+                .HasForeignKey(auction => auction.AuditHistoryTypeUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.AuditHistoryTypeCreatedBy)
+                .WithOne(auction => auction.CreatedBy)
+                .HasForeignKey(auction => auction.AuditHistoryTypeCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
