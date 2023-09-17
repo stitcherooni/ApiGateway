@@ -160,6 +160,8 @@ public partial class TblCustomer
     public List<TblClassRep> ClassRepUpdatedBy { get; set; }
     public List<TblComplianceRule> ComplianceRuleCreatedBy { get; set; }
     public List<TblComplianceRule> ComplianceRuleUpdatedBy { get; set; }
+    public List<TblComponent> ComponentCreatedBy { get; set; }
+    public List<TblComponent> ComponentUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

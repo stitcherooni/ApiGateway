@@ -1007,43 +1007,39 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("ComponentID");
             entity.Property(e => e.ComponentContent).HasColumnType("text");
-            //entity.Property(e => e.ComponentCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComponentCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.ComponentGroupId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)"),
-            //    .HasColumnName("ComponentGroupID");
+            entity.Property(e => e.ComponentGroupId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("ComponentGroupID");
             entity.Property(e => e.ComponentName).HasMaxLength(100);
             entity.Property(e => e.ComponentRef).HasMaxLength(100);
-            //entity.Property(e => e.ComponentTypeId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ComponentTypeID");
-            //entity.Property(e => e.ComponentUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComponentTypeId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("ComponentTypeID");
+            entity.Property(e => e.ComponentUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComponentUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.ComponentCreatedBy)
-                  .WithMany()
-                  ////.HasForeignKey(d => d.ComponentCreatedBy)       
-                  .HasConstraintName("FK_tblComponent.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ComponentUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComponentUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblComponent.UpdatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ComponentGroup)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComponentGroup)
-                .HasConstraintName("FK_tblComponent_tblComponentGroup");
-
-            entity.HasOne(d => d.ComponentType)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComponentType)
-                .HasConstraintName("FK_tblComponent_tblComponentType");
+            entity.HasOne(component => component.ComponentType)
+                .WithMany(componentType => componentType.ComponentType)
+                .HasForeignKey(component => component.ComponentTypeId)
+                .IsRequired(false);
+            entity.HasOne(component => component.ComponentGroup)
+                .WithMany(componentGroup => componentGroup.ComponentGroups)
+                .HasForeignKey(component => component.ComponentGroupId)
+                .IsRequired(false);
+            entity.HasOne(component => component.CreatedBy)
+                .WithMany(customer => customer.ComponentCreatedBy)
+                .HasForeignKey(component => component.ComponentCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(component => component.UpdatedBy)
+                .WithMany(customer => customer.ComponentUpdatedBy)
+                .HasForeignKey(component => component.ComponentUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -1078,7 +1074,10 @@ public partial class PtaeventContext : DbContext
 
 
 
-
+            entity.HasMany(componentGroup => componentGroup.ComponentGroups)
+                .WithOne(component => component.ComponentGroup)
+                .HasForeignKey(component => component.ComponentGroupId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblComponentType>(entity =>
@@ -1109,6 +1108,12 @@ public partial class PtaeventContext : DbContext
                 ////.HasForeignKey(d => d.ComponentTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblComponentType.UpdatedBy_tblCustomer");
+
+
+            entity.HasMany(componentType => componentType.ComponentType)
+                .WithOne(component => component.ComponentType)
+                .HasForeignKey(component => component.ComponentTypeId)
+                .IsRequired(false);
 
         });
 

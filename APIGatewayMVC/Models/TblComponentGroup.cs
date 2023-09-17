@@ -18,4 +18,6 @@ public partial class TblComponentGroup
     public TblCustomer ComponentGroupUpdatedBy { get; set; }
 
     public DateTime? ComponentGroupUpdatedDate { get; set; }
+
+    public List<TblComponent> ComponentGroups { get; set; }
 }
