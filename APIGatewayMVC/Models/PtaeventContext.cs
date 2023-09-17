@@ -771,6 +771,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.BusinessDirectoryUpdatedBy)
                 .HasForeignKey(businessDirectory => businessDirectory.BusinessDirectoryUpdatedBy)
                 .IsRequired(false);
+
+            entity.HasMany(businessDirectory => businessDirectory.BusinessDirectoryClick)
+                .WithOne(businessDirectoryClick => businessDirectoryClick.BusinessDirectory)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.BusinessDirectoryId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBusinessDirectoryCategory>(entity =>
@@ -820,9 +825,9 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBusinessDirectoryClick");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
-            //entity.HasIndex(e => e.BusinessDirectoryId, "SponsorID");
+            entity.HasIndex(e => e.BusinessDirectoryId, "SponsorID");
 
             entity.Property(e => e.BusinessDirectoryClickId)
                 .HasColumnType("int(11)")
@@ -833,34 +838,28 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryClickFrom).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryClickPage).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryClickUserAgent).HasMaxLength(1000);
-            //entity.Property(e => e.BusinessDirectoryId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("BusinessDirectoryID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(10)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.BusinessDirectoryId)
+                .HasColumnType("int(11)")
+                .HasColumnName("BusinessDirectoryID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(10)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.BusinessDirectory)
-                .WithMany()
-                ////.HasForeignKey(d => d.BusinessDirectory)
-
-                .HasConstraintName("FK_tblBusinessDirectoryClick_tblBusinessDirectory");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-
-                .HasConstraintName("FK_tblBusinessDirectoryClick_tblSchool");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBusinessDirectoryClick_tblCustomer");
-
+            entity.HasOne(businessDirectoryClick => businessDirectoryClick.BusinessDirectory)
+                .WithMany(businessDirectory => businessDirectory.BusinessDirectoryClick)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.BusinessDirectoryId)
+                .IsRequired(false);
+            entity.HasOne(businessDirectoryClick => businessDirectoryClick.Customer)
+                .WithMany(customer => customer.BusinessDirectoryClickCustomer)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(businessDirectoryClick => businessDirectoryClick.School)
+                .WithMany(school => school.BusinessDirectoryClickSchool)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.SchoolId)
+                .IsRequired(false);
 
         });
 
@@ -1438,6 +1437,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BusinessDirectoryCategoryCreatedBy)
                 .WithOne(businessDirectoryCategory => businessDirectoryCategory.CreatedBy)
                 .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.BusinessDirectoryCategoryCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BusinessDirectoryClickCustomer)
+                .WithOne(businessDirectoryClick => businessDirectoryClick.Customer)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.CustomerId)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
@@ -4564,6 +4567,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.BusinessDirectoryCategorySchool)
                 .WithOne(businessDirectoryCategory => businessDirectoryCategory.School)
                 .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.BusinessDirectoryClickSchool)
+                .WithOne(businessDirectoryClick => businessDirectoryClick.School)
+                .HasForeignKey(businessDirectoryClick => businessDirectoryClick.SchoolId)
                 .IsRequired(false);
         });
 

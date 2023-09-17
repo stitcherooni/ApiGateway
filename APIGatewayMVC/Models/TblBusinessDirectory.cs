@@ -49,4 +49,6 @@ public partial class TblBusinessDirectory
     public TblSchool School { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBusinessDirectoryClick> BusinessDirectoryClick { get; set; }
 }

@@ -239,4 +239,5 @@ public partial class TblSchool
     public List<TblBankedBusiness> BankedBusinessSchool { get; set; }
     public List<TblBusinessDirectory> BusinessDirectorySchool { get; set; }
     public List<TblBusinessDirectoryCategory> BusinessDirectoryCategorySchool { get; set; }
+    public List<TblBusinessDirectoryClick> BusinessDirectoryClickSchool { get; set; }
 }
