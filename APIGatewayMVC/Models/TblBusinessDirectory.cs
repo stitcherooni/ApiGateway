@@ -7,7 +7,7 @@ public partial class TblBusinessDirectory
 {
     public int BusinessDirectoryId { get; set; }
 
-    public TblBusinessDirectoryCategory BusinessDirectoryCategory { get; set; }
+    public int BusinessDirectoryCategoryId { get; set; }
 
     public string BusinessDirectoryName { get; set;}
 
@@ -33,15 +33,20 @@ public partial class TblBusinessDirectory
 
     public DateTime? BusinessDirectoryEndDate { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public bool BusinessDirectoryDeleted { get; set; }
 
-    public TblCustomer BusinessDirectoryCreatedBy { get; set; }
+    public int BusinessDirectoryCreatedBy { get; set; }
 
     public DateTime BusinessDirectoryCreatedByDate { get; set; }
 
-    public TblCustomer BusinessDirectoryUpdatedBy { get; set; }
+    public int? BusinessDirectoryUpdatedBy { get; set; }
 
     public DateTime? BusinessDirectoryUpdatedDate { get; set; }
+
+    public TblBusinessDirectoryCategory BusinessDirectoryCategory { get; set; }
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

@@ -22,4 +22,6 @@ public partial class TblBusinessDirectoryCategory
     public TblCustomer BusinessDirectoryCategoryUpdatedBy { get; set; }
 
     public DateTime? BusinessDirectoryCategoryUpdatedDate { get; set; }
+
+    public List<TblBusinessDirectory> BusinessDirectoryCategory { get; set; }
 }

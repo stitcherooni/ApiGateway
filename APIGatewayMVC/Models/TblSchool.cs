@@ -237,4 +237,5 @@ public partial class TblSchool
     public List<TblApiAuditHistory> ApiAuditHistoryApplication { get; set; }
     public List<TblAuditHistory> AuditHistoryApplication { get; set; }
     public List<TblBankedBusiness> BankedBusinessSchool { get; set; }
+    public List<TblBusinessDirectory> BusinessDirectorySchool { get; set; }
 }

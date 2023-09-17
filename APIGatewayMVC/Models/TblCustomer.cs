@@ -150,6 +150,8 @@ public partial class TblCustomer
     public List<TblBid> BidUpdatedBy { get; set; }
     public List<TblBooking> BookingCreatedBy { get; set; }
     public List<TblBooking> BookingUpdatedBy { get; set; }
+    public List<TblBusinessDirectory> BusinessDirectoryCreatedBy { get; set; }
+    public List<TblBusinessDirectory> BusinessDirectoryUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
