@@ -43,4 +43,5 @@ public partial class TblBankedBusiness
     public TblCustomer UpdatedBy { get; set; }
 
     public List<TblBankedBusinessApplication> BankedBusinessApplication { get; set; }
+    public List<TblBankedBusinessComplianceRule> BankedBusinessComplianceRule { get; set; }
 }

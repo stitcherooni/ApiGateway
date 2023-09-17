@@ -477,6 +477,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(bankedBusinessApplication => bankedBusinessApplication.BankedBusiness)
                 .HasForeignKey(bankedBusinessApplication => bankedBusinessApplication.BankedBusinessId)
                 .IsRequired(false);
+            entity.HasMany(bankedBusiness => bankedBusiness.BankedBusinessComplianceRule)
+                .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusiness)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblBankedBusinessApplication>(entity =>
@@ -523,45 +527,42 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblBankedBusinessComplianceRule");
 
-            //entity.HasIndex(e => e.BankedBusinessId, "BankedBusinessID");
+            entity.HasIndex(e => e.BankedBusinessId, "BankedBusinessID");
 
             entity.Property(e => e.BankedBusinessComplianceRuleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BankedBusinessComplianceRuleID");
-            //entity.Property(e => e.BankedBusinessComplianceRuleCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BankedBusinessComplianceRuleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceRuleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BankedBusinessComplianceRuleNotes).HasColumnType("text");
-            //entity.Property(e => e.BankedBusinessComplianceRuleUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BankedBusinessComplianceRuleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BankedBusinessComplianceRuleUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.BankedBusinessId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("BankedBusinessID");
-            //entity.Property(e => e.ComplianceRuleId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ComplianceRuleID");
+            entity.Property(e => e.BankedBusinessId)
+                .HasColumnType("int(11)")
+                .HasColumnName("BankedBusinessID");
+            entity.Property(e => e.ComplianceRuleId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ComplianceRuleID");
 
-            entity.HasOne(d => d.BankedBusiness)
-               .WithMany()
-               ////.HasForeignKey(d => d.BankedBusiness)              
-               .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblBankedBusiness");
+            entity.HasOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusiness)
+                .WithMany(bankedBusiness => bankedBusiness.BankedBusinessComplianceRule)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessId)
+                .IsRequired(false);
+            entity.HasOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.ComplianceRule)
+                .WithMany(complianceRule => complianceRule.BankedBusinessComplianceRule)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.ComplianceRuleId)
+                .IsRequired(false);
+            entity.HasOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.CreatedBy)
+                .WithMany(customer => customer.BankedBusinessComplianceRuleCreatedBy)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.UpdatedBy)
+                .WithMany(customer => customer.BankedBusinessComplianceRuleUpdatedBy)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleUpdatedBy)
+                .IsRequired(false);
 
-            entity.HasOne(d => d.ComplianceRule)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComplianceRule)                
-                .HasConstraintName("FK_tblBankedBusinessComplianceRule_tblComplianceRule");
-
-            entity.HasOne(d => d.BankedBusinessComplianceRuleCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BankedBusinessComplianceRuleCreatedBy)
-                .HasConstraintName("FK_tblBankedBusinessComplianceRule.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.BankedBusinessComplianceRuleUpdatedBy)
-               .WithMany()
-               ////.HasForeignKey(d => d.BankedBusinessComplianceRuleUpdatedBy)
-               .OnDelete(DeleteBehavior.SetNull)
-               .HasConstraintName("FK_tblBankedBusinessComplianceRule.UpdatedBy_tblCustomer");
         });
 
         modelBuilder.Entity<TblBankedWebHook>(entity =>
@@ -1010,6 +1011,11 @@ public partial class PtaeventContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblComplianceRule.UpdatedBy_tblCustomer");
 
+
+            entity.HasMany(complianceRule => complianceRule.BankedBusinessComplianceRule)
+                .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.ComplianceRule)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.ComplianceRuleId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblComponent>(entity =>
@@ -1479,6 +1485,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BankedBusinessApplicationCreatedBy)
                 .WithOne(bankedBusinessApplication => bankedBusinessApplication.CreatedBy)
                 .HasForeignKey(bankedBusinessApplication => bankedBusinessApplication.BankedBusinessApplicationCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BankedBusinessComplianceRuleUpdatedBy)
+                .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.UpdatedBy)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BankedBusinessComplianceRuleCreatedBy)
+                .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.CreatedBy)
+                .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleCreatedBy)
                 .IsRequired(false);
         });
 
