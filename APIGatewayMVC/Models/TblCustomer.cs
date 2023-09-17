@@ -152,6 +152,8 @@ public partial class TblCustomer
     public List<TblBooking> BookingUpdatedBy { get; set; }
     public List<TblBusinessDirectory> BusinessDirectoryCreatedBy { get; set; }
     public List<TblBusinessDirectory> BusinessDirectoryUpdatedBy { get; set; }
+    public List<TblBusinessDirectoryCategory> BusinessDirectoryCategoryCreatedBy { get; set; }
+    public List<TblBusinessDirectoryCategory> BusinessDirectoryCategoryUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

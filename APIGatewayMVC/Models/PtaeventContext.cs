@@ -782,34 +782,30 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.BusinessDirectoryCategoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("BusinessDirectoryCategoryID");
-            //entity.Property(e => e.BusinessDirectoryCategoryCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BusinessDirectoryCategoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryCategoryCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.BusinessDirectoryCategoryIcon).HasMaxLength(50);
             entity.Property(e => e.BusinessDirectoryCategoryName).HasMaxLength(100);
-            //entity.Property(e => e.BusinessDirectoryCategoryUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.BusinessDirectoryCategoryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.BusinessDirectoryCategoryUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBusinessDirectoryCategory_tblSchool");
-
-            entity.HasOne(d => d.BusinessDirectoryCategoryCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BusinessDirectoryCategoryCreatedBy)
-                .HasConstraintName("FK_tblBusinessDirectoryCategory.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.BusinessDirectoryCategoryUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.BusinessDirectoryCategoryUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblBusinessDirectoryCategory.UpdatedBy_tblCustomer");
+            entity.HasOne(businessDirectoryCategory => businessDirectoryCategory.School)
+                .WithMany(school => school.BusinessDirectoryCategorySchool)
+                .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(businessDirectory => businessDirectory.CreatedBy)
+                .WithMany(customer => customer.BusinessDirectoryCategoryCreatedBy)
+                .HasForeignKey(businessDirectory => businessDirectory.BusinessDirectoryCategoryCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(businessDirectory => businessDirectory.UpdatedBy)
+                .WithMany(customer => customer.BusinessDirectoryCategoryUpdatedBy)
+                .HasForeignKey(businessDirectory => businessDirectory.BusinessDirectoryCategoryUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(businessDirectoryCategory => businessDirectoryCategory.BusinessDirectoryCategory)
                 .WithOne(businessDirectory => businessDirectory.BusinessDirectoryCategory)
@@ -1434,6 +1430,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BusinessDirectoryCreatedBy)
                 .WithOne(businessDirectory => businessDirectory.CreatedBy)
                 .HasForeignKey(businessDirectory => businessDirectory.BusinessDirectoryCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BusinessDirectoryCategoryUpdatedBy)
+                .WithOne(businessDirectoryCategory => businessDirectoryCategory.UpdatedBy)
+                .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.BusinessDirectoryCategoryUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.BusinessDirectoryCategoryCreatedBy)
+                .WithOne(businessDirectoryCategory => businessDirectoryCategory.CreatedBy)
+                .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.BusinessDirectoryCategoryCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
@@ -4556,6 +4560,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.BusinessDirectorySchool)
                 .WithOne(businessDirectory => businessDirectory.School)
                 .HasForeignKey(businessDirectory => businessDirectory.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.BusinessDirectoryCategorySchool)
+                .WithOne(businessDirectoryCategory => businessDirectoryCategory.School)
+                .HasForeignKey(businessDirectoryCategory => businessDirectoryCategory.SchoolId)
                 .IsRequired(false);
         });
 

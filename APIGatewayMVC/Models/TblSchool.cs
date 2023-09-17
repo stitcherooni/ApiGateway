@@ -238,4 +238,5 @@ public partial class TblSchool
     public List<TblAuditHistory> AuditHistoryApplication { get; set; }
     public List<TblBankedBusiness> BankedBusinessSchool { get; set; }
     public List<TblBusinessDirectory> BusinessDirectorySchool { get; set; }
+    public List<TblBusinessDirectoryCategory> BusinessDirectoryCategorySchool { get; set; }
 }
