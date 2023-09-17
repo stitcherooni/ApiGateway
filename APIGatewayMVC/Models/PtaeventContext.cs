@@ -972,28 +972,24 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ComplianceRuleId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ComplianceRuleID");
-            //entity.Property(e => e.ComplianceRuleCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComplianceRuleCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComplianceRuleCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ComplianceRuleDescription).HasColumnType("text");
             entity.Property(e => e.ComplianceRuleName).HasMaxLength(250);
             entity.Property(e => e.ComplianceRuleType).HasMaxLength(40);
-            //entity.Property(e => e.ComplianceRuleUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ComplianceRuleUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ComplianceRuleUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.ComplianceRuleCreatedBy)
-               .WithMany()
-               ////.HasForeignKey(d => d.ComplianceRuleCreatedBy)
-
-               .HasConstraintName("FK_tblComplianceRule.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ComplianceRuleUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ComplianceRuleUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblComplianceRule.UpdatedBy_tblCustomer");
-
+            entity.HasOne(complianceRule => complianceRule.CreatedBy)
+                .WithMany(customer => customer.ComplianceRuleCreatedBy)
+                .HasForeignKey(complianceRule => complianceRule.ComplianceRuleCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(complianceRule => complianceRule.UpdatedBy)
+                .WithMany(customer => customer.ComplianceRuleUpdatedBy)
+                .HasForeignKey(complianceRule => complianceRule.ComplianceRuleUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(complianceRule => complianceRule.BankedBusinessComplianceRule)
                 .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.ComplianceRule)
@@ -1528,6 +1524,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BankedBusinessComplianceRuleCreatedBy)
                 .WithOne(bankedBusinessComplianceRule => bankedBusinessComplianceRule.CreatedBy)
                 .HasForeignKey(bankedBusinessComplianceRule => bankedBusinessComplianceRule.BankedBusinessComplianceRuleCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ComplianceRuleUpdatedBy)
+                .WithOne(complianceRule => complianceRule.UpdatedBy)
+                .HasForeignKey(complianceRule => complianceRule.ComplianceRuleUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ComplianceRuleCreatedBy)
+                .WithOne(complianceRule => complianceRule.CreatedBy)
+                .HasForeignKey(complianceRule => complianceRule.ComplianceRuleCreatedBy)
                 .IsRequired(false);
         });
 
