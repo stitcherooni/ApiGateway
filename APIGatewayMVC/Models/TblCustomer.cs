@@ -155,6 +155,9 @@ public partial class TblCustomer
     public List<TblBusinessDirectoryCategory> BusinessDirectoryCategoryCreatedBy { get; set; }
     public List<TblBusinessDirectoryCategory> BusinessDirectoryCategoryUpdatedBy { get; set; }
     public List<TblBusinessDirectoryClick> BusinessDirectoryClickCustomer { get; set; }
+    public List<TblClassRep> ClassRepCustomer { get; set; }
+    public List<TblClassRep> ClassRepCreatedBy { get; set; }
+    public List<TblClassRep> ClassRepUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

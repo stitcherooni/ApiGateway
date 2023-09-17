@@ -917,6 +917,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(booking => booking.Class)
                 .HasForeignKey(booking => booking.ClassId)
                 .IsRequired(false);
+            entity.HasMany(classes => classes.ClassRepClass)
+                .WithOne(classRep => classRep.Class)
+                .HasForeignKey(classRep => classRep.ClassId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -928,41 +932,35 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ClassRepId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ClassRepID");
-            //entity.Property(e => e.ClassId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ClassID");
-            //entity.Property(e => e.ClassRepCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ClassId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ClassID");
+            entity.Property(e => e.ClassRepCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ClassRepCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.ClassRepUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ClassRepUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ClassRepUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
-            entity.HasOne(d => d.Class)
-                .WithMany()
-                ////.HasForeignKey(d => d.Class)
-
-                .HasConstraintName("FK_tblClassRep_tblClass");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-
-                .HasConstraintName("FK_tblClassRep_tblCustomer");
-
-            entity.HasOne(d => d.ClassRepCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ClassRepCreatedBy)
-                .HasConstraintName("FK_tblClassRep.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ClassRepUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.ClassRepUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblClassRep.UpdatedBy_tblCustomer");
+            entity.HasOne(classRep => classRep.Class)
+                .WithMany(classes => classes.ClassRepClass)
+                .HasForeignKey(classRep => classRep.ClassId)
+                .IsRequired(false);
+            entity.HasOne(classRep => classRep.Customer)
+                .WithMany(customer => customer.ClassRepCustomer)
+                .HasForeignKey(classRep => classRep.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(classRep => classRep.CreatedBy)
+                .WithMany(customer => customer.ClassRepCreatedBy)
+                .HasForeignKey(classRep => classRep.ClassRepCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(classRep => classRep.UpdatedBy)
+                .WithMany(customer => customer.ClassRepUpdatedBy)
+                .HasForeignKey(classRep => classRep.ClassRepUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblComplianceRule>(entity =>
@@ -1441,6 +1439,18 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.BusinessDirectoryClickCustomer)
                 .WithOne(businessDirectoryClick => businessDirectoryClick.Customer)
                 .HasForeignKey(businessDirectoryClick => businessDirectoryClick.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ClassRepUpdatedBy)
+                .WithOne(classRep => classRep.UpdatedBy)
+                .HasForeignKey(classRep => classRep.ClassRepUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ClassRepCreatedBy)
+                .WithOne(classRep => classRep.CreatedBy)
+                .HasForeignKey(classRep => classRep.ClassRepCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ClassRepCustomer)
+                .WithOne(classRep => classRep.Customer)
+                .HasForeignKey(classRep => classRep.CustomerId)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
