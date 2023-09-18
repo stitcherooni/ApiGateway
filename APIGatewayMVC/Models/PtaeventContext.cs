@@ -2153,6 +2153,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventFile => eventFile.Event)
                 .HasForeignKey(eventFile => eventFile.EventId)
                 .IsRequired(false);
+            entity.HasMany(events => events.EventProduct)
+                .WithOne(eventProduct => eventProduct.Event)
+                .HasForeignKey(eventFile => eventFile.EventId)
+    .           IsRequired(false);
 
         });
 
@@ -2203,30 +2207,28 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblEventProduct");
 
-            //entity.HasIndex(e => e.EventId, "EventID");
+            entity.HasIndex(e => e.EventId, "EventID");
 
-            //entity.HasIndex(e => e.ProductId, "ProductID");
+            entity.HasIndex(e => e.ProductId, "ProductID");
 
             entity.Property(e => e.EventProductId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventProductID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            //entity.Property(e => e.ProductId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductID");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.ProductId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductID");
 
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                ////.HasForeignKey(d => d.Event)
-
-                .HasConstraintName("FK_tblEventProduct_tblEvent");
-
-            entity.HasOne(d => d.Product)
-                .WithMany()
-                ////.HasForeignKey(d => d.Product)
-                .HasConstraintName("FK_tblEventProduct_tblProduct");
+            entity.HasOne(eventProduct => eventProduct.Event)
+                .WithMany(events => events.EventProduct)
+                .HasForeignKey(eventProduct => eventProduct.EventId)
+                .IsRequired(false);
+            entity.HasOne(eventProduct => eventProduct.Product)
+                .WithMany(events => events.EventProduct)
+                .HasForeignKey(eventProduct => eventProduct.ProductId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblEventSponsor>(entity =>
@@ -3838,6 +3840,12 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.ProductUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblProduct.UpdatedBy_tblCustomer");
+
+
+            entity.HasMany(product => product.EventProduct)
+                .WithOne(eventProduct => eventProduct.Product)
+                .HasForeignKey(eventProduct => eventProduct.ProductId)
+                .IsRequired(false);
 
         });
 
