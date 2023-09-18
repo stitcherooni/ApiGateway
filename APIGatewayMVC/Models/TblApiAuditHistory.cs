@@ -29,7 +29,7 @@ public partial class TblApiAuditHistory
 
     public DateTime ApiAuditHistoryCreatedDate { get; set; }
 
-    public TblCustomer ApiAuditHistoryCreatedBy { get; set; }
+    public int ApiAuditHistoryCreatedBy { get; set; }
 
     public TblSchool Application { get; set; }
     public TblCustomer Customer { get; set; }

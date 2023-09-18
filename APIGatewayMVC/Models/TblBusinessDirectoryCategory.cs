@@ -11,7 +11,7 @@ public partial class TblBusinessDirectoryCategory
 
     public string BusinessDirectoryCategoryIcon { get; set;}
 
-    public TblSchool SchoolId { get; set; }
+    public int SchoolId { get; set; }
 
     public bool BusinessDirectoryCategoryDeleted { get; set; }
 
