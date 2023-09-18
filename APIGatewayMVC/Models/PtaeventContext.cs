@@ -921,6 +921,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(classRep => classRep.Class)
                 .HasForeignKey(classRep => classRep.ClassId)
                 .IsRequired(false);
+            entity.HasMany(classes => classes.DependantClass)
+                .WithOne(dependant => dependant.Class)
+                .HasForeignKey(classRep => classRep.ClassId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -1482,6 +1486,22 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customerDevice => customerDevice.CreatedBy)
                 .HasForeignKey(customerDevice => customerDevice.CustomerDeviceCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.DependantCustomer)
+                .WithOne(dependant => dependant.Customer)
+                .HasForeignKey(dependant => dependant.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.DependantApprovedBy)
+                .WithOne(dependant => dependant.ApprovedBy)
+                .HasForeignKey(dependant => dependant.DependantApprovedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.DependantUpdatedBy)
+                .WithOne(dependant => dependant.UpdatedBy)
+                .HasForeignKey(dependant => dependant.DependantUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.DependantCreatedBy)
+                .WithOne(dependant => dependant.CreatedBy)
+                .HasForeignKey(dependant => dependant.DependantCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1716,53 +1736,44 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.DependantId)
                 .HasColumnType("int(11)")
                 .HasColumnName("DependantID");
-            //entity.Property(e => e.ClassId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ClassID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.DependantApprovedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ClassId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ClassID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.DependantApprovedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantApprovedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.DependantCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.DependantCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.DependantFirstName).HasMaxLength(100);
             entity.Property(e => e.DependantGdprconsent).HasColumnName("DependantGDPRConsent");
             entity.Property(e => e.DependantLastName).HasMaxLength(100);
-            //entity.Property(e => e.DependantUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.DependantUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DependantUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.Class)
-               .WithMany()
-               ////.HasForeignKey(d => d.Class)
-
-               .HasConstraintName("FK_tblDependant_tblClass");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-
-                .HasConstraintName("FK_tblDependant_tblCustomer");
-
-            entity.HasOne(d => d.DependantApprovedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.DependantApprovedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblDependant.ApprovedBy_tblCustomer");
-
-            entity.HasOne(d => d.DependantCreatedBy)
-               .WithMany()
-               ////.HasForeignKey(d => d.DependantCreatedBy)
-
-               .HasConstraintName("FK_tblDependant.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.DependantUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.DependantUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblDependant.UpdatedBy_tblCustomer");
+            entity.HasOne(dependant => dependant.Customer)
+                .WithMany(customer => customer.DependantCustomer)
+                .HasForeignKey(dependant => dependant.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(dependant => dependant.ApprovedBy)
+                .WithMany(customer => customer.DependantApprovedBy)
+                .HasForeignKey(dependant => dependant.DependantApprovedBy)
+                .IsRequired(false);
+            entity.HasOne(dependant => dependant.Class)
+                .WithMany(classes => classes.DependantClass)
+                .HasForeignKey(dependant => dependant.ClassId)
+                .IsRequired(false);
+            entity.HasOne(dependant => dependant.CreatedBy)
+                .WithMany(customer => customer.DependantCreatedBy)
+                .HasForeignKey(dependant => dependant.DependantCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(dependant => dependant.UpdatedBy)
+                .WithMany(customer => customer.DependantUpdatedBy)
+                .HasForeignKey(dependant => dependant.DependantUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblDiscount>(entity =>

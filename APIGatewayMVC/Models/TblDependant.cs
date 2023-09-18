@@ -7,7 +7,7 @@ public partial class TblDependant
 {
     public int DependantId { get; set; }
 
-    public TblCustomer Customer { get; set; }
+    public int CustomerId { get; set; }
 
     public string DependantFirstName { get; set;}
 
@@ -17,11 +17,11 @@ public partial class TblDependant
 
     public bool DependantShare { get; set; }
 
-    public TblCustomer DependantApprovedBy { get; set; }
+    public int DependantApprovedBy { get; set; }
 
     public DateTime? DependantApprovedDate { get; set; }
 
-    public TblClass Class { get; set; }
+    public int ClassId { get; set; }
 
     public bool DependantDeleted { get; set; }
 
@@ -29,9 +29,15 @@ public partial class TblDependant
 
     public DateTime DependantCreatedDate { get; set; }
 
-    public TblCustomer DependantCreatedBy { get; set; }
+    public int DependantCreatedBy { get; set; }
 
     public DateTime? DependantUpdatedDate { get; set; }
 
-    public TblCustomer DependantUpdatedBy { get; set; }
+    public int? DependantUpdatedBy { get; set; }
+
+    public TblCustomer Customer { get; set; }
+    public TblCustomer ApprovedBy { get; set; }
+    public TblClass Class { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

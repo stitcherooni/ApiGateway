@@ -174,6 +174,10 @@ public partial class TblCustomer
     public List<TblCustomerDevice> CustomerDevice { get; set; }
     public List<TblCustomerDevice> CustomerDeviceCreatedBy { get; set; }
     public List<TblCustomerDevice> CustomerDeviceUpdatedBy { get; set; }
+    public List<TblDependant> DependantCustomer { get; set; }
+    public List<TblDependant> DependantApprovedBy { get; set; }
+    public List<TblDependant> DependantCreatedBy { get; set; }
+    public List<TblDependant> DependantUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
