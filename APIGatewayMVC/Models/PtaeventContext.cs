@@ -1184,32 +1184,29 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("CurrencyID");
             entity.Property(e => e.CurrencyCode).HasMaxLength(4);
-            //entity.Property(e => e.CurrencyCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CurrencyCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CurrencyCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CurrencyIconCode).HasMaxLength(4);
             entity.Property(e => e.CurrencyName).HasMaxLength(100);
             entity.Property(e => e.CurrencySign).HasMaxLength(10);
-            //entity.Property(e => e.CurrencyUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CurrencyUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CurrencyUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.CurrencyCreatedBy)
-         .WithMany()
-         ////.HasForeignKey(d => d.CurrencyCreatedBy)
-
-         .HasConstraintName("FK_tblCurrency.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.CurrencyUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CurrencyUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblCurrency.UpdatedBy_tblCustomer");
+            entity.HasOne(currency => currency.CreatedBy)
+                .WithMany(customer => customer.CurrencyCreatedBy)
+                .HasForeignKey(currency => currency.CurrencyCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(currency => currency.UpdatedBy)
+                .WithMany(customer => customer.CurrencyUpdatedBy)
+                .HasForeignKey(currency => currency.CurrencyUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(currency => currency.SchoolPtacurrency)
-.WithOne(school => school.Ptacurrency)
-.HasForeignKey(school => school.SchoolPtacurrencyId)
-.IsRequired(false);
+                .WithOne(school => school.Ptacurrency)
+                .HasForeignKey(school => school.SchoolPtacurrencyId)
+                .IsRequired(false);
 
         });
 
@@ -1456,6 +1453,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.CountryCreatedBy)
                 .WithOne(country => country.CreatedBy)
                 .HasForeignKey(country => country.CountryCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CurrencyUpdatedBy)
+                .WithOne(currency => currency.UpdatedBy)
+                .HasForeignKey(currency => currency.CurrencyUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CurrencyCreatedBy)
+                .WithOne(currency => currency.CreatedBy)
+                .HasForeignKey(currency => currency.CurrencyCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)

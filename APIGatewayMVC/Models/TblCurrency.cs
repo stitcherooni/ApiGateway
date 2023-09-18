@@ -17,13 +17,16 @@ public partial class TblCurrency
 
     public bool CurrencyDeleted { get; set; }
 
-    public TblCustomer CurrencyCreatedBy { get; set; }
+    public int CurrencyCreatedBy { get; set; }
 
     public DateTime CurrencyCreatedDate { get; set; }
 
-    public TblCustomer CurrencyUpdatedBy { get; set; }
+    public int? CurrencyUpdatedBy { get; set; }
 
     public DateTime? CurrencyUpdatedDate { get; set; }
 
     public List<TblSchool> SchoolPtacurrency { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
