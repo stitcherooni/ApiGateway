@@ -171,6 +171,9 @@ public partial class TblCustomer
     public List<TblCurrency> CurrencyCreatedBy { get; set; }
     public List<TblCurrency> CurrencyUpdatedBy { get; set; }
     public List<TblCustomerConsent> CustomerConsent { get; set; }
+    public List<TblCustomerDevice> CustomerDevice { get; set; }
+    public List<TblCustomerDevice> CustomerDeviceCreatedBy { get; set; }
+    public List<TblCustomerDevice> CustomerDeviceUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

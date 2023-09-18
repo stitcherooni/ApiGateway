@@ -1470,6 +1470,18 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customerConsent => customerConsent.Customer)
                 .HasForeignKey(customerConsent => customerConsent.CustomerId)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerDevice)
+                .WithOne(customerDevice => customerDevice.Customer)
+                .HasForeignKey(customerDevice => customerDevice.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerDeviceUpdatedBy)
+                .WithOne(customerDevice => customerDevice.UpdatedBy)
+                .HasForeignKey(customerDevice => customerDevice.CustomerDeviceUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerDeviceCreatedBy)
+                .WithOne(customerDevice => customerDevice.CreatedBy)
+                .HasForeignKey(customerDevice => customerDevice.CustomerDeviceCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1616,42 +1628,37 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.CustomerDeviceUuid, "CustomerDeviceUUID");
 
-            //entity.HasIndex(e => e.CustomerId, "CustomerID");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
 
             entity.Property(e => e.CustomerDeviceId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerDeviceID");
-            //entity.Property(e => e.CustomerDeviceCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerDeviceCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerDeviceCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.CustomerDeviceName).HasMaxLength(250);
-            //entity.Property(e => e.CustomerDeviceUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerDeviceUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CustomerDeviceUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.CustomerDeviceUuid)
                 .HasMaxLength(50)
                 .HasColumnName("CustomerDeviceUUID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
-            entity.HasOne(d => d.Customer)
-               .WithMany()
-               ////.HasForeignKey(d => d.Customer)
-
-               .HasConstraintName("FK_tblCustomerDevice_tblCustomer");
-
-            entity.HasOne(d => d.CustomerDeviceCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerDeviceCreatedBy)
-
-                .HasConstraintName("FK_tblCustomerDevice.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.CustomerDeviceUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerDeviceUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblCustomerDevice.UpdatedBy_tblCustomer");
+            entity.HasOne(customerDevice => customerDevice.Customer)
+                .WithMany(customer => customer.CustomerDevice)
+                .HasForeignKey(customerDevice => customerDevice.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(customerDevice => customerDevice.CreatedBy)
+                .WithMany(customer => customer.CustomerDeviceCreatedBy)
+                .HasForeignKey(customerDevice => customerDevice.CustomerDeviceCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(customerDevice => customerDevice.UpdatedBy)
+                .WithMany(customer => customer.CustomerDeviceUpdatedBy)
+                .HasForeignKey(customerDevice => customerDevice.CustomerDeviceUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -3491,9 +3498,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PlanTypeName).HasMaxLength(50);
 
             entity.HasMany(plantype => plantype.PlanType)
-.WithOne(school => school.PlanType)
-.HasForeignKey(school => school.PlanTypeId)
-.IsRequired(false);
+                .WithOne(school => school.PlanType)
+                .HasForeignKey(school => school.PlanTypeId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblPlatformPartner>(entity =>
