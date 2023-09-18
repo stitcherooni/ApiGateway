@@ -28,4 +28,6 @@ public partial class TblFile
     public TblCustomer FileUpdatedBy { get; set; }
 
     public DateTime? FileUpdatedDate { get; set; }
+
+    public List<TblEventFile> EventFile { get; set; }
 }

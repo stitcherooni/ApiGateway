@@ -242,4 +242,5 @@ public partial class TblSchool
     public List<TblBusinessDirectoryClick> BusinessDirectoryClickSchool { get; set; }
     public List<TblClass> SchoolClass { get; set; }
     public List<TblDiscount> DiscountSchool { get; set; }
+    public List<TblEvent> EventSchool { get; set; }
 }

@@ -182,6 +182,18 @@ public partial class TblCustomer
     public List<TblDiscount> DiscountUpdatedBy { get; set; }
     public List<TblEmail> EmailCreatedBy { get; set; }
     public List<TblEmail> EmailUpdatedBy { get; set; }
+    public List<TblEvent> EventOrganiser { get; set; }
+    public List<TblEvent> EventOrganiser2 { get; set; }
+    public List<TblEvent> EventOrganiser3 { get; set; }
+    public List<TblEvent> EventOrganiser4 { get; set; }
+    public List<TblEvent> EventOrganiser5 { get; set; }
+    public List<TblEvent> EventOrganiser6 { get; set; }
+    public List<TblEvent> EventOrganiser7 { get; set; }
+    public List<TblEvent> EventOrganiser8 { get; set; }
+    public List<TblEvent> EventCreatedBy { get; set; }
+    public List<TblEvent> EventUpdatedBy { get; set; }
+    public List<TblEventFile> EventFileCreatedBy { get; set; }
+    public List<TblEventFile> EventFileUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
