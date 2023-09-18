@@ -47,8 +47,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $(appName)-service
+  name: $(appName)
 spec:
+  type: ClusterIP
   selector:
     app: $(appName)
   ports:
@@ -65,7 +66,9 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: 3m
+    ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+  ingressClassName: ingress-nginx
   tls:
     - hosts:
         - $(envName).$(appName).pta-events.com
@@ -78,6 +81,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: $(appName)-service
+                name: $(appName)
                 port:
                   number: 80
