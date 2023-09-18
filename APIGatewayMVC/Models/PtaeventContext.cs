@@ -1510,6 +1510,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(discount => discount.CreatedBy)
                 .HasForeignKey(discount => discount.DiscountCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.EmailUpdatedBy)
+                .WithOne(email => email.UpdatedBy)
+                .HasForeignKey(email => email.EmailUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.EmailCreatedBy)
+                .WithOne(email => email.CreatedBy)
+                .HasForeignKey(email => email.EmailCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1842,24 +1850,24 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblEmail");
 
-            //entity.HasIndex(e => e.EmailCreatedBy, "EmailCreatedBy");
+            entity.HasIndex(e => e.EmailCreatedBy, "EmailCreatedBy");
 
             entity.HasIndex(e => e.EmailMailGunId, "EmailMailGunID");
 
             entity.HasIndex(e => e.EmailTo, "EmailTo");
 
-            //entity.HasIndex(e => e.MessageId, "MessageID");
+            entity.HasIndex(e => e.MessageId, "MessageID");
 
-            //entity.HasIndex(e => new { e.MessageId, e.EmailTo }, "idx_email_emailto");
+            entity.HasIndex(e => new { e.MessageId, e.EmailTo }, "idx_email_emailto");
 
-            //entity.HasIndex(e => new { e.EmailCreatedBy, e.EmailMailGunId }, "spoolIndex");
+            entity.HasIndex(e => new { e.EmailCreatedBy, e.EmailMailGunId }, "spoolIndex");
 
             entity.Property(e => e.EmailId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EmailID");
             entity.Property(e => e.EmailAttachment1).HasMaxLength(500);
             entity.Property(e => e.EmailAttachment2).HasMaxLength(500);
-            //entity.Property(e => e.EmailCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EmailCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EmailCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1873,29 +1881,24 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("EmailTemplateID");
             entity.Property(e => e.EmailTo).HasMaxLength(250);
-            //entity.Property(e => e.EmailUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EmailUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EmailUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.MessageId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("MessageID");
+            entity.Property(e => e.MessageId)
+                .HasColumnType("int(11)")
+                .HasColumnName("MessageID");
 
-            entity.HasOne(d => d.Message)
-               .WithMany()
-               ////.HasForeignKey(d => d.Message)
-
-               .HasConstraintName("FK_tblEmail_tblEmail");
-
-            entity.HasOne(d => d.EmailCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EmailCreatedBy)
-
-                .HasConstraintName("FK_tblEmail.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.EmailUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EmailUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEmail.UpdatedBy_tblCustomer");
+            entity.HasOne(email => email.Message)
+                .WithMany(message => message.EmailMessage)
+                .HasForeignKey(email => email.MessageId)
+                .IsRequired(false);
+            entity.HasOne(email => email.CreatedBy)
+                .WithMany(customer => customer.EmailCreatedBy)
+                .HasForeignKey(email => email.EmailCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(email => email.UpdatedBy)
+                .WithMany(customer => customer.EmailUpdatedBy)
+                .HasForeignKey(email => email.EmailUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -2901,6 +2904,12 @@ public partial class PtaeventContext : DbContext
                 .WithMany()
                 ////.HasForeignKey(d => d.MessageUpdatedBy)
                 .HasConstraintName("FK_tblMessage.UpdatedBy_tblCustomer");
+
+
+            entity.HasMany(message => message.EmailMessage)
+                .WithOne(email => email.Message)
+                .HasForeignKey(email => email.MessageId)
+                .IsRequired(false);
 
         });
 

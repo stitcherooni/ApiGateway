@@ -180,6 +180,8 @@ public partial class TblCustomer
     public List<TblDependant> DependantUpdatedBy { get; set; }
     public List<TblDiscount> DiscountCreatedBy { get; set; }
     public List<TblDiscount> DiscountUpdatedBy { get; set; }
+    public List<TblEmail> EmailCreatedBy { get; set; }
+    public List<TblEmail> EmailUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

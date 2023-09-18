@@ -40,4 +40,6 @@ public partial class TblMessage
     public string MessageAttachment1 { get; set; }
 
     public string MessageAttachment2 { get; set; }
+
+    public List<TblEmail> EmailMessage { get; set; }
 }
