@@ -1502,6 +1502,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(dependant => dependant.CreatedBy)
                 .HasForeignKey(dependant => dependant.DependantCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.DiscountUpdatedBy)
+                .WithOne(discount => discount.UpdatedBy)
+                .HasForeignKey(discount => discount.DiscountUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.DiscountCreatedBy)
+                .WithOne(discount => discount.CreatedBy)
+                .HasForeignKey(discount => discount.DiscountCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1790,7 +1798,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("DiscountID");
             entity.Property(e => e.DiscountAmount).HasPrecision(10, 2);
             entity.Property(e => e.DiscountCode).HasMaxLength(50);
-            //entity.Property(e => e.DiscountCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.DiscountCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DiscountCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1807,27 +1815,24 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.DiscountTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("DiscountTypeID");
-            //entity.Property(e => e.DiscountUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.DiscountUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.DiscountUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-               .WithMany()
-               ////.HasForeignKey(d => d.School)               
-               .HasConstraintName("FK_tblDiscount_tblSchool");
-
-            entity.HasOne(d => d.DiscountCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.DiscountCreatedBy)                
-                .HasConstraintName("FK_tblDiscount.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.DiscountUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.DiscountUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblDiscount.UpdatedBy_tblCustomer");
+            entity.HasOne(discount => discount.School)
+                .WithMany(school => school.DiscountSchool)
+                .HasForeignKey(discount => discount.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(discount => discount.CreatedBy)
+                .WithMany(customer => customer.DiscountCreatedBy)
+                .HasForeignKey(discount => discount.DiscountCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(discount => discount.UpdatedBy)
+                .WithMany(customer => customer.DiscountUpdatedBy)
+                .HasForeignKey(discount => discount.DiscountUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4639,6 +4644,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.SchoolClass)
                 .WithOne(classes => classes.School)
                 .HasForeignKey(classes => classes.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.DiscountSchool)
+                .WithOne(discount => discount.School)
+                .HasForeignKey(discount => discount.SchoolId)
                 .IsRequired(false);
         });
 

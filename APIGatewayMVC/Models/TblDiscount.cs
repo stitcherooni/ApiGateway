@@ -7,7 +7,7 @@ public partial class TblDiscount
 {
     public int DiscountId { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public string DiscountProductIds { get; set; }
 
@@ -33,11 +33,15 @@ public partial class TblDiscount
 
     public int DiscountDeleted { get; set; }
 
-    public TblCustomer DiscountCreatedBy { get; set; }
+    public int DiscountCreatedBy { get; set; }
 
     public DateTime DiscountCreatedDate { get; set; }
 
-    public TblCustomer DiscountUpdatedBy { get; set; }
+    public int? DiscountUpdatedBy { get; set; }
 
     public DateTime? DiscountUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

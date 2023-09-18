@@ -178,6 +178,8 @@ public partial class TblCustomer
     public List<TblDependant> DependantApprovedBy { get; set; }
     public List<TblDependant> DependantCreatedBy { get; set; }
     public List<TblDependant> DependantUpdatedBy { get; set; }
+    public List<TblDiscount> DiscountCreatedBy { get; set; }
+    public List<TblDiscount> DiscountUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
