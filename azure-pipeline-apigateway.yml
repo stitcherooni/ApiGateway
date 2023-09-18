@@ -79,7 +79,7 @@ stages:
       - task: replacetokens@5
         inputs:
           rootDirectory: '$(Build.SourcesDirectory)'
-          targetFiles: '**/migration-service.yaml'
+          targetFiles: '**/apigateway.yaml'
           encoding: 'auto'
           tokenPattern: 'azpipelines'
           writeBOM: true
