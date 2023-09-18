@@ -29,8 +29,8 @@ spec:
           #   httpGet:
           #     path: /health #URL PATH HEALTH CHECK
           #     port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 15
+            # initialDelaySeconds: 10
+            # periodSeconds: 15
           env:
             - name: DB_HOST_NAME
               value: $(dbHostName)
