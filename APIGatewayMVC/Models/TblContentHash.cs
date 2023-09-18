@@ -16,4 +16,5 @@ public partial class TblContentHash
     public DateTime ContentHashCreatedDate { get; set; }
 
     public List<TblCustomer> CustomerHash { get; set; }
+    public List<TblCustomerConsent> CustomerConsentCustomerHash { get; set; }
 }

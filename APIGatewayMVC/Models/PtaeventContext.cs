@@ -1131,6 +1131,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(customer => customer.Hash)
                 .HasForeignKey(customer => customer.CustomerHashId)
                 .IsRequired(false);
+            entity.HasMany(contentHash => contentHash.CustomerConsentCustomerHash)
+                .WithOne(customerConsent => customerConsent.ContentHash)
+                .HasForeignKey(customerConsent => customerConsent.ContentHashId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCountry>(entity =>
@@ -1462,6 +1466,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(currency => currency.CreatedBy)
                 .HasForeignKey(currency => currency.CurrencyCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerConsent)
+                .WithOne(customerConsent => customerConsent.Customer)
+                .HasForeignKey(customerConsent => customerConsent.CustomerId)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -1566,33 +1574,35 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.CustomerConsentId)
                 .HasColumnType("int(11)")
                 .HasColumnName("CustomerConsentID");
-            //entity.Property(e => e.ContentHashId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ContentHashID");
+            entity.Property(e => e.ContentHashId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ContentHashID");
             entity.Property(e => e.CustomerConsentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.CustomerConsentForeignKey).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerConsentForeignKey).HasColumnType("int(11)");
             entity.Property(e => e.CustomerConsentName).HasMaxLength(50);
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            entity.HasOne(d => d.ContentHash)
-               .WithMany()
-               ////.HasForeignKey(d => d.ContentHash)
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
 
-               .HasConstraintName("FK_tblCustomerConsent_tblContentHash");
+            entity.HasOne(customerConsent => customerConsent.Customer)
+                .WithMany(customer => customer.CustomerConsent)
+                .HasForeignKey(customerConsent => customerConsent.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(customerConsent => customerConsent.ContentHash)
+                .WithMany(customerHash => customerHash.CustomerConsentCustomerHash)
+                .HasForeignKey(customerConsent => customerConsent.ContentHashId)
+                .IsRequired(false);
+            entity.HasOne(customerConsent => customerConsent.ForeignKey)
+                .WithMany(customerConsent => customerConsent.ForeignKeys)
+                .HasForeignKey(customerConsent => customerConsent.CustomerConsentForeignKey)
+                .IsRequired(false);
 
-            entity.HasOne(d => d.CustomerConsentForeignKey)
-                .WithMany()
-                ////.HasForeignKey(d => d.CustomerConsentForeignKey)
-
-                .HasConstraintName("FK_tblCustomerConsent_tblCustomerConsent");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblCustomerConsent_tblCustomer");
+            entity.HasMany(customerConsent => customerConsent.ForeignKeys)
+                .WithOne(customerConsent => customerConsent.ForeignKey)
+                .HasForeignKey(customerConsent => customerConsent.CustomerConsentForeignKey)
+                .IsRequired(false);
 
         });
 

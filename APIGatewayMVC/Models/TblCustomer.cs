@@ -170,6 +170,7 @@ public partial class TblCustomer
     public List<TblCountry> CountryUpdatedBy { get; set; }
     public List<TblCurrency> CurrencyCreatedBy { get; set; }
     public List<TblCurrency> CurrencyUpdatedBy { get; set; }
+    public List<TblCustomerConsent> CustomerConsent { get; set; }
 
 
     public TblPartner Partner { get; set; }
