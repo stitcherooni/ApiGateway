@@ -71,10 +71,10 @@ spec:
   ingressClassName: ingress-nginx
   tls:
     - hosts:
-        - $(envName).$(appName).pta-events.com
+        - $(envName)-$(appName).pta-events.com
       secretName: pta-events.com
   rules:
-    - host: $(envName).$(appName).pta-events.com
+    - host: $(envName)-$(appName).pta-events.com
       http:
         paths:
           - path: /
