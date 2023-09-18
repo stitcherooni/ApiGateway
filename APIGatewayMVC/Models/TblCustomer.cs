@@ -194,6 +194,8 @@ public partial class TblCustomer
     public List<TblEvent> EventUpdatedBy { get; set; }
     public List<TblEventFile> EventFileCreatedBy { get; set; }
     public List<TblEventFile> EventFileUpdatedBy { get; set; }
+    public List<TblEventSponsor> EventSponsorCreatedBy { get; set; }
+    public List<TblEventSponsor> EventSponsorUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

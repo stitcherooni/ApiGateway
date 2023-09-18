@@ -122,6 +122,7 @@ public partial class TblEvent
     public List<TblAuction> Event { get; set; }
     public List<TblEventFile> EventFile { get; set; }
     public List<TblEventProduct> EventProduct { get; set; }
+    public List<TblEventSponsor> EventSponsor { get; set; }
 
     public TblCustomer EventOrganiser { get; set; }
     public TblCustomer EventOrganiser2 { get; set; }

@@ -66,4 +66,6 @@ public partial class TblSponsor
     public TblCustomer SponsorUpdatedBy { get; set; }
 
     public DateTime? SponsorUpdatedDate { get; set; }
+
+    public List<TblEventSponsor> EventSponsor { get; set; }
 }

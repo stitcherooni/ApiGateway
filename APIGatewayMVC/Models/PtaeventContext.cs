@@ -1566,6 +1566,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventFile => eventFile.CreatedBy)
                 .HasForeignKey(eventFile => eventFile.EventFileCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.EventSponsorUpdatedBy)
+                .WithOne(eventSponsor => eventSponsor.UpdatedBy)
+                .HasForeignKey(eventSponsor => eventSponsor.EventSponsorUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.EventSponsorCreatedBy)
+                .WithOne(eventSponsor => eventSponsor.CreatedBy)
+                .HasForeignKey(eventSponsor => eventSponsor.EventSponsorCreatedBy)
+                .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
@@ -2157,6 +2165,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventProduct => eventProduct.Event)
                 .HasForeignKey(eventFile => eventFile.EventId)
     .           IsRequired(false);
+            entity.HasMany(events => events.EventSponsor)
+                .WithOne(eventSponsor => eventSponsor.Event)
+                .HasForeignKey(eventFile => eventFile.EventId)
+                .IsRequired(false);
 
         });
 
@@ -2240,44 +2252,35 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventSponsorId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventSponsorID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            //entity.Property(e => e.EventSponsorCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.EventSponsorCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventSponsorCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.EventSponsorUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventSponsorUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventSponsorUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SponsorId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SponsorID");
+            entity.Property(e => e.SponsorId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SponsorID");
 
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                ////.HasForeignKey(d => d.Event)
-
-                .HasConstraintName("FK_tblEventSponsor_tblEvent");
-
-            entity.HasOne(d => d.Sponsor)
-                .WithMany()
-                ////.HasForeignKey(d => d.Sponsor)
-
-                .HasConstraintName("FK_tblEventSponsor_tblSponsor");
-            entity.HasOne(d => d.EventSponsorCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventSponsorCreatedBy)
-
-                .HasConstraintName("FK_tblEventSponsor.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.EventSponsorUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventSponsorUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEventSponsor.UpdatedBy_tblCustomer");
-
-
-
+            entity.HasOne(eventSponsor => eventSponsor.Event)
+                .WithMany(events => events.EventSponsor)
+                .HasForeignKey(eventSponsor => eventSponsor.EventId)
+                .IsRequired(false);
+            entity.HasOne(eventSponsor => eventSponsor.Sponsor)
+                .WithMany(sponsor => sponsor.EventSponsor)
+                .HasForeignKey(eventSponsor => eventSponsor.SponsorId)
+                .IsRequired(false);
+            entity.HasOne(eventSponsor => eventSponsor.CreatedBy)
+                .WithMany(customer => customer.EventSponsorCreatedBy)
+                .HasForeignKey(eventSponsor => eventSponsor.EventSponsorCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(eventSponsor => eventSponsor.UpdatedBy)
+                .WithMany(customer => customer.EventSponsorUpdatedBy)
+                .HasForeignKey(eventSponsor => eventSponsor.EventSponsorUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4812,7 +4815,10 @@ public partial class PtaeventContext : DbContext
                 .HasConstraintName("FK_tblSponsor.UpdatedBy_tblCustomer");
 
 
-
+            entity.HasMany(sponsor => sponsor.EventSponsor)
+                .WithOne(eventSponsor => eventSponsor.Sponsor)
+                .HasForeignKey(eventSponsor => eventSponsor.SponsorId)
+                .IsRequired(false);
 
         });
 
