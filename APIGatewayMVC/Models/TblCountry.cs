@@ -15,14 +15,17 @@ public partial class TblCountry
 
     public bool CountryDeleted { get; set; }
 
-    public TblCustomer CountryCreatedBy { get; set; }
+    public int CountryCreatedBy { get; set; }
 
     public DateTime CountryCreatedDate { get; set; }
 
-    public TblCustomer  CountryUpdatedBy { get; set; }
+    public int?  CountryUpdatedBy { get; set; }
 
     public DateTime? CountryUpdatedDate { get; set; }
 
     public List<TblSchool> SchoolsPtacountry { get; set; }
     public List<TblAcademicYear> AcademicCountry{ get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

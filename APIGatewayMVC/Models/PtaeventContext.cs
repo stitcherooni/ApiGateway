@@ -1128,9 +1128,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ContentHashValue).HasMaxLength(32);
 
             entity.HasMany(contentHash => contentHash.CustomerHash)
-.WithOne(customer => customer.Hash)
-.HasForeignKey(customer => customer.CustomerHashId)
-.IsRequired(false);
+                .WithOne(customer => customer.Hash)
+                .HasForeignKey(customer => customer.CustomerHashId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCountry>(entity =>
@@ -1143,7 +1143,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("CountryID");
             entity.Property(e => e.CountryCode).HasMaxLength(4);
-            //entity.Property(e => e.CountryCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CountryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CountryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -1151,20 +1151,17 @@ public partial class PtaeventContext : DbContext
                 .HasMaxLength(20)
                 .HasDefaultValueSql("'dd/mm/yyyy'");
             entity.Property(e => e.CountryName).HasMaxLength(100);
-            //entity.Property(e => e.CountryUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CountryUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.CountryUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.CountryCreatedBy)
-          .WithMany()
-          ////.HasForeignKey(d => d.CountryCreatedBy)
-
-          .HasConstraintName("FK_tblCountry.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.CountryUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.CountryUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblCountry.UpdatedBy_tblCustomer");
+            entity.HasOne(country => country.CreatedBy)
+                .WithMany(customer => customer.CountryCreatedBy)
+                .HasForeignKey(country => country.CountryCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(country => country.UpdatedBy)
+                .WithMany(customer => customer.CountryUpdatedBy)
+                .HasForeignKey(country => country.CountryUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(country => country.SchoolsPtacountry)
                 .WithOne(school => school.Ptacountry)
@@ -1451,6 +1448,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.ComponentTypeCreatedBy)
                 .WithOne(componentType => componentType.CreatedBy)
                 .HasForeignKey(componentType => componentType.ComponentTypeCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CountryUpdatedBy)
+                .WithOne(country => country.UpdatedBy)
+                .HasForeignKey(country => country.CountryUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CountryCreatedBy)
+                .WithOne(country => country.CreatedBy)
+                .HasForeignKey(country => country.CountryCreatedBy)
                 .IsRequired(false);
 
             entity.HasOne(customer => customer.Application)

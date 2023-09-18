@@ -166,6 +166,8 @@ public partial class TblCustomer
     public List<TblComponentGroup> ComponentGroupUpdatedBy { get; set; }
     public List<TblComponentType> ComponentTypeCreatedBy { get; set; }
     public List<TblComponentType> ComponentTypeUpdatedBy { get; set; }
+    public List<TblCountry> CountryCreatedBy { get; set; }
+    public List<TblCountry> CountryUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
