@@ -1987,6 +1987,18 @@ public partial class PtaeventContext : DbContext
                 .WithOne(productQuestion => productQuestion.CreatedBy)
                 .HasForeignKey(productQuestion => productQuestion.ProductQuestionCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.ProductQuestion)
+                .WithOne(productQuestionAnswer => productQuestionAnswer.ProductQuestion)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductQuestionAnswerUpdatedBy)
+                .WithOne(productQuestionAnswer => productQuestionAnswer.UpdatedBy)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionAnswerUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductQuestionAnswerCreatedBy)
+                .WithOne(productQuestionAnswer => productQuestionAnswer.CreatedBy)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionAnswerCreatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4374,9 +4386,9 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.OrderItemId, "OrderItemID");
 
-            //entity.HasIndex(e => e.ProductQuestionId, "ProductQuestionID");
+            entity.HasIndex(e => e.ProductQuestionId, "ProductQuestionID");
 
-            //entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ProductQuestionId }, "idx_productquestionanswers");
+            entity.HasIndex(e => new { e.OrderItemId, e.BookingNo, e.ProductQuestionId }, "idx_productquestionanswers");
 
             entity.Property(e => e.ProductQuestionAnswerId)
                 .HasColumnType("int(11)")
@@ -4386,36 +4398,31 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("OrderItemID");
             entity.Property(e => e.ProductQuestionAnswer).HasMaxLength(2000);
-            //entity.Property(e => e.ProductQuestionAnswerCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductQuestionAnswerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductQuestionAnswerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ProductQuestionAnswerDeleted)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)");
-            //entity.Property(e => e.ProductQuestionAnswerUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductQuestionAnswerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductQuestionAnswerUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.ProductQuestionId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductQuestionID");
+            entity.Property(e => e.ProductQuestionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductQuestionID");
 
-            entity.HasOne(d => d.ProductQuestion)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductQuestion)
-
-                .HasConstraintName("FK_tblProductQuestionAnswer_tblCustomer");
-
-            entity.HasOne(d => d.ProductQuestionAnswerCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductQuestionAnswerCreatedBy)
-
-                .HasConstraintName("FK_tblProductQuestionAnswer.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ProductQuestionAnswerUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductQuestionAnswerUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProductQuestionAnswer.UpdatedBy_tblCustomer");
+            entity.HasOne(productQuestionAnswer => productQuestionAnswer.ProductQuestion)
+                .WithMany(customer => customer.ProductQuestion)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionId)
+                .IsRequired(false);
+            entity.HasOne(productQuestionAnswer => productQuestionAnswer.CreatedBy)
+                .WithMany(customer => customer.ProductQuestionAnswerCreatedBy)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionAnswerCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(productQuestionAnswer => productQuestionAnswer.UpdatedBy)
+                .WithMany(customer => customer.ProductQuestionAnswerUpdatedBy)
+                .HasForeignKey(productQuestionAnswer => productQuestionAnswer.ProductQuestionAnswerUpdatedBy)
+                .IsRequired(false);
 
         });
 

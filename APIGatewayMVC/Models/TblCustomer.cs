@@ -273,6 +273,9 @@ public partial class TblCustomer
     public List<TblProductPaymentSchemeFrequency> ProductPaymentSchemeFrequencyUpdatedBy { get; set; }
     public List<TblProductQuestion> ProductQuestionCreatedBy { get; set; }
     public List<TblProductQuestion> ProductQuestionUpdatedBy { get; set; }
+    public List<TblProductQuestionAnswer> ProductQuestion { get; set; }
+    public List<TblProductQuestionAnswer> ProductQuestionAnswerCreatedBy { get; set; }
+    public List<TblProductQuestionAnswer> ProductQuestionAnswerUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

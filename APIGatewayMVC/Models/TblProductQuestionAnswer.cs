@@ -9,7 +9,7 @@ public partial class TblProductQuestionAnswer
 
     public int? BookingNo { get; set; }
 
-    public TblCustomer ProductQuestion { get; set; }
+    public int ProductQuestionId { get; set; }
 
     public int OrderItemId { get; set; }
 
@@ -24,4 +24,8 @@ public partial class TblProductQuestionAnswer
     public DateTime? ProductQuestionAnswerUpdatedDate { get; set; }
 
     public TblCustomer ProductQuestionAnswerUpdatedBy { get; set; }
+
+    public TblCustomer ProductQuestion { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
