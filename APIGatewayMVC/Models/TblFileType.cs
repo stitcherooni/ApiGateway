@@ -24,4 +24,6 @@ public partial class TblFileType
     public TblCustomer FileTypeUpdatedBy { get; set; }
 
     public DateTime? FileTypeUpdatedDate { get; set; }
+
+    public List<TblFile> FileType { get; set; }
 }

@@ -1731,6 +1731,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(faq => faq.CreatedBy)
                 .HasForeignKey(faq => faq.FaqCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.FileUpdatedBy)
+                .WithOne(file => file.UpdatedBy)
+                .HasForeignKey(file => file.FileUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.FileCreatedBy)
+                .WithOne(file => file.CreatedBy)
+                .HasForeignKey(file => file.FileCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2677,47 +2685,43 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.FileDeleted, "FileDeleted");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
             entity.Property(e => e.FileId)
                 .HasColumnType("int(11)")
                 .HasColumnName("FileID");
-            //entity.Property(e => e.FileCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.FileCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.FileCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.FileDescription).HasMaxLength(500);
             entity.Property(e => e.FileName).HasMaxLength(100);
-            //entity.Property(e => e.FileTypeId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("FileTypeID");
-            //entity.Property(e => e.FileUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.FileTypeId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("FileTypeID");
+            entity.Property(e => e.FileUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.FileUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.FileType)
-                .WithMany()
-                ////.HasForeignKey(d => d.FileType)
-                .HasConstraintName("FK_tblFile>_tblFileType");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblFile>_tblSchool");
-
-            entity.HasOne(d => d.FileCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.FileCreatedBy)
-                .HasConstraintName("FK_tblFile.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.FileUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.FileUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFile.UpdatedBy_tblCustomer");
+            entity.HasOne(file => file.FileType)
+                .WithMany(fileType => fileType.FileType)
+                .HasForeignKey(file => file.FileTypeId)
+                .IsRequired(false);
+            entity.HasOne(file => file.School)
+                .WithMany(school => school.FileSchool)
+                .HasForeignKey(file => file.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(file => file.CreatedBy)
+                .WithMany(customer => customer.FileCreatedBy)
+                .HasForeignKey(file => file.FileCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(file => file.UpdatedBy)
+                .WithMany(customer => customer.FileUpdatedBy)
+                .HasForeignKey(file => file.FileUpdatedBy)
+                .IsRequired(false);
 
 
             entity.HasMany(file => file.EventFile)
@@ -2804,6 +2808,11 @@ public partial class PtaeventContext : DbContext
                 ////.HasForeignKey(d => d.FileTypeUpdatedBy)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_tblFileType.UpdatedBy_tblCustomer");
+
+            entity.HasMany(fileType => fileType.FileType)
+                .WithOne(file => file.FileType)
+                .HasForeignKey(file => file.FileTypeId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblIplookUp>(entity =>
@@ -4747,6 +4756,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.FaqSchool)
                 .WithOne(faq => faq.School)
                 .HasForeignKey(faq => faq.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.FileSchool)
+                .WithOne(file => file.School)
+                .HasForeignKey(file => file.SchoolId)
                 .IsRequired(false);
         });
 

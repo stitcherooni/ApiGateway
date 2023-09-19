@@ -244,4 +244,5 @@ public partial class TblSchool
     public List<TblDiscount> DiscountSchool { get; set; }
     public List<TblEvent> EventSchool { get; set; }
     public List<TblFaq> FaqSchool { get; set; }
+    public List<TblFile> FileSchool { get; set; }
 }
