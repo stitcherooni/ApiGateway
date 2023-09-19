@@ -17,15 +17,19 @@ public partial class TblFaq
 
     public int? FaqSortOrder { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public bool FaqDeleted { get; set; }
 
-    public TblCustomer FaqCreatedBy { get; set; }
+    public int FaqCreatedBy { get; set; }
 
     public DateTime FaqCreatedDate { get; set; }
 
-    public TblCustomer FaqUpdatedBy { get; set; }
+    public int? FaqUpdatedBy { get; set; }
 
     public DateTime? FaqUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

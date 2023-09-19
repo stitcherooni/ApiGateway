@@ -210,6 +210,8 @@ public partial class TblCustomer
     public List<TblEventTaskGroup> EventTaskGroupUpdatedBy { get; set; }
     public List<TblEventType> EventTypeCreatedBy { get; set; }
     public List<TblEventType> EventTypeUpdatedBy { get; set; }
+    public List<TblFaq> FaqCreatedBy { get; set; }
+    public List<TblFaq> FaqUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

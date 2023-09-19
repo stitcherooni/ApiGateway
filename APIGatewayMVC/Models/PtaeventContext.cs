@@ -1723,6 +1723,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventType => eventType.CreatedBy)
                 .HasForeignKey(eventType => eventType.EventTypeCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.FaqUpdatedBy)
+                .WithOne(faq => faq.UpdatedBy)
+                .HasForeignKey(faq => faq.FaqUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.FaqCreatedBy)
+                .WithOne(faq => faq.CreatedBy)
+                .HasForeignKey(faq => faq.FaqCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2614,9 +2622,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.FaqId)
                 .HasColumnType("int(11)")
                 .HasColumnName("FAQID");
-            //entity.Property(e => e.FaqcreatedBy)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("FAQCreatedBy");
+            entity.Property(e => e.FaqCreatedBy)
+                .HasColumnType("int(11)")
+                .HasColumnName("FAQCreatedBy");
             entity.Property(e => e.FaqCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp")
@@ -2637,32 +2645,28 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.FaqTitle)
                 .HasMaxLength(200)
                 .HasColumnName("FAQTitle");
-            //entity.Property(e => e.FaqUpdatedBy)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("FAQUpdatedBy");
+            entity.Property(e => e.FaqUpdatedBy)
+                .HasColumnType("int(11)")
+                .HasColumnName("FAQUpdatedBy");
             entity.Property(e => e.FaqUpdatedDate)
                 .HasColumnType("timestamp")
                 .HasColumnName("FAQUpdatedDate");
-            //entity.Property(e => e.School
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                 .WithMany()
-                 ////.HasForeignKey(d => d.School)     
-                 .HasConstraintName("FK_tblFaq_tblSchool");
-
-            entity.HasOne(d => d.FaqCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.FaqCreatedBy)
-
-                .HasConstraintName("FK_tblFaq.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.FaqUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.FaqUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblFaq.UpdatedBy_tblCustomer");
+            entity.HasOne(faq => faq.School)
+                .WithMany(school => school.FaqSchool)
+                .HasForeignKey(faq => faq.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(faq => faq.CreatedBy)
+                .WithMany(customer => customer.FaqCreatedBy)
+                .HasForeignKey(faq => faq.FaqCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(faq => faq.UpdatedBy)
+                .WithMany(customer => customer.FaqUpdatedBy)
+                .HasForeignKey(faq => faq.FaqUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblFile>(entity =>
@@ -4739,6 +4743,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.EventSchool)
                 .WithOne(events => events.School)
                 .HasForeignKey(events => events.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.FaqSchool)
+                .WithOne(faq => faq.School)
+                .HasForeignKey(faq => faq.SchoolId)
                 .IsRequired(false);
         });
 
