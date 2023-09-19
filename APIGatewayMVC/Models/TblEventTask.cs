@@ -55,4 +55,6 @@ public partial class TblEventTask
     public TblCustomer EventTaskOrganiser4 { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblEventTaskCustomer> EventTaskCustomer { get; set; }
 }
