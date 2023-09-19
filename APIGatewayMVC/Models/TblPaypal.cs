@@ -13,7 +13,7 @@ public partial class TblPaypal
 
     public string PaypalTransactionId { get; set;}
 
-    public TblPaypal PaypalParentTransaction { get; set; }
+    public int PaypalParentTransactionId { get; set; }
 
     public string PaypalCurrency { get; set;}
 
@@ -48,4 +48,8 @@ public partial class TblPaypal
     public DateTime? PaypalCreatedDate { get; set; }
 
     public DateTime? PaypalUpdatedDate { get; set; }
+
+    public TblPaypal PaypalParentTransaction { get; set; }
+
+    public List<TblPaypal> ParentTransaction { get; set; }
 }

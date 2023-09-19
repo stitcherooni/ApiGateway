@@ -3654,9 +3654,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PaypalItemTotal)
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)");
-            //entity.Property(e => e.PaypalParentTransactionId)
-            //    .HasMaxLength(50)
-            //    .HasColumnName("PaypalParentTransactionID");
+            entity.Property(e => e.PaypalParentTransactionId)
+                .HasMaxLength(50)
+                .HasColumnName("PaypalParentTransactionID");
             entity.Property(e => e.PaypalPayerEmail).HasMaxLength(250);
             entity.Property(e => e.PaypalPayerStatus).HasMaxLength(50);
             entity.Property(e => e.PaypalPaymentStatus).HasMaxLength(50);
@@ -3675,10 +3675,15 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PlatformFeeInvoiceNo).HasMaxLength(20);
             entity.Property(e => e.PlatformFeeRefundAmount).HasPrecision(10, 2);
 
-            entity.HasOne(d => d.PaypalParentTransaction)
-                .WithMany()
-                //.HasForeignKey(d => d.PaypalParentTransaction)
-                .HasConstraintName("FK_tblPaypal_tblPaypal");
+            entity.HasOne(paypal => paypal.PaypalParentTransaction)
+                .WithMany(paypal => paypal.ParentTransaction)
+                .HasForeignKey(paypal => paypal.PaypalParentTransactionId)
+                .IsRequired(false);
+
+            entity.HasMany(paypal => paypal.ParentTransaction)
+                .WithOne(paypal => paypal.PaypalParentTransaction)
+                .HasForeignKey(paypal => paypal.PaypalParentTransactionId)
+                .IsRequired(false);
 
         });
 
