@@ -226,6 +226,8 @@ public partial class TblCustomer
     public List<TblMessageGroup> MessageGroupCreatedBy { get; set; }
     public List<TblMessageStatus> MessageStatusCreatedBy { get; set; }
     public List<TblMessageStatus> MessageStatusUpdatedBy { get; set; }
+    public List<TblMessageType> MessageTypeCreatedBy { get; set; }
+    public List<TblMessageType> MessageTypeUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

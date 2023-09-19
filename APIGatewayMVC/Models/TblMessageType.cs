@@ -11,11 +11,14 @@ public partial class TblMessageType
 
     public DateTime MessageTypeCreatedDate { get; set; }
 
-    public TblCustomer MessageTypeCreatedBy { get; set; }
+    public int MessageTypeCreatedBy { get; set; }
 
     public DateTime? MessageTypeUpdatedDate { get; set; }
 
-    public TblCustomer MessageTypeUpdatedBy { get; set; }
+    public int? MessageTypeUpdatedBy { get; set; }
 
     public bool MessageTypeDeleted { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
