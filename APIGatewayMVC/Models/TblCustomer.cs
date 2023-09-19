@@ -240,6 +240,8 @@ public partial class TblCustomer
     public List<TblOrderItem> CustomerOrderProductPaymentScheme { get; set; }
     public List<TblOrderItem> OrderItemCreatedBy { get; set; }
     public List<TblOrderItem> OrderItemUpdatedBy { get; set; }
+    public List<TblOrganisationType> OrganisationTypeCreatedBy { get; set; }
+    public List<TblOrganisationType> OrganisationTypeUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

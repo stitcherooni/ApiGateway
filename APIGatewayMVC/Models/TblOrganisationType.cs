@@ -17,11 +17,14 @@ public partial class TblOrganisationType
 
     public DateTime OrganisationTypeCreatedDate { get; set; }
 
-    public TblCustomer OrganisationTypeCreatedBy { get; set; }
+    public int OrganisationTypeCreatedBy { get; set; }
 
     public DateTime? OrganisationTypeUpdatedDate { get; set; }
 
-    public TblCustomer OrganisationTypeUpdatedBy { get; set; }
+    public int? OrganisationTypeUpdatedBy { get; set; }
 
     public List<TblSchool> OrganisationType { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

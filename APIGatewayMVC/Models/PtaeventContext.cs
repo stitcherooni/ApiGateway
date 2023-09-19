@@ -1847,6 +1847,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(orderItem => orderItem.CreatedBy)
                 .HasForeignKey(orderItem => orderItem.OrderItemCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.OrganisationTypeUpdatedBy)
+                .WithOne(organisationType => organisationType.UpdatedBy)
+                .HasForeignKey(organisationType => organisationType.OrganisationTypeUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrganisationTypeCreatedBy)
+                .WithOne(organisationType => organisationType.CreatedBy)
+                .HasForeignKey(organisationType => organisationType.OrganisationTypeCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3414,7 +3422,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.OrganisationTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("OrganisationTypeID");
-            //entity.Property(e => e.OrganisationTypeCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrganisationTypeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrganisationTypeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3425,25 +3433,22 @@ public partial class PtaeventContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Your PTA'");
             entity.Property(e => e.OrganisationTypeName).HasMaxLength(50);
-            //entity.Property(e => e.OrganisationTypeUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrganisationTypeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrganisationTypeUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.OrganisationTypeCreatedBy)
-               .WithMany()
-               ////.HasForeignKey(d => d.OrganisationTypeCreatedBy)
-
-               .HasConstraintName("FK_tbllOrganisationType.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.OrganisationTypeUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrganisationTypeUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tbllOrganisationType.UpdatedBy_tblCustomer");
+            entity.HasOne(organisationType => organisationType.CreatedBy)
+                .WithMany(customer => customer.OrganisationTypeCreatedBy)
+                .HasForeignKey(organisationType => organisationType.OrganisationTypeCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(organisationType => organisationType.UpdatedBy)
+                .WithMany(customer => customer.OrganisationTypeUpdatedBy)
+                .HasForeignKey(organisationType => organisationType.OrganisationTypeUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(organisation => organisation.OrganisationType)
-.WithOne(school => school.OrganisationType)
-.HasForeignKey(school => school.OrganisationTypeId)
-.IsRequired(false);
+                .WithOne(school => school.OrganisationType)
+                .HasForeignKey(school => school.OrganisationTypeId)
+                .IsRequired(false);
 
         });
 
