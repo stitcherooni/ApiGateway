@@ -101,7 +101,7 @@ stages:
           kubernetesCluster: 'internal-ptae-aks-01'
           namespace: $(envName)
           command: 'apply'
-          arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/apigateway.yaml'
+          arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/apigateway.yaml -o yaml'
           secretType: 'dockerRegistry'
           containerRegistryType: 'Azure Container Registry'
 
