@@ -1903,6 +1903,18 @@ public partial class PtaeventContext : DbContext
                 .WithOne(poll => poll.CreatedBy)
                 .HasForeignKey(poll => poll.PollCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PollAnswerCustomer)
+                .WithOne(platformPartner => platformPartner.Customer)
+                .HasForeignKey(platformPartner => platformPartner.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PollAnswerUpdatedBy)
+                .WithOne(poll => poll.UpdatedBy)
+                .HasForeignKey(poll => poll.PollAnswerUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PollAnswerCreatedBy)
+                .WithOne(poll => poll.CreatedBy)
+                .HasForeignKey(poll => poll.PollAnswerCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3810,39 +3822,36 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PollAnswerId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PollAnswerID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.PollAnswerCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.PollAnswerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollAnswerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.PollAnswerOther).HasMaxLength(150);
-            //entity.Property(e => e.PollAnswerUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PollAnswerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollAnswerUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.PollOptionId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("PollOptionID");
+            entity.Property(e => e.PollOptionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("PollOptionID");
 
-            entity.HasOne(d => d.PollOption)
-                .WithMany()
-                //.HasForeignKey(d => d.PollOption)
-                .HasConstraintName("FK_tblPollAnswer_tblPollOption");
-
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                //.HasForeignKey(d => d.Customer)
-                .HasConstraintName("FK_tblPollAnswer_tblCustomer");
-
-            entity.HasOne(d => d.PollAnswerCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PollAnswerCreatedBy)
-                .HasConstraintName("FK_tblPollAnswer.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PollAnswerUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PollAnswerUpdatedBy)
-                .HasConstraintName("FK_tblPollAnswer.UpdatedBy_tblCustomer");
+            entity.HasOne(pollAnswer => pollAnswer.PollOption)
+                .WithMany(pollOption => pollOption.PollOptionAnswer)
+                .HasForeignKey(pollAnswer => pollAnswer.PollOptionId)
+                .IsRequired(false);
+            entity.HasOne(pollAnswer => pollAnswer.Customer)
+                .WithMany(customer => customer.PollAnswerCustomer)
+                .HasForeignKey(pollAnswer => pollAnswer.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(pollAnswer => pollAnswer.CreatedBy)
+                .WithMany(customer => customer.PollAnswerCreatedBy)
+                .HasForeignKey(pollAnswer => pollAnswer.PollAnswerCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(pollAnswer => pollAnswer.UpdatedBy)
+                .WithMany(customer => customer.PollAnswerUpdatedBy)
+                .HasForeignKey(pollAnswer => pollAnswer.PollAnswerUpdatedBy)
+                .IsRequired(false);
 
 
         });
@@ -3883,6 +3892,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany()
                 //.HasForeignKey(d => d.PollOptionUpdatedBy)
                 .HasConstraintName("FK_tblPollOption.UpdatedBy_tblCustomer");
+
+            entity.HasMany(pollOption => pollOption.PollOptionAnswer)
+                .WithOne(pollAnswer => pollAnswer.PollOption)
+                .HasForeignKey(pollAnswer => pollAnswer.PollOptionId)
+                .IsRequired(false);
 
         });
 

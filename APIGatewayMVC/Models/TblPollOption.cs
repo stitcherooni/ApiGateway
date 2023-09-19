@@ -20,4 +20,6 @@ public partial class TblPollOption
     public TblCustomer PollOptionUpdatedBy { get; set; }
 
     public DateTime? PollOptionUpdatedDate { get; set; }
+
+    public List<TblPollAnswer> PollOptionAnswer { get; set; }
 }
