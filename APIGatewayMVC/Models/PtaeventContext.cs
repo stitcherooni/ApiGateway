@@ -1827,6 +1827,26 @@ public partial class PtaeventContext : DbContext
                 .WithOne(order => order.CreatedBy)
                 .HasForeignKey(order => order.OrderCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerOrderItem)
+                .WithOne(orderItem => orderItem.Order)
+                .HasForeignKey(orderItem => orderItem.OrderId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrderItemCustomer)
+                .WithOne(orderItem => orderItem.Item)
+                .HasForeignKey(orderItem => orderItem.ItemId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerOrderProductPaymentScheme)
+                .WithOne(orderItem => orderItem.ProductPaymentScheme)
+                .HasForeignKey(orderItem => orderItem.ProductPaymentSchemeId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrderItemUpdatedBy)
+                .WithOne(orderItem => orderItem.UpdatedBy)
+                .HasForeignKey(orderItem => orderItem.OrderItemUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrderItemCreatedBy)
+                .WithOne(orderItem => orderItem.CreatedBy)
+                .HasForeignKey(orderItem => orderItem.OrderItemCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3315,9 +3335,9 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblOrderItem");
 
-            //entity.HasIndex(e => e.ItemId, "ItemID");
+            entity.HasIndex(e => e.ItemId, "ItemID");
 
-            //entity.HasIndex(e => e.OrderId, "OrderID");
+            entity.HasIndex(e => e.OrderId, "OrderID");
 
             entity.HasIndex(e => e.OrderItemCompleted, "OrderItemCompleted");
 
@@ -3326,16 +3346,16 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.OrderItemId)
                 .HasColumnType("int(11)")
                 .HasColumnName("OrderItemID");
-            //entity.Property(e => e.ItemId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ItemID");
+            entity.Property(e => e.ItemId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ItemID");
             entity.Property(e => e.LegacyOrderItemId)
                 .HasColumnType("int(11)")
                 .HasColumnName("LegacyOrderItemID");
-            //entity.Property(e => e.OrderId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderID");
-            //entity.Property(e => e.OrderItemCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderID");
+            entity.Property(e => e.OrderItemCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrderItemCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3352,42 +3372,32 @@ public partial class PtaeventContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.OrderItemReservedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.OrderItemUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderItemUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrderItemUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.ProductPaymentSchemeId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductPaymentSchemeID");
+            entity.Property(e => e.ProductPaymentSchemeId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductPaymentSchemeID");
 
-            entity.HasOne(d => d.Item)
-                .WithMany()
-                ////.HasForeignKey(d => d.Item)
-
-                .HasConstraintName("FK_tblOrderItem.Item_tblCustomer");
-
-            entity.HasOne(d => d.Order)
-                .WithMany()
-                ////.HasForeignKey(d => d.Order)
-
-                .HasConstraintName("FK_tblOrderItem.Order_tblCustomer");
-
-            entity.HasOne(d => d.ProductPaymentScheme)
-                .WithMany()
-                ////.HasForeignKey(d => d.ProductPaymentScheme)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblOrderItem.ProductPaymentScheme_tblCustomer");
-
-            entity.HasOne(d => d.OrderItemCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderItemCreatedBy)
-
-                .HasConstraintName("FK_tblOrderItem.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.OrderItemUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderItemUpdatedBy)
-
-                .HasConstraintName("FK_tblOrderItem.UpdatedBy_tblCustomer");
-
+            entity.HasOne(orderItem => orderItem.Order)
+               .WithMany(customer => customer.CustomerOrderItem)
+               .HasForeignKey(orderItem => orderItem.OrderId)
+               .IsRequired(false);
+            entity.HasOne(orderItem => orderItem.Item)
+                .WithMany(customer => customer.OrderItemCustomer)
+                .HasForeignKey(orderItem => orderItem.ItemId)
+                .IsRequired(false);
+            entity.HasOne(orderItem => orderItem.ProductPaymentScheme)
+                .WithMany(customer => customer.CustomerOrderProductPaymentScheme)
+                .HasForeignKey(orderItem => orderItem.ProductPaymentSchemeId)
+                .IsRequired(false);
+            entity.HasOne(orderItem => orderItem.UpdatedBy)
+                .WithMany(customer => customer.OrderItemUpdatedBy)
+                .HasForeignKey(orderItem => orderItem.OrderItemUpdatedBy)
+                .IsRequired(false);
+            entity.HasOne(orderItem => orderItem.CreatedBy)
+                .WithMany(customer => customer.OrderItemCreatedBy)
+                .HasForeignKey(orderItem => orderItem.OrderItemCreatedBy)
+                .IsRequired(false);
 
             entity.HasMany(orderItem => orderItem.BookingOrderItem)
                 .WithOne(booking => booking.OrderItem)
