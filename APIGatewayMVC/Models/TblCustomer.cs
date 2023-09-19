@@ -214,6 +214,10 @@ public partial class TblCustomer
     public List<TblFaq> FaqUpdatedBy { get; set; }
     public List<TblFile> FileCreatedBy { get; set; }
     public List<TblFile> FileUpdatedBy { get; set; }
+    public List<TblFileRole> FileRoleCreatedBy { get; set; }
+    public List<TblFileRole> FileRoleUpdatedBy { get; set; }
+    public List<TblFileType> FileTypeCreatedBy { get; set; }
+    public List<TblFileType> FileTypeUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

@@ -28,6 +28,7 @@ public partial class TblRole
     public DateTime? RoleUpdatedDate { get; set; }
 
     public List<TblCustomerRole> CustomerRole { get; set; }
+    public List<TblFileRole> FileRole { get; set; }
 
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }

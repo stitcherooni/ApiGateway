@@ -30,6 +30,7 @@ public partial class TblFile
     public DateTime? FileUpdatedDate { get; set; }
 
     public List<TblEventFile> EventFile { get; set; }
+    public List<TblFileRole> FileRole { get; set; }
 
     public TblFileType FileType { get; set; }
     public TblSchool School { get; set; }
