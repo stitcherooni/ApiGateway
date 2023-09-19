@@ -1863,6 +1863,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(page => page.CreatedBy)
                 .HasForeignKey(page => page.PageCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PartnerUpdatedBy)
+                .WithOne(partner => partner.UpdatedBy)
+                .HasForeignKey(partner => partner.PartnerUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PartnerCreatedBy)
+                .WithOne(partner => partner.CreatedBy)
+                .HasForeignKey(partner => partner.PartnerCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3509,7 +3517,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PartnerID");
             entity.Property(e => e.PartnerCode).HasMaxLength(100);
-            //entity.Property(e => e.PartnerCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PartnerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PartnerCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3518,37 +3526,32 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PartnerLogo).HasMaxLength(255);
             entity.Property(e => e.PartnerName).HasMaxLength(100);
             entity.Property(e => e.PartnerTelephone).HasMaxLength(100);
-            //entity.Property(e => e.PartnerUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PartnerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PartnerUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.PartnerUrl)
                 .HasMaxLength(255)
                 .HasColumnName("PartnerURL");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-
-                .HasConstraintName("FK_tblPartner_tblSchool");
-
-            entity.HasOne(d => d.PartnerCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PartnerCreatedBy)
-
-                .HasConstraintName("FK_tblPartner.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PartnerUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PartnerUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblPartner.UpdatedBy_tblCustomer");
+            entity.HasOne(partner => partner.School)
+                .WithMany(school => school.SchoolPartner)
+                .HasForeignKey(partner => partner.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(partner => partner.CreatedBy)
+                .WithMany(customer => customer.PartnerUpdatedBy)
+                .HasForeignKey(partner => partner.PartnerCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(partner => partner.UpdatedBy)
+                .WithMany(customer => customer.PartnerUpdatedBy)
+                .HasForeignKey(partner => partner.PartnerUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(partner => partner.CustomerPartner)
-.WithOne(customer => customer.Partner)
-.HasForeignKey(customer => customer.CustomerPartnerId)
-.IsRequired(false);
+                .WithOne(customer => customer.Partner)
+                .HasForeignKey(customer => customer.CustomerPartnerId)
+                .IsRequired(false);
 
         });
 
@@ -4848,6 +4851,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.SchoolPage)
                 .WithOne(page => page.School)
                 .HasForeignKey(page => page.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.SchoolPartner)
+                .WithOne(partner => partner.School)
+                .HasForeignKey(partner => partner.SchoolId)
                 .IsRequired(false);
         });
 

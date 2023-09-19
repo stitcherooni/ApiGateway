@@ -21,17 +21,21 @@ public partial class TblPartner
 
     public string PartnerUrl { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public bool PartnerDeleted { get; set; }
 
-    public TblCustomer PartnerCreatedBy { get; set; }
+    public int PartnerCreatedBy { get; set; }
 
     public DateTime PartnerCreatedByDate { get; set; }
 
-    public TblCustomer PartnerUpdatedBy { get; set; }
+    public int? PartnerUpdatedBy { get; set; }
 
     public DateTime? PartnerUpdatedDate { get; set; }
 
     public List<TblCustomer> CustomerPartner { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

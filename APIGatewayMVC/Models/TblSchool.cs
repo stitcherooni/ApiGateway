@@ -247,4 +247,5 @@ public partial class TblSchool
     public List<TblFile> FileSchool { get; set; }
     public List<TblNews> SchoolNews { get; set; }
     public List<TblPage> SchoolPage { get; set; }
+    public List<TblPartner> SchoolPartner { get; set; }
 }

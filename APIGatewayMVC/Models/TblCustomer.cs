@@ -244,6 +244,8 @@ public partial class TblCustomer
     public List<TblOrganisationType> OrganisationTypeUpdatedBy { get; set; }
     public List<TblPage> PageCreatedBy { get; set; }
     public List<TblPage> PageUpdatedBy { get; set; }
+    public List<TblPartner> PartnerCreatedBy { get; set; }
+    public List<TblPartner> PartnerUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
