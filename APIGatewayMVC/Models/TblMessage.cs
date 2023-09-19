@@ -7,7 +7,7 @@ public partial class TblMessage
 {
     public int MessageId { get; set; }
 
-    public TblMessageGroup MessageGroup { get; set; }
+    public int MessageGroupId { get; set; }
 
     public int MessageTypeId { get; set; }
 
@@ -17,7 +17,7 @@ public partial class TblMessage
 
     public string MessageText { get; set; }
 
-    public TblCustomer Customer { get; set; }
+    public int CustomerId { get; set; }
 
     public string MessageCustomerName { get; set; }
 
@@ -27,11 +27,11 @@ public partial class TblMessage
 
     public DateTime MessageCreatedDate { get; set; }
 
-    public TblCustomer MessageCreatedBy { get; set; }
+    public int MessageCreatedBy { get; set; }
 
     public DateTime? MessageUpdatedDate { get; set; }
 
-    public TblCustomer MessageUpdatedBy { get; set; }
+    public int? MessageUpdatedBy { get; set; }
 
     public bool MessageDeleted { get; set; }
 
@@ -42,4 +42,9 @@ public partial class TblMessage
     public string MessageAttachment2 { get; set; }
 
     public List<TblEmail> EmailMessage { get; set; }
+
+    public TblMessageGroup MessageGroup { get; set; }
+    public TblCustomer Customer { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

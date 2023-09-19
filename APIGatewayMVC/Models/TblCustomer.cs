@@ -220,6 +220,9 @@ public partial class TblCustomer
     public List<TblFileType> FileTypeUpdatedBy { get; set; }
     public List<TblLanguage> LanguageCreatedBy { get; set; }
     public List<TblLanguage> LanguageUpdatedBy { get; set; }
+    public List<TblMessage> MessageCustomer { get; set; }
+    public List<TblMessage> MessageCreatedBy { get; set; }
+    public List<TblMessage> MessageUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

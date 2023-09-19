@@ -16,4 +16,6 @@ public partial class TblMessageGroup
     public DateTime MessageGroupCreatedDate { get; set; }
 
     public TblCustomer MessageGroupCreatedBy { get; set; }
+
+    public List<TblMessage> MessageGroupMessage { get; set; }
 }
