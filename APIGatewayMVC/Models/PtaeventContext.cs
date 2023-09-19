@@ -353,6 +353,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(bid => bid.Auction)
                 .HasForeignKey(bid => bid.AuctionId)
                 .IsRequired(false);
+            entity.HasMany(auction => auction.ProductAuction)
+                .WithOne(product => product.Auction)
+                .HasForeignKey(product => product.AuctionId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblAuditHistory>(entity =>
@@ -1922,6 +1926,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.PollOptionCreatedBy)
                 .WithOne(pollOption => pollOption.CreatedBy)
                 .HasForeignKey(pollOption => pollOption.PollOptionCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductUpdatedBy)
+                .WithOne(product => product.UpdatedBy)
+                .HasForeignKey(product => product.ProductUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductCreatedBy)
+                .WithOne(product => product.CreatedBy)
+                .HasForeignKey(product => product.ProductCreatedBy)
                 .IsRequired(false);
         });
 
@@ -3915,33 +3927,33 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblProduct");
 
-            //entity.HasIndex(e => e.AuctionId, "AuctionID");
+            entity.HasIndex(e => e.AuctionId, "AuctionID");
 
             entity.HasIndex(e => e.ProductDeleted, "ProductDeleted");
 
             entity.HasIndex(e => e.ProductSku, "ProductSKU");
 
-            //entity.HasIndex(e => e.ProductTypeId, "ProductTypeID");
+            entity.HasIndex(e => e.ProductTypeId, "ProductTypeID");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
-            //entity.HasIndex(e => e.SubGroupId, "SubGroupID");
+            entity.HasIndex(e => e.SubGroupId, "SubGroupID");
 
-            //entity.HasIndex(e => new { e.ProductTypeId, e.ProductSaleEndDate, e.ProductSaleStartDate }, "idx_product_productdates");
+            entity.HasIndex(e => new { e.ProductTypeId, e.ProductSaleEndDate, e.ProductSaleStartDate }, "idx_product_productdates");
 
             entity.Property(e => e.ProductId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductID");
-            //entity.Property(e => e.AuctionId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("AuctionID");
+            entity.Property(e => e.AuctionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("AuctionID");
             entity.Property(e => e.LegacyProductId)
                 .HasColumnType("int(11)")
                 .HasColumnName("LegacyProductID");
             entity.Property(e => e.ProductBookingLabel).HasMaxLength(100);
             entity.Property(e => e.ProductComplimentaryFor).HasColumnType("int(11)");
             entity.Property(e => e.ProductCost).HasPrecision(10, 2);
-            //entity.Property(e => e.ProductCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3974,53 +3986,43 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductStockQty).HasColumnType("int(11)");
             entity.Property(e => e.ProductTargetQty).HasColumnType("int(11)");
             entity.Property(e => e.ProductTime).HasMaxLength(10);
-            //entity.Property(e => e.ProductTypeId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductTypeID");
-            //entity.Property(e => e.ProductUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductTypeId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductTypeID");
+            entity.Property(e => e.ProductUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
-            //entity.Property(e => e.SubGroupId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SubGroupID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
+            entity.Property(e => e.SubGroupId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SubGroupID");
 
-            entity.HasOne(d => d.Auction)
-                .WithMany()
-                //.HasForeignKey(d => d.Auction)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProduct_tblAuction");
 
-            entity.HasOne(d => d.ProductType)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductType)
-
-                .HasConstraintName("FK_tblProduct_tblProductType");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblProduct_tblSchool");
-
-            entity.HasOne(d => d.SubGroup)
-                .WithMany()
-                //.HasForeignKey(d => d.SubGroup)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProduct_tblSubGroup");
-
-            entity.HasOne(d => d.ProductCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductCreatedBy)
-
-                .HasConstraintName("FK_tblProduct.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ProductUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProduct.UpdatedBy_tblCustomer");
-
+            entity.HasOne(product => product.SubGroup)
+                .WithMany(subGroup => subGroup.ProductSubGroup)
+                .HasForeignKey(product => product.SubGroupId)
+                .IsRequired(false);
+            entity.HasOne(product => product.School)
+                .WithMany(school => school.SchoolProduct)
+                .HasForeignKey(product => product.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(product => product.Auction)
+                .WithMany(auction => auction.ProductAuction)
+                .HasForeignKey(product => product.AuctionId)
+                .IsRequired(false);
+            entity.HasOne(product => product.ProductType)
+                .WithMany(productType => productType.ProductType)
+                .HasForeignKey(product => product.ProductTypeId)
+                .IsRequired(false);
+            entity.HasOne(product => product.CreatedBy)
+                .WithMany(customer => customer.ProductCreatedBy)
+                .HasForeignKey(product => product.ProductCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(product => product.UpdatedBy)
+                .WithMany(customer => customer.ProductUpdatedBy)
+                .HasForeignKey(product => product.ProductUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(product => product.EventProduct)
                 .WithOne(eventProduct => eventProduct.Product)
@@ -4374,6 +4376,12 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(d => d.ProductTypeUpdatedBy)
 
                 .HasConstraintName("FK_tblProductType.UpdatedBy_tblCustomer");
+
+
+            entity.HasMany(productType => productType.ProductType)
+                .WithOne(product => product.ProductType)
+                .HasForeignKey(product => product.ProductTypeId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblPtamember>(entity =>
@@ -4908,6 +4916,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(poll => poll.School)
                 .HasForeignKey(poll => poll.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.SchoolProduct)
+                .WithOne(product => product.School)
+                .HasForeignKey(product => product.SchoolId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -5274,6 +5286,11 @@ public partial class PtaeventContext : DbContext
                 .WithMany()
                 //.HasForeignKey(d => d.SubGroupUpdatedBy)
                 .HasConstraintName("FK_tblSubGroup.UpdatedBy_tblCustomer");
+
+            entity.HasMany(subGroup => subGroup.ProductSubGroup)
+                .WithOne(product => product.SubGroup)
+                .HasForeignKey(product => product.SubGroupId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblTicket>(entity =>

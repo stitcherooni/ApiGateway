@@ -259,6 +259,8 @@ public partial class TblCustomer
     public List<TblPollAnswer> PollAnswerUpdatedBy { get; set; }
     public List<TblPollOption> PollOptionCreatedBy { get; set; }
     public List<TblPollOption> PollOptionUpdatedBy { get; set; }
+    public List<TblProduct> ProductCreatedBy { get; set; }
+    public List<TblProduct> ProductUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

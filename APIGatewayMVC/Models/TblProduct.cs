@@ -9,11 +9,11 @@ public partial class TblProduct
 
     public int? LegacyProductId { get; set; }
 
-    public TblSubGroup SubGroup { get; set; }
+    public int SubGroupId { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
-    public TblAuction Auction { get; set; }
+    public int AuctionId { get; set; }
 
     public string ProductName { get; set;}
 
@@ -23,7 +23,7 @@ public partial class TblProduct
 
     public int? ProductOrder { get; set; }
 
-    public TblProductType ProductType { get; set; }
+    public int ProductTypeId { get; set; }
 
     public string ProductDescription { get; set;}
 
@@ -75,13 +75,20 @@ public partial class TblProduct
 
     public bool ProductDeleted { get; set; }
 
-    public TblCustomer ProductCreatedBy { get; set; }
+    public int ProductCreatedBy { get; set; }
 
     public DateTime ProductCreatedDate { get; set; }
 
-    public TblCustomer ProductUpdatedBy { get; set; }
+    public int? ProductUpdatedBy { get; set; }
 
     public DateTime? ProductUpdatedDate { get; set; }
 
     public List<TblEventProduct> EventProduct { get; set; }
+
+    public TblSubGroup SubGroup { get; set; }
+    public TblSchool School { get; set; }
+    public TblAuction Auction { get; set; }
+    public TblProductType ProductType { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

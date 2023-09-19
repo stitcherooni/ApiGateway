@@ -56,4 +56,5 @@ public partial class TblAuction
     public TblCustomer UpdatedBy { get; set; }
 
     public List<TblBid> BidAuction { get; set; }
+    public List<TblProduct> ProductAuction { get; set; }
 }
