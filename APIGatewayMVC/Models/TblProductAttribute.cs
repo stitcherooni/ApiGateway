@@ -7,7 +7,7 @@ public partial class TblProductAttribute
 {
     public int ProductAttributeId { get; set; }
 
-    public TblProduct Product { get; set; }
+    public int ProductId { get; set; }
 
     public string ProductAttributeName { get; set;}
 
@@ -27,11 +27,15 @@ public partial class TblProductAttribute
 
     public bool ProductAttributeDeleted { get; set; }
 
-    public TblCustomer ProductAttributeCreatedBy { get; set; }
+    public int ProductAttributeCreatedBy { get; set; }
 
     public DateTime ProductAttributeCreatedDate { get; set; }
 
-    public TblCustomer ProductAttributeUpdatedBy { get; set; }
+    public int? ProductAttributeUpdatedBy { get; set; }
 
     public DateTime? ProductAttributeUpdatedDate { get; set; }
+
+    public TblProduct Product { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

@@ -84,6 +84,7 @@ public partial class TblProduct
     public DateTime? ProductUpdatedDate { get; set; }
 
     public List<TblEventProduct> EventProduct { get; set; }
+    public List<TblProductAttribute> ProductAttribute { get; set; }
 
     public TblSubGroup SubGroup { get; set; }
     public TblSchool School { get; set; }
