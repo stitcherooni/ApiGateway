@@ -1715,6 +1715,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventTaskGroup => eventTaskGroup.CreatedBy)
                 .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.EventTypeUpdatedBy)
+                .WithOne(eventType => eventType.UpdatedBy)
+                .HasForeignKey(eventType => eventType.EventTypeUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.EventTypeCreatedBy)
+                .WithOne(eventType => eventType.CreatedBy)
+                .HasForeignKey(eventType => eventType.EventTypeCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2541,26 +2549,22 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventTypeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventTypeID");
-            //entity.Property(e => e.EventTypeCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventTypeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTypeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.EventTypeName).HasMaxLength(50);
-            //entity.Property(e => e.EventTypeUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventTypeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTypeUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.EventTypeCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTypeCreatedBy)
-
-                .HasConstraintName("FK_tblEventType.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.EventTypeUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTypeUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEventType.UpdatedBy_tblCustomer");
-
+            entity.HasOne(eventType => eventType.CreatedBy)
+                .WithMany(customer => customer.EventTypeCreatedBy)
+                .HasForeignKey(eventType => eventType.EventTypeCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(eventType => eventType.UpdatedBy)
+                .WithMany(customer => customer.EventTypeUpdatedBy)
+                .HasForeignKey(eventType => eventType.EventTypeUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(eventType => eventType.EventType)
                 .WithOne(events => events.EventType)
