@@ -1887,6 +1887,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(paymentStatus => paymentStatus.CreatedBy)
                 .HasForeignKey(paymentStatus => paymentStatus.PaymentStatusCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PlatformPartnerUpdatedBy)
+                .WithOne(platformPartner => platformPartner.UpdatedBy)
+                .HasForeignKey(platformPartner => platformPartner.PlatformPartnerUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PlatformPartnerCreatedBy)
+                .WithOne(platformPartner => platformPartner.CreatedBy)
+                .HasForeignKey(platformPartner => platformPartner.PlatformPartnerCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3717,7 +3725,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PlatformPartnerID");
             entity.Property(e => e.PlatformPartnerCode).HasMaxLength(100);
-            //entity.Property(e => e.PlatformPartnerCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PlatformPartnerCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PlatformPartnerCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3729,23 +3737,20 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PlatformPartnerNationalAdvertisingRevShare).HasPrecision(10);
             entity.Property(e => e.PlatformPartnerPlatformFeeRevShare).HasPrecision(10);
             entity.Property(e => e.PlatformPartnerTelephone).HasMaxLength(100);
-            //entity.Property(e => e.PlatformPartnerUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PlatformPartnerUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PlatformPartnerUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.PlatformPartnerUrl)
                 .HasMaxLength(255)
                 .HasColumnName("PlatformPartnerURL");
 
-            entity.HasOne(d => d.PlatformPartnerCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PlatformPartnerCreatedBy)
-
-                .HasConstraintName("FK_tblPlatformPartner.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PlatformPartnerUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PlatformPartnerUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblPlatformPartner.UpdatedBy_tblCustomer");
+            entity.HasOne(platformPartner => platformPartner.CreatedBy)
+                .WithMany(customer => customer.PlatformPartnerCreatedBy)
+                .HasForeignKey(platformPartner => platformPartner.PlatformPartnerCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(platformPartner => platformPartner.UpdatedBy)
+                .WithMany(customer => customer.PlatformPartnerUpdatedBy)
+                .HasForeignKey(platformPartner => platformPartner.PlatformPartnerUpdatedBy)
+                .IsRequired(false);
 
         });
 
