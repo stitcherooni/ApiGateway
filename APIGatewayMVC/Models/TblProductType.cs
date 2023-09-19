@@ -17,13 +17,16 @@ public partial class TblProductType
 
     public bool ProductTypeDeleted { get; set; }
 
-    public TblCustomer ProductTypeCreatedBy { get; set; }
+    public int ProductTypeCreatedBy { get; set; }
 
     public DateTime ProductTypeCreatedDate { get; set; }
 
-    public TblCustomer ProductTypeUpdatedBy { get; set; }
+    public int? ProductTypeUpdatedBy { get; set; }
 
     public DateTime? ProductTypeUpdatedDate { get; set; }
 
     public List<TblProduct> ProductType { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
