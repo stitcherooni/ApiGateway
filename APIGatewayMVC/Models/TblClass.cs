@@ -41,6 +41,7 @@ public partial class TblClass
     public List<TblClassRep> ClassRepClass { get; set; }
     public List<TblDependant> DependantClass { get; set; }
     public List<TblMessageGroup> MessageGroupClass { get; set; }
+    public List<TblProductClass> ProductClass { get; set; }
 
     public TblSchool School { get; set; }
     public TblAcademicYear AcademicYear { get; set; }

@@ -933,6 +933,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(messageGroup => messageGroup.Class)
                 .HasForeignKey(messageGroup => messageGroup.ClassId)
                 .IsRequired(false);
+            entity.HasMany(classes => classes.ProductClass)
+                .WithOne(productClass => productClass.Class)
+                .HasForeignKey(productClass => productClass.ClassId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblClassRep>(entity =>
@@ -1942,6 +1946,14 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.ProductAttributeCreatedBy)
                 .WithOne(productAttribute => productAttribute.CreatedBy)
                 .HasForeignKey(productAttribute => productAttribute.ProductAttributeCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductClassUpdatedBy)
+                .WithOne(productClass => productClass.UpdatedBy)
+                .HasForeignKey(productClass => productClass.ProductClassUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductClassCreatedBy)
+                .WithOne(productClass => productClass.CreatedBy)
+                .HasForeignKey(productClass => productClass.ProductClassCreatedBy)
                 .IsRequired(false);
         });
 
@@ -4040,6 +4052,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventProduct => eventProduct.Product)
                 .HasForeignKey(eventProduct => eventProduct.ProductId)
                 .IsRequired(false);
+            entity.HasMany(product => product.ProductClass)
+                .WithOne(productClass => productClass.Product)
+                .HasForeignKey(productClass => productClass.ProductId)
+                .IsRequired(false);
 
         });
 
@@ -4078,7 +4094,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(productAttribute => productAttribute.Product)
                 .WithMany(product => product.ProductAttribute)
-                .HasForeignKey(productAttribute => productAtribute.ProductId)
+                .HasForeignKey(productAttribute => productAttribute.ProductId)
                 .IsRequired(false);
             entity.HasOne(productAttribute => productAttribute.CreatedBy)
                 .WithMany(customer => customer.ProductAttributeCreatedBy)
@@ -4096,47 +4112,40 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblProductClass");
 
-            //entity.HasIndex(e => e.ProductId, "ProductID");
+            entity.HasIndex(e => e.ProductId, "ProductID");
 
             entity.Property(e => e.ProductClassId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductClassID");
-            //entity.Property(e => e.ClassId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ClassID");
-            //entity.Property(e => e.ProductClassCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ClassId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ClassID");
+            entity.Property(e => e.ProductClassCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductClassCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.ProductClassUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductClassUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductClassUpdatedDate).HasColumnType("int(11)");
-            //entity.Property(e => e.ProductId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductID");
+            entity.Property(e => e.ProductId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductID");
 
-            entity.HasOne(d => d.Class)
-                .WithMany()
-                //.HasForeignKey(d => d.Class)
-
-                .HasConstraintName("FK_tbllProductClass_tblClass");
-
-            entity.HasOne(d => d.Product)
-                .WithMany()
-                //.HasForeignKey(d => d.Product)
-
-                .HasConstraintName("FK_tbllProductClass_tblProduct");
-
-            entity.HasOne(d => d.ProductClassCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductClassCreatedBy)
-                .HasConstraintName("FK_tbllProductClass.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ProductClassUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductClassUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tbllProductClass.UpdatedBy_tblCustomer");
-
+            entity.HasOne(productClass => productClass.Product)
+                .WithMany(product => product.ProductClass)
+                .HasForeignKey(productClass => productClass.ProductId)
+                .IsRequired(false);
+            entity.HasOne(productClass => productClass.Class)
+                .WithMany(classes => classes.ProductClass)
+                .HasForeignKey(productClass => productClass.ClassId)
+                .IsRequired(false);
+            entity.HasOne(productClass => productClass.CreatedBy)
+                .WithMany(customer => customer.ProductClassCreatedBy)
+                .HasForeignKey(productClass => productClass.ProductClassCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(productClass => productClass.UpdatedBy)
+                .WithMany(customer => customer.ProductClassUpdatedBy)
+                .HasForeignKey(productClass => productClass.ProductClassUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblProductPayment>(entity =>

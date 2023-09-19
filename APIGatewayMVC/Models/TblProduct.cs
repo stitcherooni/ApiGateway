@@ -85,6 +85,7 @@ public partial class TblProduct
 
     public List<TblEventProduct> EventProduct { get; set; }
     public List<TblProductAttribute> ProductAttribute { get; set; }
+    public List<TblProductClass> ProductClass { get; set; }
 
     public TblSubGroup SubGroup { get; set; }
     public TblSchool School { get; set; }

@@ -263,6 +263,8 @@ public partial class TblCustomer
     public List<TblProduct> ProductUpdatedBy { get; set; }
     public List<TblProductAttribute> ProductAttributeCreatedBy { get; set; }
     public List<TblProductAttribute> ProductAttributeUpdatedBy { get; set; }
+    public List<TblProductClass> ProductClassCreatedBy { get; set; }
+    public List<TblProductClass> ProductClassUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
