@@ -88,6 +88,7 @@ public partial class TblProduct
     public List<TblProductClass> ProductClass { get; set; }
     public List<TblProductPayment> ProductPayment { get; set; }
     public List<TblProductPaymentScheme> ProductPaymentScheme { get; set; }
+    public List<TblProductQuestion> ProductQuestion { get; set; }
 
     public TblSubGroup SubGroup { get; set; }
     public TblSchool School { get; set; }
