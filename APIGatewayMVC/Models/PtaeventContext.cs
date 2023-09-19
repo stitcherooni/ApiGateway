@@ -1755,6 +1755,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(fileType => fileType.CreatedBy)
                 .HasForeignKey(fileType => fileType.FileTypeCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.LanguageUpdatedBy)
+                .WithOne(language => language.UpdatedBy)
+                .HasForeignKey(language => language.LanguageUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.LanguageCreatedBy)
+                .WithOne(language => language.CreatedBy)
+                .HasForeignKey(language => language.LanguageCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2893,25 +2901,22 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("LanguageID");
             entity.Property(e => e.LanguageCode).HasMaxLength(4);
-            //entity.Property(e => e.LanguageCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.LanguageCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.LanguageCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.LanguageName).HasMaxLength(100);
-            //entity.Property(e => e.LanguageUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.LanguageUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.LanguageUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.LanguageCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.LanguageCreatedBy)
-
-                .HasConstraintName("FK_tblLanguage.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.LanguageUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.LanguageUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblLanguage.UpdatedBy_tblCustomer");
+            entity.HasOne(language => language.CreatedBy)
+                .WithMany(customer => customer.LanguageCreatedBy)
+                .HasForeignKey(language => language.LanguageCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(language => language.UpdatedBy)
+                .WithMany(customer => customer.LanguageUpdatedBy)
+                .HasForeignKey(language => language.LanguageUpdatedBy)
+                .IsRequired(false);
 
         });
 

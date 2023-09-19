@@ -218,6 +218,8 @@ public partial class TblCustomer
     public List<TblFileRole> FileRoleUpdatedBy { get; set; }
     public List<TblFileType> FileTypeCreatedBy { get; set; }
     public List<TblFileType> FileTypeUpdatedBy { get; set; }
+    public List<TblLanguage> LanguageCreatedBy { get; set; }
+    public List<TblLanguage> LanguageUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

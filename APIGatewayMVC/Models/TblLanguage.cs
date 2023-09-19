@@ -13,11 +13,14 @@ public partial class TblLanguage
 
     public bool LanguageDeleted { get; set; }
 
-    public TblCustomer LanguageCreatedBy { get; set; }
+    public int LanguageCreatedBy { get; set; }
 
     public DateTime LanguageCreatedDate { get; set; }
 
-    public TblCustomer LanguageUpdatedBy { get; set; }
+    public int? LanguageUpdatedBy { get; set; }
 
     public DateTime? LanguageUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
