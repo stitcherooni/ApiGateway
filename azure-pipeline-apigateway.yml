@@ -22,7 +22,7 @@ parameters:
 
 stages:
   - stage: Build
-    displayName: Build and push stage
+    displayName: Build, Test and Push image to ACR
     jobs:
       - job: Build
         displayName: Build
@@ -30,7 +30,7 @@ stages:
           - group: internal
         steps:
           - task: Bash@3
-            displayName: Build and Push Image to Azure Container Registry
+            displayName: Build and run UnitTest
             inputs:
               targetType: inline
               script: |
@@ -41,6 +41,7 @@ stages:
                 podman rm -fv $(appName)
 
           - task: PublishTestResults@2
+            displayName: Publish Test Results
             inputs:
               testResultsFormat: 'VSTest'
               testResultsFiles: '**/testresults.trx'
@@ -103,6 +104,13 @@ stages:
           arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/apigateway.yaml'
           secretType: 'dockerRegistry'
           containerRegistryType: 'Azure Container Registry'
+
+      - task: Bash@3
+        displayName: Build and run UnitTest
+        inputs:
+          targetType: inline
+          script: |
+            echo "API Gateway URL" https://$(envName)-apigateway.pta-events.com/api/onboarding
 
 #Stage Deploy to qa Environment
   - stage: Deploy_to_qa
