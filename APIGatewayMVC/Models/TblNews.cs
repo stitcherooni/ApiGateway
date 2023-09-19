@@ -21,15 +21,19 @@ public partial class TblNews
 
     public bool? NewsShowTime { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public bool NewsDeleted { get; set; }
 
-    public TblCustomer NewsCreatedBy { get; set; }
+    public int NewsCreatedBy { get; set; }
 
     public DateTime NewsCreatedDate { get; set; }
 
-    public TblCustomer NewsUpdatedBy { get; set; }
+    public int? NewsUpdatedBy { get; set; }
 
     public DateTime? NewsUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

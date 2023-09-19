@@ -1799,6 +1799,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(messageType => messageType.CreatedBy)
                 .HasForeignKey(messageType => messageType.MessageTypeCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.NewsUpdatedBy)
+                .WithOne(news => news.UpdatedBy)
+                .HasForeignKey(news => news.NewsUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.NewsCreatedBy)
+                .WithOne(news => news.CreatedBy)
+                .HasForeignKey(news => news.NewsCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3153,7 +3161,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.NewsId)
                 .HasColumnType("int(11)")
                 .HasColumnName("NewsID");
-            //entity.Property(e => e.NewsCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.NewsCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.NewsCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3166,29 +3174,24 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.NewsTeaser).HasMaxLength(250);
             entity.Property(e => e.NewsText).HasColumnType("text");
             entity.Property(e => e.NewsTitle).HasMaxLength(100);
-            //entity.Property(e => e.NewsUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.NewsUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.NewsUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-
-                .HasConstraintName("FK_tblNews_tblSchool");
-
-            entity.HasOne(d => d.NewsCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.NewsCreatedBy)
-
-                .HasConstraintName("FK_tblNews.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.NewsUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.NewsUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblNews.UpdatedBy_tblCustomer");
+            entity.HasOne(news => news.School)
+                .WithMany(school => school.SchoolNews)
+                .HasForeignKey(news => news.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(news => news.CreatedBy)
+                .WithMany(customer => customer.NewsCreatedBy)
+                .HasForeignKey(news => news.NewsCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(news => news.UpdatedBy)
+                .WithMany(customer => customer.NewsUpdatedBy)
+                .HasForeignKey(news => news.NewsUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4807,6 +4810,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.FileSchool)
                 .WithOne(file => file.School)
                 .HasForeignKey(file => file.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.SchoolNews)
+                .WithOne(news => news.School)
+                .HasForeignKey(news => news.SchoolId)
                 .IsRequired(false);
         });
 
