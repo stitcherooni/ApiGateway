@@ -106,7 +106,7 @@ stages:
           containerRegistryType: 'Azure Container Registry'
 
       - task: Bash@3
-        displayName: Build and run UnitTest
+        displayName: API Gateway URL
         inputs:
           targetType: inline
           script: |
