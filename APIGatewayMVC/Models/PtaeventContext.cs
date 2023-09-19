@@ -1703,6 +1703,18 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventTask => eventTask.CreatedBy)
                 .HasForeignKey(eventTask => eventTask.EventTaskCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.EventTaskGroup)
+                .WithOne(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiser)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiserId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.EventTaskGroupUpdatedBy)
+                .WithOne(eventTaskGroup => eventTaskGroup.UpdatedBy)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.EventTaskGroupCreatedBy)
+                .WithOne(eventTaskGroup => eventTaskGroup.CreatedBy)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2209,6 +2221,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventTask => eventTask.Event)
                 .HasForeignKey(eventTask => eventTask.EventId)
                 .IsRequired(false);
+            entity.HasMany(events => events.EventTaskGroup)
+                .WithOne(eventTaskGroup => eventTaskGroup.Event)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventId)
+                .IsRequired(false);
 
         });
 
@@ -2471,54 +2487,44 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.EventTaskGroupId)
                 .HasColumnType("int(11)")
                 .HasColumnName("EventTaskGroupID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            //entity.Property(e => e.EventTaskGroupCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.EventTaskGroupCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskGroupCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.EventTaskGroupName).HasMaxLength(100);
-            //entity.Property(e => e.EventTaskGroupOrganiserId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventTaskGroupOrganiserID");
-            //entity.Property(e => e.EventTaskGroupRepsSchoolYearId)
-            //    .HasMaxLength(250)
-            //    .HasColumnName("EventTaskGroupRepsSchoolYearID");
+            entity.Property(e => e.EventTaskGroupOrganiserId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventTaskGroupOrganiserID");
+            entity.Property(e => e.EventTaskGroupRepsSchoolYearId)
+                .HasMaxLength(250)
+                .HasColumnName("EventTaskGroupRepsSchoolYearID");
             entity.Property(e => e.EventTaskGroupSortOrder).HasColumnType("int(11)");
-            //entity.Property(e => e.EventTaskGroupUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventTaskGroupUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.EventTaskGroupUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                ////.HasForeignKey(d => d.Event)
-
-                .HasConstraintName("FK_tblEventTaskGroup_tblEvent");
-
-            entity.HasOne(d => d.EventTaskGroupOrganiser)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTaskGroupOrganiser)
-
-                .HasConstraintName("FK_tblEventTaskGroup_tblCustomer");
-
-            entity.HasOne(d => d.EventTaskGroupRepsSchoolYear)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTaskGroupRepsSchoolYear)
-                .HasConstraintName("FK_tblEventTaskGroup_tblSchoolYear");
-
-            entity.HasOne(d => d.EventTaskGroupCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTaskGroupCreatedBy)
-
-                .HasConstraintName("FK_tblEventTaskGroup.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.EventTaskGroupUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.EventTaskGroupUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblEventTaskGroup.UpdatedBy_tblCustomer");
-
-
+            entity.HasOne(eventTaskGroup => eventTaskGroup.Event)
+                .WithMany(events => events.EventTaskGroup)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventId)
+                .IsRequired(false);
+            entity.HasOne(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYear)
+                .WithMany(schoolYear => schoolYear.EventTaskGroup)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYearId)
+                .IsRequired(false);
+            entity.HasOne(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiser)
+                .WithMany(customer => customer.EventTaskGroup)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiserId)
+                .IsRequired(false);
+            entity.HasOne(eventTaskGroup => eventTaskGroup.CreatedBy)
+                .WithMany(customer => customer.EventTaskGroupCreatedBy)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(eventTaskGroup => eventTaskGroup.UpdatedBy)
+                .WithMany(customer => customer.EventTaskGroupUpdatedBy)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(eventTaskGroup => eventTaskGroup.EventTask)
                 .WithOne(eventTask => eventTask.EventTaskGroup)
@@ -4766,6 +4772,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(schoolYear => schoolYear.SchoolYearClass)
                 .WithOne(casses => casses.SchoolYear)
                 .HasForeignKey(casses => casses.SchoolYearId)
+                .IsRequired(false);
+            entity.HasMany(schoolYear => schoolYear.EventTaskGroup)
+                .WithOne(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYear)
+                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYearId)
                 .IsRequired(false);
         });
 

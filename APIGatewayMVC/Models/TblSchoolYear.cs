@@ -22,4 +22,5 @@ public partial class TblSchoolYear
     public DateTime? SchoolYearUpdatedDate { get; set; }
 
     public List<TblClass> SchoolYearClass { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
 }

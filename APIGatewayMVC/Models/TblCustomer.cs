@@ -205,6 +205,9 @@ public partial class TblCustomer
     public List<TblEventTaskCustomer> EventTaskCustomer { get; set; }
     public List<TblEventTaskCustomer> EventTaskCustomerCreatedBy { get; set; }
     public List<TblEventTaskCustomer> EventTaskCustomerUpdatedBy { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroupCreatedBy { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroupUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }
