@@ -252,6 +252,8 @@ public partial class TblCustomer
     public List<TblPaymentStatus> PaymentStatusUpdatedBy { get; set; }
     public List<TblPlatformPartner> PlatformPartnerCreatedBy { get; set; }
     public List<TblPlatformPartner> PlatformPartnerUpdatedBy { get; set; }
+    public List<TblPoll> PollCreatedBy { get; set; }
+    public List<TblPoll> PollUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

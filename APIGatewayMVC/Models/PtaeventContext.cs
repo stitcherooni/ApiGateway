@@ -1895,6 +1895,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(platformPartner => platformPartner.CreatedBy)
                 .HasForeignKey(platformPartner => platformPartner.PlatformPartnerCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PollUpdatedBy)
+                .WithOne(poll => poll.UpdatedBy)
+                .HasForeignKey(poll => poll.PollUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PollCreatedBy)
+                .WithOne(poll => poll.CreatedBy)
+                .HasForeignKey(poll => poll.PollCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3763,7 +3771,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PollId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PollID");
-            //entity.Property(e => e.PollCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PollCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -3772,27 +3780,24 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PollImage).HasMaxLength(250);
             entity.Property(e => e.PollQuestion).HasMaxLength(250);
             entity.Property(e => e.PollStartDate).HasColumnType("datetime");
-            //entity.Property(e => e.PollUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PollUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblPoll_tblSchool");
-
-            entity.HasOne(d => d.PollCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PollCreatedBy)
-                .HasConstraintName("FK_tblPoll.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PollUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PollUpdatedBy)
-                .HasConstraintName("FK_tblPoll.UpdatedBy_tblCustomer");
-
+            entity.HasOne(poll => poll.School)
+                .WithMany(school => school.SchoolPoll)
+                .HasForeignKey(poll => poll.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(poll => poll.CreatedBy)
+                .WithMany(customer => customer.PollCreatedBy)
+                .HasForeignKey(poll => poll.PollCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(poll => poll.UpdatedBy)
+                .WithMany(customer => customer.PollUpdatedBy)
+                .HasForeignKey(poll => poll.PollUpdatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4875,6 +4880,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.SchoolPartner)
                 .WithOne(partner => partner.School)
                 .HasForeignKey(partner => partner.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.SchoolPoll)
+                .WithOne(poll => poll.School)
+                .HasForeignKey(poll => poll.SchoolId)
                 .IsRequired(false);
         });
 
