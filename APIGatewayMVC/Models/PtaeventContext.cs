@@ -923,7 +923,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasMany(classes => classes.DependantClass)
                 .WithOne(dependant => dependant.Class)
-                .HasForeignKey(classRep => classRep.ClassId)
+                .HasForeignKey(dependant => dependant.ClassId)
+                .IsRequired(false);
+            entity.HasMany(classes => classes.MessageGroupClass)
+                .WithOne(messageGroup => messageGroup.Class)
+                .HasForeignKey(messageGroup => messageGroup.ClassId)
                 .IsRequired(false);
         });
 
@@ -1775,6 +1779,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(message => message.CreatedBy)
                 .HasForeignKey(message => message.MessageCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.MessageGroupCreatedBy)
+                .WithOne(messageGroup => messageGroup.CreatedBy)
+                .HasForeignKey(messageGroup => messageGroup.MessageGroupCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2284,6 +2292,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(events => events.EventTaskGroup)
                 .WithOne(eventTaskGroup => eventTaskGroup.Event)
                 .HasForeignKey(eventTaskGroup => eventTaskGroup.EventId)
+                .IsRequired(false);
+            entity.HasMany(events => events.MessageGroupEvent)
+                .WithOne(messageGroup => messageGroup.Event)
+                .HasForeignKey(messageGroup => messageGroup.EventId)
                 .IsRequired(false);
 
         });
@@ -3025,39 +3037,35 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblMessageGroup");
 
-            //entity.HasIndex(e => e.MessageGroupCreatedBy, "MessageGroupCreatedBy");
+            entity.HasIndex(e => e.MessageGroupCreatedBy, "MessageGroupCreatedBy");
 
             entity.Property(e => e.MessageGroupId)
                 .HasColumnType("int(11)")
                 .HasColumnName("MessageGroupID");
-            //entity.Property(e => e.ClassId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ClassID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            //entity.Property(e => e.MessageGroupCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ClassId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ClassID");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.MessageGroupCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.MessageGroupCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.MessageGroupType).HasMaxLength(50);
 
-            entity.HasOne(d => d.Class)
-                .WithMany()
-                ////.HasForeignKey(d => d.Class)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblMessageGroup_tblClass");
-
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                ////.HasForeignKey(d => d.Event)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblMessageGroup_tblEvent");
-
-            entity.HasOne(d => d.MessageGroupCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.MessageGroupCreatedBy)
-                .HasConstraintName("FK_tblMessageGroup.CreatedBy_tblCustomer");
+            entity.HasOne(messageGroup => messageGroup.Event)
+                .WithMany(events => events.MessageGroupEvent)
+                .HasForeignKey(messageGroup => messageGroup.EventId)
+                .IsRequired(false);
+            entity.HasOne(messageGroup => messageGroup.Class)
+                .WithMany(classes => classes.MessageGroupClass)
+                .HasForeignKey(messageGroup => messageGroup.ClassId)
+                .IsRequired(false);
+            entity.HasOne(messageGroup => messageGroup.CreatedBy)
+                .WithMany(customer => customer.MessageGroupCreatedBy)
+                .HasForeignKey(messageGroup => messageGroup.MessageGroupCreatedBy)
+                .IsRequired(false);
 
             entity.HasMany(messageGroup => messageGroup.MessageGroupMessage)
                 .WithOne(message => message.MessageGroup)

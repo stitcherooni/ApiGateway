@@ -40,6 +40,7 @@ public partial class TblClass
     public List<TblBooking> BookingClass { get; set; }
     public List<TblClassRep> ClassRepClass { get; set; }
     public List<TblDependant> DependantClass { get; set; }
+    public List<TblMessageGroup> MessageGroupClass { get; set; }
 
     public TblSchool School { get; set; }
     public TblAcademicYear AcademicYear { get; set; }

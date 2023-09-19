@@ -125,6 +125,7 @@ public partial class TblEvent
     public List<TblEventSponsor> EventSponsor { get; set; }
     public List<TblEventTask> EventTask { get; set; }
     public List<TblEventTaskGroup> EventTaskGroup { get; set; }
+    public List<TblMessageGroup> MessageGroupEvent { get; set; }
 
     public TblCustomer EventOrganiser { get; set; }
     public TblCustomer EventOrganiser2 { get; set; }
