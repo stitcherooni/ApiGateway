@@ -26,4 +26,6 @@ public partial class TblEventTaskGroup
     public DateTime? EventTaskGroupUpdatedDate { get; set; }
 
     public TblCustomer EventTaskGroupUpdatedBy { get; set; }
+
+    public List<TblEventTask> EventTask { get; set; }
 }
