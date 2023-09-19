@@ -1783,6 +1783,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(messageGroup => messageGroup.CreatedBy)
                 .HasForeignKey(messageGroup => messageGroup.MessageGroupCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.MessageStatusUpdatedBy)
+                .WithOne(messageStatus => messageStatus.UpdatedBy)
+                .HasForeignKey(messageStatus => messageStatus.MessageStatusUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.MessageStatusCreatedBy)
+                .WithOne(messageStatus => messageStatus.CreatedBy)
+                .HasForeignKey(messageStatus => messageStatus.MessageStatusCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3084,25 +3092,21 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("MessageStatusID");
             entity.Property(e => e.MessageStatus).HasMaxLength(200);
-            //entity.Property(e => e.MessageStatusCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.MessageStatusCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.MessageStatusCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.MessageStatusUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.MessageStatusUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.MessageStatusUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.MessageStatusCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.MessageStatusCreatedBy)
-
-                .HasConstraintName("FK_tblMessageStatus.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.MessageStatusUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.MessageStatusUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblMessageStatus.UpdatedBy_tblCustomer");
-
+            entity.HasOne(messageStatus => messageStatus.CreatedBy)
+               .WithMany(customer => customer.MessageStatusCreatedBy)
+               .HasForeignKey(messageStatus => messageStatus.MessageStatusCreatedBy)
+               .IsRequired(false);
+            entity.HasOne(messageStatus => messageStatus.UpdatedBy)
+                .WithMany(customer => customer.MessageStatusUpdatedBy)
+                .HasForeignKey(messageStatus => messageStatus.MessageStatusUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblMessageType>(entity =>
