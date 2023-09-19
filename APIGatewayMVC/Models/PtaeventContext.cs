@@ -1855,6 +1855,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(organisationType => organisationType.CreatedBy)
                 .HasForeignKey(organisationType => organisationType.OrganisationTypeCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PageUpdatedBy)
+                .WithOne(page => page.UpdatedBy)
+                .HasForeignKey(page => page.PageUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PageCreatedBy)
+                .WithOne(page => page.CreatedBy)
+                .HasForeignKey(page => page.PageCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3458,41 +3466,37 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblPage");
 
-            //entity.HasIndex(e => new { e.PageId, e.SchoolId }, "PageID");
+            entity.HasIndex(e => new { e.PageId, e.SchoolId }, "PageID");
 
             entity.Property(e => e.PageId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PageID");
             entity.Property(e => e.PageContent).HasColumnType("text");
-            //entity.Property(e => e.PageCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PageCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PageCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.PageEndDate).HasColumnType("datetime");
             entity.Property(e => e.PageName).HasMaxLength(250);
             entity.Property(e => e.PageStartDate).HasColumnType("datetime");
-            //entity.Property(e => e.PageUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PageUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PageUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.School)
-                .WithMany()
-                ////.HasForeignKey(d => d.School)
-
-                .HasConstraintName("FK_tblPage_tblCustomer");
-
-            entity.HasOne(d => d.PageCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.PageCreatedBy)
-                .HasConstraintName("FK_tblPage.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PageUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.PageUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblPage.UpdatedBy_tblCustomer");
+            entity.HasOne(page => page.School)
+                .WithMany(school => school.SchoolPage)
+                .HasForeignKey(page => page.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(page => page.CreatedBy)
+                .WithMany(customer => customer.PageCreatedBy)
+                .HasForeignKey(page => page.PageCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(page => page.UpdatedBy)
+                .WithMany(customer => customer.PageUpdatedBy)
+                .HasForeignKey(page => page.PageUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblPartner>(entity =>
@@ -4840,6 +4844,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.SchoolNews)
                 .WithOne(news => news.School)
                 .HasForeignKey(news => news.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.SchoolPage)
+                .WithOne(page => page.School)
+                .HasForeignKey(page => page.SchoolId)
                 .IsRequired(false);
         });
 
