@@ -1955,6 +1955,15 @@ public partial class PtaeventContext : DbContext
                 .WithOne(productClass => productClass.CreatedBy)
                 .HasForeignKey(productClass => productClass.ProductClassCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentUpdatedBy)
+                .WithOne(productPayment => productPayment.UpdatedBy)
+                .HasForeignKey(productPayment => productPayment.ProductPaymentUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentCreatedBy)
+                .WithOne(productPayment => productPayment.CreatedBy)
+                .HasForeignKey(productPayment => productPayment.ProductPaymentCreatedBy)
+                .IsRequired(false);
+
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -4056,6 +4065,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(productClass => productClass.Product)
                 .HasForeignKey(productClass => productClass.ProductId)
                 .IsRequired(false);
+            entity.HasMany(product => product.ProductPayment)
+                .WithOne(productPayment => productPayment.Product)
+                .HasForeignKey(productClass => productClass.ProductId)
+                .IsRequired(false);
 
         });
 
@@ -4157,36 +4170,31 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductPaymentID");
-            //entity.Property(e => e.Product)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("Product");
+            entity.Property(e => e.Product)
+                .HasColumnType("int(11)")
+                .HasColumnName("Product");
             entity.Property(e => e.ProductPaymentAmount).HasPrecision(10, 2);
-            //entity.Property(e => e.ProductPaymentCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ProductPaymentDueDate).HasColumnType("timestamp");
             entity.Property(e => e.ProductPaymentName).HasMaxLength(100);
-            //entity.Property(e => e.ProductPaymentUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.Product)
-                .WithMany()
-                //.HasForeignKey(d => d.Product)
-
-                .HasConstraintName("FK_tblProductPayment_tblProduct");
-
-            entity.HasOne(d => d.ProductPaymentCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductPaymentCreatedBy)
-
-                .HasConstraintName("FK_tblProductPayment.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.ProductPaymentUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductPaymentUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProductPayment.UpdatedBy_tblCustomer");
+            entity.HasOne(productPayment => productPayment.Product)
+                .WithMany(product => product.ProductPayment)
+                .HasForeignKey(productPayment => productPayment.ProductId)
+                .IsRequired(false);
+            entity.HasOne(productPayment => productPayment.CreatedBy)
+                .WithMany(customer => customer.ProductPaymentCreatedBy)
+                .HasForeignKey(productPayment => productPayment.ProductPaymentCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(productPayment => productPayment.UpdatedBy)
+                .WithMany(customer => customer.ProductPaymentUpdatedBy)
+                .HasForeignKey(productPayment => productPayment.ProductPaymentUpdatedBy)
+                .IsRequired(false);
 
         });
 
