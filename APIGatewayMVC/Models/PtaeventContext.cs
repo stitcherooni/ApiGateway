@@ -1807,6 +1807,26 @@ public partial class PtaeventContext : DbContext
                 .WithOne(news => news.CreatedBy)
                 .HasForeignKey(news => news.NewsCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerOrderType)
+                .WithOne(order => order.OrderType)
+                .HasForeignKey(order => order.OrderTypeId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerOrderTransaction)
+                .WithOne(order => order.OrderTransaction)
+                .HasForeignKey(order => order.OrderTransactionId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.CustomerOrder)
+                .WithOne(order => order.Customer)
+                .HasForeignKey(order => order.CustomerId)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrderUpdatedBy)
+                .WithOne(order => order.UpdatedBy)
+                .HasForeignKey(order => order.OrderUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.OrderCreatedBy)
+                .WithOne(order => order.CreatedBy)
+                .HasForeignKey(order => order.OrderCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3201,7 +3221,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblOrder");
 
-            //entity.HasIndex(e => e.CustomerId, "CustomerID");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
 
             entity.HasIndex(e => e.OrderCompletedDate, "OrderCompletedDate");
 
@@ -3215,25 +3235,25 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.OrderTest, "OrderTest");
 
-            //entity.HasIndex(e => e.OrderTransactionId, "OrderTransactionID");
+            entity.HasIndex(e => e.OrderTransactionId, "OrderTransactionID");
 
             entity.HasIndex(e => e.OrderUuid, "OrderUUID");
 
-            //entity.HasIndex(e => new { e.OrderTransactionId, e.OrderCompleted, e.OrderTest, e.OrderDeleted, e.OrderCompletedDate }, "idx_orders");
+            entity.HasIndex(e => new { e.OrderTransactionId, e.OrderCompleted, e.OrderTest, e.OrderDeleted, e.OrderCompletedDate }, "idx_orders");
 
             entity.Property(e => e.OrderId)
                 .HasColumnType("int(11)")
                 .HasColumnName("OrderID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
             entity.Property(e => e.LegacyOrderId)
                 .HasColumnType("int(11)")
                 .HasColumnName("LegacyOrderID");
             entity.Property(e => e.OrderCompletedDate).HasColumnType("timestamp");
             entity.Property(e => e.OrderConfirmationEmail).HasMaxLength(250);
             entity.Property(e => e.OrderConfirmationName).HasMaxLength(250);
-            //entity.Property(e => e.OrderCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrderCreatedDate).HasColumnType("timestamp");
             entity.Property(e => e.OrderDate).HasColumnType("timestamp");
             entity.Property(e => e.OrderPaymentIntent).HasMaxLength(50);
@@ -3245,50 +3265,41 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.OrderReservedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.OrderTransactionId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderTransactionID");
-            //entity.Property(e => e.OrderTransactionType).HasMaxLength(50);
-            //entity.Property(e => e.OrderTypeId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderTypeID");
-            //entity.Property(e => e.OrderUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderTransactionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderTransactionID");
+            entity.Property(e => e.OrderTransactionType).HasMaxLength(50);
+            entity.Property(e => e.OrderTypeId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderTypeID");
+            entity.Property(e => e.OrderUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.OrderUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.OrderUuid)
                 .HasMaxLength(50)
                 .HasColumnName("OrderUUID");
             entity.Property(e => e.OrderValue).HasPrecision(10, 2);
 
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                ////.HasForeignKey(d => d.Customer)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblOrder_tblCustomer");
-
-            entity.HasOne(d => d.OrderTransaction)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderTransaction)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblOrder.OrderTransaction_tblCustomer");
-
-            entity.HasOne(d => d.OrderType)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderType)
-                .HasConstraintName("FK_tblOrder.OrderType_tblCustomer");
-
-            entity.HasOne(d => d.OrderCreatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderCreatedBy)
-
-                .HasConstraintName("FK_tblOrder.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.OrderUpdatedBy)
-                .WithMany()
-                ////.HasForeignKey(d => d.OrderUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblOrder.UpdatedBy_tblCustomer");
-
+            entity.HasOne(order => order.OrderType)
+                .WithMany(customer => customer.CustomerOrderType)
+                .HasForeignKey(order => order.OrderTypeId)
+                .IsRequired(false);
+            entity.HasOne(order => order.OrderTransaction)
+                .WithMany(customer => customer.CustomerOrderTransaction)
+                .HasForeignKey(order => order.OrderTransactionId)
+                .IsRequired(false);
+            entity.HasOne(order => order.Customer)
+                .WithMany(customer => customer.CustomerOrder)
+                .HasForeignKey(order => order.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(order => order.UpdatedBy)
+                .WithMany(customer => customer.OrderUpdatedBy)
+                .HasForeignKey(order => order.OrderUpdatedBy)
+                .IsRequired(false);
+            entity.HasOne(order => order.CreatedBy)
+                .WithMany(customer => customer.OrderCreatedBy)
+                .HasForeignKey(order => order.OrderCreatedBy)
+                .IsRequired(false);
 
             entity.HasMany(order => order.BankedWebHookOrder)
                 .WithOne(bankedWebHook => bankedWebHook.Order)
