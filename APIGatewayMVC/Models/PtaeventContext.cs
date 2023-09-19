@@ -1963,6 +1963,22 @@ public partial class PtaeventContext : DbContext
                 .WithOne(productPayment => productPayment.CreatedBy)
                 .HasForeignKey(productPayment => productPayment.ProductPaymentCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentSchemeUpdatedBy)
+                .WithOne(productPaymentScheme => productPaymentScheme.UpdatedBy)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentSchemeCreatedBy)
+                .WithOne(productPaymentScheme => productPaymentScheme.CreatedBy)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentSchemeFrequencyUpdatedBy)
+                .WithOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.UpdatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.ProductPaymentSchemeFrequencyCreatedBy)
+                .WithOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.CreatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyCreatedBy)
+                .IsRequired(false);
 
         });
 
@@ -4067,7 +4083,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasMany(product => product.ProductPayment)
                 .WithOne(productPayment => productPayment.Product)
-                .HasForeignKey(productClass => productClass.ProductId)
+                .HasForeignKey(productPayment => productPayment.ProductId)
+                .IsRequired(false);
+            entity.HasMany(product => product.ProductPaymentScheme)
+                .WithOne(productPaymentScheme => productPaymentScheme.Product)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductId)
                 .IsRequired(false);
 
         });
@@ -4207,21 +4227,38 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentSchemeId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductPaymentSchemeID");
-            //entity.Property(e => e.ProductId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductID");
+            entity.Property(e => e.ProductId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductID");
             entity.Property(e => e.ProductPaymentSchemeAmount).HasPrecision(10);
-            //entity.Property(e => e.ProductPaymentSchemeCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentSchemeCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
-            //entity.Property(e => e.ProductPaymentSchemeFrequencyId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("ProductPaymentSchemeFrequencyID");
+            entity.Property(e => e.ProductPaymentSchemeFrequencyId)
+                .HasColumnType("int(11)")
+                .HasColumnName("ProductPaymentSchemeFrequencyID");
             entity.Property(e => e.ProductPaymentSchemeNoPayments).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeStartDate).HasColumnType("timestamp");
-            //entity.Property(e => e.ProductPaymentSchemeUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentSchemeUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(productPaymentScheme => productPaymentScheme.Product)
+                .WithMany(product => product.ProductPaymentScheme)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductId)
+                .IsRequired(false);
+            entity.HasOne(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeFrequency)
+                .WithMany(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentScheme)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeFrequencyId)
+                .IsRequired(false);
+            entity.HasOne(productPaymentScheme => productPaymentScheme.CreatedBy)
+                .WithMany(customer => customer.ProductPaymentSchemeCreatedBy)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(productPaymentScheme => productPaymentScheme.UpdatedBy)
+                .WithMany(customer => customer.ProductPaymentSchemeUpdatedBy)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblProductPaymentSchemeFrequency>(entity =>
@@ -4233,25 +4270,28 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentSchemeFrequencyId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ProductPaymentSchemeFrequencyID");
-            //entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeFrequencyCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.ProductPaymentSchemeFrequencyDivisor).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeFrequencyName).HasMaxLength(50);
-            //entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedDate).HasColumnType("timestamp");
-            //entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedDate).HasColumnType("timestamp");
+            entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedBy).HasColumnType("int(11)");
 
-            entity.HasOne(d => d.ProductPaymentSchemeFrequencyCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductPaymentSchemeFrequencyCreatedBy)
-                .HasConstraintName("FK_tblProductPaymentSchemeFrequency.CreatedBy_tblCustomer");
+            entity.HasOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.CreatedBy)
+                .WithMany(customer => customer.ProductPaymentSchemeFrequencyCreatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.UpdatedBy)
+                .WithMany(customer => customer.ProductPaymentSchemeFrequencyUpdatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyUpdatedBy)
+                .IsRequired(false);
 
-            entity.HasOne(d => d.ProductPaymentSchemeFrequencyUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.ProductPaymentSchemeFrequencyUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblProductPaymentSchemeFrequency.UpdatedBy_tblCustomer");
+            entity.HasMany(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentScheme)
+                .WithOne(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeFrequency)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeFrequencyId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblProductQuestion>(entity =>
