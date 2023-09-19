@@ -246,6 +246,8 @@ public partial class TblCustomer
     public List<TblPage> PageUpdatedBy { get; set; }
     public List<TblPartner> PartnerCreatedBy { get; set; }
     public List<TblPartner> PartnerUpdatedBy { get; set; }
+    public List<TblPaymentMethod> PaymentMethodCreatedBy { get; set; }
+    public List<TblPaymentMethod> PaymentMethodUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

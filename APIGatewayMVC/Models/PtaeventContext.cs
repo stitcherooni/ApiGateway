@@ -1871,6 +1871,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(partner => partner.CreatedBy)
                 .HasForeignKey(partner => partner.PartnerCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.PaymentMethodUpdatedBy)
+                .WithOne(paymentMethod => paymentMethod.UpdatedBy)
+                .HasForeignKey(paymentMethod => paymentMethod.PaymentMethodUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.PaymentMethodCreatedBy)
+                .WithOne(paymentMethod => paymentMethod.CreatedBy)
+                .HasForeignKey(paymentMethod => paymentMethod.PaymentMethodCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -3564,25 +3572,22 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PaymentMethodId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PaymentMethodID");
-            //entity.Property(e => e.PaymentMethodCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PaymentMethodCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PaymentMethodCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.PaymentMethodName).HasMaxLength(50);
-            //entity.Property(e => e.PaymentMethodUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.PaymentMethodUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PaymentMethodUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.PaymentMethodCreatedBy)
-              .WithMany()
-              //.HasForeignKey(d => d.PaymentMethodCreatedBy)
-
-              .HasConstraintName("FK_tblPaymentMethod.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PaymentMethodUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.PaymentMethodUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblPaymentMethod.UpdatedBy_tblCustomer");
+            entity.HasOne(paymentMethod => paymentMethod.CreatedBy)
+               .WithMany(customer => customer.PaymentMethodCreatedBy)
+               .HasForeignKey(paymentMethod => paymentMethod.PaymentMethodCreatedBy)
+               .IsRequired(false);
+            entity.HasOne(paymentMethod => paymentMethod.UpdatedBy)
+                .WithMany(customer => customer.PaymentMethodUpdatedBy)
+                .HasForeignKey(paymentMethod => paymentMethod.PaymentMethodUpdatedBy)
+                .IsRequired(false);
 
         });
 

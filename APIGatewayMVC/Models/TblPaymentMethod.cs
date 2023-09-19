@@ -11,11 +11,14 @@ public partial class TblPaymentMethod
 
     public bool PaymentMethodDeleted { get; set; }
 
-    public TblCustomer PaymentMethodCreatedBy { get; set; }
+    public int PaymentMethodCreatedBy { get; set; }
 
     public DateTime PaymentMethodCreatedDate { get; set; }
 
-    public TblCustomer PaymentMethodUpdatedBy { get; set; }
+    public int? PaymentMethodUpdatedBy { get; set; }
 
     public DateTime? PaymentMethodUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
