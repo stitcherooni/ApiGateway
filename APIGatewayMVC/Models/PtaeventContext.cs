@@ -2047,6 +2047,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsorClick => sponsorClick.Customer)
                 .HasForeignKey(sponsorClick => sponsorClick.CustomerId)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.SponsorImpressionCustomer)
+                .WithOne(sponsorImpression => sponsorImpression.Customer)
+                .HasForeignKey(sponsorImpression => sponsorImpression.CustomerId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -5044,6 +5048,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsorClick => sponsorClick.School)
                 .HasForeignKey(sponsorClick => sponsorClick.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.SponsorImpression)
+                .WithOne(sponsorImpression => sponsorImpression.School)
+                .HasForeignKey(sponsorImpression => sponsorImpression.SchoolId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -5157,6 +5165,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsorClick => sponsorClick.Sponsor)
                 .HasForeignKey(sponsorClick => sponsorClick.SponsorId)
                 .IsRequired(false);
+            entity.HasMany(sponsor => sponsor.SponsorImpression)
+                .WithOne(sponsorImpression => sponsorImpression.Sponsor)
+                .HasForeignKey(sponsorImpression => sponsorImpression.SponsorId)
+                .IsRequired(false);
 
         });
 
@@ -5209,44 +5221,40 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblSponsorImpression");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
             entity.HasIndex(e => new { e.SponsorImpressionId, e.SponsorImpressionUserAgent }, "SponsorImpressionIDUserAgent").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 767 });
 
             entity.Property(e => e.SponsorImpressionId)
                 .HasColumnType("int(11)")
                 .HasColumnName("SponsorImpressionID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
-            //entity.Property(e => e.SponsorId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SponsorID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
+            entity.Property(e => e.SponsorId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SponsorID");
             entity.Property(e => e.SponsorImpressionCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.SponsorImpressionOrder).HasColumnType("int(11)");
             entity.Property(e => e.SponsorImpressionUserAgent).HasMaxLength(1000);
 
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                //.HasForeignKey(d => d.Customer)
-
-                .HasConstraintName("FK_tblSponsorImpression_tblCustomer");
-
-            entity.HasOne(d => d.Sponsor)
-                .WithMany()
-                //.HasForeignKey(d => d.Sponsor)
-
-                .HasConstraintName("FK_tblSponsorImpression_tblSponsor");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblSponsorImpression_tblSchool");
+            entity.HasOne(sponsorImpression => sponsorImpression.Sponsor)
+                .WithMany(sponsor => sponsor.SponsorImpression)
+                .HasForeignKey(sponsorImpression => sponsorImpression.SponsorId)
+                .IsRequired(false);
+            entity.HasOne(sponsorImpression => sponsorImpression.School)
+                .WithMany(school => school.SponsorImpression)
+                .HasForeignKey(sponsorImpression => sponsorImpression.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(sponsorImpression => sponsorImpression.Customer)
+                .WithMany(customer => customer.SponsorImpressionCustomer)
+                .HasForeignKey(sponsorImpression => sponsorImpression.CustomerId)
+                .IsRequired(false);
 
         });
 

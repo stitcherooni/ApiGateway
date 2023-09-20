@@ -288,6 +288,7 @@ public partial class TblCustomer
     public List<TblSponsor> SponsorCreatedBy { get; set; }
     public List<TblSponsor> SponsorUpdatedBy { get; set; }
     public List<TblSponsorClick> SponsorClickCustomer { get; set; }
+    public List<TblSponsorImpression> SponsorImpressionCustomer { get; set; }
 
 
     public TblPartner Partner { get; set; }

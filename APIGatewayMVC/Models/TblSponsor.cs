@@ -69,6 +69,7 @@ public partial class TblSponsor
 
     public List<TblEventSponsor> EventSponsor { get; set; }
     public List<TblSponsorClick> SponsorClick { get; set; }
+    public List<TblSponsorImpression> SponsorImpression { get; set; }
 
     public TblCountry Country { get; set; }
     public TblSchool School { get; set; }
