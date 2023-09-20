@@ -13,11 +13,13 @@ public partial class TblStripeFee
 
     public decimal StripeFeeAmount { get; set; }
 
-    public TblStripePayout StripePayout { get; set; }
+    public int StripePayoutId { get; set; }
 
     public string StripeFeeType { get; set;}
 
     public string StripeAccount { get; set; }
 
     public DateTime? StripeFeeCreatedDate { get; set; }
+
+    public TblStripePayout StripePayout { get; set; }
 }

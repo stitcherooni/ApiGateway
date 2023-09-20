@@ -7,7 +7,7 @@ public partial class TblStripeWebHook
 {
     public int StripeWebHookId { get; set; }
 
-    public TblOrder Order { get; set; }
+    public int OrderId { get; set; }
 
     public string StripeWebHookEventId { get; set;}
 
@@ -24,4 +24,6 @@ public partial class TblStripeWebHook
     public string StripeWebHookContent { get; set; }
 
     public DateTime StripeWebHookCreatedDate { get; set; }
+
+    public TblOrder Order { get; set; }
 }

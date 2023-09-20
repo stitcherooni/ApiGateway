@@ -3533,6 +3533,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(refund => refund.Order)
                 .HasForeignKey(refund => refund.OrderId)
                 .IsRequired(false);
+            entity.HasMany(order => order.StripeWebHookOrder)
+                .WithOne(stripeWebHook => stripeWebHook.Order)
+                .HasForeignKey(stripeWebHook => stripeWebHook.OrderId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblOrderItem>(entity =>
@@ -5272,7 +5276,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasIndex(e => e.StripeFeeType, "StripeFeeType");
 
-            //entity.HasIndex(e => e.StripePayoutId, "StripePayoutID");
+            entity.HasIndex(e => e.StripePayoutId, "StripePayoutID");
 
             entity.Property(e => e.StripeFeeId)
                 .HasColumnType("int(11)")
@@ -5285,15 +5289,14 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.StripeFeeAmount).HasPrecision(10, 2);
             entity.Property(e => e.StripeFeeCreatedDate).HasColumnType("timestamp");
             entity.Property(e => e.StripeFeeType).HasMaxLength(50);
-            //entity.Property(e => e.StripePayoutId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("StripePayoutID");
-            entity.HasOne(d => d.StripePayout)
-                .WithMany()
-                //.HasForeignKey(d => d.StripePayout)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblStripeFee_tblStripePayout");
+            entity.Property(e => e.StripePayoutId)
+                .HasColumnType("int(11)")
+                .HasColumnName("StripePayoutID");
 
+            entity.HasOne(stripeFee => stripeFee.StripePayout)
+                .WithMany(stripePayout => stripePayout.StripeFeePayout)
+                .HasForeignKey(stripeFee => stripeFee.StripePayoutId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblStripePayout>(entity =>
@@ -5321,6 +5324,11 @@ public partial class PtaeventContext : DbContext
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)")
                 .HasColumnName("PayoutTypeID");
+
+            entity.HasMany(stripePayout => stripePayout.StripePayout)
+                .WithOne(stripeFee => stripeFee.StripeFeePayout)
+                .HasForeignKey(stripeFee => stripeFee.StripePayoutId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblStripeWebHook>(entity =>
@@ -5329,7 +5337,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblStripeWebHook");
 
-            //entity.HasIndex(e => e.OrderId, "OrderID");
+            entity.HasIndex(e => e.OrderId, "OrderID");
 
             entity.HasIndex(e => e.StripeWebHookEventId, "StripeWebHookEventID");
 
@@ -5340,9 +5348,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.StripeWebHookId)
                 .HasColumnType("int(11)")
                 .HasColumnName("StripeWebHookID");
-            //entity.Property(e => e.OrderId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderID");
+            entity.Property(e => e.OrderId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderID");
             entity.Property(e => e.StripeWebHookAccountId)
                 .HasMaxLength(50)
                 .HasColumnName("StripeWebHookAccountID");
@@ -5361,11 +5369,10 @@ public partial class PtaeventContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("StripeWebHookRequestID");
 
-            entity.HasOne(d => d.Order)
-                .WithMany()
-                //.HasForeignKey(d => d.Order)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblStripeWebHook_tblOrder");
+            entity.HasOne(stripeWebHook => stripeWebHook.Order)
+                .WithMany(order => order.StripeWebHookOrder)
+                .HasForeignKey(stripeWebHook => stripeWebHook.OrderId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSubGroup>(entity =>
