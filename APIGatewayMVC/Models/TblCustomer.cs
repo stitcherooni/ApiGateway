@@ -278,6 +278,9 @@ public partial class TblCustomer
     public List<TblProductQuestionAnswer> ProductQuestionAnswerUpdatedBy { get; set; }
     public List<TblProductType> ProductTypeCreatedBy { get; set; }
     public List<TblProductType> ProductTypeUpdatedBy { get; set; }
+    public List<TblPtamember> PtamemberCustomer { get; set; }
+    public List<TblPtamember> PtamemberCreatedBy { get; set; }
+    public List<TblPtamember> PtamemberUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

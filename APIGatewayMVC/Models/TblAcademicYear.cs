@@ -30,4 +30,5 @@ public partial class TblAcademicYear
     public TblCustomer UpdatedBy { get; set; }
 
     public List<TblClass> AcademicYearClass { get; set; }
+    public List<TblPtamember> AcademicYearPtamember { get; set; }
 }

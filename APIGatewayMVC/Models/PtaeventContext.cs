@@ -240,6 +240,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(classes => classes.AcademicYear)
                 .HasForeignKey(classes => classes.AcademicYearId)
                 .IsRequired(false);
+            entity.HasMany(academicYear => academicYear.AcademicYearPtamember)
+                .WithOne(ptamember => ptamember.AcademicYear)
+                .HasForeignKey(ptamember => ptamember.AcademicYearId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblApiAuditHistory>(entity =>
@@ -4118,8 +4122,8 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductId)
                 .IsRequired(false);
             entity.HasMany(product => product.ProductQuestion)
-                .WithOne(productQuestion => productPaymentScheme.Product)
-                .HasForeignKey(productQuestion => productPaymentScheme.ProductId)
+                .WithOne(productPaymentScheme => productPaymentScheme.Product)
+                .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductId)
                 .IsRequired(false);
 
         });
@@ -4455,7 +4459,7 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(productType => productType.CreatedBy)
                 .WithMany(customer => customer.ProductTypeCreatedBy)
-                .HasForeignKey(school => productType.ProductTypeCreatedBy)
+                .HasForeignKey(productType => productType.ProductTypeCreatedBy)
                 .IsRequired(false);
             entity.HasOne(productType => productType.UpdatedBy)
                 .WithMany(customer => customer.ProductTypeUpdatedBy)
@@ -4477,9 +4481,9 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PtamemberId)
                 .HasColumnType("int(11)")
                 .HasColumnName("PTAMemberID");
-            //entity.Property(e => e.AcademicYearId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("AcademicYearID");
+            entity.Property(e => e.AcademicYearId)
+                .HasColumnType("int(11)")
+                .HasColumnName("AcademicYearID");
             //entity.Property(e => e.CustomerId)
             //    .HasColumnType("int(11)")
             //    .HasColumnName("CustomerID");
@@ -4500,47 +4504,37 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PtamemberUpdatedDate)
                 .HasColumnType("timestamp")
                 .HasColumnName("PTAMemberUpdatedDate");
-            //entity.Property(e => e.RoleId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("RoleID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.RoleId)
+                .HasColumnType("int(11)")
+                .HasColumnName("RoleID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
 
-            entity.HasOne(d => d.AcademicYear)
-           .WithMany()
-           //.HasForeignKey(d => d.AcademicYear)
-
-           .HasConstraintName("FK_tblPtamember_tblAcademicYear");
-
-            entity.HasOne(d => d.Role)
-                .WithMany()
-                //.HasForeignKey(d => d.Role)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblPtamember_tblRole");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .HasConstraintName("FK_tblPtamember_tblSchool");
-
-            entity.HasOne(d => d.Customer)
-               .WithMany()
-               //.HasForeignKey(d => d.Customer)
-
-               .HasConstraintName("FK_tblPtamember_tblCustomer");
-
-            entity.HasOne(d => d.PtamemberCreatedBy)
-              .WithMany()
-              //.HasForeignKey(d => d.PtamemberCreatedBy)
-
-              .HasConstraintName("FK_tblPtamember.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.PtamemberUpdatedBy)
-              .WithMany()
-              //.HasForeignKey(d => d.PtamemberUpdatedBy)
-
-              .HasConstraintName("FK_tblPtamember.UpdatedBy_tblCustomer");
+            entity.HasOne(ptamember => ptamember.School)
+                .WithMany(school => school.Ptamember)
+                .HasForeignKey(ptamember => ptamember.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(ptamember => ptamember.Role)
+                .WithMany(role => role.PtamemberRole)
+                .HasForeignKey(ptamember => ptamember.RoleId)
+                .IsRequired(false);
+            entity.HasOne(ptamember => ptamember.AcademicYear)
+                .WithMany(academicYear => academicYear.AcademicYearPtamember)
+                .HasForeignKey(ptamember => ptamember.AcademicYearId)
+                .IsRequired(false);
+            entity.HasOne(ptamember => ptamember.Customer)
+                .WithMany(customer => academicYear.PtamemberCustomer)
+                .HasForeignKey(ptamember => ptamember.CustomerId)
+                .IsRequired(false);
+            entity.HasOne(ptamember => ptamember.CreatedBy)
+                .WithMany(customer => customer.PtamemberCreatedBy)
+                .HasForeignKey(ptamember => ptamember.PtamemberCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(ptamember => ptamember.UpdatedBy)
+                .WithMany(customer => customer.PtamemberUpdatedBy)
+                .HasForeignKey(ptamember => ptamember.PtamemberUpdatedBy)
+                .IsRequired(false);
 
 
         });
@@ -4554,36 +4548,19 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.RefundId)
                 .HasColumnType("int(11)")
                 .HasColumnName("RefundID");
-            //entity.Property(e => e.OrderId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderID");
-            //entity.Property(e => e.RefundCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderID");
+            entity.Property(e => e.RefundCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.RefundCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.RefundDescription).HasMaxLength(1000);
-            //entity.Property(e => e.RefundUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.RefundUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.RefundUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.RefundValue).HasPrecision(10, 2);
 
-            entity.HasOne(d => d.Order)
-           .WithMany()
-           //.HasForeignKey(d => d.Order)
-
-           .HasConstraintName("FK_tblRefund_tblOrdr");
-
-            entity.HasOne(d => d.RefundCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.RefundCreatedBy)
-
-                .HasConstraintName("FK_tblRefund.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.RefundUpdatedBy)
-                .WithMany()
-                 //.HasForeignKey(d => d.RefundUpdatedBy)
-                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblRefund.UpdatedBy_tblCustomer");
-        });
+       });
 
         modelBuilder.Entity<TblRole>(entity =>
         {
@@ -4621,6 +4598,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(role => role.FileRole)
                 .WithOne(fileRole => fileRole.Role)
                 .HasForeignKey(fileRole => fileRole.RoleId)
+                .IsRequired(false);
+            entity.HasMany(role => role.PtamemberRole)
+                .WithOne(ptamember => ptamember.Role)
+                .HasForeignKey(ptamember => ptamember.RoleId)
                 .IsRequired(false);
         });
 
@@ -5003,6 +4984,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(school => school.SchoolProduct)
                 .WithOne(product => product.School)
                 .HasForeignKey(product => product.SchoolId)
+                .IsRequired(false);
+            entity.HasMany(school => school.Ptamember)
+                .WithOne(ptamember => ptamember.School)
+                .HasForeignKey(ptamember => ptamember.SchoolId)
                 .IsRequired(false);
         });
 
