@@ -283,6 +283,8 @@ public partial class TblCustomer
     public List<TblPtamember> PtamemberUpdatedBy { get; set; }
     public List<TblRefund> RefundCreatedBy { get; set; }
     public List<TblRefund> RefundUpdatedBy { get; set; }
+    public List<TblSchoolYear> SchoolYearCreatedBy { get; set; }
+    public List<TblSchoolYear> SchoolYearUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

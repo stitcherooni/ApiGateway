@@ -23,4 +23,7 @@ public partial class TblSchoolYear
 
     public List<TblClass> SchoolYearClass { get; set; }
     public List<TblEventTaskGroup> EventTaskGroup { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

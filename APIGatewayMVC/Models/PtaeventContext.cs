@@ -2031,6 +2031,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(refund => refund.CreatedBy)
                 .HasForeignKey(refund => refund.RefundCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.SchoolYearUpdatedBy)
+                .WithOne(schoolYear => schoolYear.UpdatedBy)
+                .HasForeignKey(schoolYear => schoolYear.SchoolYearUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.SchoolYearCreatedBy)
+                .WithOne(schoolYear => schoolYear.CreatedBy)
+                .HasForeignKey(schoolYear => schoolYear.SchoolYearCreatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -5031,27 +5039,24 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.SchoolYearId)
                 .HasColumnType("int(11)")
                 .HasColumnName("SchoolYearID");
-            //entity.Property(e => e.SchoolYearCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.SchoolYearCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SchoolYearCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.SchoolYearDeleted).HasColumnType("bit(1)");
             entity.Property(e => e.SchoolYearName).HasMaxLength(25);
             entity.Property(e => e.SchoolYearOrder).HasColumnType("int(11)");
-            //entity.Property(e => e.SchoolYearUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.SchoolYearUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SchoolYearUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.SchoolYearCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SchoolYearCreatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSchoolYear.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.SchoolYearUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SchoolYearUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSchoolYear.UpdatedBy_tblCustomer");
+            entity.HasOne(schoolYear => schoolYear.CreatedBy)
+                .WithMany(customer => customer.SchoolYearCreatedBy)
+                .HasForeignKey(schoolYear => schoolYear.SchoolYearCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(schoolYear => schoolYear.UpdatedBy)
+                .WithMany(customer => customer.SchoolYearUpdatedBy)
+                .HasForeignKey(schoolYear => schoolYear.SchoolYearUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(schoolYear => schoolYear.SchoolYearClass)
                 .WithOne(casses => casses.SchoolYear)
