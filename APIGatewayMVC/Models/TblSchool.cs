@@ -211,7 +211,7 @@ public partial class TblSchool
 
     public bool SchoolDeleted { get; set; }
 
-    public int SchoolCreatedBy { get; set; }
+    public int? SchoolCreatedBy { get; set; }
 
     public DateTime SchoolCreatedDate { get; set; }
 
@@ -222,4 +222,38 @@ public partial class TblSchool
     public string SchoolCustomCss { get; set; }
 
     public string Lacode { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer DpasignedBy { get; set; }
+    public TblCountry Ptacountry { get; set; }
+    public TblCurrency Ptacurrency { get; set; }
+    public TblCustomer PtalotteryLicenceUploadedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+    public TblCustomer TermsSignedBy { get; set; }
+    public TblOrganisationType OrganisationType { get; set; }
+    public TblPlanType PlanType { get; set; }
+
+    public List<TblCustomer> Application { get; set; }
+    public List<TblCustomer> CustomerSchool { get; set; }
+    public List<TblApiAuditHistory> ApiAuditHistoryApplication { get; set; }
+    public List<TblAuditHistory> AuditHistoryApplication { get; set; }
+    public List<TblBankedBusiness> BankedBusinessSchool { get; set; }
+    public List<TblBusinessDirectory> BusinessDirectorySchool { get; set; }
+    public List<TblBusinessDirectoryCategory> BusinessDirectoryCategorySchool { get; set; }
+    public List<TblBusinessDirectoryClick> BusinessDirectoryClickSchool { get; set; }
+    public List<TblClass> SchoolClass { get; set; }
+    public List<TblDiscount> DiscountSchool { get; set; }
+    public List<TblEvent> EventSchool { get; set; }
+    public List<TblFaq> FaqSchool { get; set; }
+    public List<TblFile> FileSchool { get; set; }
+    public List<TblNews> SchoolNews { get; set; }
+    public List<TblPage> SchoolPage { get; set; }
+    public List<TblPartner> SchoolPartner { get; set; }
+    public List<TblPoll> SchoolPoll { get; set; }
+    public List<TblProduct> SchoolProduct { get; set; }
+    public List<TblPtamember> Ptamember { get; set; }
+    public List<TblSponsor> SponsorSchool { get; set; }
+    public List<TblSponsorClick> SponsorClickSchool { get; set; }
+    public List<TblSponsorImpression> SponsorImpression { get; set; }
+    public List<TblTranslation> TranslationApplicationSchool { get; set; }
 }

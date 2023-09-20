@@ -16,4 +16,10 @@ public partial class TblCustomerConsent
     public int CustomerConsentForeignKey { get; set; }
 
     public DateTime CustomerConsentCreatedDate { get; set; }
+
+    public TblCustomer Customer { get; set; }
+    public TblContentHash ContentHash { get; set; }
+    public TblCustomerConsent ForeignKey { get; set; }
+
+    public List<TblCustomerConsent> ForeignKeys { get; set; }
 }

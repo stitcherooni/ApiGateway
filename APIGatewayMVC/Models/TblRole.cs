@@ -23,7 +23,14 @@ public partial class TblRole
 
     public DateTime RoleCreatedDate { get; set; }
 
-    public int? RoleUpdatedBy { get; set; }
+    public int RoleUpdatedBy { get; set; }
 
     public DateTime? RoleUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblCustomerRole> CustomerRole { get; set; }
+    public List<TblFileRole> FileRole { get; set; }
+    public List<TblPtamember> PtamemberRole { get; set; }
 }

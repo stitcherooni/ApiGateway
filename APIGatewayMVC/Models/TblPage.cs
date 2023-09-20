@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -28,4 +27,8 @@ public partial class TblPage
     public int? PageUpdatedBy { get; set; }
 
     public DateTime? PageUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

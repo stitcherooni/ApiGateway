@@ -24,4 +24,9 @@ public partial class TblCurrency
     public int? CurrencyUpdatedBy { get; set; }
 
     public DateTime? CurrencyUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblSchool> SchoolPtacurrency { get; set; }
 }

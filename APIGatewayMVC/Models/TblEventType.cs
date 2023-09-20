@@ -18,4 +18,9 @@ public partial class TblEventType
     public int? EventTypeUpdatedBy { get; set; }
 
     public DateTime? EventTypeUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblEvent> EventType { get; set; }
 }

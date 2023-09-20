@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -36,4 +35,7 @@ public partial class TblPlatformPartner
     public int? PlatformPartnerUpdatedBy { get; set; }
 
     public DateTime? PlatformPartnerUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

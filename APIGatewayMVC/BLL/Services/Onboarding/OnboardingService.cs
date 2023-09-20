@@ -5,6 +5,8 @@ using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,17 +48,17 @@ namespace BLL.Services.Onboarding
                 await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
 
                 var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
-                accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
+                accountDetailsMap.CustomerSchool = schoolDetailsMap;
                 await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
 
                 var customerRole2 = new TblCustomerRole
                 {
-                    CustomerId = accountDetailsMap.CustomerId,
+                    Customer = accountDetailsMap,
                     RoleId = 2
                 };
                 var customerRole7 = new TblCustomerRole
                 {
-                    CustomerId = accountDetailsMap.CustomerId,
+                    Customer = accountDetailsMap,
                     RoleId = 7
                 };
                 await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);
@@ -86,7 +88,7 @@ namespace BLL.Services.Onboarding
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             var urlVariants = new List<string>();
- 
+
             string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);

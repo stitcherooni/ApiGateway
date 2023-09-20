@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -18,4 +17,7 @@ public partial class TblMessageType
     public int? MessageTypeUpdatedBy { get; set; }
 
     public bool MessageTypeDeleted { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

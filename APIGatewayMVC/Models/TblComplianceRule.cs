@@ -22,4 +22,9 @@ public partial class TblComplianceRule
     public int? ComplianceRuleUpdatedBy { get; set; }
 
     public DateTime? ComplianceRuleUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBankedBusinessComplianceRule> BankedBusinessComplianceRule { get; set; }
 }

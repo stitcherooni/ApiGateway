@@ -33,6 +33,7 @@ namespace OnboardingServiceTests
             _customerRepositoryMock = new Mock<IRepository<TblCustomer>>();
             _customerRoleRepositoryMock = new Mock<IRepository<TblCustomerRole>>();
 
+
             _onboardingService = new OnboardingService(_mapperMock.Object,
                                                        _emailsenderMock.Object,
                                                        _schoolRepositoryMock.Object,

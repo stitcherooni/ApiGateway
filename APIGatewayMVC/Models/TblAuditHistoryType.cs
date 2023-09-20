@@ -18,4 +18,7 @@ public partial class TblAuditHistoryType
     public int? AuditHistoryTypeUpdatedBy { get; set; }
 
     public bool AuditHistoryTypeDeleted { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

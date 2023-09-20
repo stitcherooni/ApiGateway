@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -31,9 +30,14 @@ public partial class TblEventTaskCustomer
 
     public DateTime EventTaskCustomerCreatedDate { get; set; }
 
-    public int? EventTaskCustomerUpdatedBy { get; set; }
+    public int EventTaskCustomerUpdatedBy { get; set; }
 
     public DateTime? EventTaskCustomerUpdatedDate { get; set; }
 
     public bool EventTaskCustomerDeleted { get; set; }
+
+    public TblEventTask EventTask { get; set; }
+    public TblCustomer Customer { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

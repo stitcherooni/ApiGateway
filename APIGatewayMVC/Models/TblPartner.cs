@@ -32,4 +32,10 @@ public partial class TblPartner
     public int? PartnerUpdatedBy { get; set; }
 
     public DateTime? PartnerUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblCustomer> CustomerPartner { get; set; }
 }

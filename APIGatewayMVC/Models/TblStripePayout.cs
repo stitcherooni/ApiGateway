@@ -24,4 +24,6 @@ public partial class TblStripePayout
     public DateTime? PayoutPaidDate { get; set; }
 
     public DateTime PayoutCreatedDate { get; set; }
+
+    public List<TblStripeFee> StripeFeePayout { get; set; }
 }

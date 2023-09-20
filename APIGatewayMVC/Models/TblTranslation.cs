@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -24,4 +23,10 @@ public partial class TblTranslation
     public int? TranslationUpdatedBy { get; set; }
 
     public DateTime? TranslationUpdatedDate { get; set; }
+
+    public TblSchool Application { get; set; }
+    public TblComponent Component { get; set; }
+    public TblLanguage Language { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

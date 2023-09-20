@@ -20,4 +20,9 @@ public partial class TblLanguage
     public int? LanguageUpdatedBy { get; set; }
 
     public DateTime? LanguageUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblTranslation> TranslationLanguage { get; set; }
 }

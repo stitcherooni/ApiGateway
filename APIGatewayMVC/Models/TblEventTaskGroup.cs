@@ -15,7 +15,7 @@ public partial class TblEventTaskGroup
 
     public int EventTaskGroupOrganiserId { get; set; }
 
-    public string EventTaskGroupRepsSchoolYearId { get; set; }
+    public int EventTaskGroupRepsSchoolYearId { get; set; }
 
     public bool EventTaskGroupDeleted { get; set; }
 
@@ -26,4 +26,12 @@ public partial class TblEventTaskGroup
     public DateTime? EventTaskGroupUpdatedDate { get; set; }
 
     public int? EventTaskGroupUpdatedBy { get; set; }
+
+    public List<TblEventTask> EventTask { get; set; }
+
+    public TblEvent Event { get; set; }
+    public TblSchoolYear EventTaskGroupRepsSchoolYear { get; set; }
+    public TblCustomer EventTaskGroupOrganiser { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

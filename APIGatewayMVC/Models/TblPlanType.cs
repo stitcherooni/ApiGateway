@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Models;
 
@@ -10,4 +9,6 @@ public partial class TblPlanType
     public string PlanTypeName { get; set;}
 
     public string PlanTypeDescription { get; set; }
+
+    public List<TblSchool> PlanType { get; set; }
 }

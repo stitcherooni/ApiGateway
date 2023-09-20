@@ -17,7 +17,13 @@ public partial class TblPollOption
 
     public DateTime PollOptionCreatedDate { get; set; }
 
-    public int PollOptionUpdatedBy { get; set; }
+    public int? PollOptionUpdatedBy { get; set; }
 
     public DateTime? PollOptionUpdatedDate { get; set; }
+
+    public TblPoll Poll { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblPollAnswer> PollOptionAnswer { get; set; }
 }

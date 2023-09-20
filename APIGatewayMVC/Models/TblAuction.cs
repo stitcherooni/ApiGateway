@@ -50,4 +50,11 @@ public partial class TblAuction
     public int? AuctionUpdatedBy { get; set; }
 
     public DateTime? AuctionUpdatedDate { get; set; }
+
+    public TblEvent Event { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBid> BidAuction { get; set; }
+    public List<TblProduct> ProductAuction { get; set; }
 }

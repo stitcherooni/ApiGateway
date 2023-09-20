@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -18,4 +17,7 @@ public partial class TblPaymentStatus
     public int? PaymentStatusUpdatedBy { get; set; }
 
     public DateTime? PaymentStatusUpdatedDate { get; set; }
+
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

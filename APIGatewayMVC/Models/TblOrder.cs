@@ -29,7 +29,7 @@ public partial class TblOrder
 
     public bool OrderRefunded { get; set; }
 
-    public int? OrderTransactionId { get; set; }
+    public int OrderTransactionId { get; set; }
 
     public string OrderTransactionType { get; set; }
 
@@ -57,5 +57,15 @@ public partial class TblOrder
 
     public int? OrderUpdatedBy { get; set; }
 
-    public int? CustomerId { get; set; }
+    public int CustomerId { get; set; }
+
+    public List<TblBankedWebHook> BankedWebHookOrder { get; set; }
+    public List<TblRefund> RefundOrder { get; set; }
+    public List<TblStripeWebHook> StripeWebHookOrder { get; set; }
+
+    public TblCustomer OrderType { get; set; }
+    public TblCustomer OrderTransaction { get; set; }
+    public TblCustomer Customer { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -17,7 +16,7 @@ public partial class TblAuditHistory
 
     public int? AuditHistoryLoadTime { get; set; }
 
-    public int? ApplicationId { get; set; }
+    public int ApplicationId { get; set; }
 
     public int CustomerId { get; set; }
 
@@ -32,4 +31,8 @@ public partial class TblAuditHistory
     public int? AuditHistoryUpdatedBy { get; set; }
 
     public bool AuditHistoryDeleted { get; set; }
+    public TblSchool Application { get; set; }
+    public TblCustomer Customer { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

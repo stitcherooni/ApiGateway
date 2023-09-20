@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -22,4 +21,9 @@ public partial class TblBankedBusinessComplianceRule
     public int? BankedBusinessComplianceRuleUpdatedBy { get; set; }
 
     public DateTime? BankedBusinessComplianceRuleUpdatedDate { get; set; }
+
+    public TblBankedBusiness BankedBusiness { get; set; }
+    public TblComplianceRule ComplianceRule { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

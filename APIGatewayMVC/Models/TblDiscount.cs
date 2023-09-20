@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -40,4 +39,8 @@ public partial class TblDiscount
     public int? DiscountUpdatedBy { get; set; }
 
     public DateTime? DiscountUpdatedDate { get; set; }
+
+    public TblSchool School { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }

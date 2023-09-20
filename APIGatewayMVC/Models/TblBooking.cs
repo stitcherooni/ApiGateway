@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -32,4 +31,10 @@ public partial class TblBooking
     public int OrderItemId { get; set; }
 
     public int TicketId { get; set; }
+
+    public TblClass Class { get; set; }
+    public TblOrderItem OrderItem { get; set; }
+    public TblTicket Ticket { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
