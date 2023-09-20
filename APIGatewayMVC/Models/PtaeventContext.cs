@@ -1061,6 +1061,11 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(component => component.ComponentUpdatedBy)
                 .IsRequired(false);
 
+            entity.HasMany(component => component.TranslationComponent)
+                .WithOne(transaction => transaction.Component)
+                .HasForeignKey(transaction => transaction.ComponentId)
+                .IsRequired(false);
+
         });
 
         modelBuilder.Entity<TblComponentGroup>(entity =>
@@ -2058,6 +2063,22 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(customer => customer.SubGroupUpdatedBy)
                 .WithOne(subGroup => subGroup.UpdatedBy)
                 .HasForeignKey(subGroup => subGroup.SubGroupUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.TicketCreatedBy)
+                .WithOne(ticket => ticket.CreatedBy)
+                .HasForeignKey(ticket => ticket.TicketCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.TicketUpdatedBy)
+                .WithOne(ticket => ticket.UpdatedBy)
+                .HasForeignKey(ticket => ticket.TicketUpdatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.TranslationCreatedBy)
+                .WithOne(transaction => transaction.CreatedBy)
+                .HasForeignKey(transaction => transaction.TranslationCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.TranslationUpdatedBy)
+                .WithOne(transaction => ticktransactionet.UpdatedBy)
+                .HasForeignKey(transaction => transaction.TranslationUpdatedBy)
                 .IsRequired(false);
         });
 
@@ -3222,6 +3243,11 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(language => language.LanguageUpdatedBy)
                 .IsRequired(false);
 
+            entity.HasMany(language => language.TranslationLanguage)
+                .WithOne(transaction => transaction.Language)
+                .HasForeignKey(transaction => transaction.LanguageId)
+                .IsRequired(false);
+
         });
 
         modelBuilder.Entity<TblLocalAuthority>(entity =>
@@ -3549,6 +3575,7 @@ public partial class PtaeventContext : DbContext
                 .WithOne(stripeWebHook => stripeWebHook.Order)
                 .HasForeignKey(stripeWebHook => stripeWebHook.OrderId)
                 .IsRequired(false);
+
         });
 
         modelBuilder.Entity<TblOrderItem>(entity =>
@@ -3624,6 +3651,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(orderItem => orderItem.BookingOrderItem)
                 .WithOne(booking => booking.OrderItem)
                 .HasForeignKey(booking => booking.OrderItemId)
+                .IsRequired(false);
+            entity.HasMany(orderItem => orderItem.TicketOrderItem)
+                .WithOne(ticket => ticket.OrderItem)
+                .HasForeignKey(ticket => ticket.OrderItemId)
                 .IsRequired(false);
         });
 
@@ -5068,6 +5099,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsorImpression => sponsorImpression.School)
                 .HasForeignKey(sponsorImpression => sponsorImpression.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.TranslationApplicationSchool)
+                .WithOne(transaction => transaction.Application)
+                .HasForeignKey(transaction => transaction.ApplicationId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -5226,7 +5261,7 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(sponsorClick => sponsorClick.SchoolId)
                 .IsRequired(false);
             entity.HasOne(sponsorClick => sponsorClick.Customer)
-                .WithMany(customer => customer.SponsorClickSchool)
+                .WithMany(customer => customer.SponsorClickCustomer)
                 .HasForeignKey(sponsorClick => sponsorClick.CustomerId)
                 .IsRequired(false);
         });
@@ -5337,8 +5372,8 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PayoutTypeID");
 
-            entity.HasMany(stripePayout => stripePayout.StripePayout)
-                .WithOne(stripeFee => stripeFee.StripeFeePayout)
+            entity.HasMany(stripePayout => stripePayout.StripeFeePayout)
+                .WithOne(stripeFee => stripeFee.StripePayout)
                 .HasForeignKey(stripeFee => stripeFee.StripePayoutId)
                 .IsRequired(false);
         });
@@ -5434,7 +5469,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblTicket");
 
-            //entity.HasIndex(e => e.OrderItemId, "OrderItemID");
+            entity.HasIndex(e => e.OrderItemId, "OrderItemID");
 
             entity.HasIndex(e => e.TicketDeleted, "TicketDeleted");
 
@@ -5447,10 +5482,10 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.TicketId)
                 .HasColumnType("int(11)")
                 .HasColumnName("TicketID");
-            //entity.Property(e => e.OrderItemId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("OrderItemID");
-            //entity.Property(e => e.TicketCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.OrderItemId)
+                .HasColumnType("int(11)")
+                .HasColumnName("OrderItemID");
+            entity.Property(e => e.TicketCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.TicketCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -5465,26 +5500,21 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.TicketQflowTicketId)
                 .HasMaxLength(50)
                 .HasColumnName("TicketQFlowTicketID");
-            //entity.Property(e => e.TicketUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.TicketUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.TicketUpdatedDate).HasColumnType("timestamp");
 
-            entity.HasOne(d => d.OrderItem)
-                .WithMany()
-                //.HasForeignKey(d => d.OrderItem)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblTicket_tblOrder");
-
-            entity.HasOne(d => d.TicketCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.TicketCreatedBy)
-
-                .HasConstraintName("FK_tblTicket.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.TicketUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.TicketUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblTicket.UpdatedBy_tblCustomer");
+            entity.HasOne(ticket => ticket.OrderItem)
+                .WithMany(organisation => organisation.TicketOrderItem)
+                .HasForeignKey(ticket => ticket.OrderItemId)
+                .IsRequired(false);
+            entity.HasOne(ticket => ticket.CreatedBy)
+                .WithMany(customer => customer.TicketCreatedBy)
+                .HasForeignKey(ticket => ticket.TicketCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(ticket => ticket.UpdatedBy)
+                .WithMany(customer => customer.TicketUpdatedBy)
+                .HasForeignKey(ticket => ticket.TicketUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(ticket => ticket.BookingTicket)
                 .WithOne(booking => booking.Ticket)
@@ -5536,6 +5566,27 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("timestamp");
             entity.Property(e => e.TranslationUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.TranslationUpdatedDate).HasColumnType("timestamp");
+
+            entity.HasOne(translation => translation.Application)
+                .WithMany(school => school.TranslationApplicationSchool)
+                .HasForeignKey(translation => translation.ApplicationId)
+                .IsRequired(false);
+            entity.HasOne(translation => translation.Component)
+                .WithMany(component => component.TranslationComponent)
+                .HasForeignKey(translation => translation.ComponentId)
+                .IsRequired(false);
+            entity.HasOne(translation => translation.Language)
+                .WithMany(language => language.TranslationLanguage)
+                .HasForeignKey(translation => translation.LanguageId)
+                .IsRequired(false);
+            entity.HasOne(transaction => transaction.CreatedBy)
+                .WithMany(customer => customer.TranslationCreatedBy)
+                .HasForeignKey(transaction => transaction.TranslationCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(transaction => transaction.UpdatedBy)
+                .WithMany(customer => customer.TranslationUpdatedBy)
+                .HasForeignKey(transaction => transaction.TranslationUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<VersionInfo>(entity =>

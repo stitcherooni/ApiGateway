@@ -254,4 +254,5 @@ public partial class TblSchool
     public List<TblSponsor> SponsorSchool { get; set; }
     public List<TblSponsorClick> SponsorClickSchool { get; set; }
     public List<TblSponsorImpression> SponsorImpression { get; set; }
+    public List<TblTranslation> TranslationApplicationSchool { get; set; }
 }

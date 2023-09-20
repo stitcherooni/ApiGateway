@@ -50,6 +50,7 @@ public partial class TblOrderItem
     public DateTime? OrderItemUpdatedDate { get; set; }
 
     public List<TblBooking> BookingOrderItem { get; set; }
+    public List<TblTicket> TicketOrderItem { get; set; }
 
     public TblCustomer Order { get; set; }
     public TblCustomer Item { get; set; }

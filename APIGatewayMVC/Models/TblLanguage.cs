@@ -23,4 +23,6 @@ public partial class TblLanguage
 
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblTranslation> TranslationLanguage { get; set; }
 }

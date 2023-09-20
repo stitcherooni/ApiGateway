@@ -291,6 +291,10 @@ public partial class TblCustomer
     public List<TblSponsorImpression> SponsorImpressionCustomer { get; set; }
     public List<TblSubGroup> SubGroupCreatedBy { get; set; }
     public List<TblSubGroup> SubGroupUpdatedBy { get; set; }
+    public List<TblTicket> TicketCreatedBy { get; set; }
+    public List<TblTicket> TicketUpdatedBy { get; set; }
+    public List<TblTranslation> TranslationCreatedBy { get; set; }
+    public List<TblTranslation> TranslationUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

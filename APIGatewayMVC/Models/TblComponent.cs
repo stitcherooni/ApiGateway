@@ -31,4 +31,6 @@ public partial class TblComponent
     public TblComponentGroup ComponentGroup { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblTranslation> TranslationComponent { get; set; }
 }

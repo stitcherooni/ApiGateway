@@ -11,7 +11,7 @@ public partial class TblTicket
 
     public bool TicketHasQrcode { get; set; }
 
-    public TblOrder OrderItem { get; set; }
+    public int OrderItemId { get; set; }
 
     public string TicketQflowTicketId { get; set; }
 
@@ -19,13 +19,17 @@ public partial class TblTicket
 
     public ulong TicketDeleted { get; set; }
 
-    public TblCustomer TicketCreatedBy { get; set; }
+    public int TicketCreatedBy { get; set; }
 
     public DateTime TicketCreatedDate { get; set; }
 
-    public TblCustomer TicketUpdatedBy { get; set; }
+    public int? TicketUpdatedBy { get; set; }
 
     public DateTime? TicketUpdatedDate { get; set; }
 
     public List<TblBooking> BookingTicket { get; set; }
+
+    public TblOrderItem OrderItem { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
