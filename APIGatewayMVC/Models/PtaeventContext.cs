@@ -2051,6 +2051,14 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsorImpression => sponsorImpression.Customer)
                 .HasForeignKey(sponsorImpression => sponsorImpression.CustomerId)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.SubGroupCreatedBy)
+                .WithOne(subGroup => subGroup.CreatedBy)
+                .HasForeignKey(subGroup => subGroup.SubGroupCreatedBy)
+                .IsRequired(false);
+            entity.HasMany(customer => customer.SubGroupUpdatedBy)
+                .WithOne(subGroup => subGroup.UpdatedBy)
+                .HasForeignKey(subGroup => subGroup.SubGroupUpdatedBy)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -2564,6 +2572,10 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(events => events.MessageGroupEvent)
                 .WithOne(messageGroup => messageGroup.Event)
                 .HasForeignKey(messageGroup => messageGroup.EventId)
+                .IsRequired(false);
+            entity.HasMany(events => events.SubGroupEvent)
+                .WithOne(subGroup => subGroup.Event)
+                .HasForeignKey(subGroup => subGroup.EventId)
                 .IsRequired(false);
 
         });
@@ -5384,36 +5396,31 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.SubGroupId)
                 .HasColumnType("int(11)")
                 .HasColumnName("SubGroupID");
-            //entity.Property(e => e.EventId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("EventID");
-            //entity.Property(e => e.SubGroupCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.EventId)
+                .HasColumnType("int(11)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.SubGroupCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SubGroupCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.SubGroupDescription).HasMaxLength(250);
             entity.Property(e => e.SubGroupImage).HasMaxLength(250);
             entity.Property(e => e.SubGroupName).HasMaxLength(50);
-            //entity.Property(e => e.SubGroupUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.SubGroupUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SubGroupUpdatedDate).HasColumnType("timestamp");
 
-
-            entity.HasOne(d => d.Event)
-                .WithMany()
-                //.HasForeignKey(d => d.Event)
-
-                .HasConstraintName("FK_tblSubGroup_tblEvent");
-
-            entity.HasOne(d => d.SubGroupCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SubGroupCreatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSubGroup.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.SubGroupUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SubGroupUpdatedBy)
-                .HasConstraintName("FK_tblSubGroup.UpdatedBy_tblCustomer");
+            entity.HasOne(subGroup => subGroup.Event)
+                .WithMany(events => events.SubGroupEvent)
+                .HasForeignKey(subGroup => subGroup.EventId)
+                .IsRequired(false);
+            entity.HasOne(subGroup => subGroup.CreatedBy)
+                .WithMany(customer => customer.SubGroupCreatedBy)
+                .HasForeignKey(subGroup => subGroup.SubGroupCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(subGroup => subGroup.UpdatedBy)
+                .WithMany(customer => customer.SubGroupUpdatedBy)
+                .HasForeignKey(subGroup => subGroup.SubGroupUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(subGroup => subGroup.ProductSubGroup)
                 .WithOne(product => product.SubGroup)

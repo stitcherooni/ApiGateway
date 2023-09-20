@@ -289,6 +289,8 @@ public partial class TblCustomer
     public List<TblSponsor> SponsorUpdatedBy { get; set; }
     public List<TblSponsorClick> SponsorClickCustomer { get; set; }
     public List<TblSponsorImpression> SponsorImpressionCustomer { get; set; }
+    public List<TblSubGroup> SubGroupCreatedBy { get; set; }
+    public List<TblSubGroup> SubGroupUpdatedBy { get; set; }
 
 
     public TblPartner Partner { get; set; }

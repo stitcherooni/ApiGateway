@@ -7,7 +7,7 @@ public partial class TblSubGroup
 {
     public int SubGroupId { get; set; }
 
-    public TblEvent Event { get; set; }
+    public int EventId { get; set; }
 
     public string SubGroupName { get; set;}
 
@@ -17,13 +17,17 @@ public partial class TblSubGroup
 
     public bool SubGroupDeleted { get; set; }
 
-    public TblCustomer SubGroupCreatedBy { get; set; }
+    public int SubGroupCreatedBy { get; set; }
 
     public DateTime SubGroupCreatedDate { get; set; }
 
-    public TblCustomer SubGroupUpdatedBy { get; set; }
+    public int SubGroupUpdatedBy { get; set; }
 
     public DateTime? SubGroupUpdatedDate { get; set; }
 
     public List<TblProduct> ProductSubGroup { get; set; }
+
+    public TblEvent Event { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
