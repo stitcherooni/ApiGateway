@@ -60,6 +60,7 @@ public partial class TblOrder
     public int CustomerId { get; set; }
 
     public List<TblBankedWebHook> BankedWebHookOrder { get; set; }
+    public List<TblRefund> RefundOrder { get; set; }
 
     public TblCustomer OrderType { get; set; }
     public TblCustomer OrderTransaction { get; set; }

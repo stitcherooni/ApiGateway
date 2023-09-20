@@ -7,7 +7,7 @@ public partial class TblRefund
 {
     public int RefundId { get; set; }
 
-    public TblOrder Order { get; set; }
+    public int OrderId { get; set; }
 
     public decimal RefundValue { get; set; }
 
@@ -24,4 +24,8 @@ public partial class TblRefund
     public TblCustomer RefundUpdatedBy { get; set; }
 
     public DateTime? RefundUpdatedDate { get; set; }
+
+    public TblOrder Order { get; set; }
+    public TblCustomer CreatedBy { get; set; }
+    public TblCustomer UpdatedBy { get; set; }
 }
