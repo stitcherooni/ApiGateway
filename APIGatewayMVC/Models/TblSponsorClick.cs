@@ -7,11 +7,11 @@ public partial class TblSponsorClick
 {
     public int SponsorClickId { get; set; }
 
-    public TblSponsor Sponsor { get; set; }
+    public int SponsorId { get; set; }
 
-    public TblCustomer Customer { get; set; }
+    public int CustomerId { get; set; }
 
-    public TblSchool School { get; set; }
+    public int SchoolId { get; set; }
 
     public string SponsorClickFrom { get; set; }
 
@@ -20,4 +20,8 @@ public partial class TblSponsorClick
     public string SponsorClickUserAgent { get; set; }
 
     public DateTime SponsorClickDateTime { get; set; }
+
+    public TblSponsor Sponsor { get; set; }
+    public TblSchool School { get; set; }
+    public TblCustomer Customer { get; set; }
 }

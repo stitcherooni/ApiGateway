@@ -68,6 +68,7 @@ public partial class TblSponsor
     public DateTime? SponsorUpdatedDate { get; set; }
 
     public List<TblEventSponsor> EventSponsor { get; set; }
+    public List<TblSponsorClick> SponsorClick { get; set; }
 
     public TblCountry Country { get; set; }
     public TblSchool School { get; set; }

@@ -252,4 +252,5 @@ public partial class TblSchool
     public List<TblProduct> SchoolProduct { get; set; }
     public List<TblPtamember> Ptamember { get; set; }
     public List<TblSponsor> SponsorSchool { get; set; }
+    public List<TblSponsorClick> SponsorClickSchool { get; set; }
 }

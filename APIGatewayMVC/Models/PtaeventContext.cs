@@ -2043,6 +2043,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(schoolYear => schoolYear.CreatedBy)
                 .HasForeignKey(schoolYear => schoolYear.SchoolYearCreatedBy)
                 .IsRequired(false);
+            entity.HasMany(customer => customer.SponsorClickCustomer)
+                .WithOne(sponsorClick => sponsorClick.Customer)
+                .HasForeignKey(sponsorClick => sponsorClick.CustomerId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblCustomerConsent>(entity =>
@@ -5036,6 +5040,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(sponsor => sponsor.School)
                 .HasForeignKey(sponsor => sponsor.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.SponsorClickSchool)
+                .WithOne(sponsorClick => sponsorClick.School)
+                .HasForeignKey(sponsorClick => sponsorClick.SchoolId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -5145,6 +5153,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(eventSponsor => eventSponsor.Sponsor)
                 .HasForeignKey(eventSponsor => eventSponsor.SponsorId)
                 .IsRequired(false);
+            entity.HasMany(sponsor => sponsor.SponsorClick)
+                .WithOne(sponsorClick => sponsorClick.Sponsor)
+                .HasForeignKey(sponsorClick => sponsorClick.SponsorId)
+                .IsRequired(false);
 
         });
 
@@ -5154,45 +5166,41 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblSponsorClick");
 
-            //entity.HasIndex(e => e.SchoolId, "SchoolID");
+            entity.HasIndex(e => e.SchoolId, "SchoolID");
 
-            //entity.HasIndex(e => e.SponsorId, "SponsorID");
+            entity.HasIndex(e => e.SponsorId, "SponsorID");
 
             entity.Property(e => e.SponsorClickId)
                 .HasColumnType("int(11)")
                 .HasColumnName("SponsorClickID");
-            //entity.Property(e => e.CustomerId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CustomerID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(10)")
-            //    .HasColumnName("SchoolID");
+            entity.Property(e => e.CustomerId)
+                .HasColumnType("int(11)")
+                .HasColumnName("CustomerID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(10)")
+                .HasColumnName("SchoolID");
             entity.Property(e => e.SponsorClickDateTime)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.SponsorClickFrom).HasMaxLength(50);
             entity.Property(e => e.SponsorClickPage).HasMaxLength(50);
             entity.Property(e => e.SponsorClickUserAgent).HasMaxLength(1000);
-            //entity.Property(e => e.SponsorId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SponsorID");
+            entity.Property(e => e.SponsorId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SponsorID");
 
-            entity.HasOne(d => d.Customer)
-                .WithMany()
-                //.HasForeignKey(d => d.Customer)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSponsorClick_tblCustomer");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSponsorClick_tblSchool");
-
-            entity.HasOne(d => d.Sponsor)
-                .WithMany()
-                //.HasForeignKey(d => d.Sponsor)
-                .HasConstraintName("FK_tblSponsorClick_tblSponsor");
+            entity.HasOne(sponsorClick => sponsorClick.Sponsor)
+                .WithMany(sponsor => sponsor.SponsorClick)
+                .HasForeignKey(sponsorClick => sponsorClick.SponsorId)
+                .IsRequired(false);
+            entity.HasOne(sponsorClick => sponsorClick.School)
+                .WithMany(school => school.SponsorClickSchool)
+                .HasForeignKey(sponsorClick => sponsorClick.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(sponsorClick => sponsorClick.Customer)
+                .WithMany(customer => customer.SponsorClickSchool)
+                .HasForeignKey(sponsorClick => sponsorClick.CustomerId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSponsorImpression>(entity =>
