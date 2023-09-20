@@ -1354,11 +1354,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(customer => customer.Hash)
                 .WithMany(contentHash => contentHash.CustomerHash)
-                //.HasForeignKey(customer => customer.CustomerHashId)
+                .HasForeignKey(customer => customer.CustomerHashId)
                 .IsRequired(false);
             entity.HasOne(customer => customer.Partner)
                 .WithMany(partner => partner.CustomerPartner)
-                //.HasForeignKey(customer => customer.CustomerPartnerId)
+                .HasForeignKey(customer => customer.CustomerPartnerId)
                 .IsRequired(false);
             entity.HasOne(customer => customer.CustomerSchool)
                 .WithMany(school => school.CustomerSchool)
@@ -1366,11 +1366,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(customer => customer.UpdatedById)
                 .WithMany(customer => customer.UpdatedBy)
-                //.HasForeignKey(school => school.CustomerUpdatedBy)
+                .HasForeignKey(school => school.CustomerUpdatedBy)
                 .IsRequired(false);
-            entity.HasOne(customer => customer.CreatedByIdCustomerId)
+            entity.HasOne(customer => customer.CreatedById)
                 .WithMany(customer => customer.CreatedBy)
-                //.HasForeignKey(customer => customer.CustomerCreatedBy)
+                .HasForeignKey(customer => customer.CustomerCreatedBy)
                 .IsRequired(false);
 
             entity.HasMany(customer => customer.SchoolsCreated)
@@ -1398,7 +1398,7 @@ public partial class PtaeventContext : DbContext
                 //.HasForeignKey(customer => customer.CustomerUpdatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.CreatedBy)
-                .WithOne(customer => customer.CreatedByIdCustomerId)
+                .WithOne(customer => customer.CreatedById)
                 //.HasForeignKey(customer => customer.CustomerCreatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.CustomerRole)

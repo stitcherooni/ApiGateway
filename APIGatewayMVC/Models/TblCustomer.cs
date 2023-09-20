@@ -119,7 +119,7 @@ public partial class TblCustomer
     public TblSchool Application { get; set; }
     public TblContentHash Hash { get; set; }
     public TblSchool CustomerSchool { get; set; }
-    public TblCustomer CreatedByIdCustomerId { get; set; }
+    public TblCustomer CreatedById { get; set; }
     public TblCustomer UpdatedById { get; set; }
 
     public List<TblSchool> SchoolsCreated { get; set; }
