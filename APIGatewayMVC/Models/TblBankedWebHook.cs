@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -22,5 +21,6 @@ public partial class TblBankedWebHook
     public string BankedWebHookContent { get; set; }
 
     public DateTime BankedWebHookCreatedDate { get; set; }
+
     public TblOrder Order { get; set; }
 }

@@ -27,9 +27,9 @@ public partial class TblTicket
 
     public DateTime? TicketUpdatedDate { get; set; }
 
-    public List<TblBooking> BookingTicket { get; set; }
-
     public TblOrderItem OrderItem { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBooking> BookingTicket { get; set; }
 }

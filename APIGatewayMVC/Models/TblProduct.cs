@@ -83,17 +83,17 @@ public partial class TblProduct
 
     public DateTime? ProductUpdatedDate { get; set; }
 
-    public List<TblEventProduct> EventProduct { get; set; }
-    public List<TblProductAttribute> ProductAttribute { get; set; }
-    public List<TblProductClass> ProductClass { get; set; }
-    public List<TblProductPayment> ProductPayment { get; set; }
-    public List<TblProductPaymentScheme> ProductPaymentScheme { get; set; }
-    public List<TblProductQuestion> ProductQuestion { get; set; }
-
     public TblSubGroup SubGroup { get; set; }
     public TblSchool School { get; set; }
     public TblAuction Auction { get; set; }
     public TblProductType ProductType { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblEventProduct> EventProduct { get; set; }
+    public List<TblProductAttribute> ProductAttribute { get; set; }
+    public List<TblProductClass> ProductClass { get; set; }
+    public List<TblProductPayment> ProductPayment { get; set; }
+    public List<TblProductPaymentScheme> ProductPaymentScheme { get; set; }
+    public List<TblProductQuestion> ProductQuestion { get; set; }
 }

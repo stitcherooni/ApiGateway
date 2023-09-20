@@ -13,17 +13,17 @@ public partial class TblSchoolYear
 
     public ulong SchoolYearDeleted { get; set; }
 
-    public TblCustomer SchoolYearCreatedBy { get; set; }
+    public int SchoolYearCreatedBy { get; set; }
 
     public DateTime SchoolYearCreatedDate { get; set; }
 
-    public TblCustomer SchoolYearUpdatedBy { get; set; }
+    public int? SchoolYearUpdatedBy { get; set; }
 
     public DateTime? SchoolYearUpdatedDate { get; set; }
 
-    public List<TblClass> SchoolYearClass { get; set; }
-    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
-
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblClass> SchoolYearClass { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
 }

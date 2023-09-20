@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -36,6 +35,7 @@ public partial class TblEmail
     public int? EmailUpdatedBy { get; set; }
 
     public bool EmailDeleted { get; set; }
+
     public TblMessage Message { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }

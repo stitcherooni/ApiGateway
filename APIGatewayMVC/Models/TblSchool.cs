@@ -222,6 +222,7 @@ public partial class TblSchool
     public string SchoolCustomCss { get; set; }
 
     public string Lacode { get; set; }
+
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer DpasignedBy { get; set; }
     public TblCountry Ptacountry { get; set; }

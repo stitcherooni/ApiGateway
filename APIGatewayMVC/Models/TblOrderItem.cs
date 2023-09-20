@@ -49,12 +49,12 @@ public partial class TblOrderItem
 
     public DateTime? OrderItemUpdatedDate { get; set; }
 
-    public List<TblBooking> BookingOrderItem { get; set; }
-    public List<TblTicket> TicketOrderItem { get; set; }
-
     public TblCustomer Order { get; set; }
     public TblCustomer Item { get; set; }
     public TblCustomer ProductPaymentScheme { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBooking> BookingOrderItem { get; set; }
+    public List<TblTicket> TicketOrderItem { get; set; }
 }

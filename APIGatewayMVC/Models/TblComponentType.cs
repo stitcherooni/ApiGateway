@@ -19,8 +19,8 @@ public partial class TblComponentType
 
     public DateTime? ComponentTypeUpdatedDate { get; set; }
 
-    public List<TblComponent> ComponentType { get; set; }
-
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblComponent> ComponentType { get; set; }
 }

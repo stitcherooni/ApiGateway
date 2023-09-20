@@ -23,8 +23,8 @@ public partial class TblOrganisationType
 
     public int? OrganisationTypeUpdatedBy { get; set; }
 
-    public List<TblSchool> OrganisationType { get; set; }
-
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblSchool> OrganisationType { get; set; }
 }

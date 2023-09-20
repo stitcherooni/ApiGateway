@@ -115,6 +115,13 @@ public partial class TblCustomer
 
     public int? CustomerUpdatedBy { get; set; }
 
+    public TblPartner Partner { get; set; }
+    public TblSchool Application { get; set; }
+    public TblContentHash Hash { get; set; }
+    public TblSchool CustomerSchool { get; set; }
+    public TblCustomer CreatedByIdCustomerId { get; set; }
+    public TblCustomer UpdatedById { get; set; }
+
     public List<TblSchool> SchoolsCreated { get; set; }
     public List<TblSchool> SchoolUpdatedBy { get; set; }
     public List<TblSchool> SchoolsDpasigned { get; set; }
@@ -295,12 +302,4 @@ public partial class TblCustomer
     public List<TblTicket> TicketUpdatedBy { get; set; }
     public List<TblTranslation> TranslationCreatedBy { get; set; }
     public List<TblTranslation> TranslationUpdatedBy { get; set; }
-
-
-    public TblPartner Partner { get; set; }
-    public TblSchool Application { get; set; }
-    public TblContentHash Hash { get; set; }
-    public TblSchool CustomerSchool { get; set; }
-    public TblCustomer CreatedById { get; set; }
-    public TblCustomer UpdatedById { get; set; }
 }

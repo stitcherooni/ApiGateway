@@ -25,8 +25,8 @@ public partial class TblProductType
 
     public DateTime? ProductTypeUpdatedDate { get; set; }
 
-    public List<TblProduct> ProductType { get; set; }
-
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblProduct> ProductType { get; set; }
 }

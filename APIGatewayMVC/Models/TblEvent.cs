@@ -119,15 +119,6 @@ public partial class TblEvent
 
     public int SchoolId { get; set; }
 
-    public List<TblAuction> Event { get; set; }
-    public List<TblEventFile> EventFile { get; set; }
-    public List<TblEventProduct> EventProduct { get; set; }
-    public List<TblEventSponsor> EventSponsor { get; set; }
-    public List<TblEventTask> EventTask { get; set; }
-    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
-    public List<TblMessageGroup> MessageGroupEvent { get; set; }
-    public List<TblSubGroup> SubGroupEvent { get; set; }
-
     public TblCustomer EventOrganiser { get; set; }
     public TblCustomer EventOrganiser2 { get; set; }
     public TblCustomer EventOrganiser3 { get; set; }
@@ -140,4 +131,13 @@ public partial class TblEvent
     public TblSchool School { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblAuction> Event { get; set; }
+    public List<TblEventFile> EventFile { get; set; }
+    public List<TblEventProduct> EventProduct { get; set; }
+    public List<TblEventSponsor> EventSponsor { get; set; }
+    public List<TblEventTask> EventTask { get; set; }
+    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
+    public List<TblMessageGroup> MessageGroupEvent { get; set; }
+    public List<TblSubGroup> SubGroupEvent { get; set; }
 }

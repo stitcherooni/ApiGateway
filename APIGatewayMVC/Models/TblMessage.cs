@@ -41,10 +41,10 @@ public partial class TblMessage
 
     public string MessageAttachment2 { get; set; }
 
-    public List<TblEmail> EmailMessage { get; set; }
-
     public TblMessageGroup MessageGroup { get; set; }
     public TblCustomer Customer { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblEmail> EmailMessage { get; set; }
 }

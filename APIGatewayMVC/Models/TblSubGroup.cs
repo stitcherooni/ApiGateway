@@ -25,9 +25,9 @@ public partial class TblSubGroup
 
     public DateTime? SubGroupUpdatedDate { get; set; }
 
-    public List<TblProduct> ProductSubGroup { get; set; }
-
     public TblEvent Event { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblProduct> ProductSubGroup { get; set; }
 }
