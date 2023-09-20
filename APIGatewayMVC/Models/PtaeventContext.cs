@@ -207,17 +207,15 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.AcademicYearId)
                 .HasColumnType("int(11)")
                 .HasColumnName("AcademicYearID");
-
+            entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AcademicYearCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
             entity.Property(e => e.AcademicYearEndDate).HasColumnType("timestamp");
             entity.Property(e => e.AcademicYearName).HasMaxLength(20);
             entity.Property(e => e.AcademicYearStartDate).HasColumnType("timestamp");
-            entity.Property(e => e.AcademicYearUpdatedDate).HasColumnType("timestamp");
-
-            entity.Property(e => e.AcademicYearCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.AcademicYearUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.AcademicYearUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.CountryId)
                 .HasDefaultValueSql("'1'")
                 .HasColumnType("int(11)")
@@ -229,20 +227,20 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(academicYear => academicYear.CreatedBy)
                 .WithMany(customer => customer.AcademicYearCreatedBy)
-                //.HasForeignKey(academicYear => academicYear.AcademicYearCreatedBy)
+                .HasForeignKey(academicYear => academicYear.AcademicYearCreatedBy)
                 .IsRequired(false);
             entity.HasOne(academicYear => academicYear.UpdatedBy)
                 .WithMany(customer => customer.AcademicYearUpdatedBy)
-                //.HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
+                .HasForeignKey(academicYear => academicYear.AcademicYearUpdatedBy)
                 .IsRequired(false);
 
             entity.HasMany(academicYear => academicYear.AcademicYearClass)
                 .WithOne(classes => classes.AcademicYear)
-                //.HasForeignKey(classes => classes.AcademicYearId)
+                .HasForeignKey(classes => classes.AcademicYearId)
                 .IsRequired(false);
             entity.HasMany(academicYear => academicYear.AcademicYearPtamember)
                 .WithOne(ptamember => ptamember.AcademicYear)
-                //.HasForeignKey(ptamember => ptamember.AcademicYearId)
+                .HasForeignKey(ptamember => ptamember.AcademicYearId)
                 .IsRequired(false);
         });
 
@@ -257,12 +255,13 @@ public partial class PtaeventContext : DbContext
             entity.HasIndex(e => e.ApiAuditHistoryIpaddress, "ApiAuditHistoryIPAddress");
 
             entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+
             entity.HasIndex(e => e.CustomerId, "CustomerID");
-            entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
 
             entity.Property(e => e.ApiAuditHistoryId)
                 .HasColumnType("int(11)")
                 .HasColumnName("ApiAuditHistoryID");
+            entity.Property(e => e.ApiAuditHistoryCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ApiAuditHistoryCreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -370,8 +369,11 @@ public partial class PtaeventContext : DbContext
             entity.ToTable("tblAuditHistory");
 
             entity.HasIndex(e => e.ApplicationId, "ApplicationID");
+
             entity.HasIndex(e => e.CustomerId, "CustomerID");
+
             entity.HasIndex(e => new { e.AuditHistoryUserAgent, e.ApplicationId }, "idx");
+
             entity.HasIndex(e => new { e.ApplicationId, e.AuditHistoryCreatedDate, e.AuditHistoryUserAgent }, "idx2");
 
             entity.Property(e => e.AuditHistoryId)
