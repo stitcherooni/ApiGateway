@@ -1195,6 +1195,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(academicYear => academicYear.Country)
                 .HasForeignKey(academicYear => academicYear.CountryId)
                 .IsRequired(false);
+            entity.HasMany(country => country.SponsorCountry)
+                .WithOne(sponsor => sponsor.Country)
+                .HasForeignKey(sponsor => sponsor.CountryId)
+                .IsRequired(false);
 
         });
 
@@ -5028,6 +5032,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(ptamember => ptamember.School)
                 .HasForeignKey(ptamember => ptamember.SchoolId)
                 .IsRequired(false);
+            entity.HasMany(school => school.SponsorSchool)
+                .WithOne(sponsor => sponsor.School)
+                .HasForeignKey(sponsor => sponsor.SchoolId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblSchoolYear>(entity =>
@@ -5077,14 +5085,14 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.SponsorId)
                 .HasColumnType("int(11)")
                 .HasColumnName("SponsorID");
-            //entity.Property(e => e.CountryId)
-            //    .HasDefaultValueSql("'1'")
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("CountryID");
-            //entity.Property(e => e.SchoolId)
-            //    .HasColumnType("int(11)")
-            //    .HasColumnName("SchoolID");
-            //entity.Property(e => e.SponsorCreatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.CountryId)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("CountryID");
+            entity.Property(e => e.SchoolId)
+                .HasColumnType("int(11)")
+                .HasColumnName("SchoolID");
+            entity.Property(e => e.SponsorCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SponsorCreatedByDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp");
@@ -5110,36 +5118,28 @@ public partial class PtaeventContext : DbContext
                 .HasDefaultValueSql("'2'")
                 .HasColumnType("int(10)")
                 .HasColumnName("SponsorTypeID");
-            //entity.Property(e => e.SponsorUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.SponsorUpdatedBy).HasColumnType("int(11)");
             entity.Property(e => e.SponsorUpdatedDate).HasColumnType("timestamp");
             entity.Property(e => e.SponsorUrl)
                 .HasMaxLength(255)
                 .HasColumnName("SponsorURL");
 
-            entity.HasOne(d => d.Country)
-                .WithMany()
-                //.HasForeignKey(d => d.Country)
-
-                .HasConstraintName("FK_tblSponsor_tblCountry");
-
-            entity.HasOne(d => d.School)
-                .WithMany()
-                //.HasForeignKey(d => d.School)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSponsor_tblSchool");
-
-            entity.HasOne(d => d.SponsorCreatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SponsorCreatedBy)
-
-                .HasConstraintName("FK_tblSponsor.CreatedBy_tblCustomer");
-
-            entity.HasOne(d => d.SponsorUpdatedBy)
-                .WithMany()
-                //.HasForeignKey(d => d.SponsorUpdatedBy)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK_tblSponsor.UpdatedBy_tblCustomer");
-
+            entity.HasOne(sponsor => sponsor.Country)
+                .WithMany(country => country.SponsorCountry)
+                .HasForeignKey(sponsor => sponsor.CountryId)
+                .IsRequired(false);
+            entity.HasOne(sponsor => sponsor.School)
+                .WithMany(school => school.SponsorSchool)
+                .HasForeignKey(sponsor => sponsor.SchoolId)
+                .IsRequired(false);
+            entity.HasOne(sponsor => sponsor.CreatedBy)
+                .WithMany(customer => customer.SponsorCreatedBy)
+                .HasForeignKey(sponsor => sponsor.SponsorCreatedBy)
+                .IsRequired(false);
+            entity.HasOne(sponsor => sponsor.UpdatedBy)
+                .WithMany(customer => customer.SponsorUpdatedBy)
+                .HasForeignKey(sponsor => sponsor.SponsorUpdatedBy)
+                .IsRequired(false);
 
             entity.HasMany(sponsor => sponsor.EventSponsor)
                 .WithOne(eventSponsor => eventSponsor.Sponsor)
