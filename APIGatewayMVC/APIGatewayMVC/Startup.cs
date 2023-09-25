@@ -1,12 +1,19 @@
-﻿using BLL.Extensions;
+﻿using APIGatewayMVC.Controllers;
+using BLL.DTO;
+using BLL.Extensions;
 using BLL.Services.BlobService;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
-using BLL.Services.Statistic;
 using BLL.Services.SearchingService;
+using BLL.Services.SortingService;
+using BLL.Services.Statistic;
+using BLL.Services.UpdateService;
 using DAL;
 using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using HTMLConvertor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +23,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Models;
 using System;
-using BLL.DTO;
-using APIGatewayMVC.Controllers;
-using BLL.Services.SortingService;
-using BLL.Services.UpdateService;
 
 namespace APIGatewayMVC
 {
@@ -81,6 +84,10 @@ namespace APIGatewayMVC
                 builder.AddAzureWebAppDiagnostics();
                 builder.AddApplicationInsights(_config["ApplicationInsights:InstrumentationKey"]);
             });
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddScoped<PDFConvertor>();
+               
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
