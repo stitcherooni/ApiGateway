@@ -16,7 +16,7 @@ public partial class TblDependant
 
     public bool DependantShare { get; set; }
 
-    public int DependantApprovedBy { get; set; }
+    public int? DependantApprovedBy { get; set; }
 
     public DateTime? DependantApprovedDate { get; set; }
 

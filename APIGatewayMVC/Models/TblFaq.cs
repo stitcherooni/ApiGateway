@@ -4,8 +4,6 @@ namespace Models;
 
 public partial class TblFaq
 {
-    public int FaqId { get; set; }
-
     public int Faqid { get; set; }
 
     public string Faqtitle { get; set; }

@@ -3272,7 +3272,7 @@ public partial class PtaeventContext : DbContext
 
             entity.ToTable("tblMessage");
 
-            entity.HasIndex(e => e.CustomerId, "Customer");
+            entity.HasIndex(e => e.CustomerId, "CustomerID");
 
             entity.HasIndex(e => e.MessageCreatedDate, "MessageCreatedDate");
 
@@ -3300,7 +3300,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.MessageCustomerName).HasMaxLength(250);
             entity.Property(e => e.MessageGroupId)
             .HasColumnType("int(11)")
-            .HasColumnName("MessageGroup");
+            .HasColumnName("MessageGroupID");
             entity.Property(e => e.MessageMailGunId)
                 .HasMaxLength(250)
                 .HasColumnName("MessageMailGunID");
@@ -4058,7 +4058,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("PollOptionID");
             entity.Property(e => e.PollId)
                 .HasColumnType("int(11)")
-                .HasColumnName("Poll");
+                .HasColumnName("PollID");
             entity.Property(e => e.PollOption).HasMaxLength(150);
             entity.Property(e => e.PollOptionCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.PollOptionCreatedDate)
@@ -4316,7 +4316,7 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("ProductPaymentID");
             entity.Property(e => e.ProductId)
                 .HasColumnType("int(11)")
-                .HasColumnName("Product");
+                .HasColumnName("ProductID");
             entity.Property(e => e.ProductPaymentAmount).HasPrecision(10, 2);
             entity.Property(e => e.ProductPaymentCreatedBy).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentCreatedDate)
