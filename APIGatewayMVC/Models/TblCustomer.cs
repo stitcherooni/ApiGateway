@@ -71,7 +71,7 @@ public partial class TblCustomer
 
     public string CustomerGeneric3 { get; set; }
 
-    public int CustomerSchoolId { get; set; }
+    public int? CustomerSchoolId { get; set; }
 
     public string CustomerSchoolClass { get; set; }
 

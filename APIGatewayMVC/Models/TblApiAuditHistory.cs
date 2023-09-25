@@ -20,9 +20,9 @@ public partial class TblApiAuditHistory
 
     public int? ApiAuditHistoryLoadTime { get; set; }
 
-    public int ApplicationId { get; set; }
+    public int? ApplicationId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int? CustomerId { get; set; }
 
     public string ApiAuditHistoryServer { get; set; }
 

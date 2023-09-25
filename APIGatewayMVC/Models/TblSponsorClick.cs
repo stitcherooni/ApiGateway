@@ -8,7 +8,7 @@ public partial class TblSponsorClick
 
     public int SponsorId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int? CustomerId { get; set; }
 
     public int SchoolId { get; set; }
 

@@ -19,7 +19,7 @@ public partial class TblCountry
 
     public DateTime CountryCreatedDate { get; set; }
 
-    public int?  CountryUpdatedBy { get; set; }
+    public int? CountryUpdatedBy { get; set; }
 
     public DateTime? CountryUpdatedDate { get; set; }
 

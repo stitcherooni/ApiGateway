@@ -21,7 +21,7 @@ public partial class TblAcademicYear
 
     public DateTime AcademicYearCreatedDate { get; set; }
 
-    public int AcademicYearUpdatedBy { get; set; }
+    public int? AcademicYearUpdatedBy { get; set; }
 
     public DateTime? AcademicYearUpdatedDate { get; set; }
 

@@ -7,7 +7,7 @@ public partial class TblMessage
 {
     public int MessageId { get; set; }
 
-    public int MessageGroupId { get; set; }
+    public int? MessageGroupId { get; set; }
 
     public int MessageTypeId { get; set; }
 

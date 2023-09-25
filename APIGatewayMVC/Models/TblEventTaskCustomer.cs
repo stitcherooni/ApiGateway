@@ -30,7 +30,7 @@ public partial class TblEventTaskCustomer
 
     public DateTime EventTaskCustomerCreatedDate { get; set; }
 
-    public int EventTaskCustomerUpdatedBy { get; set; }
+    public int? EventTaskCustomerUpdatedBy { get; set; }
 
     public DateTime? EventTaskCustomerUpdatedDate { get; set; }
 

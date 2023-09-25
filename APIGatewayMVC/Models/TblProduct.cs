@@ -9,11 +9,11 @@ public partial class TblProduct
 
     public int? LegacyProductId { get; set; }
 
-    public int SubGroupId { get; set; }
+    public int? SubGroupId { get; set; }
 
     public int SchoolId { get; set; }
 
-    public int AuctionId { get; set; }
+    public int? AuctionId { get; set; }
 
     public string ProductName { get; set;}
 

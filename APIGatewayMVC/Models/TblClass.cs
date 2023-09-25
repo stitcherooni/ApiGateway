@@ -30,9 +30,9 @@ public partial class TblClass
 
     public int SchoolId { get; set; }
 
-    public int AcademicYearId { get; set; }
+    public int? AcademicYearId { get; set; }
 
-    public int SchoolYearId { get; set; }
+    public int? SchoolYearId { get; set; }
 
     public bool ClassDeleted { get; set; }
 

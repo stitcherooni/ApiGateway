@@ -20,11 +20,11 @@ public partial class TblPtamember
 
     public DateTime PtamemberCreatedDate { get; set; }
 
-    public int PtamemberCreatedBy { get; set; }
+    public int? PtamemberCreatedBy { get; set; }
 
     public DateTime? PtamemberUpdatedDate { get; set; }
 
-    public int PtamemberUpdatedBy { get; set; }
+    public int? PtamemberUpdatedBy { get; set; }
 
     public TblSchool School { get; set; }
     public TblRole Role { get; set; }

@@ -17,7 +17,7 @@ public partial class TblProductPaymentSchemeFrequency
 
     public DateTime ProductPaymentSchemeFrequencyCreatedDate { get; set; }
 
-    public int? ProductPaymentSchemeFrequencyUpdatedBy { get; set; }
+    public int? ProductPaymentSchemeFrequencypdatedBy { get; set; }
 
     public DateTime? ProductPaymentSchemeFrequencyUpdatedDate { get; set; }
 

@@ -17,7 +17,7 @@ public partial class TblSubGroup
 
     public bool SubGroupDeleted { get; set; }
 
-    public int SubGroupCreatedBy { get; set; }
+    public int? SubGroupCreatedBy { get; set; }
 
     public DateTime SubGroupCreatedDate { get; set; }
 

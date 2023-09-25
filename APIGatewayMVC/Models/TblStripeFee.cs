@@ -12,7 +12,7 @@ public partial class TblStripeFee
 
     public decimal StripeFeeAmount { get; set; }
 
-    public int StripePayoutId { get; set; }
+    public int? StripePayoutId { get; set; }
 
     public string StripeFeeType { get; set;}
 

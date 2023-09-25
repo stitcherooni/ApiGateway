@@ -211,7 +211,7 @@ public partial class TblSchool
 
     public bool SchoolDeleted { get; set; }
 
-    public int? SchoolCreatedBy { get; set; }
+    public int SchoolCreatedBy { get; set; }
 
     public DateTime SchoolCreatedDate { get; set; }
 

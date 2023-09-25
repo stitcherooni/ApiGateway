@@ -13,7 +13,7 @@ public partial class TblOrderItem
           
     public int ItemId { get; set; }
 
-    public int ProductPaymentSchemeId { get; set; }
+    public int? ProductPaymentSchemeId { get; set; }
 
     public string OrderItemName { get; set; }
 
@@ -45,7 +45,7 @@ public partial class TblOrderItem
 
     public DateTime OrderItemCreatedDate { get; set; }
 
-    public int? OrderItemUpdatedBy { get; set; }
+    public int OrderItemUpdatedBy { get; set; }
 
     public DateTime? OrderItemUpdatedDate { get; set; }
 

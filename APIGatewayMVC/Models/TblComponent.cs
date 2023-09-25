@@ -23,7 +23,7 @@ public partial class TblComponent
 
     public DateTime ComponentCreatedDate { get; set; }
 
-    public int ComponentUpdatedBy { get; set; }
+    public int? ComponentUpdatedBy { get; set; }
 
     public DateTime? ComponentUpdatedDate { get; set; }
 

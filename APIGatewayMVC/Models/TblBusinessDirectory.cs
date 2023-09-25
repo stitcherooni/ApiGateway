@@ -7,7 +7,7 @@ public partial class TblBusinessDirectory
 {
     public int BusinessDirectoryId { get; set; }
 
-    public int BusinessDirectoryCategoryId { get; set; }
+    public int? BusinessDirectoryCategoryId { get; set; }
 
     public string BusinessDirectoryName { get; set;}
 
@@ -33,7 +33,7 @@ public partial class TblBusinessDirectory
 
     public DateTime? BusinessDirectoryEndDate { get; set; }
 
-    public int SchoolId { get; set; }
+    public int? SchoolId { get; set; }
 
     public bool BusinessDirectoryDeleted { get; set; }
 

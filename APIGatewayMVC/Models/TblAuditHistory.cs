@@ -16,7 +16,7 @@ public partial class TblAuditHistory
 
     public int? AuditHistoryLoadTime { get; set; }
 
-    public int ApplicationId { get; set; }
+    public int? ApplicationId { get; set; }
 
     public int CustomerId { get; set; }
 

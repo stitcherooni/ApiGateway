@@ -7,9 +7,9 @@ public partial class TblMessageGroup
 {
     public int MessageGroupId { get; set; }
 
-    public int EventId { get; set; }
+    public int? EventId { get; set; }
 
-    public int ClassId { get; set; }
+    public int? ClassId { get; set; }
 
     public string MessageGroupType { get; set;}
 

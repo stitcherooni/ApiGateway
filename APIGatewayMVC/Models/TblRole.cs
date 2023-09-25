@@ -23,7 +23,7 @@ public partial class TblRole
 
     public DateTime RoleCreatedDate { get; set; }
 
-    public int RoleUpdatedBy { get; set; }
+    public int? RoleUpdatedBy { get; set; }
 
     public DateTime? RoleUpdatedDate { get; set; }
 

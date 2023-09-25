@@ -55,7 +55,7 @@ public partial class TblSponsor
 
     public DateTime? SponsorEndDate { get; set; }
 
-    public int SchoolId { get; set; }
+    public int? SchoolId { get; set; }
 
     public bool SponsorDeleted { get; set; }
 

@@ -13,9 +13,9 @@ public partial class TblEventTask
 
     public string EventTaskMessage { get; set; }
 
-    public int EventTaskGroupId { get; set; }
+    public int? EventTaskGroupId { get; set; }
 
-    public int EventTaskOrganiserId { get; set; }
+    public int? EventTaskOrganiserId { get; set; }
            
     public int? EventTaskOrganiserId2 { get; set; }
            

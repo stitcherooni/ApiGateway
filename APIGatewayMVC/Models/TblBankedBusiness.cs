@@ -21,7 +21,7 @@ public partial class TblBankedBusiness
 
     public bool BankedBusinessComplianceCompleted { get; set; }
 
-    public int BankedBusinessComplianceCompletedBy { get; set; }
+    public int? BankedBusinessComplianceCompletedBy { get; set; }
 
     public DateTime? BankedBusinessComplianceCompletedDate { get; set; }
 

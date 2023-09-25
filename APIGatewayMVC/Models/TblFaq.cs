@@ -6,27 +6,29 @@ public partial class TblFaq
 {
     public int FaqId { get; set; }
 
-    public string FaqTitle { get; set;}
+    public int Faqid { get; set; }
 
-    public string FaqText { get; set; }
+    public string Faqtitle { get; set; }
 
-    public DateTime? FaqStartDate { get; set; }
+    public string Faqtext { get; set; }
 
-    public DateTime? FaqEndDate { get; set; }
+    public DateTime? FaqstartDate { get; set; }
 
-    public int? FaqSortOrder { get; set; }
+    public DateTime? FaqendDate { get; set; }
+
+    public int? FaqsortOrder { get; set; }
 
     public int SchoolId { get; set; }
 
-    public bool FaqDeleted { get; set; }
+    public bool Faqdeleted { get; set; }
 
-    public int FaqCreatedBy { get; set; }
+    public int FaqcreatedBy { get; set; }
 
-    public DateTime FaqCreatedDate { get; set; }
+    public DateTime FaqcreatedDate { get; set; }
 
-    public int? FaqUpdatedBy { get; set; }
+    public int? FaqupdatedBy { get; set; }
 
-    public DateTime? FaqUpdatedDate { get; set; }
+    public DateTime? FaqupdatedDate { get; set; }
 
     public TblSchool School { get; set; }
     public TblCustomer CreatedBy { get; set; }

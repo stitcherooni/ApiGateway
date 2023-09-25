@@ -1753,11 +1753,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasMany(customer => customer.FaqUpdatedBy)
                 .WithOne(faq => faq.UpdatedBy)
-                .HasForeignKey(faq => faq.FaqUpdatedBy)
+                .HasForeignKey(faq => faq.FaqupdatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.FaqCreatedBy)
                 .WithOne(faq => faq.CreatedBy)
-                .HasForeignKey(faq => faq.FaqCreatedBy)
+                .HasForeignKey(faq => faq.FaqcreatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.FileUpdatedBy)
                 .WithOne(file => file.UpdatedBy)
@@ -1989,7 +1989,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasMany(customer => customer.ProductPaymentSchemeFrequencyUpdatedBy)
                 .WithOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.UpdatedBy)
-                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyUpdatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencypdatedBy)
                 .IsRequired(false);
             entity.HasMany(customer => customer.ProductPaymentSchemeFrequencyCreatedBy)
                 .WithOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.CreatedBy)
@@ -2975,40 +2975,40 @@ public partial class PtaeventContext : DbContext
 
         modelBuilder.Entity<TblFaq>(entity =>
         {
-            entity.HasKey(e => e.FaqId).HasName("PRIMARY");
+            entity.HasKey(e => e.Faqid).HasName("PRIMARY");
 
             entity.ToTable("tblFAQ");
 
-            entity.Property(e => e.FaqId)
+            entity.Property(e => e.Faqid)
                 .HasColumnType("int(11)")
                 .HasColumnName("FAQID");
-            entity.Property(e => e.FaqCreatedBy)
+            entity.Property(e => e.FaqcreatedBy)
                 .HasColumnType("int(11)")
                 .HasColumnName("FAQCreatedBy");
-            entity.Property(e => e.FaqCreatedDate)
+            entity.Property(e => e.FaqcreatedDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("timestamp")
                 .HasColumnName("FAQCreatedDate");
-            entity.Property(e => e.FaqDeleted).HasColumnName("FAQDeleted");
-            entity.Property(e => e.FaqEndDate)
+            entity.Property(e => e.Faqdeleted).HasColumnName("FAQDeleted");
+            entity.Property(e => e.FaqendDate)
                 .HasColumnType("datetime")
                 .HasColumnName("FAQEndDate");
-            entity.Property(e => e.FaqSortOrder)
+            entity.Property(e => e.FaqsortOrder)
                 .HasColumnType("int(11)")
                 .HasColumnName("FAQSortOrder");
-            entity.Property(e => e.FaqStartDate)
+            entity.Property(e => e.FaqstartDate)
                 .HasColumnType("datetime")
                 .HasColumnName("FAQStartDate");
-            entity.Property(e => e.FaqText)
+            entity.Property(e => e.Faqtext)
                 .HasColumnType("text")
                 .HasColumnName("FAQText");
-            entity.Property(e => e.FaqTitle)
+            entity.Property(e => e.Faqtitle)
                 .HasMaxLength(200)
                 .HasColumnName("FAQTitle");
-            entity.Property(e => e.FaqUpdatedBy)
+            entity.Property(e => e.FaqupdatedBy)
                 .HasColumnType("int(11)")
                 .HasColumnName("FAQUpdatedBy");
-            entity.Property(e => e.FaqUpdatedDate)
+            entity.Property(e => e.FaqupdatedDate)
                 .HasColumnType("timestamp")
                 .HasColumnName("FAQUpdatedDate");
             entity.Property(e => e.SchoolId)
@@ -3021,11 +3021,11 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(faq => faq.CreatedBy)
                 .WithMany(customer => customer.FaqCreatedBy)
-                .HasForeignKey(faq => faq.FaqCreatedBy)
+                .HasForeignKey(faq => faq.FaqcreatedBy)
                 .IsRequired(false);
             entity.HasOne(faq => faq.UpdatedBy)
                 .WithMany(customer => customer.FaqUpdatedBy)
-                .HasForeignKey(faq => faq.FaqUpdatedBy)
+                .HasForeignKey(faq => faq.FaqupdatedBy)
                 .IsRequired(false);
         });
 
@@ -4401,7 +4401,7 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ProductPaymentSchemeFrequencyDivisor).HasColumnType("int(11)");
             entity.Property(e => e.ProductPaymentSchemeFrequencyName).HasMaxLength(50);
             entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedDate).HasColumnType("timestamp");
-            entity.Property(e => e.ProductPaymentSchemeFrequencyUpdatedBy).HasColumnType("int(11)");
+            entity.Property(e => e.ProductPaymentSchemeFrequencypdatedBy).HasColumnType("int(11)");
 
             entity.HasOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.CreatedBy)
                 .WithMany(customer => customer.ProductPaymentSchemeFrequencyCreatedBy)
@@ -4409,7 +4409,7 @@ public partial class PtaeventContext : DbContext
                 .IsRequired(false);
             entity.HasOne(productPaymentSchemeFrequency => productPaymentSchemeFrequency.UpdatedBy)
                 .WithMany(customer => customer.ProductPaymentSchemeFrequencyUpdatedBy)
-                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencyUpdatedBy)
+                .HasForeignKey(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentSchemeFrequencypdatedBy)
                 .IsRequired(false);
 
             entity.HasMany(productPaymentSchemeFrequency => productPaymentSchemeFrequency.ProductPaymentScheme)
