@@ -9,7 +9,7 @@ public partial class TblBankedWebHook
 
     public int? OrderId { get; set; }
 
-    public string BankedWebHookBankedId { get; set; }
+    public string BankedWebHookBankedId { get; set;}
 
     public string BankedWebHookEndToEndId { get; set; }
 

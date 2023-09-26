@@ -7,7 +7,7 @@ public partial class TblAuditHistoryType
 {
     public int AuditHistoryTypeId { get; set; }
 
-    public string AuditHistoryTypeName { get; set; }
+    public string AuditHistoryTypeName { get; set;}
 
     public DateTime AuditHistoryTypeCreatedDate { get; set; }
 

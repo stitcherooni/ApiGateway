@@ -9,7 +9,7 @@ public partial class TblBankedBusiness
 
     public int SchoolId { get; set; }
 
-    public string BankedBusinessUuid { get; set; }
+    public string BankedBusinessUuid { get; set;}
 
     public string Kycid { get; set; }
 

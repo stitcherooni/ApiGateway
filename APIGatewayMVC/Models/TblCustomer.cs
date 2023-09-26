@@ -21,9 +21,9 @@ public partial class TblCustomer
 
     public string CustomerTitle { get; set; }
 
-    public string CustomerFirstName { get; set; }
+    public string CustomerFirstName { get; set;}
 
-    public string CustomerLastName { get; set; }
+    public string CustomerLastName { get; set;}
 
     public string CustomerAddress1 { get; set; }
 
@@ -35,9 +35,9 @@ public partial class TblCustomer
 
     public string CustomerPostCode { get; set; }
 
-    public string CustomerEmail { get; set; }
+    public string CustomerEmail { get; set;}
 
-    public string CustomerPassword { get; set; }
+    public string CustomerPassword { get; set;}
 
     public string CustomerSalt { get; set; }
 

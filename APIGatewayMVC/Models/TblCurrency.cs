@@ -7,11 +7,11 @@ public partial class TblCurrency
 {
     public int CurrencyId { get; set; }
 
-    public string CurrencyCode { get; set; }
+    public string CurrencyCode { get; set;}
 
-    public string CurrencyIconCode { get; set; }
+    public string CurrencyIconCode { get; set;}
 
-    public string CurrencyName { get; set; }
+    public string CurrencyName { get; set;}
 
     public string CurrencySign { get; set; }
 

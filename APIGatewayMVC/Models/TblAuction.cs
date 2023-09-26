@@ -7,15 +7,15 @@ public partial class TblAuction
 {
     public int AuctionId { get; set; }
 
-    public string AuctionUuid { get; set; }
+    public string AuctionUuid { get; set;}
 
     public int EventId { get; set; }
 
-    public string AuctionName { get; set; }
+    public string AuctionName { get; set;}
 
     public int? AuctionOrder { get; set; }
 
-    public string AuctionDescription { get; set; }
+    public string AuctionDescription { get; set;}
 
     public string AuctionImage { get; set; }
 

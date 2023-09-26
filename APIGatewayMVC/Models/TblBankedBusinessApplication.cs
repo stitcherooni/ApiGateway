@@ -9,9 +9,9 @@ public partial class TblBankedBusinessApplication
 
     public int BankedBusinessId { get; set; }
 
-    public string BankedBusinessApplicationUuid { get; set; }
+    public string BankedBusinessApplicationUuid { get; set;}
 
-    public string BankedBusinessApplicationName { get; set; }
+    public string BankedBusinessApplicationName { get; set;}
 
     public string BankedBusinessApplicationWebhookSignatureKey { get; set; }
 

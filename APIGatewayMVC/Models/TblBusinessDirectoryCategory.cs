@@ -7,9 +7,9 @@ public partial class TblBusinessDirectoryCategory
 {
     public int BusinessDirectoryCategoryId { get; set; }
 
-    public string BusinessDirectoryCategoryName { get; set; }
+    public string BusinessDirectoryCategoryName { get; set;}
 
-    public string BusinessDirectoryCategoryIcon { get; set; }
+    public string BusinessDirectoryCategoryIcon { get; set;}
 
     public int? SchoolId { get; set; }
 

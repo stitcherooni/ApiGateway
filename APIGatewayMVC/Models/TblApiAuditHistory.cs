@@ -17,7 +17,7 @@ public partial class TblApiAuditHistory
 
     public string ApiAuditHistoryEvent { get; set; }
 
-    public string ApiAuditHistoryStatusCode { get; set; }
+    public string ApiAuditHistoryStatusCode { get; set;}
 
     public int? ApiAuditHistoryLoadTime { get; set; }
 

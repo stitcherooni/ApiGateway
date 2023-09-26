@@ -7,11 +7,11 @@ public partial class TblComponent
 {
     public int ComponentId { get; set; }
 
-    public string ComponentRef { get; set; }
+    public string ComponentRef { get; set;}
 
     public string ComponentContent { get; set; }
 
-    public string ComponentName { get; set; }
+    public string ComponentName { get; set;}
 
     public int ComponentTypeId { get; set; }
 

@@ -7,7 +7,7 @@ public partial class TblComponentGroup
 {
     public int ComponentGroupId { get; set; }
 
-    public string ComponentGroupName { get; set; }
+    public string ComponentGroupName { get; set;}
 
     public bool ComponentGroupDeleted { get; set; }
 

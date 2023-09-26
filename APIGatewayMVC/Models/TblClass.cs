@@ -9,7 +9,7 @@ public partial class TblClass
 
     public bool ClassIsGroup { get; set; }
 
-    public string ClassName { get; set; }
+    public string ClassName { get; set;}
 
     public string ClassTeacherName { get; set; }
 

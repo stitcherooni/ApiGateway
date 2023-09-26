@@ -7,7 +7,7 @@ public partial class TblAcademicYear
 {
     public int AcademicYearId { get; set; }
 
-    public string AcademicYearName { get; set; }
+    public string AcademicYearName { get; set;}
 
     public DateTime? AcademicYearStartDate { get; set; }
 

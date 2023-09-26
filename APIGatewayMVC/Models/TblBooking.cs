@@ -9,7 +9,7 @@ public partial class TblBooking
 
     public int? BookingNo { get; set; }
 
-    public string BookingName { get; set; }
+    public string BookingName { get; set;}
 
     public string BookingFirstName { get; set; }
 
