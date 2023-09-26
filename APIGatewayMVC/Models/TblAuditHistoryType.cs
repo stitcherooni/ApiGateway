@@ -7,7 +7,7 @@ public partial class TblAuditHistoryType
 {
     public int AuditHistoryTypeId { get; set; }
 
-    public string AuditHistoryTypeName { get; set;}
+    public string AuditHistoryTypeName { get; set; }
 
     public DateTime AuditHistoryTypeCreatedDate { get; set; }
 
@@ -18,7 +18,4 @@ public partial class TblAuditHistoryType
     public int? AuditHistoryTypeUpdatedBy { get; set; }
 
     public bool AuditHistoryTypeDeleted { get; set; }
-
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

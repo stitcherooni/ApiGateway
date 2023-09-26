@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -16,21 +17,17 @@ public partial class TblApiAuditHistory
 
     public string ApiAuditHistoryEvent { get; set; }
 
-    public string ApiAuditHistoryStatusCode { get; set;}
+    public string ApiAuditHistoryStatusCode { get; set; }
 
     public int? ApiAuditHistoryLoadTime { get; set; }
 
-    public int ApplicationId { get; set; }
+    public int? ApplicationId { get; set; }
 
-    public int CustomerId { get; set; }
+    public int? CustomerId { get; set; }
 
     public string ApiAuditHistoryServer { get; set; }
 
     public DateTime ApiAuditHistoryCreatedDate { get; set; }
 
     public int ApiAuditHistoryCreatedBy { get; set; }
-
-    public TblSchool Application { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
 }

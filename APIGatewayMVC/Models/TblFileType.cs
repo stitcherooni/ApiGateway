@@ -7,11 +7,11 @@ public partial class TblFileType
 {
     public int FileTypeId { get; set; }
 
-    public string FileTypeName { get; set;}
+    public string FileTypeName { get; set; }
 
-    public string FileTypeMimeType { get; set;}
+    public string FileTypeMimeType { get; set; }
 
-    public string FileTypeExtension { get; set;}
+    public string FileTypeExtension { get; set; }
 
     public string FileTypeIcon { get; set; }
 
@@ -24,9 +24,4 @@ public partial class TblFileType
     public int? FileTypeUpdatedBy { get; set; }
 
     public DateTime? FileTypeUpdatedDate { get; set; }
-
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblFile> FileType { get; set; }
 }

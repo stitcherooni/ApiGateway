@@ -9,7 +9,7 @@ public partial class TblPollOption
 
     public int PollId { get; set; }
 
-    public string PollOption { get; set;}
+    public string PollOption { get; set; }
 
     public bool PollOptionDeleted { get; set; }
 
@@ -17,13 +17,7 @@ public partial class TblPollOption
 
     public DateTime PollOptionCreatedDate { get; set; }
 
-    public int? PollOptionUpdatedBy { get; set; }
+    public int PollOptionUpdatedBy { get; set; }
 
     public DateTime? PollOptionUpdatedDate { get; set; }
-
-    public TblPoll Poll { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblPollAnswer> PollOptionAnswer { get; set; }
 }

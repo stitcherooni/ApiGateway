@@ -7,7 +7,7 @@ public partial class TblTicket
 {
     public int TicketId { get; set; }
 
-    public string TicketNumber { get; set;}
+    public string TicketNumber { get; set; }
 
     public bool TicketHasQrcode { get; set; }
 
@@ -26,10 +26,4 @@ public partial class TblTicket
     public int? TicketUpdatedBy { get; set; }
 
     public DateTime? TicketUpdatedDate { get; set; }
-
-    public TblOrderItem OrderItem { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblBooking> BookingTicket { get; set; }
 }

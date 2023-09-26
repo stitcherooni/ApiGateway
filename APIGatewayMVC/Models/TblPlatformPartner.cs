@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -6,7 +7,7 @@ public partial class TblPlatformPartner
 {
     public int PlatformPartnerId { get; set; }
 
-    public string PlatformPartnerName { get; set;}
+    public string PlatformPartnerName { get; set; }
 
     public decimal PlatformPartnerNationalAdvertisingRevShare { get; set; }
 
@@ -35,7 +36,4 @@ public partial class TblPlatformPartner
     public int? PlatformPartnerUpdatedBy { get; set; }
 
     public DateTime? PlatformPartnerUpdatedDate { get; set; }
-
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

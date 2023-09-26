@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -19,8 +20,4 @@ public partial class TblBusinessDirectoryClick
     public string BusinessDirectoryClickUserAgent { get; set; }
 
     public DateTime BusinessDirectoryClickDateTime { get; set; }
-
-    public TblBusinessDirectory BusinessDirectory { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblSchool School { get; set; }
 }

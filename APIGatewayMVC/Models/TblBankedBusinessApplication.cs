@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -8,9 +9,9 @@ public partial class TblBankedBusinessApplication
 
     public int BankedBusinessId { get; set; }
 
-    public string BankedBusinessApplicationUuid { get; set;}
+    public string BankedBusinessApplicationUuid { get; set; }
 
-    public string BankedBusinessApplicationName { get; set;}
+    public string BankedBusinessApplicationName { get; set; }
 
     public string BankedBusinessApplicationWebhookSignatureKey { get; set; }
 
@@ -25,9 +26,4 @@ public partial class TblBankedBusinessApplication
     public int? BankedBusinessApplicationUpdatedBy { get; set; }
 
     public DateTime? BankedBusinessApplicationUpdatedDate { get; set; }
-
-    public TblBankedBusiness BankedBusiness { get; set; }
-
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

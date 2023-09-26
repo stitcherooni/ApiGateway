@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -8,7 +9,7 @@ public partial class TblClass
 
     public bool ClassIsGroup { get; set; }
 
-    public string ClassName { get; set;}
+    public string ClassName { get; set; }
 
     public string ClassTeacherName { get; set; }
 
@@ -30,19 +31,9 @@ public partial class TblClass
 
     public int SchoolId { get; set; }
 
-    public int AcademicYearId { get; set; }
+    public int? AcademicYearId { get; set; }
 
-    public int SchoolYearId { get; set; }
+    public int? SchoolYearId { get; set; }
 
     public bool ClassDeleted { get; set; }
-
-    public TblSchool School { get; set; }
-    public TblAcademicYear AcademicYear { get; set; }
-    public TblSchoolYear SchoolYear { get; set; }
-
-    public List<TblBooking> BookingClass { get; set; }
-    public List<TblClassRep> ClassRepClass { get; set; }
-    public List<TblDependant> DependantClass { get; set; }
-    public List<TblMessageGroup> MessageGroupClass { get; set; }
-    public List<TblProductClass> ProductClass { get; set; }
 }

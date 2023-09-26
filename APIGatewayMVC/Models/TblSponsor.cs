@@ -15,7 +15,7 @@ public partial class TblSponsor
 
     public bool SponsorAdmin { get; set; }
 
-    public string SponsorName { get; set;}
+    public string SponsorName { get; set; }
 
     public decimal SponsorPrice { get; set; }
 
@@ -55,7 +55,7 @@ public partial class TblSponsor
 
     public DateTime? SponsorEndDate { get; set; }
 
-    public int SchoolId { get; set; }
+    public int? SchoolId { get; set; }
 
     public bool SponsorDeleted { get; set; }
 
@@ -66,13 +66,4 @@ public partial class TblSponsor
     public int? SponsorUpdatedBy { get; set; }
 
     public DateTime? SponsorUpdatedDate { get; set; }
-
-    public TblCountry Country { get; set; }
-    public TblSchool School { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblEventSponsor> EventSponsor { get; set; }
-    public List<TblSponsorClick> SponsorClick { get; set; }
-    public List<TblSponsorImpression> SponsorImpression { get; set; }
 }

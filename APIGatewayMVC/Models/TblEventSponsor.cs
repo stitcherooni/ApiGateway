@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -19,9 +20,4 @@ public partial class TblEventSponsor
     public DateTime? EventSponsorUpdatedDate { get; set; }
 
     public int? EventSponsorUpdatedBy { get; set; }
-
-    public TblEvent Event { get; set; }
-    public TblSponsor Sponsor { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

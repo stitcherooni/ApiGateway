@@ -20,14 +20,14 @@ public partial class TblEvent
     public int? EventOrganiserId4 { get; set; }
 
     public int? EventOrganiserId5 { get; set; }
-           
+
     public int? EventOrganiserId6 { get; set; }
-           
+
     public int? EventOrganiserId7 { get; set; }
-           
+
     public int? EventOrganiserId8 { get; set; }
 
-    public string EventName { get; set;}
+    public string EventName { get; set; }
 
     public string EventDescription { get; set; }
 
@@ -41,7 +41,7 @@ public partial class TblEvent
 
     public string EventCarouselImage { get; set; }
 
-    public string EventCarouselImageText { get; set;}
+    public string EventCarouselImageText { get; set; }
 
     public bool EventCarouselImageDisplaySalesDate { get; set; }
 
@@ -73,9 +73,9 @@ public partial class TblEvent
 
     public bool EventDontShowTime { get; set; }
 
-    public string EventFeeType { get; set;}
+    public string EventFeeType { get; set; }
 
-    public string EventPlatformFeeType { get; set;}
+    public string EventPlatformFeeType { get; set; }
 
     public int? EventMaxAttendeesQty { get; set; }
 
@@ -118,26 +118,4 @@ public partial class TblEvent
     public DateTime? EventUpdatedDate { get; set; }
 
     public int SchoolId { get; set; }
-
-    public TblCustomer EventOrganiser { get; set; }
-    public TblCustomer EventOrganiser2 { get; set; }
-    public TblCustomer EventOrganiser3 { get; set; }
-    public TblCustomer EventOrganiser4 { get; set; }
-    public TblCustomer EventOrganiser5 { get; set; }
-    public TblCustomer EventOrganiser6 { get; set; }
-    public TblCustomer EventOrganiser7 { get; set; }
-    public TblCustomer EventOrganiser8 { get; set; }
-    public TblEventType EventType { get; set; }
-    public TblSchool School { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblAuction> Event { get; set; }
-    public List<TblEventFile> EventFile { get; set; }
-    public List<TblEventProduct> EventProduct { get; set; }
-    public List<TblEventSponsor> EventSponsor { get; set; }
-    public List<TblEventTask> EventTask { get; set; }
-    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
-    public List<TblMessageGroup> MessageGroupEvent { get; set; }
-    public List<TblSubGroup> SubGroupEvent { get; set; }
 }

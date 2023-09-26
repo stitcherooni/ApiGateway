@@ -9,7 +9,7 @@ public partial class TblBankedBusiness
 
     public int SchoolId { get; set; }
 
-    public string BankedBusinessUuid { get; set;}
+    public string BankedBusinessUuid { get; set; }
 
     public string Kycid { get; set; }
 
@@ -21,7 +21,7 @@ public partial class TblBankedBusiness
 
     public bool BankedBusinessComplianceCompleted { get; set; }
 
-    public int BankedBusinessComplianceCompletedBy { get; set; }
+    public int? BankedBusinessComplianceCompletedBy { get; set; }
 
     public DateTime? BankedBusinessComplianceCompletedDate { get; set; }
 
@@ -36,12 +36,4 @@ public partial class TblBankedBusiness
     public int? BankedBusinessUpdatedBy { get; set; }
 
     public DateTime? BankedBusinessUpdatedDate { get; set; }
-
-    public TblSchool School { get; set; }
-    public TblCustomer ComplianceCompletedBy { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblBankedBusinessApplication> BankedBusinessApplication { get; set; }
-    public List<TblBankedBusinessComplianceRule> BankedBusinessComplianceRule { get; set; }
 }

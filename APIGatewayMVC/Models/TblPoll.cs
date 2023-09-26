@@ -9,9 +9,9 @@ public partial class TblPoll
 
     public int SchoolId { get; set; }
 
-    public string PollQuestion { get; set;}
+    public string PollQuestion { get; set; }
 
-    public string PollDescription { get; set;}
+    public string PollDescription { get; set; }
 
     public DateTime? PollStartDate { get; set; }
 
@@ -25,13 +25,7 @@ public partial class TblPoll
 
     public DateTime PollCreatedDate { get; set; }
 
-    public int? PollUpdatedBy { get; set; }
+    public int PollUpdatedBy { get; set; }
 
     public DateTime? PollUpdatedDate { get; set; }
-
-    public TblSchool School { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblPollOption> PollOption { get; set; }
 }

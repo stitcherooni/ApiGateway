@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -6,7 +7,7 @@ public partial class TblIplookUp
 {
     public int IplookUpId { get; set; }
 
-    public string IplookUpIpaddress { get; set;}
+    public string IplookUpIpaddress { get; set; }
 
     public bool IplookUpBlocked { get; set; }
 

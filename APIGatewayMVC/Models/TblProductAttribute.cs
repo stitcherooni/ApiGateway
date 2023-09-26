@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -8,7 +9,7 @@ public partial class TblProductAttribute
 
     public int ProductId { get; set; }
 
-    public string ProductAttributeName { get; set;}
+    public string ProductAttributeName { get; set; }
 
     public string ProductAttributeImage { get; set; }
 
@@ -33,8 +34,4 @@ public partial class TblProductAttribute
     public int? ProductAttributeUpdatedBy { get; set; }
 
     public DateTime? ProductAttributeUpdatedDate { get; set; }
-
-    public TblProduct Product { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

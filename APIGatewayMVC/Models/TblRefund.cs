@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -23,8 +24,4 @@ public partial class TblRefund
     public int? RefundUpdatedBy { get; set; }
 
     public DateTime? RefundUpdatedDate { get; set; }
-
-    public TblOrder Order { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

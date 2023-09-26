@@ -7,11 +7,11 @@ public partial class TblMessage
 {
     public int MessageId { get; set; }
 
-    public int MessageGroupId { get; set; }
+    public int? MessageGroupId { get; set; }
 
     public int MessageTypeId { get; set; }
 
-    public string MessageTitle { get; set;}
+    public string MessageTitle { get; set; }
 
     public string MessageTeaser { get; set; }
 
@@ -40,11 +40,4 @@ public partial class TblMessage
     public string MessageAttachment1 { get; set; }
 
     public string MessageAttachment2 { get; set; }
-
-    public TblMessageGroup MessageGroup { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblEmail> EmailMessage { get; set; }
 }

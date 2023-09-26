@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -12,7 +13,7 @@ public partial class TblProductQuestionAnswer
 
     public int OrderItemId { get; set; }
 
-    public string ProductQuestionAnswer { get; set;}
+    public string ProductQuestionAnswer { get; set; }
 
     public ulong ProductQuestionAnswerDeleted { get; set; }
 
@@ -23,8 +24,4 @@ public partial class TblProductQuestionAnswer
     public DateTime? ProductQuestionAnswerUpdatedDate { get; set; }
 
     public int? ProductQuestionAnswerUpdatedBy { get; set; }
-
-    public TblCustomer ProductQuestion { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

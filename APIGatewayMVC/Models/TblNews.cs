@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -6,7 +7,7 @@ public partial class TblNews
 {
     public int NewsId { get; set; }
 
-    public string NewsTitle { get; set;}
+    public string NewsTitle { get; set; }
 
     public string NewsTeaser { get; set; }
 
@@ -31,8 +32,4 @@ public partial class TblNews
     public int? NewsUpdatedBy { get; set; }
 
     public DateTime? NewsUpdatedDate { get; set; }
-
-    public TblSchool School { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -20,16 +21,9 @@ public partial class TblPtamember
 
     public DateTime PtamemberCreatedDate { get; set; }
 
-    public int PtamemberCreatedBy { get; set; }
+    public int? PtamemberCreatedBy { get; set; }
 
     public DateTime? PtamemberUpdatedDate { get; set; }
 
-    public int PtamemberUpdatedBy { get; set; }
-
-    public TblSchool School { get; set; }
-    public TblRole Role { get; set; }
-    public TblAcademicYear AcademicYear { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
+    public int? PtamemberUpdatedBy { get; set; }
 }

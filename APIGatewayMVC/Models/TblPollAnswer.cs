@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -18,12 +19,7 @@ public partial class TblPollAnswer
 
     public DateTime PollAnswerCreatedDate { get; set; }
 
-    public int? PollAnswerUpdatedBy { get; set; }
+    public int PollAnswerUpdatedBy { get; set; }
 
     public DateTime? PollAnswerUpdatedDate { get; set; }
-
-    public TblPollOption PollOption { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

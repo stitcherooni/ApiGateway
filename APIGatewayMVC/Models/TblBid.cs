@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -23,9 +24,4 @@ public partial class TblBid
     public int? BidUpdatedBy { get; set; }
 
     public DateTime? BidUpdatedDate { get; set; }
-
-    public TblAuction Auction { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

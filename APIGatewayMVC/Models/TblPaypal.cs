@@ -9,19 +9,19 @@ public partial class TblPaypal
 
     public int? LegacyPaypalId { get; set; }
 
-    public string PaypalType { get; set;}
+    public string PaypalType { get; set; }
 
-    public string PaypalTransactionId { get; set;}
+    public string PaypalTransactionId { get; set; }
 
-    public int PaypalParentTransactionId { get; set; }
+    public string PaypalParentTransactionId { get; set; }
 
-    public string PaypalCurrency { get; set;}
+    public string PaypalCurrency { get; set; }
 
-    public string PaypalPaymentStatus { get; set;}
+    public string PaypalPaymentStatus { get; set; }
 
     public bool PaypalTest { get; set; }
 
-    public string PaypalIpntrackId { get; set;}
+    public string PaypalIpntrackId { get; set; }
 
     public decimal PaypalTransactionAmount { get; set; }
 
@@ -37,19 +37,15 @@ public partial class TblPaypal
 
     public int PaypalItemTotal { get; set; }
 
-    public string PaypalReceiverId { get; set;}
+    public string PaypalReceiverId { get; set; }
 
-    public string PaypalPayerEmail { get; set;}
+    public string PaypalPayerEmail { get; set; }
 
-    public string PaypalPayerStatus { get; set;}
+    public string PaypalPayerStatus { get; set; }
 
     public bool PaypalCompleted { get; set; }
 
     public DateTime? PaypalCreatedDate { get; set; }
 
     public DateTime? PaypalUpdatedDate { get; set; }
-
-    public TblPaypal PaypalParentTransaction { get; set; }
-
-    public List<TblPaypal> ParentTransaction { get; set; }
 }

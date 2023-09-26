@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -19,9 +20,4 @@ public partial class TblFileRole
     public DateTime? FileRoleUpdatedDate { get; set; }
 
     public int? FileRoleUpdatedBy { get; set; }
-
-    public TblFile File { get; set; }
-    public TblRole Role { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

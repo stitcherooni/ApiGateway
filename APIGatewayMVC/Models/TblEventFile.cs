@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -19,9 +20,4 @@ public partial class TblEventFile
     public int? EventFileUpdatedBy { get; set; }
 
     public DateTime? EventFileUpdatedDate { get; set; }
-
-    public TblEvent Event { get; set; }
-    public TblFile File { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }

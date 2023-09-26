@@ -7,9 +7,9 @@ public partial class TblLanguage
 {
     public int LanguageId { get; set; }
 
-    public string LanguageCode { get; set;}
+    public string LanguageCode { get; set; }
 
-    public string LanguageName { get; set;}
+    public string LanguageName { get; set; }
 
     public bool LanguageDeleted { get; set; }
 
@@ -20,9 +20,4 @@ public partial class TblLanguage
     public int? LanguageUpdatedBy { get; set; }
 
     public DateTime? LanguageUpdatedDate { get; set; }
-
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblTranslation> TranslationLanguage { get; set; }
 }

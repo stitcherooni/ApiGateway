@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -19,9 +20,4 @@ public partial class TblClassRep
     public int? ClassRepUpdatedBy { get; set; }
 
     public DateTime? ClassRepUpdatedDate { get; set; }
-
-    public TblClass Class { get; set; }
-    public TblCustomer Customer { get; set; }
-    public TblCustomer CreatedBy { get; set; }
-    public TblCustomer UpdatedBy { get; set; }
 }
