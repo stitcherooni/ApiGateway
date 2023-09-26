@@ -1,36 +1,34 @@
-﻿using DinkToPdf;
-using DinkToPdf.Contracts;
-using HTMLConvertor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿using HTMLConvertor;
 
 namespace DocumentGenerator
 {
-    public class DocumentCreator
+    public static class DocumentCreator
     {
-        private PDFConvertor _pdf;
-
-        public DocumentCreator(PDFConvertor pdf) 
+        public static byte[] GenerateDocument(string title, List<string> headers, List<List<string>> tableValues, DocumentType documentType)
         {
-        _pdf = pdf;
+            var html = HtmlCreator.Create("new table", new List<string> { "one", "two", "three" }, new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "4", "5", "6" }, new List<string> { "7", "8", "9" } });
+
+            switch (documentType)
+            {
+                case (DocumentType.Pdf):
+                    {
+                        return PDFConvertor.Convert(html);
+                    }
+                case (DocumentType.Excel):
+                    {
+                        return EXCELConvertor.Convert(html);
+                    }
+                case (DocumentType.Csv):
+                    {
+                        return null;
+                    }
+
+                default:
+                    {
+                        throw new Exception($"Type {documentType} doesn't exist");
+                    }
+            }
         }
 
-        public byte[] GenerateDocument()
-        { 
-        HtmlCreator html= new HtmlCreator();
-            var htmlDocument = html.Create("new table", new List<string> { "one", "two", "three" }, new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "4", "5", "6" }, new List<string> { "7", "8", "9" } });
-
-            
-            var pdfDocument = _pdf.Convert(htmlDocument);
-
-
-            File.WriteAllBytes("1.pdf", pdfDocument);
-
-            return pdfDocument;
-        }
     }
 }

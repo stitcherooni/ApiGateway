@@ -1,19 +1,13 @@
 ﻿using DinkToPdf;
-using DinkToPdf.Contracts;
 
 namespace HTMLConvertor
 {
-    public class PDFConvertor
+    internal static class PDFConvertor
     {
-        private readonly IConverter _converter;
-
-        public PDFConvertor(IConverter converter)
+        public static byte[] Convert(string html)
         {
-            _converter = converter;
-        }
+            var converter = new SynchronizedConverter(new PdfTools());
 
-        public byte[] Convert(string html)
-        {
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
@@ -34,9 +28,9 @@ namespace HTMLConvertor
                 Objects = { objectSettings }
             };
 
-            var result = _converter.Convert(document);
+            var result = converter.Convert(document);
 
-            return _converter.Convert(document);
+            return converter.Convert(document);
         }
     }
 }
