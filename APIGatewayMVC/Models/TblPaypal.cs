@@ -13,7 +13,7 @@ public partial class TblPaypal
 
     public string PaypalTransactionId { get; set;}
 
-    public int PaypalParentTransactionId { get; set; }
+    public string PaypalParentTransactionId { get; set; }
 
     public string PaypalCurrency { get; set;}
 
