@@ -9,7 +9,7 @@ public partial class TblPollOption
 
     public int PollId { get; set; }
 
-    public string PollOption { get; set; }
+    public string PollOption { get; set;}
 
     public bool PollOptionDeleted { get; set; }
 

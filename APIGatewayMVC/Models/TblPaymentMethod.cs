@@ -7,7 +7,7 @@ public partial class TblPaymentMethod
 {
     public int PaymentMethodId { get; set; }
 
-    public string PaymentMethodName { get; set; }
+    public string PaymentMethodName { get; set;}
 
     public bool PaymentMethodDeleted { get; set; }
 

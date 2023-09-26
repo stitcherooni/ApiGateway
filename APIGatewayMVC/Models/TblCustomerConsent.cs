@@ -7,7 +7,7 @@ public partial class TblCustomerConsent
 {
     public int CustomerConsentId { get; set; }
 
-    public string CustomerConsentName { get; set; }
+    public string CustomerConsentName { get; set;}
 
     public int CustomerId { get; set; }
 

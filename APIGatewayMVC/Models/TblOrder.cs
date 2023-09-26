@@ -9,7 +9,7 @@ public partial class TblOrder
 
     public int? LegacyOrderId { get; set; }
 
-    public string OrderUuid { get; set; }
+    public string OrderUuid { get; set;}
 
     public int OrderTypeId { get; set; }
 

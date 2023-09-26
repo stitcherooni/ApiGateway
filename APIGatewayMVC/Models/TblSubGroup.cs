@@ -9,9 +9,9 @@ public partial class TblSubGroup
 
     public int EventId { get; set; }
 
-    public string SubGroupName { get; set; }
+    public string SubGroupName { get; set;}
 
-    public string SubGroupDescription { get; set; }
+    public string SubGroupDescription { get; set;}
 
     public string SubGroupImage { get; set; }
 

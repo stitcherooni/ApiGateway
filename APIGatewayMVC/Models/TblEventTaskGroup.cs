@@ -9,7 +9,7 @@ public partial class TblEventTaskGroup
 
     public int EventId { get; set; }
 
-    public string EventTaskGroupName { get; set; }
+    public string EventTaskGroupName { get; set;}
 
     public int? EventTaskGroupSortOrder { get; set; }
 

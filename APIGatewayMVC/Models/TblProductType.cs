@@ -7,9 +7,9 @@ public partial class TblProductType
 {
     public int ProductTypeId { get; set; }
 
-    public string ProductTypeName { get; set; }
+    public string ProductTypeName { get; set;}
 
-    public string ProductTypeDescription { get; set; }
+    public string ProductTypeDescription { get; set;}
 
     public bool ProductTypeGambling { get; set; }
 

@@ -7,7 +7,7 @@ public partial class TblMessageStatus
 {
     public int MessageStatusId { get; set; }
 
-    public string MessageStatus { get; set; }
+    public string MessageStatus { get; set;}
 
     public DateTime MessageStatusCreatedDate { get; set; }
 

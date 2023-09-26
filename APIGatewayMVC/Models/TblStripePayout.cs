@@ -9,7 +9,7 @@ public partial class TblStripePayout
 
     public int PayoutTypeId { get; set; }
 
-    public string PayoutReference { get; set; }
+    public string PayoutReference { get; set;}
 
     public string PayoutBankReference { get; set; }
 

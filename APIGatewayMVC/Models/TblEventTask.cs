@@ -7,7 +7,7 @@ public partial class TblEventTask
 {
     public int EventTaskId { get; set; }
 
-    public string EventTaskName { get; set; }
+    public string EventTaskName { get; set;}
 
     public string EventTaskDescription { get; set; }
 

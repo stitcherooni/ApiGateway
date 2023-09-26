@@ -9,13 +9,13 @@ public partial class TblPage
 
     public bool GlobalPage { get; set; }
 
-    public string PageName { get; set; }
+    public string PageName { get; set;}
 
     public DateTime? PageStartDate { get; set; }
 
     public DateTime? PageEndDate { get; set; }
 
-    public string PageContent { get; set; }
+    public string PageContent { get; set;}
 
     public int SchoolId { get; set; }
 

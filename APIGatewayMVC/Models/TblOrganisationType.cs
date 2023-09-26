@@ -7,11 +7,11 @@ public partial class TblOrganisationType
 {
     public int OrganisationTypeId { get; set; }
 
-    public string OrganisationTypeName { get; set; }
+    public string OrganisationTypeName { get; set;}
 
-    public string OrganisationTypeMemberLabel { get; set; }
+    public string OrganisationTypeMemberLabel { get; set;}
 
-    public string OrganisationTypeIcon { get; set; }
+    public string OrganisationTypeIcon { get; set;}
 
     public bool OrganisationTypeDeleted { get; set; }
 

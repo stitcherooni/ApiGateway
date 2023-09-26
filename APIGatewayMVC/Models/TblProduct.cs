@@ -15,7 +15,7 @@ public partial class TblProduct
 
     public int? AuctionId { get; set; }
 
-    public string ProductName { get; set; }
+    public string ProductName { get; set;}
 
     public string ProductTime { get; set; }
 
@@ -25,13 +25,13 @@ public partial class TblProduct
 
     public int ProductTypeId { get; set; }
 
-    public string ProductDescription { get; set; }
+    public string ProductDescription { get; set;}
 
     public string ProductEmailText { get; set; }
 
     public string ProductRequiredInformation { get; set; }
 
-    public string ProductSku { get; set; }
+    public string ProductSku { get; set;}
 
     public decimal ProductPrice { get; set; }
 

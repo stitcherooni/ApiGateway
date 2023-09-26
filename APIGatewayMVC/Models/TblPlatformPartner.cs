@@ -7,7 +7,7 @@ public partial class TblPlatformPartner
 {
     public int PlatformPartnerId { get; set; }
 
-    public string PlatformPartnerName { get; set; }
+    public string PlatformPartnerName { get; set;}
 
     public decimal PlatformPartnerNationalAdvertisingRevShare { get; set; }
 

@@ -7,11 +7,11 @@ public partial class TblRole
 {
     public int RoleId { get; set; }
 
-    public string RoleName { get; set; }
+    public string RoleName { get; set;}
 
     public int RoleSortOrder { get; set; }
 
-    public string RoleCode { get; set; }
+    public string RoleCode { get; set;}
 
     public string RoleDescription { get; set; }
 

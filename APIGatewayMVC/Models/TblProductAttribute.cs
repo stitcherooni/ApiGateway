@@ -9,7 +9,7 @@ public partial class TblProductAttribute
 
     public int ProductId { get; set; }
 
-    public string ProductAttributeName { get; set; }
+    public string ProductAttributeName { get; set;}
 
     public string ProductAttributeImage { get; set; }
 

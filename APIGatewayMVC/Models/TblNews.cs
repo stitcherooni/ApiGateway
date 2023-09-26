@@ -7,7 +7,7 @@ public partial class TblNews
 {
     public int NewsId { get; set; }
 
-    public string NewsTitle { get; set; }
+    public string NewsTitle { get; set;}
 
     public string NewsTeaser { get; set; }
 

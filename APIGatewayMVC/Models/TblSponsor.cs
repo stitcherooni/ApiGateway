@@ -15,7 +15,7 @@ public partial class TblSponsor
 
     public bool SponsorAdmin { get; set; }
 
-    public string SponsorName { get; set; }
+    public string SponsorName { get; set;}
 
     public decimal SponsorPrice { get; set; }
 

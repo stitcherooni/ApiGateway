@@ -47,13 +47,13 @@ public partial class TblSchool
 
     public int? SchoolDpasignedBy { get; set; }
 
-    public string SchoolDataRetentionSettings { get; set; }
+    public string SchoolDataRetentionSettings { get; set;}
 
     public string SchoolName { get; set; }
 
     public string SchoolKnownByName { get; set; }
 
-    public string SchoolPtaname { get; set; }
+    public string SchoolPtaname { get; set;}
 
     public string SchoolPtafullName { get; set; }
 
@@ -97,7 +97,7 @@ public partial class TblSchool
 
     public string SchoolPtasubDomain { get; set; }
 
-    public string SchoolPtadefaultPage { get; set; }
+    public string SchoolPtadefaultPage { get; set;}
 
     public string SchoolPtaglobalPages { get; set; }
 
@@ -109,7 +109,7 @@ public partial class TblSchool
 
     public string SchoolPtapaypalLiveAccount { get; set; }
 
-    public string SchoolPtapaypalAccountType { get; set; }
+    public string SchoolPtapaypalAccountType { get; set;}
 
     public string SchoolPtapaypalTestAccount { get; set; }
 
@@ -161,7 +161,7 @@ public partial class TblSchool
 
     public string SchoolPtafontFamily { get; set; }
 
-    public string SchoolPtatitleFontFamily { get; set; }
+    public string SchoolPtatitleFontFamily { get; set;}
 
     public int SchoolFontSize { get; set; }
 
@@ -183,7 +183,7 @@ public partial class TblSchool
 
     public string SchoolTextColour { get; set; }
 
-    public string SchoolSliderType { get; set; }
+    public string SchoolSliderType { get; set;}
 
     public string SchoolPtametaKeywords { get; set; }
 

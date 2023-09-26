@@ -7,7 +7,7 @@ public partial class TblTicket
 {
     public int TicketId { get; set; }
 
-    public string TicketNumber { get; set; }
+    public string TicketNumber { get; set;}
 
     public bool TicketHasQrcode { get; set; }
 

@@ -7,7 +7,7 @@ public partial class TblFaq
 {
     public int Faqid { get; set; }
 
-    public string Faqtitle { get; set; }
+    public string Faqtitle { get; set;}
 
     public string Faqtext { get; set; }
 

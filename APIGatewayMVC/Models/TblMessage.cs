@@ -11,7 +11,7 @@ public partial class TblMessage
 
     public int MessageTypeId { get; set; }
 
-    public string MessageTitle { get; set; }
+    public string MessageTitle { get; set;}
 
     public string MessageTeaser { get; set; }
 

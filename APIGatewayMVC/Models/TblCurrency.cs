@@ -13,7 +13,7 @@ public partial class TblCurrency
 
     public string CurrencyName { get; set;}
 
-    public string CurrencySign { get; set; }
+    public string CurrencySign { get; set;}
 
     public bool CurrencyDeleted { get; set; }
 

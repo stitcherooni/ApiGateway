@@ -11,7 +11,7 @@ public partial class TblMessageGroup
 
     public int? ClassId { get; set; }
 
-    public string MessageGroupType { get; set; }
+    public string MessageGroupType { get; set;}
 
     public DateTime MessageGroupCreatedDate { get; set; }
 

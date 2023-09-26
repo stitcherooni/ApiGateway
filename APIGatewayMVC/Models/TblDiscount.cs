@@ -15,7 +15,7 @@ public partial class TblDiscount
 
     public int DiscountTypeId { get; set; }
 
-    public string DiscountName { get; set; }
+    public string DiscountName { get; set;}
 
     public decimal? DiscountAmount { get; set; }
 

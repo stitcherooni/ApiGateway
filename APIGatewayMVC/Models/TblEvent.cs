@@ -27,7 +27,7 @@ public partial class TblEvent
 
     public int? EventOrganiserId8 { get; set; }
 
-    public string EventName { get; set; }
+    public string EventName { get; set;}
 
     public string EventDescription { get; set; }
 
@@ -41,7 +41,7 @@ public partial class TblEvent
 
     public string EventCarouselImage { get; set; }
 
-    public string EventCarouselImageText { get; set; }
+    public string EventCarouselImageText { get; set;}
 
     public bool EventCarouselImageDisplaySalesDate { get; set; }
 
@@ -73,9 +73,9 @@ public partial class TblEvent
 
     public bool EventDontShowTime { get; set; }
 
-    public string EventFeeType { get; set; }
+    public string EventFeeType { get; set;}
 
-    public string EventPlatformFeeType { get; set; }
+    public string EventPlatformFeeType { get; set;}
 
     public int? EventMaxAttendeesQty { get; set; }
 

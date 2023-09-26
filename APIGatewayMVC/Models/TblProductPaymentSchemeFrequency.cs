@@ -7,7 +7,7 @@ public partial class TblProductPaymentSchemeFrequency
 {
     public int ProductPaymentSchemeFrequencyId { get; set; }
 
-    public string ProductPaymentSchemeFrequencyName { get; set; }
+    public string ProductPaymentSchemeFrequencyName { get; set;}
 
     public int ProductPaymentSchemeFrequencyDivisor { get; set; }
 

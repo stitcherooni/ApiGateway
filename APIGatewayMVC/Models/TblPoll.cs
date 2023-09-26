@@ -9,9 +9,9 @@ public partial class TblPoll
 
     public int SchoolId { get; set; }
 
-    public string PollQuestion { get; set; }
+    public string PollQuestion { get; set;}
 
-    public string PollDescription { get; set; }
+    public string PollDescription { get; set;}
 
     public DateTime? PollStartDate { get; set; }
 

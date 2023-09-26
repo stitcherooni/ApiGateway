@@ -7,7 +7,7 @@ public partial class TblPartner
 {
     public int PartnerId { get; set; }
 
-    public string PartnerName { get; set; }
+    public string PartnerName { get; set;}
 
     public string PartnerDescription { get; set; }
 

@@ -7,7 +7,7 @@ public partial class TblEventType
 {
     public int EventTypeId { get; set; }
 
-    public string EventTypeName { get; set; }
+    public string EventTypeName { get; set;}
 
     public bool EventTypeDeleted { get; set; }
 

@@ -9,19 +9,19 @@ public partial class TblPaypal
 
     public int? LegacyPaypalId { get; set; }
 
-    public string PaypalType { get; set; }
+    public string PaypalType { get; set;}
 
-    public string PaypalTransactionId { get; set; }
+    public string PaypalTransactionId { get; set;}
 
     public string PaypalParentTransactionId { get; set; }
 
-    public string PaypalCurrency { get; set; }
+    public string PaypalCurrency { get; set;}
 
-    public string PaypalPaymentStatus { get; set; }
+    public string PaypalPaymentStatus { get; set;}
 
     public bool PaypalTest { get; set; }
 
-    public string PaypalIpntrackId { get; set; }
+    public string PaypalIpntrackId { get; set;}
 
     public decimal PaypalTransactionAmount { get; set; }
 

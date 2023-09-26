@@ -13,7 +13,7 @@ public partial class TblProductQuestionAnswer
 
     public int OrderItemId { get; set; }
 
-    public string ProductQuestionAnswer { get; set; }
+    public string ProductQuestionAnswer { get; set;}
 
     public ulong ProductQuestionAnswerDeleted { get; set; }
 

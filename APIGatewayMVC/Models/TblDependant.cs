@@ -9,9 +9,9 @@ public partial class TblDependant
 
     public int CustomerId { get; set; }
 
-    public string DependantFirstName { get; set; }
+    public string DependantFirstName { get; set;}
 
-    public string DependantLastName { get; set; }
+    public string DependantLastName { get; set;}
 
     public bool DependantMailingList { get; set; }
 

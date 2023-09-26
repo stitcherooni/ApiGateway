@@ -7,9 +7,9 @@ public partial class TblLanguage
 {
     public int LanguageId { get; set; }
 
-    public string LanguageCode { get; set; }
+    public string LanguageCode { get; set;}
 
-    public string LanguageName { get; set; }
+    public string LanguageName { get; set;}
 
     public bool LanguageDeleted { get; set; }
 

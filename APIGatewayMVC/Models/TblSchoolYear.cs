@@ -7,7 +7,7 @@ public partial class TblSchoolYear
 {
     public int SchoolYearId { get; set; }
 
-    public string SchoolYearName { get; set; }
+    public string SchoolYearName { get; set;}
 
     public int SchoolYearOrder { get; set; }
 

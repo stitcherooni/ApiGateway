@@ -9,13 +9,13 @@ public partial class TblStripeWebHook
 
     public int? OrderId { get; set; }
 
-    public string StripeWebHookEventId { get; set; }
+    public string StripeWebHookEventId { get; set;}
 
-    public string StripeWebHookAccountId { get; set; }
+    public string StripeWebHookAccountId { get; set;}
 
-    public string StripeWebHookObjectTypeId { get; set; }
+    public string StripeWebHookObjectTypeId { get; set;}
 
-    public string StripeWebHookObjectType { get; set; }
+    public string StripeWebHookObjectType { get; set;}
 
     public string StripeWebHookObjectStatus { get; set; }
 

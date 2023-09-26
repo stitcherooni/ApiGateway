@@ -13,7 +13,7 @@ public partial class TblTranslation
 
     public int LanguageId { get; set; }
 
-    public string TranslationContent { get; set; }
+    public string TranslationContent { get; set;}
 
     public bool TranslationDeleted { get; set; }
 

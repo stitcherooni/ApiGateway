@@ -7,7 +7,7 @@ public partial class TblPaymentStatus
 {
     public int PaymentStatusId { get; set; }
 
-    public string PaymentStatusName { get; set; }
+    public string PaymentStatusName { get; set;}
 
     public bool PaymentStatusDeleted { get; set; }
 
