@@ -2,6 +2,7 @@
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace APIGatewayMVC.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class OnboardingController : BaseController
