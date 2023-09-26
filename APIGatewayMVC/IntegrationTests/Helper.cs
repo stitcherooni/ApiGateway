@@ -90,6 +90,7 @@ namespace IntegrationTests
                     .Options;
 
                 var context = new PtaeventContext(options);
+                context.Database.EnsureCreated();
 
                 return context;
             }

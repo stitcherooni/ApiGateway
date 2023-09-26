@@ -37,11 +37,11 @@ public partial class TblPaypal
 
     public int PaypalItemTotal { get; set; }
 
-    public string PaypalReceiverId { get; set; }
+    public string PaypalReceiverId { get; set;}
 
-    public string PaypalPayerEmail { get; set; }
+    public string PaypalPayerEmail { get; set;}
 
-    public string PaypalPayerStatus { get; set; }
+    public string PaypalPayerStatus { get; set;}
 
     public bool PaypalCompleted { get; set; }
 
