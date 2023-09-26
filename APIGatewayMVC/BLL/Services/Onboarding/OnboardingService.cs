@@ -23,14 +23,14 @@ namespace BLL.Services.Onboarding
         private readonly IRepository<TblSchool> _schoolRepository;
         private readonly IRepository<TblCustomer> _customerRepository;
         private readonly IRepository<TblCustomerRole> _customerRoleRepository;
-        private readonly HtmlCreator _htmlCreator;
+        private readonly DocumentCreator _document;
 
         public OnboardingService(IMapper mapper,
                                  IEmailService emailService,
                                  IRepository<TblSchool> schoolRepository,
                                  IRepository<TblCustomer> customerRepository,
                                  IRepository<TblCustomerRole> customerRoleRepository
-            , HtmlCreator htmlCreator)
+            , DocumentCreator document)
         {
             _mapper = mapper;
             _emailService = emailService;

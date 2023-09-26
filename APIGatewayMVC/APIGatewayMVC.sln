@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "Integra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{A5498880-C504-4BCB-9477-4CA8F1AC3F47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentCreator", "HTMLConvertor\DocumentCreator.csproj", "{622E9DD0-4D90-4532-AA13-7151EBFCA76D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentGenerator", "HTMLConvertor\DocumentGenerator.csproj", "{622E9DD0-4D90-4532-AA13-7151EBFCA76D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

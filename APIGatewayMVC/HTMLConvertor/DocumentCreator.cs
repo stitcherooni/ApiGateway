@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace DocumentCreator
+namespace DocumentGenerator
 {
     public class DocumentCreator
     {
