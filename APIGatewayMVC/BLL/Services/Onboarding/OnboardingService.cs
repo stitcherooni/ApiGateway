@@ -5,8 +5,6 @@ using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,17 +46,17 @@ namespace BLL.Services.Onboarding
                 await _schoolRepository.AddAsync(schoolDetailsMap, cancellationToken);
 
                 var accountDetailsMap = _mapper.Map<TblCustomer>(onboardingFormDataDTO.AccountDetails);
-                accountDetailsMap.CustomerSchool = schoolDetailsMap;
+                accountDetailsMap.CustomerSchoolId = schoolDetailsMap.SchoolId;
                 await _customerRepository.AddAsync(accountDetailsMap, cancellationToken);
 
                 var customerRole2 = new TblCustomerRole
                 {
-                    Customer = accountDetailsMap,
+                    CustomerId = accountDetailsMap.CustomerId,
                     RoleId = 2
                 };
                 var customerRole7 = new TblCustomerRole
                 {
-                    Customer = accountDetailsMap,
+                    CustomerId = accountDetailsMap.CustomerId,
                     RoleId = 7
                 };
                 await _customerRoleRepository.AddAsync(customerRole2, cancellationToken);

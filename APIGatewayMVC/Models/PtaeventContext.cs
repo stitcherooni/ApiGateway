@@ -3891,16 +3891,6 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.PlatformFeeInvoiceNo).HasMaxLength(20);
             entity.Property(e => e.PlatformFeeRefundAmount).HasPrecision(10, 2);
 
-            entity.HasOne(paypal => paypal.PaypalParentTransaction)
-                .WithMany(paypal => paypal.ParentTransaction)
-                .HasForeignKey(paypal => paypal.PaypalParentTransactionId)
-                .IsRequired(false);
-
-            entity.HasMany(paypal => paypal.ParentTransaction)
-                .WithOne(paypal => paypal.PaypalParentTransaction)
-                .HasForeignKey(paypal => paypal.PaypalParentTransactionId)
-                .IsRequired(false);
-
         });
 
         modelBuilder.Entity<TblPlanType>(entity =>
