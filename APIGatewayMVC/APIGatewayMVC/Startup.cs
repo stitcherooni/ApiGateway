@@ -13,6 +13,7 @@ using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentCreator;
 using HTMLConvertor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,7 +88,7 @@ namespace APIGatewayMVC
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<PDFConvertor>();
-               
+            services.AddScoped<HtmlCreator>();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)

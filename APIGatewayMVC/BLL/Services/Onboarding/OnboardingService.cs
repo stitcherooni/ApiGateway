@@ -3,8 +3,10 @@ using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
+using DocumentCreator;
 using Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -21,18 +23,21 @@ namespace BLL.Services.Onboarding
         private readonly IRepository<TblSchool> _schoolRepository;
         private readonly IRepository<TblCustomer> _customerRepository;
         private readonly IRepository<TblCustomerRole> _customerRoleRepository;
+        private readonly HtmlCreator _htmlCreator;
 
         public OnboardingService(IMapper mapper,
                                  IEmailService emailService,
                                  IRepository<TblSchool> schoolRepository,
                                  IRepository<TblCustomer> customerRepository,
-                                 IRepository<TblCustomerRole> customerRoleRepository)
+                                 IRepository<TblCustomerRole> customerRoleRepository
+            , HtmlCreator htmlCreator)
         {
             _mapper = mapper;
             _emailService = emailService;
             _schoolRepository = schoolRepository;
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
+            _htmlCreator = htmlCreator;
         }
 
         public async Task<OnboardingEntities> OnboardOrganisation(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
@@ -87,6 +92,15 @@ namespace BLL.Services.Onboarding
 
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
+            //var text = _htmlCreator.Create("new table", new List<string> { "one", "two", "three" }, new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "4", "5", "6" }, new List<string> { "7", "8", "9" } });
+
+            //using (StreamWriter writer = new StreamWriter("1.html"))
+            //{
+            //    writer.Write(text);
+            //}
+            DocumentCreator.DocumentCreator.GenerateDocument();
+
+
             var urlVariants = new List<string>();
 
             string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
