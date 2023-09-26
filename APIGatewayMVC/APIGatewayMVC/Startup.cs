@@ -20,6 +20,10 @@ using BLL.DTO;
 using APIGatewayMVC.Controllers;
 using BLL.Services.SortingService;
 using BLL.Services.UpdateService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Logging;
 
 namespace APIGatewayMVC
 {
@@ -70,10 +74,56 @@ namespace APIGatewayMVC
 
             services.AddAutoMapper();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApi(options =>
+            {
+                configuration.Bind("AzureAdB2C", options);
+
+                options.TokenValidationParameters.NameClaimType = "name";
+            },
+    options => { configuration.Bind("AzureAdB2C", options); });
+
+            services.AddAuthorization(options =>
+            {
+                // Define policies here based on your application's requirements
+
+                options.AddPolicy("RequireAdminRole", policy =>
+                {
+                    policy.RequireRole("Admin"); // Only users in the "Admin" role can access
+                });
+
+                options.AddPolicy("RequireReadScope", policy =>
+                {
+                    policy.RequireClaim("scope", "user.read"); // Users with the "user.read" claim can access
+                });
+
+                // Add more policies as needed for your application
+            });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+        });
             });
 
             services.AddLogging(builder =>
@@ -85,6 +135,10 @@ namespace APIGatewayMVC
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                IdentityModelEventSource.ShowPII = true;
+            }
             if (!env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
@@ -100,7 +154,10 @@ namespace APIGatewayMVC
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
