@@ -1,0 +1,132 @@
+trigger: none
+
+pool:
+  name: internal-agent
+
+variables:
+  tag: "$(Build.BuildId)"
+  appName: apigateway
+
+resources:
+  - repo: self
+
+parameters:
+- name: dev_env
+  displayName: dev
+  type: boolean
+  default: false
+- name: qa_env
+  displayName: qa
+  type: boolean
+  default: false
+
+stages:
+  - stage: Build
+    displayName: Build, Test and Push image to ACR
+    jobs:
+      - job: Build
+        displayName: Build
+        variables:
+          - group: internal
+        steps:
+          - task: Bash@3
+            displayName: Build and run UnitTest
+            inputs:
+              targetType: inline
+              script: |
+                cd $(Build.SourcesDirectory)/APIGatewayMVC
+                podman build -f $(Build.SourcesDirectory)/APIGatewayMVC/Dockerfile -t $(appName):$(tag) .
+                podman create -ti --name $(appName) $(appName):$(tag)
+                podman cp $(appName):/app/testresults/ $(Build.ArtifactStagingDirectory)/testresults 
+                podman rm -fv $(appName)
+
+          - task: PublishTestResults@2
+            displayName: Publish Test Results
+            inputs:
+              testResultsFormat: 'VSTest'
+              testResultsFiles: '**/testresults.trx'
+              searchFolder: '$(Build.ArtifactStagingDirectory)/testresults'
+              mergeTestResults: true
+              #failTaskOnFailedTests: true
+              testRunTitle: 'UnitTest'
+
+          - task: Bash@3
+            displayName: Push Image to Azure Container Registry
+            inputs:
+              targetType: inline
+              script: |
+                podman login -u $(internalSP) -p $(internalSPSecret) $(acrName)
+                podman push $(appName):$(tag) $(acrName)/$(appName):$(tag)
+
+#Stage Deploy to dev Environment
+  - stage: Deploy_to_dev
+    displayName: Deploy to dev
+    condition: |
+      and(
+        succeeded('Build'), 
+        eq(${{ parameters.dev_env }}, true)
+      )
+    dependsOn: Build
+    jobs:
+    - job: KubernetesDeployment
+      displayName: 'Kubernetes Deployment'
+      variables:
+      - group: dev
+      steps:
+      - task: KubeloginInstaller@0
+        inputs:
+          kubeloginVersion: 'latest'
+
+      - task: replacetokens@5
+        inputs:
+          rootDirectory: '$(Build.SourcesDirectory)'
+          targetFiles: '**/apigateway.yaml'
+          encoding: 'auto'
+          tokenPattern: 'azpipelines'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'warn'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+
+      - task: Kubernetes@1
+        displayName: Create Deployment $(appName)
+        inputs:
+          connectionType: 'Azure Resource Manager'
+          azureSubscriptionEndpoint: 'internal-adm-sp'
+          azureResourceGroup: 'internal-ptae-rg-01'
+          kubernetesCluster: 'internal-ptae-aks-01'
+          namespace: $(envName)
+          command: 'apply'
+          arguments: '-f $(Build.SourcesDirectory)/APIGatewayMVC/apigateway.yaml -o yaml'
+          secretType: 'dockerRegistry'
+          containerRegistryType: 'Azure Container Registry'
+
+      - task: Bash@3
+        displayName: API Gateway URL
+        inputs:
+          targetType: inline
+          script: |
+            echo "API Gateway URL" https://$(envName)-apigateway.pta-events.com/api/onboarding
+
+#Stage Deploy to qa Environment
+  - stage: Deploy_to_qa
+    displayName: Deploy to qa
+    condition: |
+      and(
+        succeeded('Build'), 
+        eq(${{ parameters.qa_env }}, true)
+      )
+    dependsOn: Build
+    jobs:
+    - job: KubernetesDeployment
+      displayName: 'Kubernetes Deployment'
+      variables:
+      - group: qa
+      steps:
+      - task: KubeloginInstaller@0
+        inputs:
+          kubeloginVersion: 'latest'
