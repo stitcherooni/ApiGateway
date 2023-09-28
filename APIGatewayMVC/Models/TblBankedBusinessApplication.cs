@@ -27,7 +27,6 @@ public partial class TblBankedBusinessApplication
     public DateTime? BankedBusinessApplicationUpdatedDate { get; set; }
 
     public TblBankedBusiness BankedBusiness { get; set; }
-
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
 }

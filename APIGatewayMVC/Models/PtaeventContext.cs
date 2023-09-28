@@ -286,15 +286,15 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(apiAuditHistory => apiAuditHistory.Application)
                 .WithMany(school => school.ApiAuditHistoryApplication)
-                //.HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApplicationId)
                 .IsRequired(false);
             entity.HasOne(apiAuditHistory => apiAuditHistory.Customer)
                 .WithMany(customer => customer.ApiAuditHistoryCustomer)
-                //.HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.CustomerId)
                 .IsRequired(false);
             entity.HasOne(apiAuditHistory => apiAuditHistory.CreatedBy)
                 .WithMany(customer => customer.ApiAuditHistoryCreatedBy)
-                //.HasForeignKey(apiAuditHistory => apiAuditHistory.ApiAuditHistoryCreatedBy)
+                .HasForeignKey(apiAuditHistory => apiAuditHistory.ApiAuditHistoryCreatedBy)
                 .IsRequired(false);
         });
 
@@ -341,24 +341,24 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(auction => auction.Event)
                 .WithMany(events => events.Event)
-                //.HasForeignKey(auction => auction.EventId)
+                .HasForeignKey(auction => auction.EventId)
                 .IsRequired(false);
             entity.HasOne(auction => auction.CreatedBy)
                 .WithMany(customer => customer.AuctionCreatedBy)
-                //.HasForeignKey(auction => auction.AuctionCreatedBy)
+                .HasForeignKey(auction => auction.AuctionCreatedBy)
                 .IsRequired(false);
             entity.HasOne(auction => auction.UpdatedBy)
                 .WithMany(customer => customer.AuctionUpdatedBy)
-                //.HasForeignKey(auction => auction.AuctionUpdatedBy)
+                .HasForeignKey(auction => auction.AuctionUpdatedBy)
                 .IsRequired(false);
 
             entity.HasMany(auction => auction.BidAuction)
                 .WithOne(bid => bid.Auction)
-                //.HasForeignKey(bid => bid.AuctionId)
+                .HasForeignKey(bid => bid.AuctionId)
                 .IsRequired(false);
             entity.HasMany(auction => auction.ProductAuction)
                 .WithOne(product => product.Auction)
-                //.HasForeignKey(product => product.AuctionId)
+                .HasForeignKey(product => product.AuctionId)
                 .IsRequired(false);
         });
 
@@ -403,11 +403,11 @@ public partial class PtaeventContext : DbContext
 
             entity.HasOne(auditHistory => auditHistory.Application)
                 .WithMany(school => school.AuditHistoryApplication)
-                //.HasForeignKey(auditHistory => auditHistory.ApplicationId)
+                .HasForeignKey(auditHistory => auditHistory.ApplicationId)
                 .IsRequired(false);
             entity.HasOne(auditHistory => auditHistory.Customer)
                 .WithMany(customer => customer.AuditHistoryCustomer)
-                //.HasForeignKey(auditHistory => auditHistory.CustomerId)
+                .HasForeignKey(auditHistory => auditHistory.CustomerId)
                 .IsRequired(false);
             entity.HasOne(auditHistory => auditHistory.CreatedBy)
                 .WithMany(customer => customer.AuditHistoryCreatedBy)

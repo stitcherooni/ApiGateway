@@ -27,11 +27,11 @@ public partial class TblEventTaskGroup
 
     public int? EventTaskGroupUpdatedBy { get; set; }
 
-    public List<TblEventTask> EventTask { get; set; }
-
     public TblEvent Event { get; set; }
     public TblSchoolYear EventTaskGroupRepsSchoolYear { get; set; }
     public TblCustomer EventTaskGroupOrganiser { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblEventTask> EventTask { get; set; }
 }

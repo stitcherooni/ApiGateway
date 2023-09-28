@@ -59,13 +59,13 @@ public partial class TblOrder
 
     public int? CustomerId { get; set; }
 
-    public List<TblBankedWebHook> BankedWebHookOrder { get; set; }
-    public List<TblRefund> RefundOrder { get; set; }
-    public List<TblStripeWebHook> StripeWebHookOrder { get; set; }
-
     public TblCustomer OrderType { get; set; }
     public TblCustomer OrderTransaction { get; set; }
     public TblCustomer Customer { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblBankedWebHook> BankedWebHookOrder { get; set; }
+    public List<TblRefund> RefundOrder { get; set; }
+    public List<TblStripeWebHook> StripeWebHookOrder { get; set; }
 }
