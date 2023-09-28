@@ -80,13 +80,10 @@ namespace APIGatewayMVC
                 configuration.Bind("AzureAdB2C", options);
 
                 options.TokenValidationParameters.NameClaimType = "name";
-            },
-    options => { configuration.Bind("AzureAdB2C", options); });
+            }, options => { configuration.Bind("AzureAdB2C", options); });
 
             services.AddAuthorization(options =>
             {
-                // Define policies here based on your application's requirements
-
                 options.AddPolicy("RequireAdminRole", policy =>
                 {
                     policy.RequireRole("Admin"); // Only users in the "Admin" role can access
@@ -96,8 +93,6 @@ namespace APIGatewayMVC
                 {
                     policy.RequireClaim("scope", "user.read"); // Users with the "user.read" claim can access
                 });
-
-                // Add more policies as needed for your application
             });
 
             services.AddSwaggerGen(c =>
@@ -111,19 +106,19 @@ namespace APIGatewayMVC
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] { }
-                }
-        });
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
 
             services.AddLogging(builder =>
@@ -139,7 +134,7 @@ namespace APIGatewayMVC
             {
                 IdentityModelEventSource.ShowPII = true;
             }
-            if (!env.IsProduction())
+            if (true)
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
