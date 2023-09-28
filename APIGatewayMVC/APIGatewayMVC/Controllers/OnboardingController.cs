@@ -32,7 +32,7 @@ namespace APIGatewayMVC.Controllers
 
         [HttpGet]
         [Route("test")]
-        public async Task<IActionResult> UrlAsync([FromBody] CheckUrlRequest urlRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> test([FromBody] CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             try
             {
