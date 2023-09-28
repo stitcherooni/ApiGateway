@@ -134,7 +134,7 @@ namespace APIGatewayMVC
             {
                 IdentityModelEventSource.ShowPII = true;
             }
-            if (true)
+            if (env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
