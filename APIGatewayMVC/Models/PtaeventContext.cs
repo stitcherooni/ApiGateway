@@ -1155,10 +1155,6 @@ public partial class PtaeventContext : DbContext
             entity.Property(e => e.ContentHashName).HasMaxLength(50);
             entity.Property(e => e.ContentHashValue).HasMaxLength(32);
 
-            entity.HasMany(contentHash => contentHash.CustomerHash)
-                .WithOne(customer => customer.Hash)
-                .HasForeignKey(customer => customer.CustomerHashId)
-                .IsRequired(false);
             entity.HasMany(contentHash => contentHash.CustomerConsentCustomerHash)
                 .WithOne(customerConsent => customerConsent.ContentHash)
                 .HasForeignKey(customerConsent => customerConsent.ContentHashId)
@@ -1353,14 +1349,6 @@ public partial class PtaeventContext : DbContext
             entity.HasOne(customer => customer.Application)
                 .WithMany(school => school.Application)
                 .HasForeignKey(customer => customer.ApplicationId)
-                .IsRequired(false);
-            entity.HasOne(customer => customer.Hash)
-                .WithMany(contentHash => contentHash.CustomerHash)
-                .HasForeignKey(customer => customer.CustomerHashId)
-                .IsRequired(false);
-            entity.HasOne(customer => customer.Partner)
-                .WithMany(partner => partner.CustomerPartner)
-                .HasForeignKey(customer => customer.CustomerPartnerId)
                 .IsRequired(false);
             entity.HasOne(customer => customer.CustomerSchool)
                 .WithMany(school => school.CustomerSchool)
@@ -3758,12 +3746,6 @@ public partial class PtaeventContext : DbContext
                 .WithMany(customer => customer.PartnerUpdatedBy)
                 .HasForeignKey(partner => partner.PartnerUpdatedBy)
                 .IsRequired(false);
-
-            entity.HasMany(partner => partner.CustomerPartner)
-                .WithOne(customer => customer.Partner)
-                .HasForeignKey(customer => customer.CustomerPartnerId)
-                .IsRequired(false);
-
         });
 
         modelBuilder.Entity<TblPaymentMethod>(entity =>

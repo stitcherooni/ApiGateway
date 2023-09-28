@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Models;
 
@@ -36,6 +35,4 @@ public partial class TblPartner
     public TblSchool School { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
-
-    public List<TblCustomer> CustomerPartner { get; set; }
 }
