@@ -52,4 +52,5 @@ public partial class TblPaypal
     public TblPaypal PaypalParentTransaction { get; set; }
 
     public List<TblPaypal> ParentTransaction { get; set; }
+    public List<TblOrder> OrderTransaction { get; set; }
 }

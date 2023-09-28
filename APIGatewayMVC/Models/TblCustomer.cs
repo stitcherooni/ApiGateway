@@ -237,8 +237,6 @@ public partial class TblCustomer
     public List<TblMessageType> MessageTypeUpdatedBy { get; set; }
     public List<TblNews> NewsCreatedBy { get; set; }
     public List<TblNews> NewsUpdatedBy { get; set; }
-    public List<TblOrder> CustomerOrderType { get; set; }
-    public List<TblOrder> CustomerOrderTransaction { get; set; }
     public List<TblOrder> CustomerOrder { get; set; }
     public List<TblOrder> OrderCreatedBy { get; set; }
     public List<TblOrder> OrderUpdatedBy { get; set; }

@@ -1831,14 +1831,6 @@ public partial class PtaeventContext : DbContext
                 .WithOne(news => news.CreatedBy)
                 .HasForeignKey(news => news.NewsCreatedBy)
                 .IsRequired(false);
-            entity.HasMany(customer => customer.CustomerOrderType)
-                .WithOne(order => order.OrderType)
-                .HasForeignKey(order => order.OrderTypeId)
-                .IsRequired(false);
-            entity.HasMany(customer => customer.CustomerOrderTransaction)
-                .WithOne(order => order.OrderTransaction)
-                .HasForeignKey(order => order.OrderTransactionId)
-                .IsRequired(false);
             entity.HasMany(customer => customer.CustomerOrder)
                 .WithOne(order => order.Customer)
                 .HasForeignKey(order => order.CustomerId)
@@ -3545,12 +3537,8 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("OrderUUID");
             entity.Property(e => e.OrderValue).HasPrecision(10, 2);
 
-            entity.HasOne(order => order.OrderType)
-                .WithMany(customer => customer.CustomerOrderType)
-                .HasForeignKey(order => order.OrderTypeId)
-                .IsRequired(false);
             entity.HasOne(order => order.OrderTransaction)
-                .WithMany(customer => customer.CustomerOrderTransaction)
+                .WithMany(paypal => paypal.OrderTransaction)
                 .HasForeignKey(order => order.OrderTransactionId)
                 .IsRequired(false);
             entity.HasOne(order => order.Customer)
@@ -3890,6 +3878,11 @@ public partial class PtaeventContext : DbContext
                 .HasDefaultValueSql("'0.00'");
             entity.Property(e => e.PlatformFeeInvoiceNo).HasMaxLength(20);
             entity.Property(e => e.PlatformFeeRefundAmount).HasPrecision(10, 2);
+
+            entity.HasMany(paypal => paypal.OrderTransaction)
+                .WithOne(order => order.OrderTransaction)
+                .HasForeignKey(order => order.OrderTransactionId)
+                .IsRequired(false);
 
         });
 
