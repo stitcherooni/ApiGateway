@@ -30,6 +30,21 @@ namespace APIGatewayMVC.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        [Route("test")]
+        public async Task<IActionResult> UrlAsync([FromBody] CheckUrlRequest urlRequest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return Ok(Environment.ExpandEnvironmentVariables("ASPNETCORE_ENVIRONMENT"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error processing URL: {urlRequest.Url}");
+                return BadRequest(GenerateErrorMessage(ex, "Can't generate Url"));
+            }
+        }
+
         [HttpPost]
         [Route("url")]
         public async Task<IActionResult> UrlAsync([FromBody] CheckUrlRequest urlRequest, CancellationToken cancellationToken)
