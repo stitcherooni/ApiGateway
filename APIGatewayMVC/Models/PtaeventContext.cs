@@ -2853,10 +2853,6 @@ public partial class PtaeventContext : DbContext
                 .WithMany(events => events.EventTaskGroup)
                 .HasForeignKey(eventTaskGroup => eventTaskGroup.EventId)
                 .IsRequired(false);
-            entity.HasOne(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYear)
-                .WithMany(schoolYear => schoolYear.EventTaskGroup)
-                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYearId)
-                .IsRequired(false);
             entity.HasOne(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiser)
                 .WithMany(customer => customer.EventTaskGroup)
                 .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupOrganiserId)
@@ -5100,10 +5096,6 @@ public partial class PtaeventContext : DbContext
             entity.HasMany(schoolYear => schoolYear.SchoolYearClass)
                 .WithOne(casses => casses.SchoolYear)
                 .HasForeignKey(casses => casses.SchoolYearId)
-                .IsRequired(false);
-            entity.HasMany(schoolYear => schoolYear.EventTaskGroup)
-                .WithOne(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYear)
-                .HasForeignKey(eventTaskGroup => eventTaskGroup.EventTaskGroupRepsSchoolYearId)
                 .IsRequired(false);
         });
 

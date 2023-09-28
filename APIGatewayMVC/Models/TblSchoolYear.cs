@@ -25,5 +25,4 @@ public partial class TblSchoolYear
     public TblCustomer UpdatedBy { get; set; }
 
     public List<TblClass> SchoolYearClass { get; set; }
-    public List<TblEventTaskGroup> EventTaskGroup { get; set; }
 }
