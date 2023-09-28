@@ -36,7 +36,7 @@ namespace APIGatewayMVC.Controllers
         {
             try
             {
-                return Ok(Environment.ExpandEnvironmentVariables("ASPNETCORE_ENVIRONMENT"));
+                return Ok(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
             }
             catch (Exception ex)
             {
