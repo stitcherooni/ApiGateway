@@ -96,4 +96,5 @@ public partial class TblProduct
     public List<TblProductPayment> ProductPayment { get; set; }
     public List<TblProductPaymentScheme> ProductPaymentScheme { get; set; }
     public List<TblProductQuestion> ProductQuestion { get; set; }
+    public List<TblOrderItem> OrderItem { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models;
 
@@ -30,4 +31,6 @@ public partial class TblProductPaymentScheme
     public TblProductPaymentSchemeFrequency ProductPaymentSchemeFrequency { get; set; }
     public TblCustomer CreatedBy { get; set; }
     public TblCustomer UpdatedBy { get; set; }
+
+    public List<TblOrderItem> OrderProductPaymentScheme { get; set; }
 }

@@ -1843,18 +1843,6 @@ public partial class PtaeventContext : DbContext
                 .WithOne(order => order.CreatedBy)
                 .HasForeignKey(order => order.OrderCreatedBy)
                 .IsRequired(false);
-            entity.HasMany(customer => customer.CustomerOrderItem)
-                .WithOne(orderItem => orderItem.Order)
-                .HasForeignKey(orderItem => orderItem.OrderId)
-                .IsRequired(false);
-            entity.HasMany(customer => customer.OrderItemCustomer)
-                .WithOne(orderItem => orderItem.Item)
-                .HasForeignKey(orderItem => orderItem.ItemId)
-                .IsRequired(false);
-            entity.HasMany(customer => customer.CustomerOrderProductPaymentScheme)
-                .WithOne(orderItem => orderItem.ProductPaymentScheme)
-                .HasForeignKey(orderItem => orderItem.ProductPaymentSchemeId)
-                .IsRequired(false);
             entity.HasMany(customer => customer.OrderItemUpdatedBy)
                 .WithOne(orderItem => orderItem.UpdatedBy)
                 .HasForeignKey(orderItem => orderItem.OrderItemUpdatedBy)
@@ -3566,7 +3554,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(stripeWebHook => stripeWebHook.Order)
                 .HasForeignKey(stripeWebHook => stripeWebHook.OrderId)
                 .IsRequired(false);
-
+            entity.HasMany(order => order.OrderItem)
+                .WithOne(orderItem => orderItem.Order)
+                .HasForeignKey(orderItem => orderItem.OrderId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblOrderItem>(entity =>
@@ -3619,15 +3610,15 @@ public partial class PtaeventContext : DbContext
                 .HasColumnName("ProductPaymentSchemeID");
 
             entity.HasOne(orderItem => orderItem.Order)
-               .WithMany(customer => customer.CustomerOrderItem)
+               .WithMany(order => order.OrderItem)
                .HasForeignKey(orderItem => orderItem.OrderId)
                .IsRequired(false);
             entity.HasOne(orderItem => orderItem.Item)
-                .WithMany(customer => customer.OrderItemCustomer)
+                .WithMany(product => product.OrderItem)
                 .HasForeignKey(orderItem => orderItem.ItemId)
                 .IsRequired(false);
             entity.HasOne(orderItem => orderItem.ProductPaymentScheme)
-                .WithMany(customer => customer.CustomerOrderProductPaymentScheme)
+                .WithMany(productPaymentScheme => productPaymentScheme.OrderProductPaymentScheme)
                 .HasForeignKey(orderItem => orderItem.ProductPaymentSchemeId)
                 .IsRequired(false);
             entity.HasOne(orderItem => orderItem.UpdatedBy)
@@ -4196,7 +4187,10 @@ public partial class PtaeventContext : DbContext
                 .WithOne(productPaymentScheme => productPaymentScheme.Product)
                 .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductId)
                 .IsRequired(false);
-
+            entity.HasMany(product => product.OrderItem)
+                .WithOne(orderItem => orderItem.Item)
+                .HasForeignKey(orderItem => orderItem.ItemId)
+                .IsRequired(false);
         });
 
         modelBuilder.Entity<TblProductAttribute>(entity =>
@@ -4365,6 +4359,11 @@ public partial class PtaeventContext : DbContext
             entity.HasOne(productPaymentScheme => productPaymentScheme.UpdatedBy)
                 .WithMany(customer => customer.ProductPaymentSchemeUpdatedBy)
                 .HasForeignKey(productPaymentScheme => productPaymentScheme.ProductPaymentSchemeUpdatedBy)
+                .IsRequired(false);
+
+            entity.HasMany(productPaymentScheme => productPaymentScheme.OrderProductPaymentScheme)
+                .WithOne(orderItem => orderItem.ProductPaymentScheme)
+                .HasForeignKey(orderItem => orderItem.ProductPaymentSchemeId)
                 .IsRequired(false);
         });
 
