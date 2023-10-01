@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
+    <ProjectReference Include="..\DocumentGenerator\DocumentGenerator.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
