@@ -1,25 +1,30 @@
-﻿using HTMLConvertor;
+﻿using DocumentGenerator.Templates;
+using DocumentGenerator.Templates.CSV;
+using DocumentGenerator.Templates.EXCEL;
+using DocumentGenerator.Templates.PDF;
+using System;
+using System.Collections.Generic;
 
 namespace DocumentGenerator
 {
-    public static class DocumentCreator
+    public class DocumentCreator: IDocumentCreator
     {
-        public static byte[] GenerateDocument(string title, List<string> headers, List<List<string>> tableValues, DocumentType documentType)
+        public byte[] GenerateDocument(string title, IList<string> headers, IList<IList<string>> tableValues, DocumentType documentType)
         {
             switch (documentType)
             {
                 case (DocumentType.Pdf):
                     {
-                        var html = HtmlCreator.Create(title, headers, tableValues);
-                        return PDFConvertor.Convert(html);
+                        
+                        return PDFConvertor.Create(title, headers, tableValues);
                     }
                 case (DocumentType.Excel):
                     {
-                        return EXCELConvertor.Create(title, headers, tableValues);
+                        return EXCELCreator.Create(title, headers, tableValues);
                     }
                 case (DocumentType.Csv):
                     {
-                        return CSVCreator.GenerateCsv(headers, tableValues);
+                        return CSVCreator.Create(headers, tableValues);
                     }
 
                 default:

@@ -1,11 +1,14 @@
 ﻿using DinkToPdf;
+using DocumentGenerator.Templates.HTML;
+using System.Collections.Generic;
 
-namespace HTMLConvertor
+namespace DocumentGenerator.Templates.PDF
 {
     internal static class PDFConvertor
     {
-        public static byte[] Convert(string html)
+        public static byte[] Create(string title, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
+            var html = HtmlCreator.Create(title, headers, tableValues);
             var converter = new SynchronizedConverter(new PdfTools());
 
             var globalSettings = new GlobalSettings

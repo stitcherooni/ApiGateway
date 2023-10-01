@@ -1,11 +1,13 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using System.Collections.Generic;
+using System.IO;
 
-namespace HTMLConvertor
+namespace DocumentGenerator.Templates.EXCEL
 {
-    internal static class EXCELConvertor
+    internal static class EXCELCreator
     {
-        public static byte[] Create(string title, List<string> headers, List<List<string>> tableValues)
+        public static byte[] Create(string title, IList<string> headers, IList<IList<string>> tableValues)
         {
             // Create a new workbook
             IWorkbook workbook = new HSSFWorkbook();
@@ -52,7 +54,7 @@ namespace HTMLConvertor
             for (int rowIndex = 0; rowIndex < tableValues.Count; rowIndex++)
             {
                 IRow dataRow = worksheet.CreateRow(rowIndex + 2);
-                List<string> rowData = tableValues[rowIndex];
+                IList<string> rowData = tableValues[rowIndex];
                 for (int colIndex = 0; colIndex < rowData.Count; colIndex++)
                 {
                     ICell dataCell = dataRow.CreateCell(colIndex);

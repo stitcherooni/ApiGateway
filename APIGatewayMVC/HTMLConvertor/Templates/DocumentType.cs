@@ -1,4 +1,4 @@
-﻿namespace DocumentGenerator
+﻿namespace DocumentGenerator.Templates
 {
     public enum DocumentType
     {

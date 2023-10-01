@@ -1,10 +1,11 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
-namespace DocumentGenerator
+namespace DocumentGenerator.Templates.CSV
 {
-    internal class CSVCreator
+    internal static  class CSVCreator
     {
-        public static byte[] GenerateCsv(List<string> headers, List<List<string>> tableValues)
+        public static byte[] Create(IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
             StringBuilder csvContent = new StringBuilder();
 

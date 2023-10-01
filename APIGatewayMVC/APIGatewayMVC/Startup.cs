@@ -13,6 +13,7 @@ using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using DocumentGenerator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,6 +64,7 @@ namespace APIGatewayMVC
             services.AddScoped<DbContext, PtaeventContext>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailSender, MailGunEmailSender>();
+            services.AddScoped<IDocumentCreator, DocumentCreator>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddScoped<IDashboardStatisticService, DashboardStatisticService>();
