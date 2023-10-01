@@ -233,7 +233,6 @@ public partial class TblSchool
     public TblOrganisationType OrganisationType { get; set; }
     public TblPlanType PlanType { get; set; }
 
-    public List<TblCustomer> Application { get; set; }
     public List<TblCustomer> CustomerSchool { get; set; }
     public List<TblApiAuditHistory> ApiAuditHistoryApplication { get; set; }
     public List<TblAuditHistory> AuditHistoryApplication { get; set; }

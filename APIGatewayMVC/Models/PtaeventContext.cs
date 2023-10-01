@@ -1346,10 +1346,6 @@ public partial class PtaeventContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("PTAID");
 
-            entity.HasOne(customer => customer.Application)
-                .WithMany(school => school.Application)
-                .HasForeignKey(customer => customer.ApplicationId)
-                .IsRequired(false);
             entity.HasOne(customer => customer.CustomerSchool)
                 .WithMany(school => school.CustomerSchool)
                 .HasForeignKey(customer => customer.CustomerSchoolId)
@@ -4971,10 +4967,6 @@ public partial class PtaeventContext : DbContext
                 .HasForeignKey(school => school.SchoolUpdatedBy)
                 .IsRequired(false);
 
-            entity.HasMany(school => school.Application)
-                .WithOne(customer => customer.Application)
-                .HasForeignKey(customer => customer.ApplicationId)
-                .IsRequired(false);
             entity.HasMany(school => school.CustomerSchool)
                 .WithOne(customer => customer.CustomerSchool)
                 .HasForeignKey(customer => customer.CustomerSchoolId)

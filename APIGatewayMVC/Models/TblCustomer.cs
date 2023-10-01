@@ -115,7 +115,6 @@ public partial class TblCustomer
 
     public int? CustomerUpdatedBy { get; set; }
 
-    public TblSchool Application { get; set; }
     public TblSchool CustomerSchool { get; set; }
     public TblCustomer CreatedById { get; set; }
     public TblCustomer UpdatedById { get; set; }
