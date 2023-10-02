@@ -42,6 +42,9 @@ spec:
               value: $(dbUserPassword)
             - name: DB_NAME
               value: $(dbName)
+            - name: ASPNETCORE_ENVIRONMENT
+              value: $(aspNetCoreEnv)            
+
 ---
 # Service Manifest
 apiVersion: v1
