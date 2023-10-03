@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace DocumentGenerator.Templates.PDF
 {
-    public class PDFConvertor: IPDFConvertor
+    public class PDFConvertor : IPDFConvertor
     {
         private readonly IHtmlCreator _htmlCreator;
-        public PDFConvertor(IHtmlCreator htmlCreator) 
-            {
-                _htmlCreator = htmlCreator;
-            }
-        public  byte[] Create(string title, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
+        public PDFConvertor(IHtmlCreator htmlCreator)
+        {
+            _htmlCreator = htmlCreator;
+        }
+        public byte[] Create(string title, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
             var html = _htmlCreator.Create(title, headers, tableValues);
             var converter = new SynchronizedConverter(new PdfTools());
@@ -35,8 +35,6 @@ namespace DocumentGenerator.Templates.PDF
                 GlobalSettings = globalSettings,
                 Objects = { objectSettings }
             };
-
-            var result = converter.Convert(document);
 
             return converter.Convert(document);
         }
