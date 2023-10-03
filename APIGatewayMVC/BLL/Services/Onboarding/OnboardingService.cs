@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace BLL.Services.Onboarding
 {
@@ -86,7 +85,7 @@ namespace BLL.Services.Onboarding
         public async Task<IEnumerable<string>> GenerateUrlsAsync(CheckUrlRequest urlRequest, CancellationToken cancellationToken)
         {
             var urlVariants = new List<string>();
- 
+
             string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
