@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace APIGatewayMVC.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class OnboardingController : BaseController

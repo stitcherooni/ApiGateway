@@ -3,9 +3,9 @@ using System.Text;
 
 namespace DocumentGenerator.Templates.CSV
 {
-    internal static  class CSVCreator
+    public class CSVCreator: ICSVCreator
     {
-        public static byte[] Create(IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
+        public byte[] Create(IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
             StringBuilder csvContent = new StringBuilder();
 

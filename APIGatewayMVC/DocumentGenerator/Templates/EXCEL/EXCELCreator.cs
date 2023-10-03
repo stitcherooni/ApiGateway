@@ -5,9 +5,9 @@ using System.IO;
 
 namespace DocumentGenerator.Templates.EXCEL
 {
-    internal static class EXCELCreator
+    public class EXCELCreator: IEXCELCreator
     {
-        public static byte[] Create(string title, IList<string> headers, IList<IList<string>> tableValues)
+        public  byte[] Create(string title, IList<string> headers, IList<IList<string>> tableValues)
         {
             // Create a new workbook
             IWorkbook workbook = new HSSFWorkbook();

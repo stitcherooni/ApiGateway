@@ -4,11 +4,16 @@ using System.Collections.Generic;
 
 namespace DocumentGenerator.Templates.PDF
 {
-    internal static class PDFConvertor
+    public class PDFConvertor: IPDFConvertor
     {
-        public static byte[] Create(string title, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
+        private readonly IHtmlCreator _htmlCreator;
+        public PDFConvertor(IHtmlCreator htmlCreator) 
+            {
+                _htmlCreator = htmlCreator;
+            }
+        public  byte[] Create(string title, IEnumerable<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
-            var html = HtmlCreator.Create(title, headers, tableValues);
+            var html = _htmlCreator.Create(title, headers, tableValues);
             var converter = new SynchronizedConverter(new PdfTools());
 
             var globalSettings = new GlobalSettings
