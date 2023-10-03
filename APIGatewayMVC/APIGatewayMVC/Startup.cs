@@ -1,12 +1,24 @@
-﻿using BLL.Extensions;
+﻿using APIGatewayMVC.Controllers;
+using BLL.DTO;
+using BLL.Extensions;
 using BLL.Services.BlobService;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
-using BLL.Services.Statistic;
 using BLL.Services.SearchingService;
+using BLL.Services.SortingService;
+using BLL.Services.Statistic;
+using BLL.Services.UpdateService;
 using DAL;
 using DAL.Repository.DBRepository;
 using DAL.Repository.EmailSender;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using DocumentGenerator;
+using DocumentGenerator.Templates.CSV;
+using DocumentGenerator.Templates.EXCEL;
+using DocumentGenerator.Templates.HTML;
+using DocumentGenerator.Templates.PDF;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +26,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Models;
 using Models;
 using System;
-using BLL.DTO;
-using APIGatewayMVC.Controllers;
-using BLL.Services.SortingService;
-using BLL.Services.UpdateService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Logging;
 
 namespace APIGatewayMVC
 {
@@ -61,6 +68,11 @@ namespace APIGatewayMVC
             services.AddScoped<DbContext, PtaeventContext>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailSender, MailGunEmailSender>();
+            services.AddScoped<IDocumentCreator, DocumentCreator>();
+            services.AddScoped<ICSVCreator, CSVCreator>();
+            services.AddScoped<IEXCELCreator, EXCELCreator>();
+            services.AddScoped<IPDFConvertor, PDFConvertor>();
+            services.AddScoped<IHtmlCreator, HtmlCreator>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.AddScoped<IDashboardStatisticService, DashboardStatisticService>();
@@ -131,6 +143,8 @@ namespace APIGatewayMVC
                 builder.AddAzureWebAppDiagnostics();
                 builder.AddApplicationInsights(_config["ApplicationInsights:InstrumentationKey"]);
             });
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
