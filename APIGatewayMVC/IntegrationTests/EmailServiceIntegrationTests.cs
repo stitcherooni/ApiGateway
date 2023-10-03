@@ -1,6 +1,9 @@
 ﻿using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace IntegrationTests

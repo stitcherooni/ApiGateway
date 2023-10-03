@@ -1,4 +1,6 @@
 ﻿using BLL.DTO.Sorting;
+using System;
+using System.Collections.Generic;
 
 namespace BLL.FooGenerator
 {
@@ -24,6 +26,7 @@ namespace BLL.FooGenerator
             }
             return lstOfYears;
         }
+
         public static string GetRandomFormat()
         {
             string[] groupByOptions = { "horizontal", "vertical" };
@@ -32,14 +35,15 @@ namespace BLL.FooGenerator
             return groupByOptions[randomIndex];
         }
 
-
-        public static GroupBy GetGroupByForChildBookings()
+        public static IEnumerable<GroupBy> GetGroupByForChildBookings()
         {
+            List<GroupBy> result = new();
             string[] Id = { "className", "noGroup" };
             string[] Name = { "Class Name", "No Group" };
-            Random random = new Random();
-            int randomIndex = random.Next(Id.Length);
-            return new GroupBy { Id = Id[randomIndex], Name = Name[randomIndex] };
+            result.Add(new GroupBy {Id = Id[0], Name = Name[0]});
+            result.Add(new GroupBy { Id = Id[1], Name = Name[1] });
+
+            return result;
         }
 
         public static IEnumerable<Events> GetEventList()
@@ -79,16 +83,20 @@ namespace BLL.FooGenerator
             return new Events { Year = GetLstOfYears() };
         }
 
-        public static GroupBy GetRandomGroup()
+        public static IEnumerable<GroupBy> GetRandomGroup()
         {
             string[] Id = { "className", "productName", "productOrder", "bookingName" };
-            string[] Name = { "Class Name", "Product Name", "Product Order", "BookingName" };
-            Random random = new Random();
-            int randomIndex = random.Next(Id.Length);
-            return new GroupBy { Id = Id[randomIndex], Name = Name[randomIndex] };
+            string[] Name = { "Class Name", "Product Name", "Product Order", "Booking Name" };
+
+            List <GroupBy> result= new();
+            for (int i = 0; i < Id.Length; i++)
+            {
+                result.Add(new GroupBy { Id = Id[i], Name = Name[i] });
+            }
+
+            return result;
 
         }
-
 
         private static Year GetYear(int id)
         {

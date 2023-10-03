@@ -39,7 +39,7 @@ public partial class TblOrder
 
     public bool OrderFailed { get; set; }
 
-    public bool OrderDespatched { get; set; }
+    public bool OrderDispatched { get; set; }
 
     public string OrderConfirmationEmail { get; set; }
 

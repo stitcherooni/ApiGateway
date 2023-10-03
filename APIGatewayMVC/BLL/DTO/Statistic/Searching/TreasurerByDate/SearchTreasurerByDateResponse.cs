@@ -1,8 +1,9 @@
 ﻿using BLL.DTO.Statistic.Reports.Treasurer;
+using System.Collections.Generic;
 
 namespace BLL.DTO.Statistic.Searching.TreasurerByDate
 {
-    public class SearchTreasurerByDateResponse : PagesInfoDTO
+    public class SearchTreasurerByDateResponse
     {
         public IEnumerable<TreasurerByDateDTO> Data { get; set; }
         public int TotalSales { get; set; }

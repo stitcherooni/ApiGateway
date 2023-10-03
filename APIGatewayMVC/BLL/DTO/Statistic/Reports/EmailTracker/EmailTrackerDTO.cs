@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BLL.DTO.Statistic.Reports.EmailTracker
 {
@@ -25,5 +26,29 @@ namespace BLL.DTO.Statistic.Reports.EmailTracker
         public string Location { get; set;}
         public string Ip { get; set; }
         public string Type { get; set; }
+        public string Status { get; set; }
+        public string SendByEmail { get; set; }
+        public object EmailEvent { get; set; }
+        public int CustomerId { get; set; }
+    }
+
+    public class DroppedBounced
+    {
+        public string Code { get; set; }
+        public string Reason { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class OpenedClicked
+    {
+        public string Ip { get; set; }
+        public string City { get; set; }
+        public string Region { get; set; }
+        public string Country { get; set; }
+        public string UserAgent { get; set; }
+        public string DeviceType { get; set; }
+        public string ClientType { get; set; }
+        public string ClientName { get; set; }
+        public string ClientOs { get; set; }   
     }
 }

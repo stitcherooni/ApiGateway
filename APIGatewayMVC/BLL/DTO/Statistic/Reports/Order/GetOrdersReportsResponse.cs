@@ -1,11 +1,15 @@
-﻿namespace BLL.DTO.Statistic.Reports.Order
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Order
 {
-    public class GetOrdersReportsResponse : PagesInfoDTO
+    public class GetOrdersReportsResponse
     {
         public IEnumerable<OrderDTO> Data { get; set; }
-        public TotalDTO TotalSalesAmount { get; set; }
-        public TotalDTO TotalProcessingFees { get; set; }
-        public TotalDTO TotalPlatformFees { get; set; }
+        public int TotalOrdersCount { get; set; }
+        public int AvgOrderValue { get; set; }
+        public int TotalOrderValue { get; set; }
+        public int Refunded { get; set; }
+        public string Currency { get; set; }
 
     }
 }

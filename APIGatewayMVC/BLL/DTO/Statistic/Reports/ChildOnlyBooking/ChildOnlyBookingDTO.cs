@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.ChildOnlyBooking
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.ChildOnlyBooking
 {
     public class ChildOnlyBookingDTO
     {
@@ -9,6 +11,5 @@
         public string BookedBy { get; set; }
         public IEnumerable<string> Allergies { get; set; }
         public int Phone { get; set; }
-        public int SoldQuantity { get; set; }
     }
 }

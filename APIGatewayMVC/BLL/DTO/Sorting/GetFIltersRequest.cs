@@ -1,7 +1,7 @@
 ﻿namespace BLL.DTO.Sorting
 {
-    public class GetFIltersRequest
+    public class GetFiltersRequest
     {
-        public string OrganizationId { get; set; }
+        public string OrganisationId { get; set; }
     }
 }

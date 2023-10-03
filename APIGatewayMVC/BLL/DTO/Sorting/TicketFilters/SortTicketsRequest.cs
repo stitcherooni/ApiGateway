@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting.TicketFilters
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting.TicketFilters
 {
     public class SortTicketsRequest
     {

@@ -1,7 +1,10 @@
-﻿using BLL.DTO.Organization;
+﻿using BLL.DTO.Organisation;
 using BLL.Services.Onboarding;
 using DAL.Repository.DBRepository;
 using Models;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace IntegrationTests
@@ -22,16 +25,16 @@ namespace IntegrationTests
         }
 
         [Fact]
-        public async Task OnboardOrganization_ValidData_SavesToDatabaseAndSendsEmail()
+        public async Task OnboardOrganisation_ValidData_SavesToDatabaseAndSendsEmail()
         {
             // Arrange
             var onboardingFormDataDTO = await Helper.CreateOnboardingFormDataDTOAsync();
 
             // Act
-            var onbordingEntities = await _onboardingService.OnboardOrganization(onboardingFormDataDTO, CancellationToken.None);
+            var onboardingEntities = await _onboardingService.OnboardOrganisation(onboardingFormDataDTO, CancellationToken.None);
 
             // Assert
-            await EqualValues(onbordingEntities);
+            await EqualValues(onboardingEntities, CancellationToken.None);
         }
 
         [Fact]
@@ -44,11 +47,10 @@ namespace IntegrationTests
             var result = await _onboardingService.GenerateUrlsAsync(urlRequest, CancellationToken.None);
 
             // Assert
-            Assert.Equal(4, result.Count());
-            Assert.Contains("EPN", result);
-            Assert.Contains("ExamplePTAName", result);
-            Assert.Contains("EPNTown", result);
-            Assert.Contains("ExamplePTANameTown", result);
+            Assert.Equal(3, result.Count());
+            Assert.Contains("epn", result);
+            Assert.Contains("exampleptaname", result);
+            Assert.Contains("exampleptanametown", result);
         }
 
         [Fact]
@@ -81,11 +83,11 @@ namespace IntegrationTests
 
         #region Private methods
 
-        private async Task EqualValues(OnboardingEntities onboardingFormDataDTO)
+        private async Task EqualValues(OnboardingEntities onboardingFormDataDTO, CancellationToken cancellationToken)
         {
-            var actualSchoolRepository = _schoolRepository.FindBy(x => x == onboardingFormDataDTO.School).ToList().FirstOrDefault();
-            var actualCustomerRepository = _customerRepository.FindBy(x => x == onboardingFormDataDTO.Customer).ToList().FirstOrDefault();
-            var actualCustomerRole = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2).ToList().FirstOrDefault();
+            var actualSchoolRepository = _schoolRepository.FindBy(x => x == onboardingFormDataDTO.School, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRepository = _customerRepository.FindBy(x => x == onboardingFormDataDTO.Customer, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRole = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2, cancellationToken).ToList().FirstOrDefault();
 
             Assert.NotNull(actualSchoolRepository);
             Assert.NotNull(actualCustomerRepository);

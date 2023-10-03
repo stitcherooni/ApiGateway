@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Authenticators;
+using System;
+using System.Threading.Tasks;
 
 namespace DAL.Repository.EmailSender
 {

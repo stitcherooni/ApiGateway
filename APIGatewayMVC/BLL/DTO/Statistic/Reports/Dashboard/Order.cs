@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Reports.Dashboard
+﻿using System;
+
+namespace BLL.DTO.Statistic.Reports.Dashboard
 {
     public class Order
     {
