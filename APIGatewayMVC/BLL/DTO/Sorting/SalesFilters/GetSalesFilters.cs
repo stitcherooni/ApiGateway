@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting.SalesFilters
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting.SalesFilters
 {
     public class GetSalesFilters
     {

@@ -20,6 +20,10 @@ using BLL.DTO;
 using APIGatewayMVC.Controllers;
 using BLL.Services.SortingService;
 using BLL.Services.UpdateService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Logging;
 
 namespace APIGatewayMVC
 {
@@ -37,16 +41,19 @@ namespace APIGatewayMVC
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddControllers();
 
-            string connectionString = _config.GetConnectionString("MariaDbServer");
-            if (connectionString == null)
-            {
-                Console.WriteLine("ERROR: No connection string found in the config file");
-            }
+            string DB_HOST_NAME = configuration["DB_HOST_NAME"];
+            string DB_HOST_PORT = configuration["DB_HOST_PORT"];
+            string DB_USER_NAME = configuration["DB_USER_NAME"];
+            string DB_PASSWORD = configuration["DB_PASSWORD"];
+            string DB_NAME = configuration["DB_NAME"];
 
-                services.AddDbContext<PtaeventContext>(options =>
-                {
-                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-                });
+            var connectionString = String.Format("data source={0};port={1};Database={2};uid={3};pwd={4};Allow User Variables=true",
+                DB_HOST_NAME, DB_HOST_PORT, DB_NAME, DB_USER_NAME, DB_PASSWORD);
+
+            services.AddDbContext<PtaeventContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
 
             services.AddScoped<IOnboardingService, OnboardingService>();
             services.AddScoped<ISearchingService, SearchingService>();
@@ -61,16 +68,62 @@ namespace APIGatewayMVC
             services.AddScoped<IUpdateService, UpdateService>();
 
             var serviceProvider = services.BuildServiceProvider();
-            var logger = serviceProvider.GetService<ILogger<OnbordingController>>();
-            services.AddSingleton(typeof(ILogger<OnbordingController>), logger);
+            var logger = serviceProvider.GetService<ILogger<OnboardingController>>();
+            services.AddSingleton(typeof(ILogger<OnboardingController>), logger);
             services.Configure<BlobSettings>(configuration.GetSection("BlobSettings"));
 
             services.AddAutoMapper();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApi(options =>
+            {
+                configuration.Bind("AzureAdB2C", options);
+
+                options.TokenValidationParameters.NameClaimType = "name";
+            },
+    options => { configuration.Bind("AzureAdB2C", options); });
+
+            services.AddAuthorization(options =>
+            {
+                // Define policies here based on your application's requirements
+
+                options.AddPolicy("RequireAdminRole", policy =>
+                {
+                    policy.RequireRole("Admin"); // Only users in the "Admin" role can access
+                });
+
+                options.AddPolicy("RequireReadScope", policy =>
+                {
+                    policy.RequireClaim("scope", "user.read"); // Users with the "user.read" claim can access
+                });
+
+                // Add more policies as needed for your application
+            });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "APIGatewayMVC", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+        });
             });
 
             services.AddLogging(builder =>
@@ -82,6 +135,10 @@ namespace APIGatewayMVC
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                IdentityModelEventSource.ShowPII = true;
+            }
             if (!env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,7 +154,10 @@ namespace APIGatewayMVC
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

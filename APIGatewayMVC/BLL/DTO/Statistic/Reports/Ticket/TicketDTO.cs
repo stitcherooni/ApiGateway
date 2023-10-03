@@ -1,4 +1,7 @@
-﻿namespace BLL.DTO.Statistic.Reports.Ticket
+﻿using System;
+using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Ticket
 {
     public class TicketDTO
     {

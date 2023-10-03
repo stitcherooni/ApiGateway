@@ -2,8 +2,22 @@
 
 namespace BLL.DTO.Statistic.Reports.Sales
 {
-    public class GetSalesReportsResponse : PagesInfoDTO
+    public class GetSalesReportsResponse
     {
-        public IEnumerable<SaleDTO> Data { get; set; }
+        public SalesDataProps Data { get; set; }
+        public int TotalSales { get; set; }
+        public int AvgSalesValue { get; set; }
+        public int TotalSalesValue { get; set; }
+        public int PlatformBookingFees { get; set; }
+        public string Currency { get; set; }
+    }
+
+    public class GetSalesReport
+    {
+        public int TotalSales { get; set; }
+        public int AvgSalesValue { get; set; }
+        public int TotalSalesValue { get; set; }
+        public int PlatformBookingFees { get; set; }
+        public string Currency { get; set; }
     }
 }

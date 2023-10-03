@@ -5,6 +5,8 @@ using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BLL.Services.BlobService
 {
@@ -72,9 +74,6 @@ namespace BLL.Services.BlobService
                 PdfDocument pdfDocument = new PdfDocument(writer);
                 Document document = new Document(pdfDocument);
 
-                string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TrebuchetMS.ttf");
-                PdfFont font = PdfFontFactory.CreateFont(fontPath, PdfEncodings.IDENTITY_H);
-
                 Table table = new Table(data[0].Count);
 
                 foreach (string header in data[0])
@@ -83,7 +82,6 @@ namespace BLL.Services.BlobService
                     headerCell.SetBackgroundColor(new DeviceRgb(45, 65, 84));
                     headerCell.SetFontColor(ColorConstants.WHITE);
                     headerCell.SetFontSize(11);
-                    headerCell.SetFont(font);
                     table.AddHeaderCell(headerCell);
                 }
 

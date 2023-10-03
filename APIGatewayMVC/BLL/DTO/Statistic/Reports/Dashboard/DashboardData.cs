@@ -1,45 +1,56 @@
-﻿namespace BLL.DTO.Statistic.Reports.Dashboard
-{
-    public class DashboardData
-    {
-        public DashboardStatistic Stat { get; set; }
-        public CurrentLiveSales CurrentLiveSales { get; set; }
-        public MonthlyOrders MonthlyOrders { get; set; }
-        public MonthlyCustomersRegistrations MonthlyCustomersRegistrations { get; set; }
-        public IEnumerable<Order> LastOrders { get; set; }
+﻿using System.Collections.Generic;
 
+namespace BLL.DTO.Statistic.Reports.Dashboard
+{
+
+    public class LastOrdersList
+    {
+        public IEnumerable<Order> Data { get; set; }
     }
 
-    public class CurrentLiveSales : PagesInfoDTO
+    public class CommonLiveSales
     {
         public IEnumerable<KeyValuePair<string, SalesData>> Data { get; set; }
     }
 
-    public class MonthlyOrders : PagesInfoDTO
+    public class CurrentLiveSales
     {
-        public IEnumerable<MonthlyOrder> Data { get; set; }
-        public int TotqalOrders { get; set; }
+        public string ProductName { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
+        public int TotalQuantitySold { get; set; }
+        public int TotalQuantityLeft { get; set; }
         public int TotalSales { get; set; }
         public string Currency { get; set; }
     }
 
-    public class MonthlyCustomersRegistrations : PagesInfoDTO
+    public class MonthlyOrders
+    {
+        public IEnumerable<MonthlyOrder> Data { get; set; }
+        public int TotalOrders { get; set; }
+        public int TotalSales { get; set; }
+        public string Currency { get; set; }
+    }
+
+    public class MonthlyCustomersRegistrations
     {
         public IEnumerable<MonthlyCustomersRegistration> Data { get; set; }
         public int TotalRegistrations { get; set; }
     }
     public class SalesData
     {
-        public CurrentSales[] Data { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
         public int TotalQuantitySold { get; set; }
         public int TotalQuantityLeft { get; set; }
         public decimal TotalSales { get; set; }
         public string Currency { get; set; }
     }
 
-    public class MonthlyReport
+    public class CurrentSalesData
     {
-        public MonthlyOrders MonthlyOrders { get; set; }
-        public MonthlyCustomersRegistrations MonthlyCustomersRegistrations { get; set; }
+        public IEnumerable<CurrentSales> Data { get; set; }
+        public int TotalQuantitySold { get; set; }
+        public int TotalQuantityLeft { get; set; }
+        public decimal TotalSales { get; set; }
+        public string Currency { get; set; }
     }
 }

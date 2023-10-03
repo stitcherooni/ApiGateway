@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Update
+﻿using System;
+
+namespace BLL.DTO.Update
 {
     public class RemoveUserRequest
     {

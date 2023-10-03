@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.DTO.Organization;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Mapping;
 using BLL.Services.EmailService;
@@ -13,6 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Models;
 using Moq;
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace IntegrationTests
 {

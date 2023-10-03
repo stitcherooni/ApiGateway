@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Statistic.Searching.TreasurerByDate
+﻿using System;
+
+namespace BLL.DTO.Statistic.Searching.TreasurerByDate
 {
     public class SearchTreasurerByDateRequest
     {

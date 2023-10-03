@@ -1,6 +1,8 @@
-﻿namespace BLL.DTO.Statistic.Reports.Ticket
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.Ticket
 {
-    public class GetTicketsReportsResponse : PagesInfoDTO
+    public class GetTicketsReportsResponse
     {
         public IEnumerable<TicketDTO> Data { get; set; }
         public string Qr { get; set; }

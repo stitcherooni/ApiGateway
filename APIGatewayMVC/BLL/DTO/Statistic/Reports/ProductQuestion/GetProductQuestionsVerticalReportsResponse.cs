@@ -1,6 +1,8 @@
-﻿namespace BLL.DTO.Statistic.Reports.ProductQuestion
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Statistic.Reports.ProductQuestion
 {
-    public class GetProductQuestionsVerticalReportsResponse : PagesInfoDTO
+    public class GetProductQuestionsVerticalReportsResponse
     {
         public IEnumerable<ProductQuestionVerticalDTO> Data { get; set; }
         public IEnumerable<Questions> Questions { get; set; }

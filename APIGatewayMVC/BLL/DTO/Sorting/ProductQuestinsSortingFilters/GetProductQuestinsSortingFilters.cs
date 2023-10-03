@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace BLL.DTO.Sorting.ProductQuestinsSortingFilters
+namespace BLL.DTO.Sorting.ProductQuestionsSortingFilters
 {
-    public class GetProductQuestinsSortingFilters
+    public class GetProductQuestionsSortingFilters
     {
         public IEnumerable<Events> Events { get; set; }
         public IEnumerable<Products> Products { get; set; }

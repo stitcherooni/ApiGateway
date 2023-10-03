@@ -1,4 +1,5 @@
-﻿using BLL.DTO.Statistic;
+﻿using BLL.DTO;
+using BLL.DTO.Email;
 using BLL.DTO.Statistic.Reports.Banked;
 using BLL.DTO.Statistic.Reports.Booking;
 using BLL.DTO.Statistic.Reports.ChildOnlyBooking;
@@ -8,327 +9,200 @@ using BLL.DTO.Statistic.Reports.EmailTracker;
 using BLL.DTO.Statistic.Reports.Invoice;
 using BLL.DTO.Statistic.Reports.MiWizard;
 using BLL.DTO.Statistic.Reports.Order;
+using BLL.DTO.Statistic.Reports.Organisation;
 using BLL.DTO.Statistic.Reports.ProductQuestion;
+using BLL.DTO.Statistic.Reports.ProductQuestion.ForEventIdAndProductId;
 using BLL.DTO.Statistic.Reports.Sale;
 using BLL.DTO.Statistic.Reports.Sales;
 using BLL.DTO.Statistic.Reports.Ticket;
 using BLL.DTO.Statistic.Reports.Treasurer;
 using BLL.DTO.Statistic.Reports.TreasurerByEvent;
 using BLL.DTO.Statistic.Reports.Volunteer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.FooGenerator
 {
     public static class ReportingDataGenerator
     {
-        public static async Task<DashboardData> GetDashboardData(CancellationToken cancellationToken, int page, int pageSize)
+        readonly static Random rnd = new Random();
+        public static async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken)
         {
-            var monthlyOrders = await GetReports.GetMonthlyOrders(cancellationToken, page, pageSize);
-
-            var response = new DashboardData()
-            {
-                Stat = GetReports.GetDashboardStatistic(cancellationToken),
-                CurrentLiveSales = await GetCurrentLiveSales(cancellationToken, page, pageSize),
-                MonthlyOrders = monthlyOrders.MonthlyOrders,
-                MonthlyCustomersRegistrations = monthlyOrders.MonthlyCustomersRegistrations,
-                LastOrders = await GetReports.GetOrderList(cancellationToken)
-
-            };
-            return response;
-        }
-
-        public static async Task<GetMiWizardsReportsResponse> GetMi_WizardReport(CancellationToken cancellationToken, int page, int pageSize)
-        {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.MiWizardReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetMiWizardsReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
+                Data = result
             };
             return response;
         }
 
-        public static async Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetCustomersReportsResponse> GetCustomerReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.CustomerReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetCustomersReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalOrdersNumber = 100,
-                TotalOrderValue = new TotalDTO() { Amount = 140, Currency = "GBP" }
+                Data = result,
+                CustomersCount = result.Count(),
+                Currency = "GBP",
+                TotalOrdersNumber = result.Select(x => x.Orders).ToList().Sum(),
+                TotalOrderValue = result.Select(x => x.Value).ToList().Sum(),
+                NotificationCounts = new NotificationCounts { PushNotificationsCount = rnd.Next(1, 100), EmailCount = rnd.Next(1, 100) }
             };
             return response;
         }
 
-        public static async Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetOrdersReportsResponse> GetOrderReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.OrderReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetOrdersReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalProcessingFees = new TotalDTO() { Amount = 120, Currency = "GBP" },
-                TotalSalesAmount = new TotalDTO() { Amount = 140, Currency = "GBP" },
-                TotalPlatformFees = new TotalDTO() { Amount = 150, Currency = "GBP" }
+                Data = result,
+                TotalOrdersCount = result.Select(x => x.Orders).Sum(),
+                AvgOrderValue = result.Select(x => x.Orders).Sum() / result.Count(),
+                TotalOrderValue = result.Select(x => x.Value.Amount).Sum(),
+                Refunded = rnd.Next(0, result.Count),
+                Currency = "GBP"
             };
             return response;
         }
 
-        public static async Task<GetSalesReportsResponse> GetSaleReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
-            var result = await GetReports.SaleReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
-
-            var response = new GetSalesReportsResponse
-            {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
-            };
-            return response;
-        }
-
-        public static async Task<SaleDTO> GetSalesReport(CancellationToken cancellationToken)
-        {
-            var response = GetReports.GetSalesResponse(cancellationToken);
-            return response;
-        }
-
-        public static async Task<GetTicketsReportsResponse> GetTicketReport(CancellationToken cancellationToken, int page, int pageSize)
-        {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.TicketReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetTicketsReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
+                Data = result,
                 Qr = "some Qr"
             };
             return response;
         }
 
-        public static async Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetSalesReport> GetSaleReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
+            var response = new GetSalesReport
+            {
+                TotalSales = rnd.Next(1, 100),
+                AvgSalesValue = rnd.Next(1, 100),
+                TotalSalesValue = rnd.Next(1, 100),
+                PlatformBookingFees = rnd.Next(1, 100),
+                Currency = "GBP"
+            };
+            return response;
+        }
 
+        public static async Task<GetVolunteerReportsResponse> GetVolunteerReport(CancellationToken cancellationToken)
+        {
             var result = await GetReports.VolunteerReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetVolunteerReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
+                Data = result
             };
             return response;
         }
 
-        public static async Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetBookingsReportsResponse> GetBookingReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.BookingReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetBookingsReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
+                Data = result,
+                TotalProductQuantity = result.Select(x => x.Quantity).ToList().Sum()
             };
             return response;
         }
 
-        public static async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetBookingsReportsResponse> GetTestBookingReport(int? count, CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
+            var result = await GetReports.TestBookingReport(count, cancellationToken);
 
-            Random rnd = new Random();
-            Questions[] questions = new Questions[rnd.Next(1, 10)];
-            for (int i = 0; i < questions.Length; i++)
+            var response = new GetBookingsReportsResponse
             {
-                questions[i] = CreateQuestions(i);
-            }
+                Data = result,
+                TotalProductQuantity = result.Select(x => x.Quantity).ToList().Sum()
+            };
+            return response;
+        }
 
-            var result = await GetReports.ProductQuestionHorisontalReport(cancellationToken);
+        public static async Task<GetBookingsProductsReportsResponse> GetBookingProductsReport(CancellationToken cancellationToken)
+        {
+            var result = await GetReports.BookingReport(cancellationToken);
 
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var response = new GetBookingsProductsReportsResponse
+            {
+                Data = result
+            };
+            return response;
+        }
 
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+        public static async Task<GetProductQuestionsHorizontalReportsResponse> GetProductQuestionHorizontalReport(CancellationToken cancellationToken)
+        {
+            var questions = GetReports.GetQuestions(cancellationToken);
+            var result = await GetReports.ProductQuestionHorisontalReport(questions.ToList().Count, cancellationToken);
 
             var response = new GetProductQuestionsHorizontalReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
+                Data = result,
                 Questions = questions
             };
             return response;
         }
 
-        public static async Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetProductQuestionsVerticalReportsResponse> GetProductQuestionVerticalReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
-            Random rnd = new Random();
-            var count = rnd.Next(1, 10);
-            List<Questions> questions = new ();
-            for (int i = 0; i < count; i++)
-            {
-                questions.Add(CreateQuestions(i));
-            }
-
-            var result = await GetReports.ProductQuestionVerticalReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+            var questions = GetReports.GetQuestions(cancellationToken);
+            var result = await GetReports.ProductQuestionVerticalReport(questions.ToList().Count, cancellationToken);
 
             var response = new GetProductQuestionsVerticalReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
+                Data = result,
                 Questions = questions
             };
             return response;
         }
 
-        public static async Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetInvoicesReportsResponse> GetInvoiceReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.InvoiceReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetInvoicesReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
+                Data = result
             };
             return response;
         }
 
-        public static async Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetTreasurerByEventReportsResponse> GetTreasurerByEventReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.TreasurerByEventReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetTreasurerByEventReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalSales = paginatedResult.Count(),
+                Data = result,
+                TotalSales = result.Count(),
                 Profit = 10,
                 ProcessingFeeNotPaid = 15,
                 PlatformFeesNotPaid = 12
             };
             return response;
         }
-        public static async Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken, int page, int pageSize)
+
+        public static async Task<GetTreasurerByDateReportsResponse> GetTreasurerByDateReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.TreasurerByDateReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetTreasurerByDateReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalSales = paginatedResult.Count(),
+                Data = result,
+                TotalSales = result.Count(),
                 Profit = 10,
                 ProcessingFeeNotPaid = 15,
                 PlatformFeesNotPaid = 12
@@ -336,111 +210,213 @@ namespace BLL.FooGenerator
             return response;
         }
 
-        public static async Task<GetBankedReportsResponse> GetBankedReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetBankedReportsResponse> GetBankedReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.BankedTransactionReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetBankedReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalOrdersCount = paginatedResult.Count(),
-                TotalSalesAmount = new TotalDTO { Amount = paginatedResult.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
-                TotalBankedFee = new TotalDTO { Amount = paginatedResult.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
-                TotalPlatformFees = new TotalDTO { Amount = paginatedResult.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
+                Data = result,
+                Currency = "GBP",
+                TotalOrdersCount = result.Count(),
+                TotalSalesAmount = new Price { Amount = result.Select(x => x.Value).ToList().Sum(), Currency = "GBP" },
+                TotalBankedFee = new Price { Amount = result.Select(x => x.BankedFee).ToList().Sum(), Currency = "GBP" },
+                TotalPlatformFees = new Price { Amount = result.Select(x => x.PlatformFee).ToList().Sum(), Currency = "GBP" },
             };
             return response;
         }
 
-        public static async Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetChildOnlyBookingReportsResponse> GetChildOnlyBookingReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.ChildOnlyBookingReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetChildOnlyBookingReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
+                Data = result,
+                SoldQuantity = rnd.Next(0, 100)
             };
             return response;
         }
 
-        public static async Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<GetEmailTrackerReportsResponse> GetEmailTrackerReport(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
-
             var result = await GetReports.EmailTrackerReport(cancellationToken);
-
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
 
             var response = new GetEmailTrackerReportsResponse
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult,
-                TotalEmailsDelivered = paginatedResult.Select(x => x.Delivered == true).Count(),
-                TotalEmailsOpened = paginatedResult.Select(x => x.Opened == true).Count(),
-                TotalEmailsSent = paginatedResult.Count()
+                Data = result,
+                TotalEmailsDelivered = result.Select(x => x.Delivered == true).Count(),
+                TotalEmailsOpened = result.Select(x => x.Opened == true).Count(),
+                TotalEmailsSent = result.Count()
             };
             return response;
         }
 
-        #region private methods
-        private static Questions CreateQuestions(int id)
+        public static async Task<OrganisationDataResponse> GetOrganisationDataResponse(CancellationToken cancellationToken)
         {
             Random rnd = new Random();
-            return new Questions()
+            var response = new OrganisationDataResponse
             {
-                QuestionId = id,
-                Question = rnd.Next().ToString()
+                Logo = "https://i.ytimg.com/vi/t5QShg70KJM/hqdefault.jpg",
+                Email = rnd.Next(1, 100) + "@email.com",
+                Facebook = rnd.Next(1, 100) + ".facebook.com",
+                Location = GetReports.GetLocation(cancellationToken),
+                RegistrationNo = rnd.Next(1000000, 10000000)
             };
+            return response;
         }
 
-        private static async Task<CurrentLiveSales> GetCurrentLiveSales(CancellationToken cancellationToken, int page, int pageSize)
+        public static async Task<CommonLiveSales> GetCommonLiveSales(CancellationToken cancellationToken)
         {
-            int skipCount = (page - 1) * pageSize;
 
-            var result = GetReports.GetCurrentLiveSalesDictionary(cancellationToken);
+            var result = await GetReports.GetCommonLiveSalesDictionary(cancellationToken);
 
-            var totalCount = result.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var response = new CommonLiveSales
+            {
+                Data = result
+            };
+            return response;
+        }
 
-            var paginatedResult = result.Skip(skipCount).Take(pageSize);
+        public static async Task<CurrentLiveSales> GetCurrentLiveSales(CancellationToken cancellationToken)
+        {
+            var result = await GetReports.GetCurrentLiveSalesDictionary(cancellationToken);
 
             var response = new CurrentLiveSales
             {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = paginatedResult
+                ProductName = result.Item1,
+                Data = result.Item2,
+                TotalQuantityLeft=result.Item2.Select(x=>x.QuantityLeft).Sum(),
+                TotalSales = result.Item2.Select(x => x.Sales).Sum(),
+                TotalQuantitySold = result.Item2.Select(x => x.QuantitySold).Sum(),
+                Currency= "GBP",
+
             };
             return response;
         }
-        #endregion
+
+        public static async Task<MonthlyOrders> GetMonthlyOrders(CancellationToken cancellationToken)
+        {
+            var monthList = GetReports.GetMonthYearListUntilToday();
+            var resultMonthlyOrders = GetReports.GetListMonthlyOrder(monthList, cancellationToken);
+
+            var responseMonthlyOrders = new MonthlyOrders
+            {
+                TotalOrders = resultMonthlyOrders.Sum(x => x.Orders),
+                TotalSales = resultMonthlyOrders.Sum(x => x.Sales),
+                Data = resultMonthlyOrders,
+                Currency = "GBP"
+            };
+
+            return responseMonthlyOrders;
+        }
+
+        public static async Task<MonthlyCustomersRegistrations> GetMonthlyCustomersRegistration(CancellationToken cancellationToken)
+        {
+            var monthList = GetReports.GetMonthYearListUntilToday();
+            var resultMonthlyCustomersRegistrations = GetReports.GetListMonthlyCustomersRegistrations(monthList, cancellationToken);
+
+            var responseMonthlyCustomersRegistrations = new MonthlyCustomersRegistrations
+            {
+                TotalRegistrations = resultMonthlyCustomersRegistrations.Sum(x => x.Registrations),
+                Data = resultMonthlyCustomersRegistrations
+            };
+
+            return responseMonthlyCustomersRegistrations;
+        }
+
+        public static async Task<LastOrdersList> GetLastOrders(CancellationToken cancellationToken)
+        {
+            var ordersList = await GetReports.GetOrderList(cancellationToken);
+
+            var responseMonthlyOrders = new LastOrdersList
+            {
+                Data = ordersList,
+            };
+
+            return responseMonthlyOrders;
+        }
+
+        public static async Task<CurrentSalesReportResponse> GetProductsSoldByDayItem(CancellationToken cancellationToken)
+        {
+            var result = GetReports.GetProductsSoldByDayItem(cancellationToken);
+
+            var response = new CurrentSalesReportResponse
+            {
+                SoldValue = new Dictionary<string, SoldItem> {
+                { "someProductByDay", new SoldItem {
+                Data = result.Data,
+                } } }
+            };
+            return response;
+        }
+
+        public static async Task<CurrentSalesReportResponse> GetProductSoldSchool(CancellationToken cancellationToken)
+        {
+            var result = GetReports.GetProductSoldSchool(cancellationToken);
+
+            var response = new CurrentSalesReportResponse
+            {
+                SoldValue = new Dictionary<string, SoldItem> {
+                { "someProductSoldSchool", new SoldItem {
+                Data = result.Data
+                } } }
+            };
+            return response;
+        }
+
+        public static async Task<CurrentSalesReportResponse> GetProductOrderCount(CancellationToken cancellationToken)
+        {
+            var result = GetReports.GetProductOrderCount(cancellationToken);
+
+            var response = new CurrentSalesReportResponse
+            {
+                SoldValue = new Dictionary<string, SoldItem> {
+                { "someProductOrderCount", new SoldItem {
+                Data = result.Data
+                } } }
+            };
+
+            return response;
+        }
+
+        public static async Task<GetSalesReportsResponse> GetSalesReport(CancellationToken cancellationToken)
+        {
+            var response = await GetReports.GetSalesResponse(cancellationToken);
+            return response;
+        }
+
+        public static async Task<GetBookingsReportsResponse> GetRandomBookingReport(int size, CancellationToken cancellationToken)
+        {
+            var result = await GetReports.BookingReport(cancellationToken, size);
+
+            var response = new GetBookingsReportsResponse
+            {
+                Data = result
+            };
+            return response;
+        }
+
+        public static async Task<GetProductQuestionsAndAnswersResponse> GetProductQuestionsAndAnswers(GetProductQuestionsAndAnswersRequest getProductQuestionsAndAnswersRequest, CancellationToken cancellationToken)
+        {
+            var result = GetReports.GetQuestions(cancellationToken);
+
+            var response = new GetProductQuestionsAndAnswersResponse
+            {
+                Questions = GetReports.GetQuestions(cancellationToken),
+                Answers = GetReports.GetAnswers(cancellationToken)
+            };
+
+            return response;
+        }
+
+        public static async Task<SendEmailResponse> GetSendEmailResponse(CancellationToken cancellationToken)
+        {
+            return new SendEmailResponse
+            {
+                EmailCount = rnd.Next(0, 100),
+                PushNotificationCount = rnd.Next(0, 100)
+            };
+        }
     }
 }

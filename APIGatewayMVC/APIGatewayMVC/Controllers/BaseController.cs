@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using BLL.DTO;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using BLL.DTO;
 using System.Collections.Generic;
-using BLL.DTO.UrlAsync;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace APIGatewayMVC.Controllers
 {

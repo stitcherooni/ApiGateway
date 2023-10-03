@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.Sorting.EventFilters
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.Sorting.EventFilters
 {
     public class GetTreasurerEventFilters
     {

@@ -1,4 +1,6 @@
-﻿namespace BLL.DTO.UrlAsync
+﻿using System.Collections.Generic;
+
+namespace BLL.DTO.UrlAsync
 {
     public class URLsResponseDTO
     {

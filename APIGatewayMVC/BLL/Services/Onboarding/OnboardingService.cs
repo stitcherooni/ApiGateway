@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
-using BLL.DTO.Organization;
+using BLL.DTO.Organisation;
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using DAL.Repository.DBRepository;
 using Models;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace BLL.Services.Onboarding
 {
-    public class OnboardingService : IOnboardingService
+    public class OnboardingService : BaseService, IOnboardingService
     {
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
@@ -30,12 +33,12 @@ namespace BLL.Services.Onboarding
             _customerRoleRepository = customerRoleRepository;
         }
 
-        public async Task<OnboardingEntities> OnboardOrganization(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
+        public async Task<OnboardingEntities> OnboardOrganisation(OnboardingFormDataDTO onboardingFormDataDTO, CancellationToken cancellationToken)
         {
             string customerEmail;
             OnboardingEntities onboardingEntities;
 
-            using (var transactionScope = GetTransactionScope(IsolationLevel.ReadCommitted))
+            using (var transactionScope = GetTransactionScope())
             {
                 var schoolDetailsMap = _mapper.Map<TblSchool>(onboardingFormDataDTO.SchoolDetails);
                 schoolDetailsMap.SchoolPtadirectory = onboardingFormDataDTO.SchoolBrandingDetails.Url;
@@ -84,18 +87,18 @@ namespace BLL.Services.Onboarding
         {
             var urlVariants = new List<string>();
  
-            string nameAcronym = LenghtCheck(GEtAcronym(urlRequest.PtaName).ToLower());
+            string nameAcronym = LengthCheck(GEtAcronym(urlRequest.PtaName).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == nameAcronym, cancellationToken) == 0 && nameAcronym.Length >= 3)
                 urlVariants.Add(nameAcronym);
 
-            string newName = LenghtCheck(urlRequest.PtaName.Replace(" ", string.Empty).ToLower());
+            string newName = LengthCheck(urlRequest.PtaName.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == newName, cancellationToken) == 0 && newName.Length >= 3)
             {
                 if (!urlVariants.Contains(newName))
                     urlVariants.Add(newName);
             }
 
-            string townAcronym = LenghtCheck(newName + urlRequest.Town.Replace(" ", string.Empty).ToLower());
+            string townAcronym = LengthCheck(newName + urlRequest.Town.Replace(" ", string.Empty).ToLower());
             if (await _schoolRepository.CountAsync(x => x.SchoolPtadirectory == townAcronym, cancellationToken) == 0 && townAcronym.Length >= 3)
             {
                 if (!urlVariants.Contains(townAcronym))
@@ -116,12 +119,7 @@ namespace BLL.Services.Onboarding
             return result;
         }
 
-        private TransactionScope GetTransactionScope(IsolationLevel isolationLevel)
-        {
-            return new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = isolationLevel }, TransactionScopeAsyncFlowOption.Enabled);
-        }
-
-        private string LenghtCheck(string text)
+        private string LengthCheck(string text)
         {
             if (text.Length >= 50)
                 return text.Substring(0, 50);
