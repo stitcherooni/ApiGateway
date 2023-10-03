@@ -1276,8 +1276,8 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 _logger.LogInformation("Send customer email for order.");
-                var result = await _emailService.SendCustomerEmail(sendCustomerEmailRequest, cancellationToken);
-                return Ok(result);
+                await _emailService.SendCustomerEmail(sendCustomerEmailRequest, cancellationToken);
+                return Ok();
             }
             catch (Exception ex)
             {
