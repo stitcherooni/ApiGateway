@@ -87,15 +87,18 @@ namespace IntegrationTests
         {
             var actualSchoolRepository = _schoolRepository.FindBy(x => x == onboardingFormDataDTO.School, cancellationToken).ToList().FirstOrDefault();
             var actualCustomerRepository = _customerRepository.FindBy(x => x == onboardingFormDataDTO.Customer, cancellationToken).ToList().FirstOrDefault();
-            var actualCustomerRole = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRole2 = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole2, cancellationToken).ToList().FirstOrDefault();
+            var actualCustomerRole7 = _customerRoleRepository.FindBy(x => x == onboardingFormDataDTO.CustomerRole7, cancellationToken).ToList().FirstOrDefault();
 
             Assert.NotNull(actualSchoolRepository);
             Assert.NotNull(actualCustomerRepository);
-            Assert.NotNull(actualCustomerRole);
+            Assert.NotNull(actualCustomerRole2);
+            Assert.NotNull(actualCustomerRole7);
 
+            await _customerRoleRepository.DeleteAsync(actualCustomerRole2, CancellationToken.None);
+            await _customerRoleRepository.DeleteAsync(actualCustomerRole7, CancellationToken.None);
             await _schoolRepository.DeleteAsync(actualSchoolRepository, CancellationToken.None);
             await _customerRepository.DeleteAsync(actualCustomerRepository, CancellationToken.None);
-            await _customerRoleRepository.DeleteAsync(actualCustomerRole, CancellationToken.None);
         }
         #endregion
     }
