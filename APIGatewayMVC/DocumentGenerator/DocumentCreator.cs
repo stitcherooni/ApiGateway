@@ -20,7 +20,7 @@ namespace DocumentGenerator
             _pdfConvertor = pdfConvertor;
         }
       
-        public byte[] GenerateDocument(string title, IList<string> headers, IList<IList<string>> tableValues, DocumentType documentType)
+        public byte[] GenerateDocument(string title, IList<string> headers, IEnumerable<IEnumerable<string>> tableValues, DocumentType documentType)
         {
             switch (documentType)
             {

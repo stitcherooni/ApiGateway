@@ -2,12 +2,13 @@
 using NPOI.SS.UserModel;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DocumentGenerator.Templates.EXCEL
 {
     public class EXCELCreator: IEXCELCreator
     {
-        public  byte[] Create(string title, IList<string> headers, IList<IList<string>> tableValues)
+        public  byte[] Create(string title, IList<string> headers, IEnumerable<IEnumerable<string>> tableValues)
         {
             // Create a new workbook
             IWorkbook workbook = new HSSFWorkbook();
@@ -51,14 +52,14 @@ namespace DocumentGenerator.Templates.EXCEL
             dataStyle.SetFont(dataFont);
 
             // Add table values starting from the third row
-            for (int rowIndex = 0; rowIndex < tableValues.Count; rowIndex++)
+            for (int rowIndex = 0; rowIndex < tableValues.ToList().Count; rowIndex++)
             {
                 IRow dataRow = worksheet.CreateRow(rowIndex + 2);
-                IList<string> rowData = tableValues[rowIndex];
-                for (int colIndex = 0; colIndex < rowData.Count; colIndex++)
+                IEnumerable<string> rowData = tableValues.ToArray()[rowIndex];
+                for (int colIndex = 0; colIndex < rowData.ToList().Count; colIndex++)
                 {
                     ICell dataCell = dataRow.CreateCell(colIndex);
-                    dataCell.SetCellValue(rowData[colIndex]);
+                    dataCell.SetCellValue(rowData.ToArray()[colIndex]);
                 }
             }
 

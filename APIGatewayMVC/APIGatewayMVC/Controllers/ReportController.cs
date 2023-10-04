@@ -443,7 +443,7 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 _logger.LogInformation("Request received for booking report in pdf.");
-                byte[] blobData = _blobService.GenerateBookingsReportPdfResponse(getBookingsReportPdfRequest, cancellationToken);
+                var blobData= await _blobService.GenerateBookingsReportPdfResponse(getBookingsReportPdfRequest, cancellationToken);
                 return File(blobData, "application/pdf", "BookingsReport.pdf");
             }
             catch (Exception ex)

@@ -1,22 +1,29 @@
 ﻿using Azure.Storage.Blobs;
 using BLL.DTO;
 using BLL.DTO.Blobs;
+using BLL.DTO.Blobs.Bookings;
 using BLL.DTO.Blobs.OrderDelivery;
 using BLL.FooGenerator;
+using DocumentGenerator;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.BlobService
 {
     public class BlobService : IBlobService
     {
         private readonly IOptionsMonitor<BlobSettings> _blobSettingsMonitor;
+        private readonly IDocumentCreator _documentCreator;
 
-        public BlobService(IOptionsMonitor<BlobSettings> blobSettingsMonitor)
+        public BlobService(IOptionsMonitor<BlobSettings> blobSettingsMonitor, IDocumentCreator documentCreator)
         {
             _blobSettingsMonitor = blobSettingsMonitor;
+            _documentCreator = documentCreator;
         }
 
         public byte[] GenerateBankedReportPdfResponse(GetFileRequest getBankedReportPdfRequest, CancellationToken cancellationToken)
@@ -30,10 +37,44 @@ namespace BLL.Services.BlobService
             return FileGenerator.CreateExcelFile(GetDataForBlob.GetListRequest());
             //TODO:           return GetBankedReportExcelResponse
         }
-        public byte[] GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken)
+        public async Task<byte[]> GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken)
         {
-            return FileGenerator.CreatePDFFile(GetDataForBlob.GetListRequest());
-            //TODO:            return GetBookingsReportPdfResponse
+            var bookingReport = await ReportingDataGenerator.GetBookingReport(cancellationToken);
+
+            List<BookingsTable> originalTable = new List<BookingsTable>();
+
+            foreach (var bookingData in bookingReport.Data)
+            {
+                var booking = new BookingsTable
+                {
+                    In = bookingData.Num,
+                    FirstName = bookingData.FirstName,
+                    LastName = bookingData.LastName,
+                    SKU = bookingData.Sku,
+                    Product = bookingData.Product.Name,
+                    Price = bookingData.Price,
+                    BookingInfo = bookingData.BookingInfo,
+                    Qty = bookingData.Quantity,
+                    OrderId = bookingData.OrderId,
+                    BookedBy = bookingData.CustomerName,
+                    Telephone = bookingData.Phone,
+                    PaymentMethod = bookingData.PaymentMethod,
+                };
+
+                originalTable.Add(booking);
+            }
+            List<Dictionary<string, string>> filteredTable = FilterTable(originalTable, getBookingsReportPdfRequest.Columns.ToList());
+
+            List<string> headers = new();
+            headers = filteredTable.FirstOrDefault().Keys.ToList();
+
+            List<List<string>> tableValues = new();
+            foreach (var value in filteredTable)
+            {
+                tableValues.Add(value.Values.ToList());
+            }
+
+            return _documentCreator.GenerateDocument("Bookings Report", headers, tableValues, DocumentGenerator.Templates.DocumentType.Pdf);
         }
         public byte[] GenerateBookingsReportExcelResponse(GetFileRequest getBookingsReportExcelRequest, CancellationToken cancellationToken)
         {
@@ -147,6 +188,87 @@ namespace BLL.Services.BlobService
                 return blobClient.Uri;
             }
         }
+
+        //public static List<BookingsTable> FilterColumns(List<BookingsTable> originalTable, List<string> selectedColumns)
+        //{
+        //    // Use LINQ to project a new table with selected columns
+        //    var filteredTable = originalTable.Select(item => new BookingsTable
+        //    {
+        //        In = selectedColumns.Contains("In") ? item.In : 0,
+        //        FirstName = selectedColumns.Contains("FirstName") ? item.FirstName : null,
+        //        LastName = selectedColumns.Contains("LastName") ? item.LastName : null,
+        //        SKU = selectedColumns.Contains("SKU") ? item.SKU : 0,
+        //        Product = selectedColumns.Contains("Product") ? item.Product : null,
+        //        Price = selectedColumns.Contains("Price") ? item.Price : 0,
+        //        BookingInfo = selectedColumns.Contains("BookingInfo") ? item.BookingInfo : null,
+        //        Qty = selectedColumns.Contains("Qty") ? item.Qty : 0,
+        //        OrderId = selectedColumns.Contains("OrderId") ? item.OrderId : 0,
+        //        BookedBy = selectedColumns.Contains("BookedBy") ? item.BookedBy : null,
+        //        Telephone = selectedColumns.Contains("Telephone") ? item.Telephone : null,
+        //        PaymentMethod = selectedColumns.Contains("PaymentMethod") ? item.PaymentMethod : null,
+        //        Out = selectedColumns.Contains("Out") ? item.Out : null,
+        //    }).ToList();
+
+        //    return filteredTable;
+        //}
+
+
+        public static List<Dictionary<string, string>> FilterTable(List<BookingsTable> originalTable, List<string> selectedColumns)
+        {
+            var filteredTable = originalTable.Select(item =>
+            {
+                var dict = new Dictionary<string, string>();
+                foreach (var column in selectedColumns)
+                {
+                    switch (column)
+                    {
+                        case "In":
+                            dict["In"] = item.In.ToString();
+                            break;
+                        case "FirstName":
+                            dict["FirstName"] = item.FirstName;
+                            break;
+                        case "LastName":
+                            dict["LastName"] = item.LastName;
+                            break;
+                        case "SKU":
+                            dict["SKU"] = item.SKU.ToString();
+                            break;
+                        case "Product":
+                            dict["Product"] = item.Product;
+                            break;
+                        case "Price":
+                            dict["Price"] = item.Price.ToString();
+                            break;
+                        case "BookingInfo":
+                            dict["BookingInfo"] = item.BookingInfo;
+                            break;
+                        case "Qty":
+                            dict["Qty"] = item.Qty.ToString();
+                            break;
+                        case "OrderId":
+                            dict["OrderId"] = item.OrderId.ToString();
+                            break;
+                        case "BookedBy":
+                            dict["BookedBy"] = item.BookedBy;
+                            break;
+                        case "Telephone":
+                            dict["Telephone"] = item.Telephone;
+                            break;
+                        case "PaymentMethod":
+                            dict["PaymentMethod"] = item.PaymentMethod;
+                            break;
+                        case "Out":
+                            dict["Out"] = item.Out;
+                            break;
+                    }
+                }
+                return dict;
+            }).ToList();
+
+            return filteredTable;
+        }
+
         #endregion
     }
 }

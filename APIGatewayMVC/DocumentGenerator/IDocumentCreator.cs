@@ -5,6 +5,6 @@ namespace DocumentGenerator
 {
     public interface IDocumentCreator
     {
-        public byte[] GenerateDocument(string title, IList<string> headers, IList<IList<string>> tableValues, DocumentType documentType);
+        public byte[] GenerateDocument(string title, IList<string> headers, IEnumerable<IEnumerable<string>> tableValues, DocumentType documentType);
     }
 }

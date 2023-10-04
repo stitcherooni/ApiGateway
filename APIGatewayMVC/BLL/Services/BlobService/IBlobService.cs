@@ -12,6 +12,7 @@ using BLL.DTO.Blobs.TreasurerByDate;
 using BLL.DTO.Blobs.TreasurerByEvent;
 using BLL.DTO.Blobs.VolunteersReport;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Services.BlobService
 {
@@ -19,7 +20,7 @@ namespace BLL.Services.BlobService
     {
         public byte[] GenerateBankedReportPdfResponse(GetFileRequest getBankedReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateBankedReportExcelResponse(GetFileRequest getBankedReportExcelRequest, CancellationToken cancellationToken);
-        public byte[] GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken);
+        public Task<byte[]> GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateBookingsReportExcelResponse(GetFileRequest getBookingsReportExcelRequest, CancellationToken cancellationToken);
         public byte[] GenerateChildOnlyBookingsPdfResponse(GetFileRequest getChildOnlyBookingsReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateChildOnlyBookingsExcelResponse(GetFileRequest getChildOnlyBookingsReportExcelRequest, CancellationToken cancellationToken);
