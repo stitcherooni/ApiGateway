@@ -189,30 +189,6 @@ namespace BLL.Services.BlobService
             }
         }
 
-        //public static List<BookingsTable> FilterColumns(List<BookingsTable> originalTable, List<string> selectedColumns)
-        //{
-        //    // Use LINQ to project a new table with selected columns
-        //    var filteredTable = originalTable.Select(item => new BookingsTable
-        //    {
-        //        In = selectedColumns.Contains("In") ? item.In : 0,
-        //        FirstName = selectedColumns.Contains("FirstName") ? item.FirstName : null,
-        //        LastName = selectedColumns.Contains("LastName") ? item.LastName : null,
-        //        SKU = selectedColumns.Contains("SKU") ? item.SKU : 0,
-        //        Product = selectedColumns.Contains("Product") ? item.Product : null,
-        //        Price = selectedColumns.Contains("Price") ? item.Price : 0,
-        //        BookingInfo = selectedColumns.Contains("BookingInfo") ? item.BookingInfo : null,
-        //        Qty = selectedColumns.Contains("Qty") ? item.Qty : 0,
-        //        OrderId = selectedColumns.Contains("OrderId") ? item.OrderId : 0,
-        //        BookedBy = selectedColumns.Contains("BookedBy") ? item.BookedBy : null,
-        //        Telephone = selectedColumns.Contains("Telephone") ? item.Telephone : null,
-        //        PaymentMethod = selectedColumns.Contains("PaymentMethod") ? item.PaymentMethod : null,
-        //        Out = selectedColumns.Contains("Out") ? item.Out : null,
-        //    }).ToList();
-
-        //    return filteredTable;
-        //}
-
-
         public static List<Dictionary<string, string>> FilterTable(List<BookingsTable> originalTable, List<string> selectedColumns)
         {
             var filteredTable = originalTable.Select(item =>
