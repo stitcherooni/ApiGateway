@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace DocumentGenerator
 {
-    public class DocumentCreator: IDocumentCreator
     {
         private readonly ICSVCreator _csvCreator;
         private readonly IEXCELCreator _excelCreator;
@@ -43,6 +42,12 @@ namespace DocumentGenerator
                         throw new Exception($"Type {documentType} doesn't exist");
                     }
             }
+        }
+
+        public byte[] TestCreation(string html)
+        {
+            return _pdfConvertor.CreateFromHtml(html);
+
         }
 
     }

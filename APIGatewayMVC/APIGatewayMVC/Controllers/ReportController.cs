@@ -32,6 +32,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,6 +66,24 @@ namespace APIGatewayMVC.Controllers
             _updateService = updateService;
             _emailService = emailService;         
             _logger = logger;
+        }
+
+        ///TODO: Delete this endpoint!
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("Need file!");
+            }
+            string html;
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                html = await reader.ReadToEndAsync();
+            }
+            var blobData = _blobService.TestHtmlConvertor(html);
+            return File(blobData, "application/pdf", "test.pdf");
         }
 
         [HttpGet]

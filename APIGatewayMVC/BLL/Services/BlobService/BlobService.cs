@@ -3,6 +3,8 @@ using BLL.DTO;
 using BLL.DTO.Blobs;
 using BLL.DTO.Blobs.OrderDelivery;
 using BLL.FooGenerator;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentGenerator;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
@@ -13,12 +15,20 @@ namespace BLL.Services.BlobService
     public class BlobService : IBlobService
     {
         private readonly IOptionsMonitor<BlobSettings> _blobSettingsMonitor;
+        private readonly IDocumentCreator _documentCreator;
 
-        public BlobService(IOptionsMonitor<BlobSettings> blobSettingsMonitor)
+        public BlobService(IOptionsMonitor<BlobSettings> blobSettingsMonitor, IDocumentCreator documentCreator)
         {
             _blobSettingsMonitor = blobSettingsMonitor;
+            _documentCreator = documentCreator;
         }
 
+        public byte[] TestHtmlConvertor(string html)
+        {
+            return _documentCreator.TestCreation(html);
+
+            //TODO:          return GetBankedReportPdfResponse;
+        }
         public byte[] GenerateBankedReportPdfResponse(GetFileRequest getBankedReportPdfRequest, CancellationToken cancellationToken)
         {
             return FileGenerator.CreatePDFFile(GetDataForBlob.GetListRequest());
