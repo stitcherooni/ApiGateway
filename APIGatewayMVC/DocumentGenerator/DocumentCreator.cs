@@ -7,26 +7,25 @@ using System.Collections.Generic;
 
 namespace DocumentGenerator
 {
-    public class DocumentCreator : IDocumentCreator
     {
         private readonly ICSVCreator _csvCreator;
         private readonly IEXCELCreator _excelCreator;
         private readonly IPDFConvertor _pdfConvertor;
 
         public DocumentCreator(ICSVCreator csvCreator, IEXCELCreator exelCreator, IPDFConvertor pdfConvertor)
-        {
+        { 
             _csvCreator = csvCreator;
             _excelCreator = exelCreator;
             _pdfConvertor = pdfConvertor;
         }
-
+      
         public byte[] GenerateDocument(string title, IList<string> headers, IList<IList<string>> tableValues, DocumentType documentType)
         {
             switch (documentType)
             {
                 case (DocumentType.Pdf):
                     {
-
+                        
                         return _pdfConvertor.Create(title, headers, tableValues);
                     }
                 case (DocumentType.Excel):
