@@ -17,6 +17,7 @@ namespace BLL.Services.BlobService
 {
     public interface IBlobService
     {
+        public byte[] TestHtmlConvertor(string html);
         public byte[] GenerateBankedReportPdfResponse(GetFileRequest getBankedReportPdfRequest, CancellationToken cancellationToken);
         public byte[] GenerateBankedReportExcelResponse(GetFileRequest getBankedReportExcelRequest, CancellationToken cancellationToken);
         public byte[] GenerateBookingsReportPdfResponse(GetFileRequest getBookingsReportPdfRequest, CancellationToken cancellationToken);
