@@ -360,3 +360,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/APIGatewayMVC/UnitTests/TestResults/testResults.html
+/APIGatewayMVC/UnitTests/TestResults/testResults.trx
+/APIGatewayMVC/UnitTests/testresults.trx
+/APIGatewayMVC/UnitTests/testresults.xml

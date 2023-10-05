@@ -17,6 +17,9 @@ namespace UntTestsTests
     public class EmailSenderServiceTests
     {
         private readonly Mock<IRepository<TblCustomer>> _customerRepositoryMock;
+        private readonly Mock<IRepository<TblMessage>> _messageRepositoryMock;
+        private readonly Mock<IRepository<TblEmail>> _emailRepositoryMock;
+        private readonly Mock<IRepository<TblSchool>> _schoolRepositoryMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly EmailService _emailService;
 
@@ -24,7 +27,14 @@ namespace UntTestsTests
         {
             _customerRepositoryMock = new Mock<IRepository<TblCustomer>>();
             _emailSenderMock = new Mock<IEmailSender>();
-            _emailService = new EmailService(_emailSenderMock.Object, _customerRepositoryMock.Object);
+            _messageRepositoryMock = new Mock<IRepository<TblMessage>>();
+            _emailRepositoryMock = new Mock<IRepository<TblEmail>>();
+            _schoolRepositoryMock = new Mock<IRepository<TblSchool>>();
+            _emailService = new EmailService(_emailSenderMock.Object,
+                                             _customerRepositoryMock.Object,
+                                             _messageRepositoryMock.Object,
+                                             _emailRepositoryMock.Object,
+                                             _schoolRepositoryMock.Object);
         }
 
         [Fact]

@@ -28,6 +28,7 @@ using BLL.Services.SearchingService;
 using BLL.Services.SortingService;
 using BLL.Services.Statistic;
 using BLL.Services.UpdateService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,6 +37,7 @@ using System.Threading.Tasks;
 
 namespace APIGatewayMVC.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReportController : BaseController
@@ -1274,8 +1276,8 @@ namespace APIGatewayMVC.Controllers
             try
             {
                 _logger.LogInformation("Send customer email for order.");
-                var result = await _emailService.SendCustomerEmail(sendCustomerEmailRequest, cancellationToken);
-                return Ok(result);
+                await _emailService.SendCustomerEmail(sendCustomerEmailRequest, cancellationToken);
+                return Ok();
             }
             catch (Exception ex)
             {

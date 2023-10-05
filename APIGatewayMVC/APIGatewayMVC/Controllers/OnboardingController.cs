@@ -2,6 +2,7 @@
 using BLL.DTO.UrlAsync;
 using BLL.Services.EmailService;
 using BLL.Services.Onboarding;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

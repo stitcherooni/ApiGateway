@@ -1,7 +1,5 @@
 ﻿using ClosedXML.Excel;
-using iText.IO.Font;
 using iText.Kernel.Colors;
-using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;

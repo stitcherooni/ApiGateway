@@ -62,8 +62,11 @@ namespace IntegrationTests
 
             var dbContext = CreateDbContext();
             var customerRepository = new Repository<TblCustomer>(dbContext);
+            var messageRepository = new Repository<TblMessage>(dbContext);
+            var emailRepository = new Repository<TblEmail>(dbContext);
+            var schoolRepository = new Repository<TblSchool>(dbContext);
 
-            return new EmailService(emailSender, customerRepository);
+            return new EmailService(emailSender, customerRepository, messageRepository, emailRepository, schoolRepository);
         }
 
         public static PtaeventContext CreateDbContext()
