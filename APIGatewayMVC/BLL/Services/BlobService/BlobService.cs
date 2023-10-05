@@ -47,7 +47,7 @@ namespace BLL.Services.BlobService
             {
                 var booking = new BookingsTable
                 {
-                    In = bookingData.Num,
+                    In = "",
                     FirstName = bookingData.FirstName,
                     LastName = bookingData.LastName,
                     SKU = bookingData.Sku,
@@ -59,6 +59,7 @@ namespace BLL.Services.BlobService
                     BookedBy = bookingData.CustomerName,
                     Telephone = bookingData.Phone,
                     PaymentMethod = bookingData.PaymentMethod,
+                    Out =""
                 };
 
                 originalTable.Add(booking);

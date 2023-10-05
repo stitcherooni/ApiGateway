@@ -2,7 +2,7 @@
 {
     public class BookingsTable
     {
-        public int In { get; set; }
+        public string In { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int SKU { get; set; }
