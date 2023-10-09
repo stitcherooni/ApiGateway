@@ -20,7 +20,7 @@ namespace BLL.Services.SortingService
 {
     public class SortingService : ISortingService
     {
-        public async Task<GetVolunteersFilters> VolunteersFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetVolunteersFilters> VolunteersFilters(CancellationToken cancellationToken)
         {
             var response = new GetVolunteersFilters()
             {
@@ -34,7 +34,7 @@ namespace BLL.Services.SortingService
             return await ReportingDataGenerator.GetVolunteerReport(cancellationToken);
         }
 
-        public async Task<GetTreasurerEventFilters> TreasurerByEventFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetTreasurerEventFilters> TreasurerByEventFilters(CancellationToken cancellationToken)
         {
             var response = new GetTreasurerEventFilters()
             {
@@ -50,7 +50,7 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<TicketFilters> TicketsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<TicketFilters> TicketsFilters(CancellationToken cancellationToken)
         {
             var response = new TicketFilters()
             {
@@ -65,7 +65,7 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<GetSalesFilters> SalesFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetSalesFilters> SalesFilters(CancellationToken cancellationToken)
         {
             var response = new GetSalesFilters()
             {
@@ -74,7 +74,7 @@ namespace BLL.Services.SortingService
             return response;
         }
 
-        public async Task<GetProductQuestionsSortingFilters> ProductQuestionsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetProductQuestionsSortingFilters> ProductQuestionsFilters(CancellationToken cancellationToken)
         {
             var response = new GetProductQuestionsSortingFilters()
             {
@@ -95,7 +95,7 @@ namespace BLL.Services.SortingService
             else throw new Exception("Forman must be either 'horizontal' or 'vertical'.");
         }
 
-        public async Task<GetChildBookingsFilters> ChildBookingsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetChildBookingsFilters> ChildBookingsFilters(CancellationToken cancellationToken)
         {
             var response = new GetChildBookingsFilters()
             {
@@ -110,7 +110,7 @@ namespace BLL.Services.SortingService
             return response;
         }
  
-        public async Task<GetBookingsSortingFilters> BookingsFilters(GetFiltersRequest getFiltersRequest, CancellationToken cancellationToken)
+        public async Task<GetBookingsSortingFilters> BookingsFilters(CancellationToken cancellationToken)
         {
             var response = new GetBookingsSortingFilters()
             {
